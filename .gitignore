@@ -1,0 +1,38 @@
+# Local workspace tooling
+/.codex/
+/.vscode/
+/.idea/
+
+# Python environments and caches
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local environment values
+.env
+.env.*
+!.env.example
+
+# Temporary execution work; preserve the directory marker
+/work/*
+!/work/.gitkeep
+
+# Common compiled objects (do not ignore *.out: they are expected outputs)
+*.o
+*.obj
+*.exe
+*.dll
+*.so
+*.a
+
+# Desktop and Office temporary files
+.DS_Store
+Thumbs.db
+Desktop.ini
+~$*
+
+# artifacts/ intentionally stays trackable for course evidence
