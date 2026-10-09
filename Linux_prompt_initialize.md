@@ -1,0 +1,15 @@
+这个对话作为本项目在 Ubuntu 下的开发主场。Windows 端另一个对话用于方案讨论，已确定的安排以仓库文档为准。
+
+请先检查项目目录和 Git 状态，遵守项目中已有的 AGENTS.md（如有），并阅读：
+- README.md、START_HERE.md
+- TRANSITION_PLAN.md（近期分工与排期优先看这一份）
+- plan_revised.md
+- progress.md
+- docs/stage1_agreement.md
+- system_list/ 和 algorithm_list/ 中的 Todo
+
+再查看现有源码和运行记录，区分“计划中的功能”和“实际已完成的功能”。忽略 proj/；old/ 仅作历史参考。
+
+我是系统负责人，每周投入约 6—8 小时，正在学习 Linux，需要结合 AI 边做边学。队友近期受 ACM 集训影响，我暂时接过题目包准备；算法实现仍留给他。
+
+请先简短说明项目现状、当前卡点和建议从哪个任务开始，然后带我逐项推进。每次围绕一个可验证的小任务，解释关键代码和操作，不要一次性生成整个项目。完成后按实际结果更新 Todo 和 progress.md，保留未完成状态。
