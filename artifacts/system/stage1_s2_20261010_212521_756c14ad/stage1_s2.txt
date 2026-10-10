@@ -1,0 +1,40 @@
+AlgoOS 第一阶段 S2 技术验证记录
+日期：2026-10-10（Asia/Shanghai）
+run_id：stage1_s2_20261010_212521_756c14ad
+来源：AI 在系统负责人的本机 Ubuntu 终端实测；源码与四个测试文件由系统负责人编写。
+状态：技术验证通过；系统负责人对标准输入/输出的解释和向应用负责人交接尚待确认。
+检查时已有三人分工文档等未提交改动，源码与测试文件尚未提交；本记录不以 Git 提交代替实际文件检查。
+
+编译器：
+g++ (Ubuntu 15.2.0-16ubuntu1) 15.2.0
+
+$ g++ -std=c++17 -O2 -Wall -Wextra examples/a_plus_b.cpp -o work/stage1/stage1_s2_20261010_212521_756c14ad/a_plus_b
+退出码：0
+编译器输出：无（无错误、无警告）
+
+测试点 01
+输入：1 2（输入文件末尾无换行，cin 可正常读取）
+预期输出："3\n"
+$ timeout 5s ./work/stage1/stage1_s2_20261010_212521_756c14ad/a_plus_b < problems/a_plus_b/tests/01.in > work/stage1/stage1_s2_20261010_212521_756c14ad/01.actual.out
+程序退出码：0
+实际输出："3\n"
+标准错误：无
+$ diff -u problems/a_plus_b/tests/01.out work/stage1/stage1_s2_20261010_212521_756c14ad/01.actual.out
+比对退出码：0（文件一致，无差异输出）
+
+测试点 02
+输入：-2 5（输入文件末尾无换行，cin 可正常读取）
+预期输出："3\n"
+$ timeout 5s ./work/stage1/stage1_s2_20261010_212521_756c14ad/a_plus_b < problems/a_plus_b/tests/02.in > work/stage1/stage1_s2_20261010_212521_756c14ad/02.actual.out
+程序退出码：0
+实际输出："3\n"
+标准错误：无
+$ diff -u problems/a_plus_b/tests/02.out work/stage1/stage1_s2_20261010_212521_756c14ad/02.actual.out
+比对退出码：0（文件一致，无差异输出）
+
+可执行文件及实际输出位置：
+work/stage1/stage1_s2_20261010_212521_756c14ad
+上述临时文件在 work/ 中；验证记录保存在 artifacts/system/。
+运行命令的 timeout 5s 仅提供实际经过时间保护，不代表 CPU/内存限制或沙箱隔离已完成。
+本次未实现 Python run_demo.py，S3 仍未完成。
+后续：系统负责人确认输入输出理解并交接五个基础文件，应用负责人按 P1 接收；之后推进 S3。

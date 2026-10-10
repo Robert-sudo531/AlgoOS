@@ -1,16 +1,18 @@
 # AlgoOS
 
-> **近期先看 [半个月临时过渡安排](TRANSITION_PLAN.md)**：10 月 9—23 日暂按调整后的分工与优先级推进；队友恢复时间待定，共同验收和算法任务按该页顺延。
+> **近期先看 [半个月临时过渡安排](TRANSITION_PLAN.md)**：10 月 9—23 日暂按调整后的分工与优先级推进；三人分工已固定：系统、算法、应用与测试；算法恢复时间待定，其任务与相关共同验收顺延。
 
 创新创业实训课程项目：面向算法竞赛的轻量评测与任务调度实验平台。
 
 ## 从这里开始
 
-1. 先读 [开工导航](START_HERE.md)，两人共同完成 C0。
-2. 查看自己的 [系统清单](system_list/todo_stage1_system.md) 或 [算法清单](algorithm_list/todo_stage1_algorithm.md)。
+1. 先读 [开工导航](START_HERE.md)，各自阅读 C0 并按过渡安排分步复核。
+2. 查看自己的 [系统清单（lhy）](system_list/todo_stage1_system.md) 、[算法清单（cxr）](algorithm_list/todo_stage1_algorithm.md) 或 [应用与测试清单（xyh）](application_list/todo_transition_application.md)。
 3. 按 [共同约定](docs/stage1_agreement.md) 逐步实现，完成一项再记录检查结果。
 
 项目目前已建立目录、Python 包标记和文档入口；业务模块、样例程序与评测功能尚待按 Todo 实现。导航里的演示命令在对应脚本完成后才能运行。
+
+内部第 14 周（12 月 14—20 日）收工，12 月 21 日起用于复习。正式报告窗口为第 16 周（2026 年 12 月 28 日—2027 年 1 月 3 日）；允许提前交则提前交，否则届时上传已备材料。
 
 ## 目录与资料
 
@@ -21,8 +23,8 @@
 | `scripts/` | 命令行与演示入口 |
 | `examples/` | 被评测的 C++ 样例程序 |
 | `problems/a_plus_b/tests/` | 题目测试输入与预期输出 |
-| `system_list/`、`algorithm_list/` | 两人的第一、第二阶段任务清单 |
-| [`progress.md`](progress.md) | 两人共同维护的实际开发过程记录 |
+| `system_list/`、`algorithm_list/`、`application_list/` | 系统、算法和应用与测试的任务清单 |
+| [`progress.md`](progress.md) | 三人共同维护的实际开发过程记录 |
 | `docs/` | 共同约定、环境与阶段记录 |
 | `docs/templates/` | [课程报告 Word 模板](docs/templates/创新创业实训课程报告模板.docx) |
 | `artifacts/system/`、`simulation/`、`batch/` | `artifacts/` 下分别保存真实评测、模拟和批量演示结果 |
@@ -33,7 +35,7 @@
 
 ## 怎样记录开发过程
 
-两人共用根目录的 [开发过程记录](progress.md)。完成一项任务、遇到影响推进的问题，或调整接口与范围时，按其中的简短模板追加一条：写清记录人、任务编号、实际结果、卡点和下一步。
+三人共用根目录的 [开发过程记录](progress.md)。完成一项任务、遇到影响推进的问题，或调整接口与范围时，按其中的简短模板追加一条：写清记录人、任务编号、实际结果、卡点和下一步。
 
 Todo 用于安排任务，通过检查后再打勾；开发记录说明实际做了什么、怎样验证。详细阶段材料放在 `docs/`，运行证据放在 `artifacts/`，在记录中链接即可。未验证的工作如实注明；记录随对应改动一起提交 Git，便于协作和后续编写课程报告。
 
