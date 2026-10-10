@@ -16,7 +16,9 @@
 
 ## S1 确认开发环境 约 30 分钟
 
-- [ ] 在双系统 Linux 中检查 Python、C++ 编译器和 Git。
+- [x] 在双系统 Linux 中检查 Python、C++ 编译器和 Git。
+
+验证记录（2026-10-09）：AI 在本机 Ubuntu 实际运行检查，Python 3.14.4、g++ 15.2.0、Git 2.55.0 均正常输出版本，Python 简单打印成功；无需补装。原始输出见 [系统环境记录](../docs/env_system.txt)。学生人工复核尚未记录，实际 C++ 编译与运行在 S2 验证。
 
 动文件：创建 `docs/env_system.txt`。  
 做法：在终端运行 `cat /etc/os-release`、`uname -r`、`python3 --version`、`g++ --version`、`git --version`，缺少什么只补什么。  

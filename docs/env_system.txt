@@ -1,0 +1,68 @@
+AlgoOS 系统环境记录
+任务：第一阶段系统 S1
+检查时间：2026-10-09 09:29（Asia/Shanghai，UTC+08:00）
+执行者：AI 在本机 Ubuntu 终端实际运行；学生尚未记录人工复核。
+检查基线：Git main，73b2225；检查开始时工作区干净，本地 main 与已有 origin/main 引用一致，未联网检查远端。
+
+项目入口：/home/robert/Desktop/Link to active/2026-27_autumn_courses/innovation_training
+pwd 实际输出：/media/robert/WindowsD/active/2026-27_autumn_courses/innovation_training
+入口含空格，在终端 cd 时须给整个路径加引号。两条路径指向当前同一份工作区。
+仓库及已检查的父目录中未发现适用的 AGENTS.md。
+
+检查结果：
+Python、g++、Git 版本命令全部退出码为 0，Python 简单打印成功。
+报错：无。
+补装：无。
+S1 环境检查通过；实际 C++ 编译与运行留到 S2 验证。
+Isolate、CPU/内存限制：未验证，S4 保持未完成。
+队友 WSL 环境与双方共同确认：未验证。
+
+以下为本次终端的实际输出：
+$ cat /etc/os-release
+[exit_code=0]
+PRETTY_NAME="Ubuntu 26.04 LTS"
+NAME="Ubuntu"
+VERSION_ID="26.04"
+VERSION="26.04 LTS (Resolute Raccoon)"
+VERSION_CODENAME=resolute
+ID=ubuntu
+ID_LIKE=debian
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+UBUNTU_CODENAME=resolute
+LOGO=ubuntu-logo
+
+$ uname -r
+[exit_code=0]
+7.0.0-34-generic
+
+$ python3 --version
+[exit_code=0]
+Python 3.14.4
+
+$ g++ --version
+[exit_code=0]
+g++ (Ubuntu 15.2.0-16ubuntu1) 15.2.0
+Copyright (C) 2025 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+$ git --version
+[exit_code=0]
+git version 2.55.0
+
+$ python3 -c 'print("AlgoOS S1: Python OK")'
+[exit_code=0]
+AlgoOS S1: Python OK
+
+$ findmnt -T . -o TARGET,FSTYPE,OPTIONS
+[exit_code=0]
+TARGET                                                                   FSTYPE  OPTIONS
+/media/robert/WindowsD/active/2026-27_autumn_courses/innovation_training fuseblk rw,nosuid,nodev,relatime,user_id=0,group_id=0,default_permissions,allow_other,blksize=4096
+
+$ TZ=Asia/Shanghai date --iso-8601=seconds
+[exit_code=0]
+2026-10-09T09:29:05+08:00
+
