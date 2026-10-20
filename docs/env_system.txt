@@ -66,3 +66,165 @@ $ TZ=Asia/Shanghai date --iso-8601=seconds
 [exit_code=0]
 2026-10-09T09:29:05+08:00
 
+S4 初查：2026-10-11（Asia/Shanghai）
+状态：进行中；官方要求与本机依赖已初查，安装及实际隔离运行未验证。
+执行者：AI 读取官方说明并在本机实际运行只读检查；未安装软件或修改系统配置。
+
+参考：
+https://github.com/ioi/isolate
+https://www.ucw.cz/isolate/isolate.1.html
+
+官方要求摘要：
+编译需 pkg-config、libcap 开发头文件、libseccomp 开发头文件；
+编译 isolate-cg-keeper 还需 libsystemd 开发头文件。
+可仅构建二进制，文档构建工具不作为当前首轮必需项。
+Isolate 的标准安装设计涉及 setuid root，内部运行的程序切换为非特权身份。
+当前 cgroup 模式要求 v2；systemd 环境下还需服务与 cgroup 委派配置。
+内核或 cgroup 文件系统存在不代表上述配置已完成。
+
+实际检查：
+$ uname -r
+7.0.0-34-generic
+$ id -u
+1000（当前检查进程为普通用户；管理员操作权限未验证）
+$ command -v gcc
+/usr/bin/gcc
+$ command -v make
+/usr/bin/make
+Python shutil.which('isolate')：None，当前 PATH 中未找到命令。
+
+$ pkg-config --modversion libcap
+Package libcap was not found in the pkg-config search path.
+Perhaps you should add the directory containing `libcap.pc'
+to the PKG_CONFIG_PATH environment variable
+Package 'libcap' not found
+$ pkg-config --modversion libseccomp
+2.6.0
+$ pkg-config --modversion libsystemd
+259
+$ dpkg-query -W -f '${Package}: ${Status} ${Version}\n' libcap-dev libseccomp-dev libsystemd-dev
+libseccomp-dev: install ok installed 2.6.0-2ubuntu5
+libsystemd-dev: install ok installed 259.5-0ubuntu3.4
+dpkg-query: no packages found matching libcap-dev
+依赖查询退出码为 1，对应 libcap-dev 缺失。
+
+读取 /proc/self/mountinfo：cgroup2 挂载于 /sys/fs/cgroup。
+读取 /proc/self/cgroup：当前进程属于用户应用的 cgroup；未检查 Isolate 专用委派。
+
+缺项与下一步：补齐 libcap-dev，再逐步确认 Isolate 的安装方式、权限和配置。
+未验证：Isolate 编译/安装、沙箱初始化、A+B 受限运行、CPU/内存限制、清理。
+探索限约 30 分钟；若安装或权限排障仍未解决，记录具体错误，按近期安排继续基础评测。
+
+S4 依赖补齐：2026-10-11（Asia/Shanghai）
+系统负责人执行 sudo apt install libcap-dev，安装输出显示 Setting up 已完成。
+AI 随后实际核对：
+$ pkg-config --modversion libcap
+2.75
+$ dpkg-query -W -f '${Package}: ${Status} ${Version}\n' libcap-dev
+libcap-dev: install ok installed 1:2.75-10ubuntu2
+两次核对均成功；此前 libcap-dev 缺失项已解决。
+下一步：获取官方 Isolate 源码并构建二进制，再检查安装、权限和运行条件。
+Isolate 编译/安装、cgroup 服务配置和实际隔离执行仍未验证。
+
+S4 源码编译：2026-10-11（Asia/Shanghai）
+系统负责人执行 git clone 与 make -C work/isolate isolate，反馈构建成功。
+源码：work/isolate，官方仓库 https://github.com/ioi/isolate.git
+实际源码提交：8f185bb37f3f23e29b33b0c7727c91c13429abe3（v2.7）。
+源码工作区检查无改动。
+$ ls -l work/isolate/isolate
+-rwxr-xr-x 1 robert robert 75816 Oct 11 20:37 work/isolate/isolate
+AI 实际执行：
+$ ./work/isolate/isolate --version
+The process isolator 2.7
+(c) 2012--2026 Martin Mares and Bernard Blackham
+Built on 2026-10-11 from Git commit v2.7
+版本查询退出码为 0；验证的是已构建二进制的版本，不包含沙箱初始化或受限运行。
+
+AI 阅读当前源码 Makefile、default.cf.in 和 config.c 后确认：
+官方 install 目标会安装 isolate、isolate-cg-keeper、环境检查脚本、默认配置和 systemd 文件。
+默认安装目录包括 /usr/local/bin、/usr/local/sbin、/usr/local/etc 和 /var/local/lib/isolate。
+isolate 二进制按官方规则安装为 root 所有、4755 权限。
+默认配置使用 subid_user=isolate，需要 /etc/subuid 和 /etc/subgid 中对应的编号范围。
+本机检查：/usr/local/bin/isolate、/usr/local/etc/isolate 和 /run/isolate/cgroup 均不存在；
+/etc/subuid、/etc/subgid 均没有 isolate 条目。
+下一步：准备辅助程序和配置模板，再执行官方安装；随后核对权限并配置沙箱编号。
+安装、编号配置、cgroup 委派、初始化和实际运行均仍未验证。
+
+S4 系统安装与默认配置核查：2026-10-11（Asia/Shanghai）
+系统负责人按教程完成官方安装，并在主机终端反馈：
+$ /usr/local/bin/isolate --version
+The process isolator 2.7
+(c) 2012--2026 Martin Mares and Bernard Blackham
+Built on 2026-10-11 from Git commit v2.7
+$ ls -l /usr/local/bin/isolate
+-rwsr-xr-x 1 root root 75816 Oct 11 20:43 /usr/local/bin/isolate
+系统二进制与 /usr/local/etc/isolate 配置已存在，AI 版本查询再次成功。
+文件所有者与权限按系统负责人主机终端的 root/root 和 4755 结果记录。
+AI 受限执行环境只映射单一身份，ls 在其中显示 nobody/nogroup；
+此显示差异不作为主机文件归属错误的证据，未据此修改权限。
+
+AI 实际执行：
+$ /usr/local/bin/isolate --check-config
+User isolate not found in /etc/subuid
+退出码为 2；默认配置中的 subid_user=isolate 尚无相应编号范围。
+getent passwd 60000、getent group 60000 均未返回条目；
+读取 /etc/subuid、/etc/subgid 后确认其已有范围均不包含 60000。
+当前官方模板也支持 first_uid、first_gid、num_boxes 的显式配置。
+计划使用 first_uid=60000、first_gid=60000、num_boxes=1，停用 subid_user 项。
+此配置方案尚未写入系统文件；下一步由本人先备份，再编辑并检查配置。
+备份路径 /usr/local/etc/isolate.before-stage1 当前不存在。
+未验证：修改后的配置、沙箱初始化、A+B 隔离运行、cgroup 委派及资源限制。
+
+S4 编号配置通过：2026-10-11（Asia/Shanghai）
+系统负责人反馈 --check-config 退出码为 0；AI 随后独立核对同一命令，退出码为 0、无错误输出。
+读取 /usr/local/etc/isolate 确认 subid_user 项已停用，当前活动配置为：
+box_root = /var/local/lib/isolate
+lock_root = /run/isolate/locks
+cg_root = auto:/run/isolate/cgroup
+first_uid = 60000
+first_gid = 60000
+num_boxes = 1
+原始配置备份 /usr/local/etc/isolate.before-stage1 已存在。
+检查时 /var/local/lib/isolate/0 及其 box 子目录均不存在，尚未初始化本次沙箱。
+已编译的 A+B 位于 work/stage1/a_plus_b。
+
+下一步：由本人在主机终端初始化编号 0 的沙箱，复制已知 A+B，然后运行 01 输入。
+先验证不带 --cg 的普通隔离模式；当前源码在此模式不使用 cgroup 初始化。
+拟设 --wall-time=5 作为实际经过时间保护；CPU 时限、内存限制仍未验证。
+首次结果计划保存至 artifacts/system/stage1_isolate.meta 与 stage1_isolate.actual.out；
+检查时这两个结果文件尚不存在。初始化、实际运行及清理仍待验证。
+
+S4 普通模式 A+B 运行通过：2026-10-12（Asia/Shanghai）
+系统负责人反馈按指导完成初始化、复制程序和第一组运行，各步输出符合预期。
+采用的命令为：
+$ /usr/local/bin/isolate --box-id=0 --init
+$ cp work/stage1/a_plus_b /var/local/lib/isolate/0/box/
+$ /usr/local/bin/isolate --box-id=0 --wall-time=5 --meta=artifacts/system/stage1_isolate.meta --run -- /box/a_plus_b < problems/a_plus_b/tests/01.in > artifacts/system/stage1_isolate.actual.out
+
+AI 读取实际结果文件核对：
+artifacts/system/stage1_isolate.actual.out 的字节内容为 3\n，与 01.out 完全一致。
+artifacts/system/stage1_isolate.meta：
+time:0.004
+time-wall:0.004
+max-rss:4072
+csw-voluntary:11
+csw-forced:2
+exitcode:0
+
+两个证据文件的修改时间均为 2026-10-12 13:47:52（Asia/Shanghai）。
+time 与 time-wall 单位为秒，本次分别约 4 毫秒；max-rss 按工具手册以 kilobytes 记录。
+本次仅验证第一组已知 A+B 在 Isolate 普通模式下正确输出并正常退出。
+命令设置了 5 秒实际经过时间保护，但尚未测试超时触发行为。
+未启用本次 CPU 时限、内存限额或 --cg；未验证 TLE/MLE、cgroup 委派或完整隔离边界。
+AI 检查 /var/local/lib/isolate/0 仍存在，尚待本人执行 --box-id=0 --cleanup 并确认退出码。
+实际输出和元数据已经保存在仓库 artifacts/system/，清理本次沙箱不应删除这些证据。
+
+S4 清理通过并收尾：2026-10-12（Asia/Shanghai）
+系统负责人执行 /usr/local/bin/isolate --box-id=0 --cleanup，反馈退出码为 0。
+AI 随后只读核对：/var/local/lib/isolate/0 已不存在；
+artifacts/system/stage1_isolate.actual.out 仍为 3\n，与 01.out 字节一致；
+artifacts/system/stage1_isolate.meta 完整保留，exitcode 为 0，原测量字段未变。
+S4 可行性检查完成：安装、配置检查、普通模式初始化、第一组 A+B 运行、清理均有记录。
+仍未验证：cgroup 模式及委派、CPU/内存限制、超时触发行为、TLE/MLE 和完整隔离边界。
+本次已知正常样例不作为后续资源限制或异常评测的验收依据。
+

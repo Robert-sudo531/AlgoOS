@@ -24,6 +24,8 @@
 做法：Windows 终端执行 `wsl -l -v`；进入 WSL 后执行 `cat /etc/os-release`、`python3 --version`、`git --version`，再运行一句 Python 输出。  
 检查：Python 能运行，版本有记录；若为 WSL 1，先记录，当前模拟队列可继续做，完整执行环境另行验证。
 
+首次 clone 后参考 [本机环境准备](../docs/local_setup.md)。当前 FCFS、模拟与指标任务只需 Python/Git，不以安装 Isolate 为开工前提；要复现系统 S3 时另外核对 g++ 并创建临时目录，本人的 WSL 验证仍按本项记录。
+
 ## A2 检查预填的共同约定 约 40 分钟
 
 - [ ] 阅读已有的任务、题目配置与结果样例，写下疑问并检查字段是否足够支持第一二阶段。

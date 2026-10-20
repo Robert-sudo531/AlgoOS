@@ -18,6 +18,8 @@ __pycache__/
 !.env.example
 
 # Temporary execution work; preserve the directory marker
+# work/stage1 and work/isolate are prepared locally after clone.
+# Shared setup instructions live in docs/local_setup.md.
 /work/*
 !/work/.gitkeep
 

@@ -10,7 +10,9 @@
 2. 查看自己的 [系统清单（lhy）](system_list/todo_stage1_system.md) 、[算法清单（cxr）](algorithm_list/todo_stage1_algorithm.md) 或 [应用与测试清单（xyh）](application_list/todo_transition_application.md)。
 3. 按 [共同约定](docs/stage1_agreement.md) 逐步实现，完成一项再记录检查结果。
 
-项目目前已建立目录、Python 包标记和文档入口；业务模块、样例程序与评测功能尚待按 Todo 实现。导航里的演示命令在对应脚本完成后才能运行。
+首次 clone 后先读 [本机环境准备](docs/local_setup.md)：临时目录、编译产物、Isolate 源码和系统安装不会随仓库获得，按自己的任务准备所需条件。
+
+项目目前已跑通 A+B 两组 Python 演示（S3）；`judge/`、`scheduler/` 的业务模块与后续评测功能仍待按 Todo 实现。系统机器上的 Isolate 可行性检查（S4）已通过，覆盖安装、配置检查、初始化、第一组 A+B 普通模式运行与清理；资源限制和异常行为仍待验证。导航中其余演示命令在对应脚本完成后才能运行，实际进度见 `progress.md`。
 
 内部第 14 周（12 月 14—20 日）收工，12 月 21 日起用于复习。正式报告窗口为第 16 周（2026 年 12 月 28 日—2027 年 1 月 3 日）；允许提前交则提前交，否则届时上传已备材料。
 
