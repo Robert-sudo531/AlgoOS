@@ -1,10 +1,8 @@
-import json
 from pathlib import Path
+from judge.problem import load_problem
 
 config_path = Path("work/stage2_fixture/a_plus_b/problem.json")
-
-with config_path.open(encoding="utf-8") as config_file:
-    problem = json.load(config_file)
+problem = load_problem(config_path)
 
 print("题目编号：", problem["problem_id"])
 

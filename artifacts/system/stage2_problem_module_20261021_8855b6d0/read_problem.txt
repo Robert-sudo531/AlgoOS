@@ -1,0 +1,64 @@
+S2.2 读取模块提取：正常、缺失标准答案、恢复配置
+记录日期：2026-10-21（Asia/Shanghai）
+运行者：系统负责人本人；以下命令、输出和退出码依据本人终端反馈整理。
+入口：项目根目录 python3 -m scripts.read_problem
+实现：judge/problem.py 的 load_problem 先读取并检查，scripts/read_problem.py 接收返回值后展示。
+AI 在上一子步骤独立验证正常入口，本次只读核对配置恢复与四个文件存在，未重做异常测试。
+本记录是配置读取演示，不是 C++ 评测结果。
+
+[1 提取后的正常配置]
+命令：
+python3 -m scripts.read_problem
+echo $?
+输出：
+题目编号： a_plus_b
+测试点： 01
+输入文件： work/stage2_fixture/a_plus_b/tests/01.in
+输出文件： work/stage2_fixture/a_plus_b/tests/01.out
+分值： 30
+测试点： 02
+输入文件： work/stage2_fixture/a_plus_b/tests/02.in
+输出文件： work/stage2_fixture/a_plus_b/tests/02.out
+分值： 30
+配置总分： 60
+0
+
+[2 第二组 output 临时改为 tests/02_missing.out]
+命令：
+python3 -m scripts.read_problem
+echo $?
+输出：
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/media/robert/WindowsD/active/2026-27_autumn_courses/innovation_training/scripts/read_problem.py", line 5, in <module>
+    problem = load_problem(config_path)
+  File "/media/robert/WindowsD/active/2026-27_autumn_courses/innovation_training/judge/problem.py", line 19, in load_problem
+    raise FileNotFoundError(f"标准答案文件不存在：{output_path}")
+FileNotFoundError: 标准答案文件不存在：work/stage2_fixture/a_plus_b/tests/02_missing.out
+1
+
+[3 第二组 output 恢复为 tests/02.out]
+命令：
+python3 -m scripts.read_problem
+echo $?
+输出：
+题目编号： a_plus_b
+测试点： 01
+输入文件： work/stage2_fixture/a_plus_b/tests/01.in
+输出文件： work/stage2_fixture/a_plus_b/tests/01.out
+分值： 30
+测试点： 02
+输入文件： work/stage2_fixture/a_plus_b/tests/02.in
+输出文件： work/stage2_fixture/a_plus_b/tests/02.out
+分值： 30
+配置总分： 60
+0
+
+[AI 只读核对恢复状态]
+第二组 output：tests/02.out
+01 input：work/stage2_fixture/a_plus_b/tests/01.in，is_file=True
+01 output：work/stage2_fixture/a_plus_b/tests/01.out，is_file=True
+02 input：work/stage2_fixture/a_plus_b/tests/02.in，is_file=True
+02 output：work/stage2_fixture/a_plus_b/tests/02.out，is_file=True
+配置总分：60
