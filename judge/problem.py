@@ -20,6 +20,11 @@ def load_problem(config_path):
 
         seen_case_ids.add(case_id)
         
+        score = test.get("score")
+
+        if type(score) is not int or score < 0:
+            raise ValueError(f"测试点 {case_id} 的分值必须是非负整数")
+
         input_path = config_path.parent / test["input"]
         output_path = config_path.parent / test["output"]
 

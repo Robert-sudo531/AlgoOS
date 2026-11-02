@@ -1,0 +1,29 @@
+S2.3 正确 A+B 首次独立编译
+记录日期：2026-10-25（Asia/Shanghai）
+运行者：系统负责人本人；终端输出依据本人反馈整理。
+工作目录：项目根目录。
+入口命令：
+python3 -m scripts.compile_demo
+echo $?
+
+本人反馈的输出：
+编译退出码： 0
+编译成功： True
+可执行文件： work/compile_789924cac38b4977a31ca45b67bddfed/T1/program
+编译器信息：
+产物存在： True
+0
+
+AI 只读核对：
+judge/compiler.py 提供 compile_cpp(source_path, build_dir)。
+scripts/compile_demo.py 调用该函数，源码为 examples/a_plus_b.cpp。
+代码中编译参数为 g++ -std=c++17 examples/a_plus_b.cpp -o work/compile_789924cac38b4977a31ca45b67bddfed/T1/program。
+用户反馈的产物是现有文件：True
+用户反馈的产物有可执行权限：True
+产物大小：16368 字节
+
+验证边界：
+本次只验证正确源码的首次编译成功与产物存在，未运行生成的程序。
+AI 本次未额外重编译。
+语法错误、工具缺失、超时、旧目录拒绝/旧产物保护的实际验证及 run_demo 接入均待后续任务。
+本记录不是整份提交的 AC 判定，也不代表 S2.3 全部验收完成。

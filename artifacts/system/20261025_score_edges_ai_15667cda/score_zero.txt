@@ -1,0 +1,36 @@
+测试来源：AI 实测（独立临时副本）
+工作目录：/media/robert/WindowsD/active/2026-27_autumn_courses/innovation_training
+实际命令：
+/usr/bin/python3 -c 'import json
+import sys
+from pathlib import Path
+from judge.problem import load_problem
+
+config_path = Path(sys.argv[1])
+raw = json.loads(config_path.read_text(encoding="utf-8"))
+score = raw["tests"][1]["score"]
+print("测试来源：AI", flush=True)
+print("配置：", config_path, flush=True)
+print("第二组原始分值：", repr(score), flush=True)
+print("第二组分值类型：", type(score).__name__, flush=True)
+problem = load_problem(config_path)
+print("题目编号：", problem["problem_id"])
+for test in problem["tests"]:
+    print("测试点：", test["case_id"], "分值：", test["score"])
+print("配置总分：", sum(test["score"] for test in problem["tests"]))
+' work/20261025_score_edges_ai_15667cda/a_plus_b/score_zero.problem.json
+实际退出码：0
+预期退出码：0
+标准输出：
+测试来源：AI
+配置： work/20261025_score_edges_ai_15667cda/a_plus_b/score_zero.problem.json
+第二组原始分值： 0
+第二组分值类型： int
+题目编号： a_plus_b
+测试点： 01 分值： 30
+测试点： 02 分值： 0
+配置总分： 30
+
+标准错误：
+
+符合本案例预期：True

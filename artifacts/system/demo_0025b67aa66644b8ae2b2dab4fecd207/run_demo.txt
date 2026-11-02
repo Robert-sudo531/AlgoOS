@@ -1,0 +1,37 @@
+S2.3 编译函数接入两组演示：正常源码
+记录日期：2026-10-25（Asia/Shanghai）
+run_id：demo_0025b67aa66644b8ae2b2dab4fecd207
+来源：系统负责人本人 Ubuntu 项目根目录终端反馈。
+命令：
+python3 -m scripts.run_demo
+echo $?
+
+本人反馈的输出：
+本次编译目录： work/demo_0025b67aa66644b8ae2b2dab4fecd207/T1
+编译退出码： 0
+编译器信息：
+编译成功，可执行文件已生成。
+本次可执行文件： work/demo_0025b67aa66644b8ae2b2dab4fecd207/T1/program
+测试点： 01
+程序退出码： 0
+实际输出： '3\n'
+预期输出： '3\n'
+输出一致： True
+运行错误：
+测试点： 02
+程序退出码： 0
+实际输出： '3\n'
+预期输出： '3\n'
+输出一致： True
+运行错误：
+0
+
+AI 只读核对：
+work/demo_0025b67aa66644b8ae2b2dab4fecd207/T1 目录存在：True
+该目录 program 存在：True
+该目录 program 有可执行权限：True
+第一阶段旧产物 work/stage1/a_plus_b 仍存在：True
+当前 run_demo 调用已恢复到 examples/a_plus_b.cpp。
+编译函数在测试循环前调用一次，失败分支先退出；循环使用返回的 executable_path，旧固定路径仅保留在注释中。
+AI 本次没有额外编译或运行产物，未覆盖第一阶段 stage1_demo.txt。
+此记录验证 S2.3；正式结果接口、判定/得分汇总、保护超时及资源限制留待后续。

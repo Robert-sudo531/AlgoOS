@@ -1,0 +1,35 @@
+执行者：AI 实测
+验收边界：模块拒绝复用已有构建目录；不属于 run_demo 失败后不运行的整合验证。
+工作目录：/media/robert/WindowsD/active/2026-27_autumn_courses/innovation_training
+实际命令：
+/usr/bin/python3 -c 'import sys
+from judge.compiler import compile_cpp
+
+print("执行者：AI", flush=True)
+print("调用真实 compile_cpp，构建目录已存在：", sys.argv[1], flush=True)
+compile_cpp("examples/a_plus_b.cpp", sys.argv[1])
+print("未拒绝已有目录：调用意外返回", flush=True)
+' work/20261025_compile_existing_dir_ai_296349b6/T_existing
+调用前 program 哨兵内容：b'ALGOOS_AI_EXISTING_BUILD_DIR_SENTINEL\nDo not execute this file.\n'
+实际退出码：1
+标准输出：
+执行者：AI
+调用真实 compile_cpp，构建目录已存在： work/20261025_compile_existing_dir_ai_296349b6/T_existing
+
+标准错误：
+Traceback (most recent call last):
+  File "<string>", line 6, in <module>
+    compile_cpp("examples/a_plus_b.cpp", sys.argv[1])
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/media/robert/WindowsD/active/2026-27_autumn_courses/innovation_training/judge/compiler.py", line 8, in compile_cpp
+    build_dir.mkdir(parents=True, exist_ok=False)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/pathlib/__init__.py", line 1012, in mkdir
+    os.mkdir(self, mode)
+    ~~~~~~~~^^^^^^^^^^^^
+FileExistsError: [Errno 17] File exists: 'work/20261025_compile_existing_dir_ai_296349b6/T_existing'
+
+调用后 program 内容：b'ALGOOS_AI_EXISTING_BUILD_DIR_SENTINEL\nDo not execute this file.\n'
+FileExistsError 拒绝复用：True
+哨兵字节未变：True
+符合本案例预期：True

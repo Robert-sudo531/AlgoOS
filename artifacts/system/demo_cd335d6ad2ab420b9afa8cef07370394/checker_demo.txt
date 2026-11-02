@@ -1,0 +1,23 @@
+S2.4 输出比对函数：六项规则检查
+记录日期：2026-10-28（Asia/Shanghai）
+来源：系统负责人本人 Ubuntu 项目根目录终端反馈。
+归档说明：与随后执行的两组 A+B 演示同轮归档，目录使用该演示的 run_id。
+命令：
+python3 -m scripts.checker_demo
+echo $?
+
+本人反馈的输出：
+6项输出比对检查通过
+0
+
+AI 只读核对当时脚本的六个断言：
+assert check_output("3\n", "3\n")
+assert not check_output("4\n", "3\n")
+assert check_output("3\r\n", "3\n")
+assert check_output("3\r", "3\n")
+assert not check_output("3 \n", "3\n")
+assert not check_output("3", "3\n")
+
+代码先统一 CRLF，再统一单独 CR；其余文本精确比较。
+本次 AI 未独立重跑规则脚本，不记为 AI 实测。
+此项只验证文本比对规则，不是完整 AC/WA 判定或整份提交结果。

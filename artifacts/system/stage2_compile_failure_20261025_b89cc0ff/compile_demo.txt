@@ -1,0 +1,50 @@
+S2.3 独立编译演示：语法错误与恢复
+记录日期：2026-10-25（Asia/Shanghai）
+来源：系统负责人本人 Ubuntu 项目根目录终端反馈。
+每次入口命令：
+python3 -m scripts.compile_demo
+echo $?
+
+[1 临时语法错误源码 work/stage2_fixture/compile_error.cpp]
+本人反馈：
+编译退出码： 1
+编译成功： False
+可执行文件： None
+编译器信息： work/stage2_fixture/compile_error.cpp: In function ‘int main()’:
+work/stage2_fixture/compile_error.cpp:2:13: error: expected ‘;’ before ‘}’ token
+    2 |     return 0
+      |             ^
+      |             ;
+    3 | }
+      | ~
+
+1
+
+[2 恢复 examples/a_plus_b.cpp]
+本人反馈：
+编译退出码： 0
+编译成功： True
+可执行文件： work/compile_ec4de89ce3ab490fb954de8d823ce518/T1/program
+编译器信息：
+产物存在： True
+0
+
+[AI 只读核对]
+scripts/compile_demo.py 当前调用已恢复到 examples/a_plus_b.cpp。
+临时错误源码确实存在，内容为：
+int main() {
+    return 0
+}
+恢复后的产物存在且有可执行权限：True。
+第一阶段旧产物 work/stage1/a_plus_b 仍存在。
+当前可见独立编译目录：
+work/compile_789924cac38b4977a31ca45b67bddfed/T1：program 存在。
+work/compile_95e187edc1024d3ba5f27fc66272da2a/T1：program 不存在。
+work/compile_ec4de89ce3ab490fb954de8d823ce518/T1：program 存在。
+失败反馈没有显示 run_id，故不把该次失败与某目录强行绑定；下一步 run_demo 将打印本次编译目录供明确定位。
+
+[边界]
+本人实测了编译失败返回、实际诊断和正确源码恢复。
+AI 本次没有重新编译或运行产物。
+run_demo.py 尚未接入编译函数，失败后不进入测试循环的整合验证仍待完成。
+本记录不代表正式评测服务已实现 CE 判定。
