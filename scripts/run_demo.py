@@ -25,6 +25,7 @@ from uuid import uuid4
 
 from judge.compiler import compile_cpp
 from judge.checker import check_output
+from judge.runner import run_program
 
 run_id = f"demo_{uuid4().hex}"
 build_dir = Path("work") / run_id / "T1"
@@ -51,16 +52,13 @@ for case_id in ["01", "02"]:
     with open(f"problems/a_plus_b/tests/{case_id}.out", encoding="utf-8") as answer_file:
         expected_output = answer_file.read()
 
-    run_result = subprocess.run(
-        # ["work/stage1/a_plus_b"],
-        [executable_path],
-        input=input_text,
-        capture_output=True,
-        text=True,
-    )
+    run_result = run_program(executable_path, input_text)
 
-    print("程序退出码：", run_result.returncode)
-    print("实际输出：", repr(run_result.stdout))
+    print("程序退出码：", run_result["exit_code"])
+    print("实际输出：", repr(run_result["stdout"]))
     print("预期输出：", repr(expected_output))
-    print("输出一致：", check_output(run_result.stdout, expected_output))
-    print("运行错误：", run_result.stderr)
+    print(
+        "输出一致：",
+        check_output(run_result["stdout"], expected_output),
+    )
+    print("运行错误：", run_result["stderr"])
