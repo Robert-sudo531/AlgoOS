@@ -1,0 +1,28 @@
+S2.4 实际经过时间保护触发
+记录日期：2026-11-02（Asia/Shanghai）
+工作分支：system/runner
+来源：系统负责人本人执行 scripts.runner_timeout_demo 后的终端反馈。
+入口：
+python3 -m scripts.runner_timeout_demo
+echo $?
+
+本人反馈：
+运行状态： RUN_TIMEOUT
+程序退出码： None
+已捕获输出： 'started\n'
+运行错误： ''
+运行说明： 运行超过 1 秒实际经过时间保护
+超时验证通过
+0
+
+AI 只读核对：
+演示通过当前 Python 解释器运行固定 stdin 脚本，刷新 started 后等待3秒。
+run_program 调用参数 timeout_seconds=1。
+断言检查状态 RUN_TIMEOUT、退出码 None、部分输出为 started 换行。
+runner 使用 TimeoutExpired 捕获及文本转换，正常路径仍返回 FINISHED。
+本次 AI 未重跑或执行额外子进程。
+
+验证边界：
+本次实测阈值为1秒，未记录精确实测耗时；默认5秒值未单独触发。
+验证通用运行函数的实际经过时间保护，不是 CPU 时限 TLE、资源隔离或支持 Python 提交评测。
+OSError 环境错误处理与正式判定服务仍待完成。

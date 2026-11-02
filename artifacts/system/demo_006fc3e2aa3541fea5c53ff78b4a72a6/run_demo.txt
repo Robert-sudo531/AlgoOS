@@ -1,0 +1,38 @@
+S2.4 运行函数：非零退出样例
+记录日期：2026-11-02（Asia/Shanghai）
+分支：system/runner
+run_id：demo_006fc3e2aa3541fea5c53ff78b4a72a6
+来源：系统负责人本人 Ubuntu 终端反馈。
+命令：
+python3 -m scripts.run_demo
+echo $?
+
+本人反馈的输出：
+本次编译目录： work/demo_006fc3e2aa3541fea5c53ff78b4a72a6/T1
+编译退出码： 0
+编译器信息：
+编译成功，可执行文件已生成。
+本次可执行文件： work/demo_006fc3e2aa3541fea5c53ff78b4a72a6/T1/program
+测试点： 01
+程序退出码： 7
+实际输出： '3\n'
+预期输出： '3\n'
+输出一致： True
+运行错误： intentional nonzero exit
+
+测试点： 02
+程序退出码： 7
+实际输出： '3\n'
+预期输出： '3\n'
+输出一致： True
+运行错误： intentional nonzero exit
+
+0
+
+AI 只读核对：
+本次 program 存在且有可执行权限。
+examples/runtime_error.cpp 明确向 stdout 写 3、向 stderr 写 intentional nonzero exit，并 return 7。
+run_demo.py 当前活动调用已恢复 examples/a_plus_b.cpp；RE 调用仅保留为注释。
+本次未额外编译或执行产物。
+展示脚本退出码 0 不等于样例程序通过；正式判定应优先看运行结果和非零退出。
+此记录未验证环境错误、超时触发或完整 RE 结果接口。

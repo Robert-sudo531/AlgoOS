@@ -1,0 +1,34 @@
+{
+  "executor": "AI",
+  "input_text": "1 2\n",
+  "compile_result": {
+    "success": true,
+    "exit_code": 0,
+    "executable_path": "work/20261102_runner_re_ai_8389911c/T_RE/program",
+    "stderr": ""
+  },
+  "run_result": {
+    "status": "FINISHED",
+    "exit_code": 7,
+    "stdout": "3\n",
+    "stderr": "intentional nonzero exit\n",
+    "error_message": ""
+  },
+  "expected_run_result": {
+    "status": "FINISHED",
+    "exit_code": 7,
+    "stdout": "3\n",
+    "stderr": "intentional nonzero exit\n",
+    "error_message": ""
+  },
+  "checks": {
+    "compile_success": true,
+    "compile_exit_zero": true,
+    "status": true,
+    "exit_code": true,
+    "stdout": true,
+    "stderr": true,
+    "error_message": true
+  },
+  "matches_expectation": true
+}

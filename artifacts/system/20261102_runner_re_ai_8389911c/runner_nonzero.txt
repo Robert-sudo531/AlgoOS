@@ -1,0 +1,84 @@
+执行者：AI 实测
+范围：只验证运行函数对正常结束但非零退出的真实 C++ 程序保留原始结果；不是 service 的 RE 判定验收。
+工作目录：/media/robert/WindowsD/active/2026-27_autumn_courses/innovation_training
+实际命令：
+/usr/bin/python3 -c 'import json
+import sys
+from pathlib import Path
+from judge.compiler import compile_cpp
+from judge.runner import run_program
+
+build_dir = Path(sys.argv[1])
+result_path = Path(sys.argv[2])
+compile_result = compile_cpp("examples/runtime_error.cpp", build_dir)
+run_result = None
+if compile_result["success"]:
+    run_result = run_program(compile_result["executable_path"], "1 2\n")
+expected = {
+    "status": "FINISHED",
+    "exit_code": 7,
+    "stdout": "3\n",
+    "stderr": "intentional nonzero exit\n",
+    "error_message": "",
+}
+checks = {
+    "compile_success": compile_result["success"],
+    "compile_exit_zero": compile_result["exit_code"] == 0,
+}
+for field, value in expected.items():
+    checks[field] = run_result is not None and run_result.get(field) == value
+payload = {
+    "executor": "AI",
+    "input_text": "1 2\n",
+    "compile_result": compile_result,
+    "run_result": run_result,
+    "expected_run_result": expected,
+    "checks": checks,
+    "matches_expectation": all(checks.values()),
+}
+result_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+print(json.dumps(payload, ensure_ascii=False, indent=2), flush=True)
+assert payload["matches_expectation"], "非零退出用例与预期不符"
+' work/20261102_runner_re_ai_8389911c/T_RE artifacts/system/20261102_runner_re_ai_8389911c/case_result.json
+真实 compile_cpp 内部编译命令：g++ -std=c++17 examples/runtime_error.cpp -o work/20261102_runner_re_ai_8389911c/T_RE/program
+输入文本：'1 2\n'
+验证脚本退出码：0
+标准输出：
+{
+  "executor": "AI",
+  "input_text": "1 2\n",
+  "compile_result": {
+    "success": true,
+    "exit_code": 0,
+    "executable_path": "work/20261102_runner_re_ai_8389911c/T_RE/program",
+    "stderr": ""
+  },
+  "run_result": {
+    "status": "FINISHED",
+    "exit_code": 7,
+    "stdout": "3\n",
+    "stderr": "intentional nonzero exit\n",
+    "error_message": ""
+  },
+  "expected_run_result": {
+    "status": "FINISHED",
+    "exit_code": 7,
+    "stdout": "3\n",
+    "stderr": "intentional nonzero exit\n",
+    "error_message": ""
+  },
+  "checks": {
+    "compile_success": true,
+    "compile_exit_zero": true,
+    "status": true,
+    "exit_code": true,
+    "stdout": true,
+    "stderr": true,
+    "error_message": true
+  },
+  "matches_expectation": true
+}
+
+标准错误：
+
+源码文件字节未变：{'examples/runtime_error.cpp': True, 'judge/compiler.py': True, 'judge/runner.py': True}

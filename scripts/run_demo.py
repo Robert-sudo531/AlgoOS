@@ -32,6 +32,7 @@ build_dir = Path("work") / run_id / "T1"
 print("本次编译目录：", build_dir)
 
 compile_result = compile_cpp("examples/a_plus_b.cpp", build_dir)
+# compile_result = compile_cpp("examples/runtime_error.cpp", build_dir)
 
 print("编译退出码：", compile_result["exit_code"])
 print("编译器信息：", compile_result["stderr"])
@@ -53,6 +54,9 @@ for case_id in ["01", "02"]:
         expected_output = answer_file.read()
 
     run_result = run_program(executable_path, input_text)
+
+    print("运行状态：", run_result["status"])
+    print("运行说明：", run_result["error_message"])
 
     print("程序退出码：", run_result["exit_code"])
     print("实际输出：", repr(run_result["stdout"]))

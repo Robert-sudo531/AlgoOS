@@ -1,0 +1,53 @@
+{
+  "executor": "AI",
+  "date": "2026-11-02",
+  "branch": "system/runner",
+  "cases": [
+    {
+      "case": "normal",
+      "command": "python3 -m scripts.run_demo",
+      "exit_code": 0,
+      "matches_expectation": true,
+      "log_path": "artifacts/system/runner_regression_20261102_00aecf74/normal.txt"
+    },
+    {
+      "case": "checker",
+      "command": "python3 -m scripts.checker_demo",
+      "exit_code": 0,
+      "matches_expectation": true,
+      "log_path": "artifacts/system/runner_regression_20261102_00aecf74/checker.txt"
+    },
+    {
+      "case": "timeout",
+      "command": "python3 -m scripts.runner_timeout_demo",
+      "exit_code": 0,
+      "matches_expectation": true,
+      "log_path": "artifacts/system/runner_regression_20261102_00aecf74/timeout.txt"
+    },
+    {
+      "case": "environment",
+      "command": "python3 -m scripts.runner_error_demo",
+      "exit_code": 0,
+      "matches_expectation": true,
+      "log_path": "artifacts/system/runner_regression_20261102_00aecf74/environment.txt"
+    }
+  ],
+  "nonzero_case_manifest": "artifacts/system/20261102_runner_re_ai_8389911c/manifest.json",
+  "nonzero_case_result": "FINISHED, exit_code=7, stdout=3\\n, stderr=intentional nonzero exit\\n, error_message empty; passed",
+  "formatting_after_regression": [
+    {
+      "file": "judge/runner.py",
+      "ast_unchanged": true,
+      "sha256_before": "f26bcae32a21bd0bfdf868a324d3925498b6c4410c1865467bd14880eb03fa7c",
+      "sha256_after": "93f9e4798530a69f0fd73bb627db7a73a3cd2289d6208194b075f5c519aa2aa6"
+    },
+    {
+      "file": "scripts/run_demo.py",
+      "ast_unchanged": true,
+      "sha256_before": "26b8e3fa1099bd199a85642e697a5d9944694f11d9721869a67687bbb7c630fe",
+      "sha256_after": "c65a936d3c9c2ab817f6e140a902016ae8e122d21e282b426fb715cc42ebc836"
+    }
+  ],
+  "scope": "Existing normal/checker/timeout/environment scripts plus isolated real C++ nonzero case; runner scope only. Service, scores, compiler timeout and resource isolation are not accepted here.",
+  "git_write_operations_performed": false
+}

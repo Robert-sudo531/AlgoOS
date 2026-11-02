@@ -326,3 +326,49 @@
 - 问题与决定：`timeout_seconds=5` 当前是等待参数配置，本次未实测触发，异常也尚未统一为结果；非零退出、可执行文件缺失、正式判定计分与保护超时仍待后续。该子步骤不单独代表 AC 或完整资源限制。
 - 下一步：本人先完成该小步的本地 Git 提交并发布任务分支，再验证非零退出、环境错误及运行超时；PR 合并放在分支约定范围验证通过后。
 - AI 协助与人工检查：函数及正常运行由本人完成；AI 核对源代码、已有产物并保存本人反馈，未执行提交、推送、PR 或代替本人确认理解。
+
+### 2026-11-02｜系统负责人 Git 操作、AI 只读核对｜首次任务分支提交与发布
+- 状态：本人确认首次提交与发布已完成；本条记录 Git 协作步骤，不代表新增业务验收通过。
+- 完成：本人在 VS Code 将运行函数正常接入的小步提交为 `cba1b29`（提取运行函数并接入两组演示），并发布 `system/runner`。
+- 验证：AI 本地只读执行状态、分支与日志检查，确认当前分支跟踪 `origin/system/runner`，本地与该远端跟踪记录均为 `cba1b29`、检查时工作区干净；本地 `main` 及缓存 `origin/main` 仍为 `ac27576`。没有另行 Fetch 或联网核验远端实时状态。
+- 相关文件：[运行函数](judge/runner.py)、[调用方](scripts/run_demo.py)、[正常接入证据](artifacts/system/demo_57820eaddd394b96b4af071621973732/run_demo.txt)、[今日备忘](system_list/notes_2026-11-02.md)。
+- 问题与决定：任务分支尚未合入 main；非零退出、环境错误、超时触发与服务汇总仍待完成，S2.4 不勾选。后续验证与记录继续在本分支形成新提交，不改写已发布提交。
+- 下一步：新增系统负责的非零退出样例，验证退出码与输出分别返回，再恢复正常演示。
+- AI 协助与人工检查：提交和发布由本人操作，AI 未替本人执行 Git 写操作；本条及备忘的更新是下一次提交前的新记录。
+
+### 2026-11-02｜系统负责人编写运行、AI 协助核对｜S2.4 非零退出与恢复
+- 状态：非零退出信息收集的小任务已完成；超时、环境错误与正式服务判定仍待完成。
+- 完成：本人新增系统负责的 `examples/runtime_error.cpp`，有意输出正确文本、向标准错误写提示并返回 7；临时接入两组演示后恢复正确 A+B 调用。
+- 验证：本人非零样例编译成功、两组程序退出码均为 7、实际和预期均为 `3\n`、文本比较 True、stderr 含 `intentional nonzero exit`；外层展示脚本退出码 0。恢复后编译及两组程序退出码均为 0、比较 True、脚本退出码 0。AI 只读核对源码与恢复状态，确认两次本次产物均存在且可执行，未额外重跑。
+- 相关文件：[非零退出记录](artifacts/system/demo_006fc3e2aa3541fea5c53ff78b4a72a6/run_demo.txt)、[恢复记录](artifacts/system/demo_2e3dd5cfc6ca4155bd79d89380b0a2a5/run_demo.txt)、[RE 样例](examples/runtime_error.cpp)、[运行函数](judge/runner.py)、[今日备忘](system_list/notes_2026-11-02.md)。
+- 问题与决定：文本比较为 True 或展示脚本退出码 0 不能单独代表程序 AC；服务层后续应先处理非零退出。当前只证明运行信息被如实收集，未实现完整 RE 结果接口，S2.4 保持未勾选。
+- 下一步：加入超时异常捕获与统一的运行状态字段，再验证真实超时触发；环境错误单独推进，后续改动在当前分支形成新提交。
+- AI 协助与人工检查：源码和两次运行由本人完成，AI 只读核对、保存本人反馈并更新实际记录，未自动提交或推送，也不代替本人理解确认。
+
+### 2026-11-02｜系统负责人编写运行、AI 协助核对｜S2.4 超时捕获代码的正常回归
+- 状态：新增状态和捕获代码已通过正常回归；真实超时触发仍待验证，S2.4 整项进行中。
+- 完成：本人增加 TimeoutExpired 捕获、FINISHED/RUN_TIMEOUT 状态、error_message 及异常部分输出的文本转换，并在演示中显示运行状态和说明。
+- 验证：本人运行 `python3 -m scripts.run_demo`，两组均显示 FINISHED、说明为空、程序退出码 0、实际和预期均为 `3\n`、比较 True，编译及脚本退出码均为 0；AI 只读核对代码与本次存在且可执行的产物，未额外重跑。
+- 相关文件：[新状态正常回归](artifacts/system/demo_33c637f8da5c4055b49e0a16247702ad/run_demo.txt)、[运行函数](judge/runner.py)、[调用方](scripts/run_demo.py)、[今晚清单](system_list/notes_2026-11-02.md)。
+- 问题与决定：正常路径通过不代表超时已触发验证；OSError 尚未处理。今晚收尾范围限定为超时实测、环境错误、最终回归与提交推送，服务串联留明晚，PR 复核另约。
+- 下一步：使用自包含受控等待进程实测 1 秒保护，检查 RUN_TIMEOUT、退出码 None 及已捕获输出。
+- AI 协助与人工检查：代码与正常回归由本人完成，AI 只读核对并记录实际结果，未提前声称超时或环境错误验收通过。
+
+### 2026-11-02｜系统负责人编写运行、AI 协助核对｜S2.4 实际经过时间保护触发
+- 状态：运行等待保护触发的小任务已完成；环境错误和服务串联仍待完成，S2.4 整项进行中。
+- 完成：本人编写自包含的 `runner_timeout_demo.py`，通过真实运行函数启动固定等待脚本，刷新部分输出后等待 3 秒，保护参数为 1 秒。
+- 验证：本人反馈 RUN_TIMEOUT、exit_code=None、stdout 为 `started\n`、stderr 为空字符串、说明包含 1 秒保护；脚本断言通过、退出码 0。AI 只读核对演示、捕获代码与断言，没有额外重跑。默认 5 秒参数未单独触发，未记录精确实测耗时，不补造数值。
+- 相关文件：[超时触发证据](artifacts/system/runner_timeout_20261102_3386ab56/runner_timeout_demo.txt)、[超时演示](scripts/runner_timeout_demo.py)、[运行函数](judge/runner.py)、[今晚清单](system_list/notes_2026-11-02.md)、[系统清单](system_list/todo_stage2_system.md)。
+- 问题与决定：本次验证实际经过时间保护和部分输出保留，不是 CPU 时限 TLE 或隔离验收，也不增加 Python 提交评测范围。当前 OSError 尚未转为统一结果，今晚仍剩该错误处理及最终回归/提交推送。
+- 下一步：捕获并验证可执行文件缺失的 OSError，返回 SYSTEM_ERROR 与具体原因，再完成当前任务分支的回归及后续提交。
+- AI 协助与人工检查：代码与触发运行由本人完成，AI 只读检查并保存本人反馈，不记为 AI 实测或共同验收，未执行 Git 提交/推送。
+
+### 2026-11-02｜系统负责人编写运行、AI 最终回归｜运行模块开发验证收尾
+- 状态：今晚约定的运行模块开发与验证已达到；后续提交 Push 待本人完成，S2.4 整项仍进行中。
+- 完成：本人为 OSError 增加 SYSTEM_ERROR 返回，编写缺失路径演示，统一运行状态、退出码、输出与错误说明的五个字段；当前分支的正常、非零退出、超时与缺失程序均取得验证结果。
+- 本人验证：缺失 UUID 路径返回 SYSTEM_ERROR、exit_code=None、stdout/stderr 为空，错误原因包含原路径，断言通过、脚本退出 0。权限不足等其他 OSError 未单独实测。
+- AI 回归：执行已有 run_demo、checker_demo、runner_timeout_demo、runner_error_demo，四个入口均退出 0，正常两组 FINISHED/0/文本相等；另在独立目录编译运行真实 RE 源码，断言 FINISHED/7/stdout 为 `3\n`/stderr 为实际提示/error_message 为空通过。各类结果来源与范围单独保存。
+- 相关文件：[本人环境错误](artifacts/system/runner_regression_20261102_00aecf74/member_environment.txt)、[AI 最终回归](artifacts/system/runner_regression_20261102_00aecf74/manifest.json)、[AI 非零回归](artifacts/system/20261102_runner_re_ai_8389911c/manifest.json)、[运行函数](judge/runner.py)、[今晚清单](system_list/notes_2026-11-02.md)、[系统清单](system_list/todo_stage2_system.md)。
+- 问题与决定：回归后只整理 runner.py 与 run_demo.py 的空白行及文件末尾换行，AST 一致，未改功能；测试时源码哈希及格式整理前后哈希均留存。服务、完整判定计分、编译超时、CPU/内存限制、正式题目包与成员复核继续待完成，不把运行模块收尾记为整个 S2.4 完成。
+- 下一步：本人检查当前任务差异，提交并 Push `system/runner`；PR 复核可另约，明晚推进 service 串联。
+- AI 协助与人工检查：环境处理代码与手动验证由本人完成；AI 执行约定的最终回归、独立 RE 验证、必要格式整理和记录，未代替本人提交推送或共同确认。

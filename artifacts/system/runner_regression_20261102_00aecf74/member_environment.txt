@@ -1,0 +1,19 @@
+S2.4 可执行文件缺失：本人手动验证
+记录日期：2026-11-02（Asia/Shanghai）
+来源：系统负责人本人终端反馈，不是 AI 重跑。
+命令：
+python3 -m scripts.runner_error_demo
+echo $?
+
+本人反馈：
+缺失路径： work/missing_6f3e73038da64a5fb1851fa220bf2003/program
+运行状态： SYSTEM_ERROR
+程序退出码： None
+标准输出： ''
+标准错误： ''
+错误原因： [Errno 2] No such file or directory: 'work/missing_6f3e73038da64a5fb1851fa220bf2003/program'
+环境错误验证通过
+0
+
+本次仅验证缺失可执行路径经 OSError 返回 SYSTEM_ERROR，未单独验证权限不足等其他启动错误。
+正式 service 的 SYSTEM_ERROR 结果接口及整个 S2.4 仍待完成。
