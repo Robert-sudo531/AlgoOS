@@ -23,7 +23,9 @@
 
 执行入口：[应用清单 P2](../application_list/todo_transition_application.md)。下面保留原交付标准，算法负责人接收材料，不重复制作；应用负责人交付后在本项注明证据与实际负责人。
 
-- [ ] 在第一阶段两组文件基础上增加第三组，填写题目 JSON，准备正确、错误相减和语法错误程序。
+- [x] 在第一阶段两组文件基础上增加第三组，填写题目 JSON，准备正确、错误相减和语法错误程序。
+
+2026-11-03 由应用负责人（xyh）按 [P2](../application_list/todo_transition_application.md) 完成：`problems/a_plus_b/problem.json` 三组 30/30/40、总分 100；`tests/03.in`、`03.out` 为 `0 0 → 0`；`examples/a_minus_b.cpp` 预期 WA/40；`examples/compile_error.cpp` 预期 CE/0；预期与检查表见 [docs/stage2_cases.md](../docs/stage2_cases.md)。真实判定待系统单提交入口就绪后补充。
 
 动文件：`problems/a_plus_b/problem.json`、`tests/03.in`、`03.out`（在该题目目录内）；沿用 `examples/a_plus_b.cpp`，新增 `examples/a_minus_b.cpp`、`examples/compile_error.cpp`；记录到 `docs/stage2_cases.md`。  
 检查：三组为 `1 2 → 3`、`-2 5 → 3`、`0 0 → 0`，分值 30、30、40。相减程序仅通过第三组；配置路径真实存在，总分 100。应用负责人先把文件交给系统负责人，算法恢复后接收；题干可先用简短文本，PDF 随页面阶段补齐。

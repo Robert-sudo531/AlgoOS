@@ -1,0 +1,61 @@
+AlgoOS 应用环境记录
+任务：过渡期 P0 认识项目与确认环境
+检查时间：2026-11-03 18:35（Asia/Shanghai，UTC+08:00）
+执行者：AI 在本机 Windows 终端实际运行；由应用负责人（xyh）确认可用时间，工具检查结果尚未由本人逐条复核。
+检查基线：Git main，ac27576；检查开始时工作区干净（新增文件前）。
+
+项目根目录：D:\AlgoOS（Git Bash 中为 /d/AlgoOS）
+终端：Claude Code 集成终端，Git Bash（MINGW64）
+
+每周可用投入：3—5 小时（本人确认，2026-11-03）。
+说明：时间只用于安排本人任务，不代表运行环境已满足真实评测条件。
+
+检查结果：
+Git、Python、g++ 版本命令均成功；Python 简单打印成功；g++ 已实际编译 C++17 程序（见 P2 预检）。
+报错：无。
+补装：无。
+Linux / WSL：未安装，不能在本机完成真实评测；按约定真实评测在已验证 Linux 环境由系统负责人一起复现。
+Isolate：当前 PATH 中未找到，本机未安装，也未验证隔离执行与资源限制。
+真实 judge 后端：当前仓库没有单提交入口（脚本目录只有 run_demo、compile_demo、checker_demo、read_problem），P4 暂不能执行。
+
+以下为本次终端的实际输出：
+$ cmd //c ver
+Microsoft Windows [版本 10.0.26200.9711]
+
+$ wsl.exe --status
+提示未安装适用于 Linux 的 Windows 子系统，需先运行 wsl.exe --install。
+（本机未验证任何 Linux 发行版环境。）
+
+$ python3 --version
+[exit_code=0]
+Python 3.14.5
+
+$ which python3
+/d/msys64/ucrt64/bin/python3
+
+$ python --version
+[exit_code=0]
+Python 3.13.12
+
+$ which python
+/c/Users/30119/miniforge3/python
+
+$ g++ --version | head -1
+[exit_code=0]
+g++.exe (Rev5, Built by MSYS2 project) 16.1.0
+
+$ git --version
+[exit_code=0]
+git version 2.56.0.windows.2
+
+$ python3 -c "print('AlgoOS P0: Python OK')"
+[exit_code=0]
+AlgoOS P0: Python OK
+
+$ command -v isolate
+未找到（exit_code=1）
+
+本机可完成与不可完成的范围：
+可完成：题目包文件、预期结果、检查表、示例页面等资料准备；用 g++ 和 Python 做本机文件级预检（不代表 judge 判定）。
+不可完成：Linux 隔离执行、CPU/内存限制、真实 AC/WA/CE/RE 判定；这些按 P4 在系统负责人已验证的 Linux 环境复现。
+下一步：P2/P3 材料已准备并可本机预检；P4 等系统 S2.5 单提交入口就绪后，与系统负责人约定复现环境。

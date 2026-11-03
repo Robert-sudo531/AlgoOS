@@ -31,7 +31,7 @@ C0 可先各自阅读，各人在自己的清单中记录个人完成情况；�
 ├── algorithm_list/       算法负责人的 Todo
 ├── application_list/     应用与测试负责人的 Todo
 ├── examples/             被评测的 C++ 程序
-├── problems/a_plus_b/     题目配置待填写，tests/ 已建立
+├── problems/a_plus_b/     题目配置与三组测试已建立（真实判定待后端）
 ├── judge/                编译、运行、比对、汇总
 ├── scheduler/            FCFS、模拟时钟、指标计算
 ├── scripts/              命令行与演示入口

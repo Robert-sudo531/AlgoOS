@@ -317,3 +317,12 @@
 - 问题与决定：文本相等的布尔值不单独代表完整 AC；运行模块、服务、正式 AC/WA/CE/RE 判定、分数汇总与保护超时尚未完成。S2.4 保持未勾选，S2.2 正式题目包与成员复核状态不变。
 - 下一步：提取程序运行函数到 `judge/runner.py`，逐步加入退出状态与实际经过时间保护。
 - AI 协助与人工检查：新代码及两个入口运行由本人完成；AI 只读审查、核对已有产物并保存本人反馈的证据，本次未重跑脚本或编译程序，不代替本人声称理解或共同验收完成。
+
+### 2026-11-03｜应用与测试负责人（xyh）｜P0—P3 材料交付（原 A2.2）
+- 状态：P0、P1、P2、P3 已完成；P4 受阻（系统 S2.5 单提交入口未就绪）；P5 本轮按本人决定不做。
+- 完成：记录本机环境与每周投入；核对系统交付的 A+B 与 01/02 测试；新增第三组与 `problem.json`，准备相减、语法错误程序；建立 `docs/stage2_cases.md` 的材料说明、预期表和“样例/操作、预期、实际、证据、状态”检查表；同步原 A2.2 的实际负责人与证据。
+- 验证：本机 Windows 11 10.0.26200.9711 + MSYS2 UCRT64（Python 3.14.5、g++ 16.1.0）。`python3 -m json.tool problems/a_plus_b/problem.json` 退出码 0，三组路径存在、分值 30/30/40、总分 100。本机文件级预检：`a_plus_b.cpp` 三组输出 `3\n`、`3\n`、`0\n`，预检 AC/100；`a_minus_b.cpp` 输出 `-1\n`、`-7\n`、`0\n`，预检 WA/40；`compile_error.cpp` 编译退出码 1（缺分号）。以上为应用侧预检，不是 judge 判定；RE 样例尚未交付，缺失输出文件与重复运行覆盖检查待后端就绪。WSL 未安装，Isolate 不在 PATH，本机未做 Linux 隔离执行。
+- 相关文件：[应用环境记录](docs/env_application.txt)、[题目配置](problems/a_plus_b/problem.json)、[第三组](problems/a_plus_b/tests/03.in)、[相减程序](examples/a_minus_b.cpp)、[语法错误程序](examples/compile_error.cpp)、[检查表](docs/stage2_cases.md)、[预检记录](artifacts/application/p2_materials_20261103/precheck.txt)、[应用清单](application_list/todo_transition_application.md)、[算法 A2.2](algorithm_list/todo_stage2_algorithm.md)。
+- 问题与决定：系统当前推进到 S2.4，尚无 `run_task`/单提交入口，P4 不能执行；真实 AC/WA/CE 判定在检查表中保持“待验证”。RE 样例按约定由系统随 S2.4 提供。应用侧预检证据单独放在 `artifacts/application/` 并标注来源，不与真实评测混用。
+- 下一步：等系统 S2.5 交付后，在其已验证的 Linux 环境按检查表复现 AC/WA/CE，补 RE、缺文件与重复运行检查，并把真实结果链接到 `artifacts/system/<run_id>/`。
+- AI 协助与人工检查：AI 执行本机版本检查、材料创建与本机预检、整理检查表和记录；xyh 本人确认每周 3—5 小时并决定本轮不做 P5；真实评测与成员共同验收尚未进行。

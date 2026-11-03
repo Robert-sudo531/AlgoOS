@@ -1,0 +1,58 @@
+# P2 题目包材料本机预检（应用侧，非评测结果）
+# 时间：2026-11-03T18:36:17+0800
+# 环境：Windows 11 10.0.26200.9711 + MSYS2 UCRT64；python3 3.14.5；g++ g++.exe (Rev5, Built by MSYS2 project) 16.1.0
+# 说明：本记录只核对材料文件和预期结果，不等于 judge 后端的真实判定。
+
+$ python3 -m json.tool problems/a_plus_b/problem.json
+{
+    "problem_id": "a_plus_b",
+    "title": "A+B",
+    "time_limit_ms": 1000,
+    "memory_limit_mib": 256,
+    "tests": [
+        {
+            "case_id": "01",
+            "input": "tests/01.in",
+            "output": "tests/01.out",
+            "score": 30
+        },
+        {
+            "case_id": "02",
+            "input": "tests/02.in",
+            "output": "tests/02.out",
+            "score": 30
+        },
+        {
+            "case_id": "03",
+            "input": "tests/03.in",
+            "output": "tests/03.out",
+            "score": 40
+        }
+    ]
+}
+exit=0
+
+$ g++ -std=c++17 -O2 -Wall -Wextra examples/<file>.cpp -o /d/AlgoOS/work/app_precheck_20261103/<name>.exe
+  a_plus_b.cpp -> exit=0
+  a_minus_b.cpp -> exit=0
+examples/compile_error.cpp: In function 'int main()':
+examples/compile_error.cpp:7:18: error: expected ';' before 'cout'
+    7 |     cin >> a >> b
+      |                  ^
+      |                  ;
+    8 |     cout << a + b << endl;
+      |     ~~~~          
+  compile_error.cpp -> exit=1
+
+$ python3 预检脚本（读取 problem.json，运行 examples 下程序，按约定比较）
+配置总分: 100（30+30+40）
+== a_plus_b
+  01: exit=0 actual='3\n' expected='3\n' ok=True
+  02: exit=0 actual='3\n' expected='3\n' ok=True
+  03: exit=0 actual='0\n' expected='0\n' ok=True
+  -> 预检判定: AC, 得分 100
+== a_minus_b
+  01: exit=0 actual='-1\n' expected='3\n' ok=False
+  02: exit=0 actual='-7\n' expected='3\n' ok=False
+  03: exit=0 actual='0\n' expected='0\n' ok=True
+  -> 预检判定: WA, 得分 40
