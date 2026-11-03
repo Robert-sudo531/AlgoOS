@@ -19,7 +19,8 @@ python3 test_pipeline.py
 
 ```text
 项目根目录/
-├── README.md                 # 唯一根级 Markdown，总索引
+├── README.md                 # 总索引
+├── midterm_report.md         # 中期汇报
 ├── test_pipeline.py          # 前台评测入口
 ├── judge/
 │   ├── problem.py            # problem.json 模型与派生 out_bytes
@@ -45,6 +46,7 @@ python3 test_pipeline.py
 
 | 主题 | 位置 |
 | --- | --- |
+| 中期汇报 | [midterm_report.md](midterm_report.md) |
 | AI 协作规则 | [docs/project/AGENTS.md](docs/project/AGENTS.md) |
 | 项目背景与排期 | [docs/project/plan_revised.md](docs/project/plan_revised.md) |
 | 设计记录 | [docs/design/CoreUML.md](docs/design/CoreUML.md) |

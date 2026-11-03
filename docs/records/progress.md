@@ -359,6 +359,15 @@
 - 完成：新增 [eval_server 工作原理与 UML](../design/eval_server.md)，包含 C++23/POSIX 实现说明、进程/线程模型、协议、资源限制、common/special、判定优先级、错误处理、已知限制，以及部署/类/时序/活动四张 Mermaid UML；在根 [README](../../README.md) 文档索引和 [judge/native/README](../../judge/native/README.md) 中加入口。删除 `judge/native/eval_server_asan` 调试二进制，保留 `make -C judge/native sanitize` 可选重建。`judge/pipeline.py` 的空 `message` 改为写 `-`，避免 `result.tsv` 行尾空列。
 - 验证：全仓库 Markdown 本地链接检查 0 个缺失；`make -C judge/native` 成功；`python3 test_pipeline.py` 能加载 `lazy_gold,sabotage` 并处理现有提交，原有的 `00000001__lazy_gold` AC 11/11、`00000002__sabotage` AC 14/14 保持。`result/result.tsv` 另保留一次 `00000003__sabotage` 的 RE 0/14 记录（验证时出现的提交，源码在 `.gitignore` 忽略的 `submissions/` 中，未提交）。
 - 相关文件：[eval_server 文档](../design/eval_server.md)、[README](../../README.md)、[协议说明](../../judge/native/README.md)、[C++ 源码](../../judge/native/eval_server.cpp)、[清理记录](../archive/2026-11-03_cleanup.md)。
-- 问题与决定：文档按当前实现编写，不把 `special` 写成已实现；OLE 仍归入 WA；未声称 cgroup/Isolate 隔离。根目录只保留 README，`AGENTS.md` 已归档到 `docs/project/`。
+- 问题与决定：文档按当前实现编写，不把 `special` 写成已实现；OLE 仍归入 WA；未声称 cgroup/Isolate 隔离。根目录当时只保留 README；后续按用户要求新增中期汇报 `midterm_report.md`，`AGENTS.md` 已归档到 `docs/project/`。
 - 下一步：审阅暂存内容；确认后提交，建议提交信息 `refactor: reroll 评测守护进程与文档归档`。
 - AI 协助与人工检查：文档、链接检查与复跑由 AI 完成；用户指定文档位置与提交准备。尚无成员人工复核或共同验收。
+
+### 2026-11-03｜AI 协助整理、用户指定｜中期汇报
+- 状态：报告完成；`reroll` 分支改动已暂存，尚未提交。
+- 完成：新增根目录 [midterm_report.md](../../midterm_report.md)，说明当前单机评测成果（test_pipeline、judge/pipeline、eval_server、common/special、AC/RE 实测）、分布式模块设计（网关、编译/评测/特判集群、对象存储、元数据库、消息队列、聚合）、部署尝试、测评指标、部署前模拟退火放置与运行期贪心堆调度，以及后续可研究的技术方向；根 [README](../../README.md) 与 [清理记录](../archive/2026-11-03_cleanup.md) 已补充入口/说明。
+- 验证：全仓库 Markdown 本地链接检查 0 个缺失；报告内容区分“已完成单机”与“待实现分布式”，未声称 cgroup/Isolate、API/DB/MQ 或特判已实现。
+- 相关文件：[中期汇报](../../midterm_report.md)、[README](../../README.md)、[eval_server 文档](../design/eval_server.md)、[运行结果](../../result/result.tsv)、[开发记录](progress.md)。
+- 问题与决定：报告放在根目录是用户明确要求，因此根目录现有 `README.md` 与 `midterm_report.md` 两个 Markdown；此前“根目录只留 README”的清理约定作为历史记录保留说明。
+- 下一步：成员审阅中期汇报与暂存改动；确认后提交。
+- AI 协助与人工检查：报告由 AI 按用户给定目标和现有证据整理；用户提供项目目标、DeepSeek 讨论内容和优化方向。尚无成员人工复核或共同验收。
