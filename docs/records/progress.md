@@ -1,0 +1,364 @@
+# 开发过程记录
+
+三人共同维护，记录实际完成的工作、验证结果和待解决问题。任务安排见 [开工导航](../../README.md) 与各自的 Todo；接口约定见 [共同约定](../specs/stage1_agreement.md)。
+
+## 怎么记录
+
+- 完成一项任务、遇到影响推进的卡点，或共同调整接口与范围时，追加一条记录；不要求每天写。
+- 每条写清日期、记录人和 Todo 编号。尚未通过检查的任务写“进行中”或“受阻”，通过后再勾选 Todo。
+- 验证写实际运行的命令、环境和结果，并链接必要的代码、日志或截图；未运行就明确写“未验证”。
+- 三人各写自己的工作；共同联调写清各自贡献。若有 AI 协助，简记它帮助了什么、自己检查了什么。
+- 按日期从旧到新追加，保留历史；后续解决问题时新增记录并注明对应的旧条目。
+- 详细环境和阶段报告仍按 Todo 放在 `docs/`，运行证据放在 `artifacts/`，这里写摘要和链接即可，不重复粘贴长日志。
+- 记录随对应代码或文档一起提交 Git。修改前先同步队友的更新；这份文件由三人共用，合并时保留各方条目。
+
+## 复制这个模板
+
+以下是填写格式，不代表已经完成的工作。无内容的项目可写“无”。
+
+```markdown
+### YYYY-MM-DD｜姓名（系统/算法/应用与测试）｜任务编号或共同事项
+- 状态：进行中 / 已完成 / 受阻
+- 完成：具体做了什么；共同任务注明各自贡献。
+- 验证：运行环境、命令、实际结果；未运行写“未验证”。
+- 相关文件：代码或结果文件的相对链接。
+- 问题与决定：当前卡点、需要队友配合的事；有方案调整时写明原因。
+- 下一步：接下来的一项具体动作。
+- AI 协助与人工检查：如有，简要说明。
+```
+
+## 实际记录
+
+### 2026-10-08｜AI 协助整理｜共同事项：项目文档与目录准备
+- 状态：目录与文档整理已完成；开发任务尚待实际验证。
+- 完成：已建立代码目录、Python 包标记、测试与结果目录，以及 Git 忽略和换行规则；已有修订方案、两人的阶段 Todo 和共同约定。本次新增根目录开发记录，并补充 README 与开工导航的记录说明。
+- 验证：已检查现有目录及文档；本条不代表业务代码、Linux 环境或评测功能通过验收。
+- 相关文件：[README](../../README.md)、[开工导航](../../README.md)、[修订方案](../project/plan_revised.md)、[共同约定](../specs/stage1_agreement.md)。
+- 问题与决定：目前未收到两人在 Linux 上的实际运行结果；GitHub 同步情况尚未确认。后续以真实检查结果更新状态。
+- 下一步：两人按开工导航完成并记录 C0，再分别推进第一阶段 S1 和 A1；如果已在本地做过，补充真实结果即可。
+- AI 协助与人工检查：本条由 AI 根据目录现状初始化，尚无学生人工验收记录；学生后续填写本人实际完成与检查的内容。
+
+### 2026-10-09｜AI 协助整理｜共同事项：临时分工调整
+- 状态：过渡安排已编写；开发任务完成情况仍以实际验证为准。
+- 完成：新增 [半个月临时过渡安排](../project/plan_revised.md)，并在 README、开工导航和四份 Todo 中添加提示。
+- 问题与决定：队友近期受 ACM 集训影响；系统负责人接过题目包，优先单提交评测，算法与共同联调顺延。暂按 10 月 9—23 日安排，队友实际恢复时间待定。
+- 下一步：系统负责人从尚未完成的基础任务开始；10 月 16 日检查卡点，10 月 23 日根据进展与队友可用时间重排后续任务。
+- AI 协助与人工检查：AI 根据用户补充的时间约束整理本次文档；没有替学生标记开发任务完成。
+
+### 2026-10-09｜AI 协助检查（系统）｜S1 与 Ubuntu 开工核对
+- 状态：S1 环境检查已完成；业务功能、共同确认及算法任务仍未完成。
+- 完成：检查项目目录、Git 状态、修订方案、过渡安排、共同约定和四份 Todo。仓库及已检查的父目录中未发现适用的 AGENTS.md。将原 `半个月过渡安排（1009-1024）.md` 统一命名为 `TRANSITION_PLAN.md`，保留原内容，修复已有导航链接；按正文沿用 10 月 9—23 日安排。
+- 验证：开始时位于 `main`，基线提交 `73b2225`，工作区干净，本地 `main` 与已有 `origin/main` 引用一致；未联网检查远端是否有更新。Ubuntu 26.04 LTS，内核 `7.0.0-34-generic`；实际执行 `cat /etc/os-release`、`uname -r`、`python3 --version`、`g++ --version`、`git --version`，全部成功。Python 3.14.4、g++ 15.2.0、Git 2.55.0；一句 Python 打印成功，无报错、无补装。
+- 相关文件：[系统环境记录](../ops/env_system.txt)、[第一阶段系统 Todo](../tasks/system/todo_stage1_system.md)、[过渡安排](../project/plan_revised.md)。
+- 问题与决定：当前 `judge/`、`scheduler/`、`scripts/` 只有空包标记，`examples/`、题目测试目录和三个结果目录只有占位文件；尚无业务源码或真实评测记录。导航中的运行命令和约定中的 JSON 仍是计划与格式样例。系统负责人先从 S1—S3 补基础，之后准备接过的 A2.2 题目包；FCFS、模拟器和指标实现继续留给算法负责人。C0、S5/A5、S2.1/A2.1 的双方确认保持未完成。
+- 下一步：只推进 S2：编写 `examples/a_plus_b.cpp` 与两组 `.in/.out`，手动编译到 `work/stage1/` 并核对两次输出；编译和运行尚未验证，不提前勾选。
+- AI 协助与人工检查：AI 执行本次环境检查、核对仓库现状并整理真实输出；尚无学生本人复核和解释操作的记录。本次不代表执行隔离、资源限制、队友 WSL 环境或 GitHub 最新状态已通过验证。
+
+### 2026-10-10｜AI 协助整理｜三人分工与交付日期更新
+- 状态：文档修订完成；未新增业务功能或替成员勾选任务。
+- 决定：团队固定为系统、算法、应用与测试三人。系统保留正确 A+B 和 01/02 测试；原 A2.2 由应用负责人按 P2 承接，替代此前“系统代做”的临时安排。算法集训期间任务顺延，恢复时间待定。
+- 时间：第 14 周（12 月 14—20 日）内部收工；第 16 周（2026 年 12 月 28 日—2027 年 1 月 3 日）正式报告提交。12 月 21 日起不安排常规开发，留给复习。
+- 相关文件：[总方案](../project/plan_revised.md)、[过渡安排](../project/plan_revised.md)、[新成员清单](../tasks/application/todo_transition_application.md)。导航、原四份 Todo、共同约定和 Linux 开场说明同步更新。
+- 下一步：系统继续未完成的 S2/S3；应用先做 P0/P1 并准备检查表，收到基础文件后做 P2；10 月 17 日复核新成员实际投入与难度，10 月 23—25 日重排后续。
+- AI 协助与人工检查：AI 按用户确认方向修订文档；保留此前 S1 记录与所有历史条目，不将文档调整记为代码验收。
+
+### 2026-10-10｜系统负责人本人确认｜C0 阅读与约定认可
+- 状态：系统负责人个人 C0 已完成。
+- 完成：本人确认已阅读相关项目文档，能够解释模块区别，并认可共同约定可直接用于当前实施；系统第一阶段 Todo 的 C0 已勾选。
+- 依据：本次对话中的系统负责人自述；不代表其他两位成员已复核，也不代表 S5/A5 演示、编译运行或资源限制通过验收。
+- 相关文件：[系统第一阶段 Todo](../tasks/system/todo_stage1_system.md)、[共同约定](../specs/stage1_agreement.md)。
+- 下一步：按现有顺序推进 S2，手动编译 A+B 并核对前两组输入输出。
+
+### 2026-10-10｜系统负责人编写、AI 协助验证｜S2 A+B 与两组测试
+- 状态：进行中；文件准备与编译运行已通过，人工理解和材料交接待确认。
+- 完成：系统负责人创建并编辑正确 A+B 源码及 01/02 两组 `.in/.out`；AI 阅读文件后编译、运行、比对并保存证据，未修改其源码或测试内容。
+- 验证：本机 Ubuntu，g++ 15.2.0。以 `g++ -std=c++17 -O2 -Wall -Wextra` 编译，退出码 0，无错误或警告；`1 2` 与 `-2 5` 分别运行，退出码均为 0，实际输出均为 `3\n`，两次 `diff -u` 均退出 0。两份标准答案末尾有换行；输入文件末尾无换行不影响本程序的 `cin` 读取。完整命令及实际结果见证据。
+- 相关文件：[A+B 源码](../archive/2026-11-03_cleanup.md)、[两组测试](../archive/2026-11-03_cleanup.md)、[S2 验证记录](../../artifacts/system/stage1_s2_20261010_212521_756c14ad/stage1_s2.txt)、[系统 Todo](../tasks/system/todo_stage1_system.md)。
+- 问题与决定：无技术卡点。标准输入/输出的本人解释与应用负责人接收五个文件尚无确认，S2 保留未勾选；本次普通执行与实际经过时间保护不代表 CPU/内存限制或隔离已验证，也不代表 S3 的 Python 演示完成。
+- 下一步：系统负责人确认输入输出理解并交接基础文件，应用负责人按 P1 核对；随后系统推进 S3。
+- AI 协助与人工检查：源码及测试文件由系统负责人编写，AI 在终端独立完成技术检查与记录；没有代替成员声称理解或交接已完成。
+
+### 2026-10-11｜系统负责人操作、AI 辅助教学｜S3 Python 编译子步骤
+- 状态：进行中；Python 调用编译器的子步骤已由本人运行，S3 整体验收尚未完成。
+- 完成：系统负责人按教程编写 `scripts/run_demo.py`，用 `subprocess.run` 调用 g++、打印编译信息，编译失败时退出脚本。
+- 验证：本人反馈编译退出码为 0、编译器信息为空，并显示“编译成功，可执行文件已生成。”；教程入口为 `python3 -m scripts.run_demo`。AI 核对已保存脚本与该步骤一致，本次未独立重复执行。
+- 相关文件：[Python 演示脚本](../archive/2026-11-03_cleanup.md)、[系统 Todo](../tasks/system/todo_stage1_system.md)。
+- 问题与决定：当前脚本仅完成编译；运行两组输入、展示实际与预期输出、保存演示记录仍待完成，S3 保持未勾选。
+- 下一步：在同一脚本末尾增加一次程序运行，通过 `input` 传入 `1 2`，查看程序退出码、标准输出和错误信息；随后再接测试文件。
+- AI 协助与人工检查：AI 提供分步代码与解释、核对文件并更新记录；编写及本次运行由系统负责人操作，未代替本人声称已理解全部流程。
+
+### 2026-10-11｜系统负责人操作、AI 辅助教学｜S3 单次运行子步骤
+- 状态：进行中；通过 Python 传入文本并收集程序输出的子步骤已通过。
+- 完成：本人在脚本中增加一次 `subprocess.run`，以 `input="1 2\n"` 提供输入，打印程序退出码、实际输出和错误信息。
+- 验证：本人反馈编译及程序退出码均为 0，实际输出为 `3\n`，编译器与运行错误信息均为空。AI 已核对保存的脚本；本次未独立重复运行。
+- 相关文件：[Python 演示脚本](../archive/2026-11-03_cleanup.md)、[系统 Todo](../tasks/system/todo_stage1_system.md)。
+- 下一步：读取 `01.in` 和 `01.out`，传入文件中的输入并展示实际、预期输出；之后再扩展第二组和保存演示记录。S3 保持未勾选。
+- AI 协助与人工检查：AI 提供逐步指导和文件检查，本人编写并运行；尚未将该子步骤记为两组文件演示完成。
+
+### 2026-10-11｜系统负责人操作、AI 辅助教学｜S3 第一组文件读取与比对
+- 状态：进行中；01 的文件读取、程序运行和预期输出展示已通过。
+- 完成：本人用 `with open` 读取 `01.in` 与 `01.out`，将输入文本传给程序，打印实际、预期输出及文本是否一致。
+- 验证：本人反馈编译及程序退出码均为 0，实际与预期输出均为 `3\n`，输出一致为 `True`，错误信息为空。AI 已核对已保存脚本；本次未独立重复运行。
+- 相关文件：[Python 演示脚本](../archive/2026-11-03_cleanup.md)、[系统 Todo](../tasks/system/todo_stage1_system.md)。
+- 下一步：用循环处理 01/02 两组，保持编译在循环外执行一次；随后保存演示记录并确认本人能指出关键代码。S3 保持未勾选。
+- AI 协助与人工检查：本人按教程编写并运行，AI 核对文件与反馈结果，尚未声称第二组或日志保存完成。
+
+### 2026-10-11｜系统负责人操作、AI 辅助教学｜S3 两组循环演示
+- 状态：进行中；一次编译、两组文件读取与运行的演示已通过，日志保存及关键代码说明待完成。
+- 完成：本人将单组流程改为遍历 01/02 的循环，读取各组输入与标准答案，独立运行程序并展示结果；编译仍位于循环外。
+- 验证：本人反馈编译退出码为 0，两组程序退出码均为 0，实际与预期输出均为 `3\n`，输出一致均为 `True`，错误信息为空。AI 已核对保存的脚本结构；本次未独立重复运行。
+- 相关文件：[Python 演示脚本](../archive/2026-11-03_cleanup.md)、[系统 Todo](../tasks/system/todo_stage1_system.md)。
+- 下一步：将带日期的演示输出追加保存至 `artifacts/system/stage1_demo.txt`，核对日志，并由本人指出编译、输入和输出的关键代码；S3 保持未勾选。
+- AI 协助与人工检查：本人编写并运行，AI 提供分步教学与文件核对；未提前声称日志保存或全部验收完成。
+
+### 2026-10-11｜系统负责人操作、AI 辅助验收｜S3 完成
+- 状态：已完成 S3；S2 的交接确认、S4 执行工具探索和 S5 共同验收仍按原状态保留。
+- 完成：本人完成 Python 编译与两组文件演示，并用 `tee -a` 将带日期的终端输出保存到 `artifacts/system/stage1_demo.txt`；本人已指出编译、输入、输出各自的代码位置。
+- 验证：本机 Ubuntu，从项目根目录运行 `python3 -m scripts.run_demo`。日志时间为 `2026-10-11T20:14:53+08:00`，编译退出码为 0；01/02 两次程序退出码均为 0，实际与预期输出均为 `3\n`，输出一致均为 `True`，错误信息为空。AI 已读取并核对保存的脚本与日志，本次未独立重复运行。
+- 相关文件：[演示脚本](../archive/2026-11-03_cleanup.md)、[演示记录](../../artifacts/system/stage1_demo.txt)、[系统 Todo](../tasks/system/todo_stage1_system.md)。
+- 问题与决定：本人给出的第 3—21 行是完整编译处理流程，其中第 3—13 行调用 g++，第 15—21 行报告结果及处理失败；第 34 行传入输入，第 40 行通过 `run_result.stdout` 打印实际输出。S3 及“两组正确结果与记录保存”汇总项已勾选；编译失败分支经过代码检查，未额外执行失败样例；本次未验证资源限制或共同联调。
+- 下一步：按 S4 检查候选 Isolate 的要求与本机条件，探索限约 30 分钟，区分已验证、未验证和阻碍后记录。
+- AI 协助与人工检查：本人按分步教程编写、运行、保存日志并回答关键代码问题；AI 辅助解释和核对，更新实际完成状态，保留此前各子步骤历史记录。
+
+### 2026-10-11｜AI 协助核查（系统）｜S4 官方要求与依赖初查
+- 状态：进行中；依赖和官方条件初查已记录，安装与隔离执行尚未验证。
+- 完成：按 S4 查阅 Isolate 官方 README 和手册，检查内核、构建工具、三个开发依赖和 cgroup 挂载情况；补充系统环境记录。
+- 验证：本机内核 `7.0.0-34-generic`，gcc/make/pkg-config 可用，libseccomp-dev `2.6.0-2ubuntu5`、libsystemd-dev `259.5-0ubuntu3.4` 已安装；pkg-config 找不到 libcap，dpkg-query 确认未找到 libcap-dev。PATH 中未找到 isolate；cgroup2 挂载于 `/sys/fs/cgroup`。
+- 相关文件：[系统环境记录](../ops/env_system.txt)、[系统 Todo](../tasks/system/todo_stage1_system.md)；参考 [官方项目](https://github.com/ioi/isolate) 与 [官方手册](https://www.ucw.cz/isolate/isolate.1.html)。
+- 问题与决定：当前缺项是 libcap-dev；普通用户 UID 为 1000，管理员操作与 Isolate 的 setuid/service/cgroup 配置仍待确认。不以 cgroup2 挂载或依赖安装推断沙箱可用，S4 保持未完成。
+- 下一步：补齐缺失依赖，再按官方安装要求逐步验证；首轮探索仍限约 30 分钟，遇到持续安装或权限卡点先记录。
+- AI 协助与人工检查：本次 AI 执行只读检查和文档核对，未安装软件、未修改系统配置、未运行 Isolate。
+
+### 2026-10-11｜系统负责人安装、AI 协助核对｜S4 补齐 libcap-dev
+- 状态：进行中；构建依赖的已知缺项已解决，Isolate 本身尚未验证。
+- 完成：本人执行 `sudo apt install libcap-dev`，安装输出显示配置完成。
+- 验证：AI 实际执行 `pkg-config --modversion libcap` 得到 `2.75`，dpkg-query 显示 `libcap-dev: install ok installed 1:2.75-10ubuntu2`，两次核对成功。
+- 相关文件：[系统环境记录](../ops/env_system.txt)、[系统 Todo](../tasks/system/todo_stage1_system.md)。
+- 下一步：获取官方 Isolate 源码并构建二进制，然后逐步检查安装与运行条件；S4 保持未勾选。
+- AI 协助与人工检查：安装由本人操作，AI 核对实际包状态并保留此前缺失依赖的历史记录；未将依赖安装记为 Isolate 安装或资源限制验证完成。
+
+### 2026-10-11｜系统负责人编译、AI 协助核对｜S4 Isolate 二进制构建
+- 状态：进行中；Isolate 编译与版本查询通过，系统安装和隔离运行待验证。
+- 完成：本人获取官方源码并执行 `make -C work/isolate isolate`，可执行文件保存在临时目录。
+- 验证：本人反馈可执行文件大小为 75816 字节，AI 确认文件存在并实际执行 `./work/isolate/isolate --version`，退出码为 0、版本 2.7。源码提交为 `8f185bb37f3f23e29b33b0c7727c91c13429abe3`（v2.7），源码工作区无改动。
+- 相关文件：[系统环境记录](../ops/env_system.txt)、[系统 Todo](../tasks/system/todo_stage1_system.md)；第三方源码与构建产物在 `work/isolate/`。
+- 问题与决定：已阅读当前官方安装规则；系统安装目标需要辅助程序和配置，并设置官方要求的二进制权限。默认配置引用 isolate 的 subuid/subgid 编号条目，本机尚未设置；此阶段不把版本查询视为沙箱可用。
+- 下一步：准备辅助程序和配置模板、按官方规则安装，再核对权限并配置编号；实际运行与资源限制仍待验证，S4 保持未勾选。
+- AI 协助与人工检查：获取源码及编译由本人操作，AI 阅读本地官方源码并进行版本和环境核对；未执行管理员安装或修改系统配置。
+
+### 2026-10-11｜系统负责人安装、AI 协助检查｜S4 安装与编号配置缺项
+- 状态：进行中；系统安装通过，默认配置尚需补齐沙箱编号。
+- 完成：本人按官方目标安装工具和配置，主机终端反馈版本 2.7，二进制权限为 `-rwsr-xr-x`、归属 root/root；AI 核对系统二进制和配置已存在。
+- 验证：AI 实际运行 `/usr/local/bin/isolate --check-config`，报 `User isolate not found in /etc/subuid`、退出码 2。已核查 UID/GID 60000 无现有用户或组条目，且不在 /etc/subuid、/etc/subgid 的已有范围内。
+- 相关文件：[系统环境记录](../ops/env_system.txt)、[系统 Todo](../tasks/system/todo_stage1_system.md)；系统配置为 `/usr/local/etc/isolate`。
+- 问题与决定：默认 subid_user 项缺对应编号范围；采用官方模板支持的显式编号方式，拟设置 first_uid/first_gid=60000、num_boxes=1，符合当前单槽位方案。修改与验证尚待本人操作；文件归属按主机终端记录，避免将 AI 受限环境中的身份映射显示误认为安装错误。
+- 下一步：本人备份并编辑配置，再运行 --check-config；通过后尝试已知 A+B 的普通隔离运行，资源限制与 cgroup 配置仍单独记录。
+- AI 协助与人工检查：管理员安装由本人完成，AI 只读核查配置与候选编号；未修改系统文件或初始化沙箱，S4 保持未勾选。
+
+### 2026-10-11｜系统负责人配置、AI 协助核对｜S4 编号配置通过
+- 状态：进行中；配置检查通过，实际隔离运行仍待验证。
+- 完成：本人编辑系统配置，停用 subid_user，设置 first_uid/first_gid=60000、num_boxes=1；原始配置备份已存在。
+- 验证：本人反馈 `/usr/local/bin/isolate --check-config` 返回 0，AI 独立执行同一只读检查，退出码为 0、无输出，并读取配置确认活动字段一致。检查时编号 0 的沙箱目录尚不存在，已知 A+B 可执行文件已存在。
+- 相关文件：[系统环境记录](../ops/env_system.txt)、[系统 Todo](../tasks/system/todo_stage1_system.md)；系统配置和备份位于 `/usr/local/etc/`。
+- 下一步：本人在主机终端初始化编号 0 的普通沙箱，复制 A+B，传入 01 输入并保存实际输出和执行元数据；通过后再清理。首轮不带 --cg，CPU/内存限制及 cgroup 模式仍单独记录。
+- AI 协助与人工检查：本人修改配置并运行检查，AI 只读核对文件与检查结果；未在受限工具环境初始化或运行沙箱，S4 保持未勾选。
+
+### 2026-10-11｜AI 协助整理｜clone 后的本机环境准备说明
+- 状态：说明补充完成；不代表其他成员环境或后续评测功能已验收。
+- 完成：新增共用本机准备页，列出不随 clone 获得的临时目录、第三方源码、系统工具与配置，按成员任务说明所需条件；在 README、开工导航、AGENTS 和成员清单加入入口，系统 S2.7 引用该页。同步修正导航中仍称 S3 未实现的旧描述，`.gitignore` 仅补注释，忽略规则不变。
+- 验证：7 份相关说明中的 59 个本地链接均可定位，格式检查通过。AI 在 `/tmp/` 使用当前已提交的源码与两组测试构造干净副本，初始无 `work/stage1/`；按说明创建目录并运行 S3，编译退出码 0，两组程序退出码均为 0、输出一致均为 True。此检查是同一机器的本地复现，不是远端 clone 或其他成员机器的验收；另经只读审查核对说明与实际源码、任务范围一致。
+- 相关文件：[本机准备](../ops/local_setup.md)、[README](../../README.md)、[开工导航](../../README.md)、[项目指导](../project/AGENTS.md)、[算法入口](../tasks/algorithm/todo_stage1_algorithm.md)、[应用入口](../tasks/application/todo_transition_application.md)、[系统复现任务](../tasks/system/todo_stage2_system.md)。
+- 问题与决定：当前 S3 仅用 Python 标准库及 g++，先创建本机临时目录；算法模拟和应用文件/示例页准备不要求预装 Isolate。需要独立隔离运行时另按自己的机器准备指定版本、权限及编号。Isolate 说明仅到本机已通过的安装和配置检查，初始化、隔离运行、清理及资源限制仍待验证。
+- 下一步：继续 S4 的首次 A+B 普通隔离运行并核对实际输出与元数据；后续阶段复现说明引用本页，补充已实现命令和证据。S4、成员 A1/P0/P4 和系统 S2.7 保持原完成状态。
+- AI 协助与人工检查：AI 根据用户要求补文档并做本地干净副本检查，未修改业务源码、执行系统安装、代替其他成员验收或自动同步 GitHub。
+
+### 2026-10-12｜系统负责人运行、AI 协助核对｜S4 首次普通模式运行通过
+- 状态：普通模式运行验证通过，沙箱清理待收尾；S4 暂保留未勾选。
+- 完成：本人按指导初始化编号 0 的沙箱、复制 A+B，并在不带 --cg 的普通模式下运行 01 输入，设置 --wall-time=5，保存实际输出与执行元数据。
+- 验证：本人反馈各步输出符合预期；AI 读取文件，确认实际输出为 `3\n`、与 01.out 字节一致，元数据 exitcode 为 0。time 与 time-wall 均为 0.004 秒，max-rss 为 4072 kilobytes；证据文件修改时间为 2026-10-12 13:47:52（Asia/Shanghai）。AI 检查编号 0 的沙箱目录仍存在，本次未重新运行程序或清理沙箱。
+- 相关文件：[实际输出](../../artifacts/system/stage1_isolate.actual.out)、[执行元数据](../../artifacts/system/stage1_isolate.meta)、[环境记录](../ops/env_system.txt)、[系统 Todo](../tasks/system/todo_stage1_system.md)、[本机准备说明](../ops/local_setup.md)。README 和本机准备页已同步当前验证状态。
+- 问题与决定：证据只覆盖第一组正常 A+B；时间与内存数值是本次测量，不能据此确认超时触发、CPU/内存限制、TLE/MLE 或 cgroup 委派有效。5 秒实际经过时间保护的设置来自执行命令，元数据不包含全部运行选项。
+- 下一步：本人执行 `/usr/local/bin/isolate --box-id=0 --cleanup` 并确认退出码，再核对沙箱目录已移除、仓库证据仍在，完成 S4 收尾。
+- AI 协助与人工检查：本人在主机终端执行初始化与运行；AI 读取证据、核对工具字段含义并更新记录，保留未验证状态。
+
+### 2026-10-12｜系统负责人清理、AI 协助验收｜S4 完成
+- 状态：已完成 S4 执行工具可行性检查；后续资源限制与共同验收仍待验证。
+- 完成：本人执行 `/usr/local/bin/isolate --box-id=0 --cleanup`，反馈退出码为 0；Isolate 安装、配置、普通模式初始化、第一组 A+B 运行与清理的流程已走通。
+- 验证：AI 只读检查确认 `/var/local/lib/isolate/0` 已不存在；实际输出仍为 `3\n`、与 01.out 一致，元数据及 exitcode:0 完整保留。本次没有重跑程序或修改运行证据。
+- 相关文件：[实际输出](../../artifacts/system/stage1_isolate.actual.out)、[执行元数据](../../artifacts/system/stage1_isolate.meta)、[环境记录](../ops/env_system.txt)、[系统 Todo](../tasks/system/todo_stage1_system.md)、[本机准备](../ops/local_setup.md)。README 与本机准备页已同步验收状态。
+- 问题与决定：S4 及“环境与执行工具的验证状态有记录”汇总项已勾选。当前证据仅覆盖正常样例的普通执行；CPU/内存限制、cgroup 模式、超时触发、TLE/MLE 及完整隔离边界未验证。S2 材料交接、S5 共同验收和其他成员任务保留原状态。
+- 下一步：按过渡安排进入第二阶段，先做 S2.1 接口自查并与应用负责人核对材料，算法方复核随其恢复安排；之后推进 S2.2 配置读取。
+- AI 协助与人工检查：本人执行清理，AI 核对目录与证据、更新实际完成记录；未代替其他成员确认环境或共同验收。
+
+### 2026-10-20｜系统负责人操作、AI 协助核对｜S2.2 临时配置准备
+- 状态：进行中；临时配置准备与 JSON 语法检查通过，读取和校验模块尚未实现。
+- 完成：本人在 `work/stage2_fixture/a_plus_b/` 准备临时 `problem.json` 和 01/02 四个输入输出文件；两组各 30 分，总分 60，只用于独立学习与模块检查。
+- 验证：本人从项目根目录运行 `python3 -m json.tool work/stage2_fixture/a_plus_b/problem.json`，反馈正常格式化输出。AI 在当前 Ubuntu 工作区用 Python 标准库独立解析配置，确认字段与两组记录一致，并逐一核对复制的四个测试文件均存在、与 `problems/a_plus_b/tests/` 中原件字节一致。
+- 相关文件：[系统第二阶段 Todo](../tasks/system/todo_stage2_system.md)、[今日备忘](notes/notes_2026-10-20.md)；临时配置与副本位于被 Git 忽略的 `work/stage2_fixture/a_plus_b/`，不作为正式题目包交付。
+- 问题与决定：本次只确认临时材料和 JSON 可解析；测试点编号、文件配对、路径与分值的程序校验、缺文件时报错停止及正式三组配置验收均未完成。S2.2 和 S2.1 共同确认保持未勾选。
+- 下一步：编写最小读取演示，打印题目编号、测试点编号、相对于配置目录拼接的输入输出路径与分值，再逐项提取函数和增加校验。
+- AI 协助与人工检查：文件准备及 `json.tool` 检查由本人操作；AI 只读核对文件并更新实际记录，未代替本人声称已理解路径或完成配置校验。
+
+### 2026-10-20｜系统负责人编写、AI 协助验证｜S2.2 临时配置读取演示
+- 状态：读取演示子步骤已完成，S2.2 整项进行中；今日路径规则的本人解释待确认。
+- 完成：本人编写 `scripts/read_problem.py`，用 `json.load` 读取临时配置，遍历测试点，用配置所在目录拼接输入输出路径，并累加配置分值。
+- 验证：本人反馈正常输出；AI 在当前 Ubuntu 工作区从项目根目录执行 `python3 -m scripts.read_problem`，退出码 0。输出题目编号 `a_plus_b`、测试点 01/02、对应的 `work/stage2_fixture/a_plus_b/tests/` 下输入输出路径、各 30 分及配置总分 60，与本人反馈一致。
+- 相关文件：[读取演示](../archive/2026-11-03_cleanup.md)、[今日备忘](notes/notes_2026-10-20.md)、[系统第二阶段 Todo](../tasks/system/todo_stage2_system.md)。临时配置仍在被 Git 忽略的 `work/` 中。
+- 问题与决定：今日 30—45 分钟小任务的代码与运行目标已达到；路径规则的本人确认仍保留待完成。配置总分不是评测得分，本次未运行 C++ 提交；路径存在性、重复编号、分值合法性和缺文件报错等程序校验及正式三组题目包验收尚未完成。
+- 教学反馈：本人正确指出测试文件所在的临时 `tests/` 目录，并反馈当前未见 `source_path`。补充说明：当前题目配置不含 `source_path`，该字段属于后续提交任务；测试路径以配置所在目录为起点，拼接后指向具体文件。本人对相对路径起点的复述尚未取得，不提前勾选理解项。
+- 下一步：今日代码与运行练习在此收尾；下次开工先核对路径规则理解，再增加测试文件存在性检查，逐步完成 S2.2。
+- AI 协助与人工检查：本人按教程编写并运行，AI 阅读脚本、独立执行核对并更新实际记录，未代替本人声称理解或共同验收完成。
+
+### 2026-10-21｜系统负责人编写、AI 协助验证｜S2.2 文件检查的正常流程
+- 状态：进行中；文件检查代码及正常配置验证通过，缺失输出与恢复后的验证待完成。
+- 完成：本人在 `scripts/read_problem.py` 中对拼接后的输入、标准答案路径调用 `is_file()`，文件缺失时抛出带路径的 `FileNotFoundError`；两处检查位于循环内、当前测试点打印与分数累计之前。
+- 验证：本人从项目根目录运行 `python3 -m scripts.read_problem` 后紧接执行 `echo $?`，反馈两组信息完整、各 30 分、配置总分 60、退出码 0。AI 在当前 Ubuntu 工作区独立运行同一 Python 入口，退出码 0，输出与本人反馈一致。
+- 相关文件：[读取演示](../archive/2026-11-03_cleanup.md)、[今日备忘](notes/notes_2026-10-21.md)、[系统第二阶段 Todo](../tasks/system/todo_stage2_system.md)。
+- 问题与决定：本次只实测文件齐全的正常流程；缺文件分支尚未实际执行，不能据此声称缺失路径报错验收通过。正式模块、其他配置校验与三组题目包验收仍未完成，S2.2 保持未勾选。
+- 下一步：仅修改临时配置第二组的 `output` 为 `tests/02_missing.out`，核对错误路径和非零退出码；随后立即恢复 `tests/02.out` 并复跑，四个测试文件保持原位。
+- AI 协助与人工检查：本人编写并运行，AI 阅读代码、独立验证正常流程并记录实际结果；未修改临时配置或代替本人执行缺文件练习。
+
+### 2026-10-21｜系统负责人运行、AI 协助核对｜S2.2 缺失输出与恢复验证
+- 状态：今日文件检查小任务已完成；S2.2 整项仍进行中。
+- 完成：本人仅修改临时配置第二组的 `output` 来验证缺失标准答案，随后恢复为 `tests/02.out` 并复跑；AI 核对恢复状态、整理三次运行证据并更新今日清单。
+- 验证：本人从项目根目录执行 `python3 -m scripts.read_problem` 并紧接 `echo $?`。正常配置完整输出、退出码 0；缺失第二组标准答案时，第一组信息正常打印，随后出现包含 `work/stage2_fixture/a_plus_b/tests/02_missing.out` 的 `FileNotFoundError`，未打印最终总分，退出码 1；恢复后两组信息与配置总分 60 完整输出，退出码 0。AI 只读核对当前第二组 `output` 已恢复、四个输入输出文件均为现有文件。
+- 相关文件：[运行记录](../../artifacts/system/stage2_file_check_20261021_ed84e112/read_problem.txt)、[读取演示](../archive/2026-11-03_cleanup.md)、[今日备忘](notes/notes_2026-10-21.md)、[系统第二阶段 Todo](../tasks/system/todo_stage2_system.md)。
+- 问题与决定：本次验证读取演示的文件检查和异常退出，尚未形成正式评测的 `SYSTEM_ERROR` 结果；缺失输入分支未单独实测。模块提取、编号与分值校验、正式三组题目包及共同复核继续保留待完成，不勾选整个 S2.2。
+- 下一步：提取读取与文件检查函数到 `judge/problem.py`，让演示脚本调用后打印结果；逐步补齐其余配置校验。
+- AI 协助与人工检查：缺失输出与恢复运行由本人操作并提供终端结果；AI 未重做缺文件练习，只读核对恢复状态并按本人反馈保存证据，未代替本人声称理解或共同验收完成。
+
+### 2026-10-21｜系统负责人编写、AI 协助验证｜S2.2 读取模块提取的正常流程
+- 状态：进行中；函数提取与正常调用已通过，提取后的缺失标准答案及恢复验证待完成。
+- 完成：本人新建 `judge/problem.py`，将 JSON 读取和文件检查封装为 `load_problem(config_path)`，检查全部测试点后返回原字典；演示脚本导入调用函数，再展示路径并累计配置分值。原 JSON 字段保持不变。
+- 验证：本人运行 `python3 -m scripts.read_problem` 后查看退出码，反馈两组信息、配置总分 60、退出码 0；AI 在当前 Ubuntu 工作区从项目根目录独立运行同一入口，输出一致、退出码 0。代码检查确认函数没有打印、`return` 位于循环结束之后，演示打印发生在函数成功返回之后。
+- 相关文件：[配置模块](../../judge/problem.py)、[读取演示](../archive/2026-11-03_cleanup.md)、[今日备忘](notes/notes_2026-10-21.md)、[系统第二阶段 Todo](../tasks/system/todo_stage2_system.md)。
+- 问题与决定：提取前的缺失与恢复验证记录继续保留；提取后因检查先于展示执行，缺文件时不会先打印题目编号或第一组信息，该变化仍待实际验证。编号、分值校验和正式三组题目包验收未完成，S2.2 保持未勾选。
+- 下一步：本人再次用第二组不存在的标准答案路径验证异常及非零退出，再立即恢复配置并复跑正常流程。
+- AI 协助与人工检查：本人编写并运行，AI 核对函数结构、独立验证正常入口并记录实际结果；提取后的异常场景与恢复留待本人操作。
+
+### 2026-10-21｜系统负责人运行、AI 协助核对｜S2.2 读取模块提取完成
+- 状态：追加的函数提取小任务已完成；S2.2 整项仍进行中。
+- 完成：`load_problem(config_path)` 负责读取配置、检查输入和标准答案文件，成功后返回原字典；演示脚本负责调用和展示。本人补齐提取后的缺失标准答案与恢复运行，验证先检查后展示的流程。
+- 验证：本人从项目根目录运行 `python3 -m scripts.read_problem` 并紧接 `echo $?`，正常、缺失标准答案及恢复后三种情况退出码依次为 0、1、0。异常出现在 `load_problem` 内，消息包含 `tests/02_missing.out` 的具体路径，题目编号、测试点信息及总分均未先打印；恢复后两组信息与配置总分 60 完整输出。AI 只读确认当前第二组 `output` 为 `tests/02.out`，四个文件均存在。
+- 相关文件：[模块提取运行记录](../../artifacts/system/stage2_problem_module_20261021_8855b6d0/read_problem.txt)、[配置模块](../../judge/problem.py)、[读取演示](../archive/2026-11-03_cleanup.md)、[今日备忘](notes/notes_2026-10-21.md)、[系统第二阶段 Todo](../tasks/system/todo_stage2_system.md)。
+- 问题与决定：本次建立了可供后续入口调用的配置读取与文件检查函数，尚未接入编译、运行和判定。编号、分值校验、正式三组题目包、共同复核仍未完成；缺失输入分支未单独实测，S2.2 保持未勾选。
+- 下一步：增加测试点编号检查，包括重复编号；继续按小任务验证，不扩展到后续编译或评测功能。
+- AI 协助与人工检查：函数与演示由本人按教程编写，三种情况由本人运行；AI 此前独立验证正常入口，本次核对恢复状态、保存本人反馈的运行证据并更新记录，未代替本人声称理解或共同验收完成。
+
+### 2026-10-22｜系统负责人编写、AI 协助验证｜S2.2 编号检查的正常流程
+- 状态：进行中；编号检查代码已增加，正常配置验证通过，重复编号、空字符串及恢复验证待完成。
+- 完成：本人在 `load_problem` 中创建编号集合，循环开头读取 `case_id`，检查非空字符串和重复编号，通过后加入集合，再继续原有文件检查。编号保持原字符串，不转换或修剪。
+- 验证：本人从项目根目录运行 `python3 -m scripts.read_problem` 并紧接 `echo $?`，反馈编号 01/02、两组路径与各 30 分、配置总分 60、退出码 0；AI 在当前 Ubuntu 工作区独立执行同一入口，输出一致、退出码 0。代码核对确认集合在循环外、合法性检查在查重之前、先查重再加入，`return` 位于循环外。
+- 相关文件：[配置模块](../../judge/problem.py)、[读取演示](../archive/2026-11-03_cleanup.md)、[今日备忘](notes/notes_2026-10-22.md)、[系统第二阶段 Todo](../tasks/system/todo_stage2_system.md)。
+- 问题与决定：本次只实测正常配置，不能据此声称编号错误分支通过。重复、空字符串及恢复运行尚未执行；分值、正式三组题目包与共同复核继续待完成，S2.2 保持未勾选。
+- 下一步：仅修改临时配置第二组 `case_id`，依次验证重复编号 01、空字符串，再恢复 02 并复跑正常流程。
+- AI 协助与人工检查：本人编写并运行，AI 只读核对代码与临时配置、独立验证正常入口并更新实际记录；编号异常场景留待本人操作。
+
+### 2026-10-22｜系统负责人运行、AI 协助核对｜S2.2 编号检查小任务完成
+- 状态：今日编号检查小任务已完成；S2.2 整项仍进行中。
+- 完成：本人补齐重复编号、空字符串与恢复运行，验证新增编号检查能在演示展示前拒绝这两类配置错误，最后恢复为正常 01/02。
+- 验证：本人从项目根目录执行 `python3 -m scripts.read_problem` 并紧接 `echo $?`。此前正常配置退出码 0；第二组编号改为 01 时，出现 `ValueError: 测试点编号重复：01`、退出码 1；改为空字符串时，出现 `ValueError: 测试点编号必须是非空字符串`、退出码 1；恢复为 02 后，完整输出两组信息与配置总分 60、退出码 0。两次异常均未先打印题目、测试点或总分。
+- 相关文件：[编号检查运行记录](../../artifacts/system/stage2_case_ids_20261022_399298a0/read_problem.txt)、[配置模块](../../judge/problem.py)、[今日备忘](notes/notes_2026-10-22.md)、[系统第二阶段 Todo](../tasks/system/todo_stage2_system.md)。
+- 问题与决定：AI 只读核对当前编号为 01/02、标准答案路径为原值、四个文件均存在，配置已恢复。缺失编号、纯空白和非字符串未分别实测；分值校验、正式三组配置及共同复核仍待完成，不勾选整个 S2.2。
+- 下一步：增加分值合法性检查，继续使用临时两组配置按小任务验证；正式三组题目包待交付后验收。
+- AI 协助与人工检查：异常与恢复由本人实际操作并提供终端结果；AI 此前独立验证正常入口，本次仅核对恢复状态、保存本人反馈的证据并更新记录，未代替本人声称理解或共同验收完成。
+
+### 2026-10-25｜系统负责人编写运行、AI 补测｜S2.2 分值检查完成
+- 状态：分值检查小任务已完成；S2.2 正式三组配置验收及成员复核仍待完成。
+- 完成：本人在 `load_problem` 中增加分值检查，采用非负整数口径、允许 0，错误消息包含测试点编号；实际规则同步共同约定，其他成员尚待复核。
+- 验证：本人从根目录运行 `python3 -m scripts.read_problem` 并查看退出码，正常数字 30、负数 -1、字符串 `"30"`、恢复数字 30 四次有效结果为 0、1、1、0；两次错误均明确指出测试点 02 的分值必须为非负整数，恢复后完整输出总分 60。粘贴时夹入字符的一次命令输入失败不计入功能验证。
+- AI 补测：独立临时副本中第二组为 0 时通过、总分 30、退出码 0；JSON `true` 被拒绝、错误含测试点 02、退出码 1。原临时配置前后字节及 SHA256 一致，当前两组均为整数 30、四个文件存在。小数等未单独实测的类型不记为分别验证通过。
+- 相关文件：[本人分值运行记录](../../artifacts/system/stage2_scores_20261025_a2681a90/read_problem.txt)、[AI 补测清单](../../artifacts/system/20261025_score_edges_ai_15667cda/manifest.json)、[配置模块](../../judge/problem.py)、[共同约定](../specs/stage1_agreement.md)、[今日备忘](notes/notes_2026-10-25.md)、[系统第二阶段 Todo](../tasks/system/todo_stage2_system.md)。
+- 问题与决定：临时两组配置不替代正式三组题目包，S2.2 保持未勾选；AI 实测不代替本人手动检查或成员复核。此前文件与编号检查记录继续保留。
+- 下一步：进入 S2.3 的最小编译函数与独立演示，先验证正确 A+B 的成功编译与产物存在，再按小任务补齐其余验收。
+- AI 协助与人工检查：业务代码及四次有效运行由本人完成；AI 执行独立边界补测、核对恢复状态、整理证据并同步实际规则与记录。
+
+### 2026-10-25｜系统负责人编写运行、AI 协助核对｜S2.3 正确源码首次独立编译
+- 状态：正确源码首次编译子步骤已完成；S2.3 整项仍进行中，今日两项小目标已取得实际结果。
+- 完成：本人实现 `judge/compiler.py` 的 `compile_cpp(source_path, build_dir)`，将编译步骤封装为函数，创建全新任务目录并返回成功状态、编译器退出码、产物路径及标准错误输出；独立演示入口生成 UUID 运行编号并调用该函数。
+- 验证：本人从项目根目录运行 `python3 -m scripts.compile_demo` 并查看退出码，反馈编译退出码 0、success=True、编译器信息为空、产物存在 True、脚本退出码 0。AI 只读核对本人运行生成的 `work/compile_789924cac38b4977a31ca45b67bddfed/T1/program`，确认是现有文件、有可执行权限、大小 16368 字节；本次未重编译或运行产物。
+- 相关文件：[首次独立编译证据](../../artifacts/system/compile_789924cac38b4977a31ca45b67bddfed/compile_demo.txt)、[编译模块](../archive/2026-11-03_cleanup.md)、[编译演示](../archive/2026-11-03_cleanup.md)、[今日备忘](notes/notes_2026-10-25.md)、[系统第二阶段 Todo](../tasks/system/todo_stage2_system.md)。
+- 问题与决定：当前只验证正确源码编译成功，不等于整份评测 AC。语法错误、工具缺失、超时、旧目录/旧产物保护的实际验证、`run_demo.py` 接入及编译失败后不运行测试点的整合路径尚未验收，S2.3 保持未勾选。
+- 下一步：用 `work/` 中的临时语法错误源码验证失败返回与实际诊断，继续保留正式 CE 样例给应用负责人；之后再逐项接入调用方与补齐验收。
+- AI 协助与人工检查：业务代码与成功编译由本人完成，AI 阅读代码、核对已有产物并保存本人反馈的证据，未代替本人声称理解或共同验收完成。
+
+### 2026-10-25｜AI 独立实测（系统）｜S2.3 已有任务目录保护
+- 状态：模块拒绝复用已有目录的边界验证通过；S2.3 整项仍进行中。
+- 完成：在独立 `work/` 目录中准备已存在的任务目录和固定内容的 `program` 哨兵文件，调用真实 `compile_cpp` 检查拒绝复用行为。
+- 验证：函数在 `mkdir(..., exist_ok=False)` 处抛出 `FileExistsError`，测试子进程退出码 1；哨兵文件前后字节及 SHA256 一致，源码与编译模块字节未变，未运行任何产物。
+- 相关文件：[AI 补测清单](../../artifacts/system/20261025_compile_existing_dir_ai_296349b6/manifest.json)、[实际命令与输出](../../artifacts/system/20261025_compile_existing_dir_ai_296349b6/existing_build_dir.txt)、[今日备忘](notes/notes_2026-10-25.md)。
+- 问题与决定：此项仅证明模块拒绝已有构建目录，不代替本人语法错误验证或 `run_demo.py` 编译失败后不进入测试循环的整合验收；其他未完成项继续保留。
+- 下一步：本人使用临时语法错误源码验证编译失败与恢复，然后将编译函数接入现有两组演示。
+- AI 协助与人工检查：本条全部为 AI 在独立目录中的实际检查，没有修改业务源码、用户示例或配置，不记作本人手动检查或共同验收。
+
+### 2026-10-25｜系统负责人运行、AI 协助核对｜S2.3 独立编译失败与恢复
+- 状态：独立编译失败子步骤已通过，调用方接入及整合验证仍待完成，S2.3 保持进行中。
+- 完成：本人在 `work/stage2_fixture/compile_error.cpp` 准备缺分号的临时源码，临时修改独立编译演示的输入，取得失败结果后恢复正确 A+B 调用并复跑。正式 CE 样例继续由应用负责人维护。
+- 验证：本人运行 `python3 -m scripts.compile_demo` 并查看退出码。错误源码时编译退出码 1、success=False、产物路径 None，实际诊断为缺少分号，脚本退出码 1；恢复后编译退出码 0、success=True、产物存在 True、脚本退出码 0。
+- 相关文件：[独立编译失败与恢复记录](../../artifacts/system/stage2_compile_failure_20261025_b89cc0ff/compile_demo.txt)、[编译模块](../archive/2026-11-03_cleanup.md)、[独立演示](../archive/2026-11-03_cleanup.md)、[今日备忘](notes/notes_2026-10-25.md)。
+- 问题与决定：AI 只读确认独立演示当前已恢复、`work/compile_ec4de89ce3ab490fb954de8d823ce518/T1/program` 存在且有可执行权限。失败反馈未显示 run_id，不声称已将该次失败与具体目录绑定。`work/stage1/a_plus_b` 旧产物仍存在；接入后须验证使用本次新路径，并在失败时不进入测试循环。
+- 下一步：将 `run_demo.py` 编译部分改为调用函数，打印本次目录并让运行循环使用返回路径；按正常、错误、恢复验证整合行为。
+- AI 协助与人工检查：临时源码与两次运行由本人完成，AI 阅读文件、核对恢复状态并保存本人反馈；本次未额外编译或执行产物，也未代替本人完成整合验收。
+
+### 2026-10-25｜系统负责人运行、AI 协助验收｜S2.3 完成
+- 状态：S2.3 已按原标准验收完成；S2.2 正式题目包与成员复核、S2.4 及以后任务仍待完成。
+- 完成：本人将编译函数接入 `run_demo.py`，在循环外编译一次、成功后让两个测试点使用本次返回路径；失败时在测试循环前退出，每次使用独立运行编号和任务目录。
+- 验证：本人正常、语法错误、恢复三次运行的脚本退出码依次为 0、1、0；正常及恢复时两组程序退出码均为 0、输出均为 `3\n`、两次比对均为 True；错误时保留实际编译诊断且没有任何测试点输出。AI 只读确认两次成功目录的 `program` 存在且可执行，失败目录存在但无 `program`，当前源码调用已恢复，循环使用返回路径。第一阶段旧产物仍在，但不在活动运行路径中。
+- 相关文件：[正常运行](../../artifacts/system/demo_0025b67aa66644b8ae2b2dab4fecd207/run_demo.txt)、[失败阻断](../../artifacts/system/demo_6e6071700a314702bdd56aa51626eed1/run_demo.txt)、[恢复运行](../../artifacts/system/demo_9ce35e5931d847ddbc52449a2d40e209/run_demo.txt)、[调用方](../archive/2026-11-03_cleanup.md)、[编译函数](../archive/2026-11-03_cleanup.md)、[今日备忘](notes/notes_2026-10-25.md)、[系统清单](../tasks/system/todo_stage2_system.md)。
+- 问题与决定：已有目录拒绝复用另有 AI 实测证据。旧代码保留为注释，不参与执行；第一阶段原始日志保持原样。复现说明仅同步自动目录与已实现模块的技术事实，不修改团队排期。正式 AC/WA/CE/RE 结果、计分汇总、编译和运行保护超时及资源限制未因本项完成而验收。
+- 下一步：进入 S2.4，逐步提取运行、比对与汇总逻辑，继续按小任务验证。
+- AI 协助与人工检查：三次整合运行均由本人完成，AI 审查代码、核对实际目录与产物、整理证据、更新 Todo 和必要复现描述；本次没有额外重编译或执行产物，不代替成员共同确认。
+
+### 2026-10-28｜系统负责人编写运行、AI 协助核对｜S2.4 输出比对函数
+- 状态：输出比对函数与演示接入的小任务已完成；S2.4 整项进行中。
+- 完成：本人新建 `judge/checker.py`，只将 CRLF、CR 统一为 LF 后精确比较；编写六项断言演示，并在两组运行脚本中调用 `check_output`，保留空格及末尾换行差异。
+- 验证：本人从项目根目录运行 `python3 -m scripts.checker_demo`，六项通过、退出码 0；随后运行 `python3 -m scripts.run_demo`，编译退出码 0、两组程序退出码 0、实际和预期均为 `3\n`、两次比较均为 True、脚本退出码 0。AI 只读确认源代码和断言符合约定、调用方确实使用新函数，`work/demo_cd335d6ad2ab420b9afa8cef07370394/T1/program` 存在且可执行。
+- 相关文件：[规则验证证据](../../artifacts/system/demo_cd335d6ad2ab420b9afa8cef07370394/checker_demo.txt)、[两组接入证据](../../artifacts/system/demo_cd335d6ad2ab420b9afa8cef07370394/run_demo.txt)、[比对函数](../archive/2026-11-03_cleanup.md)、[规则演示](../archive/2026-11-03_cleanup.md)、[调用方](../archive/2026-11-03_cleanup.md)、[今日备忘](notes/notes_2026-10-28.md)、[系统清单](../tasks/system/todo_stage2_system.md)。
+- 问题与决定：文本相等的布尔值不单独代表完整 AC；运行模块、服务、正式 AC/WA/CE/RE 判定、分数汇总与保护超时尚未完成。S2.4 保持未勾选，S2.2 正式题目包与成员复核状态不变。
+- 下一步：提取程序运行函数到 `judge/runner.py`，逐步加入退出状态与实际经过时间保护。
+- AI 协助与人工检查：新代码及两个入口运行由本人完成；AI 只读审查、核对已有产物并保存本人反馈的证据，本次未重跑脚本或编译程序，不代替本人声称理解或共同验收完成。
+
+### 2026-11-03｜AI 协助实现、用户指定架构｜CoreUML 原生评测服务端原型
+- 状态：原型链路已验证；生产 Python 结果层待系统负责人接手，尚未共同验收。
+- 完成：按 [CoreUML.md](../design/CoreUML.md) 新增 `judge/native/eval_server.cpp`，实现 EvalServer、有界 RequestQueue、线程池、JudgeCore（fork/exec/wait4）、ResourceLimiter（RLIMIT_CPU/AS/FSIZE/CORE）、Comparator、Verdict 与 4 字节大端长度前缀 JSON 协议；新增 `judge/native/Makefile`、`judge/native/README.md` 和参考客户端 `scripts/demo_eval_pipeline.py`。按用户要求将输入文件缺失等内部守护进程不会出现的防御分支精简。
+- 验证：本机执行 `make -C judge/native` 编译通过；`python3 -m scripts.demo_eval_pipeline` 得到 sub_ab=AC、sub_wa=WA、sub_ce=CE、sub_re=RE、sub_tle=TLE、sub_ole=OLE，六项均与预期一致；`make -C judge/native sanitize` 后用 ASan/UBSan 版本复跑，六项结果一致。报告保存在 [本次证据](../archive/2026-11-03_cleanup.md)，说明见 [manifest](../archive/2026-11-03_cleanup.md)。
+- 相关文件：[C++ 服务端](../../judge/native/eval_server.cpp)、[构建](../../judge/native/Makefile)、[协议与交接](../../judge/native/README.md)、[参考客户端](../archive/2026-11-03_cleanup.md)、[部署与使用](../ops/deployment.md)、[CoreUML](../design/CoreUML.md)。
+- 问题与决定：C++ 只做单测试点执行、资源限制、原始时间和内存采集与单点判定；提交级 ResultAggregator、最终结果 JSON/状态保存和 MLE 口径由系统负责人用 Python 实现。未修改现有 `judge/compiler.py`、`judge/checker.py`；新协议尚未写入 [共同约定](../specs/stage1_agreement.md)，待系统负责人确认是否保留 C++ 服务端后再同步。
+- 下一步：系统负责人复核协议与 `judge/native/README.md`，决定保留原生服务端还是改回纯 Python，并接生产 Python 结果层；确认后更新共同约定与系统 Todo。
+- AI 协助与人工检查：代码、构建和六项运行均由 AI 完成；用户提供 CoreUML 架构并要求精简内部防御分支。尚无成员人工复核、本人解释或共同验收，不把本次 AI 实测记为系统功能验收完成。
+
+### 2026-11-03｜AI 协助实现、用户指定 reroll 架构｜test_pipeline 守护进程重构
+- 状态：新链路已完成本机 AI 实测；`reroll` 分支改动未提交，待成员复核与共同验收。
+- 完成：按用户要求把入口改为根目录 `test_pipeline.py`：启动时加载 `problems/*/problem.json`，前台监听 `submissions/`，编译 `编号__题目ID.cpp`，自动启动 C++ 服务端，结果追加到 `result/result.tsv`。新增 `judge/pipeline.py`；`judge/problem.py` 改为 dataclass 并派生每个测试点 `out_bytes`；`judge/native/eval_server.cpp` 改为 common/special、wall=cpu、`result_dir` 输出、输出超限归入 WA；修正两个 problem.json 的 compare_mode、删除 legacy 字段，并把 sabotage 的 12/13/14 修正为各自 input/output。新增单文件 `judge/test_judge.py`（配置、流水线单元与端到端测试合并）。
+- 验证：`python3 -m unittest judge.test_judge -v` 9 项通过（合成题目/提交，覆盖 AC/WA/超限 WA/TLE/CE/RE/多测试点/special/空输出）；ASan/UBSan 版本同样 9 项通过；运行 `python3 test_pipeline.py` 实际处理用户放入的两个提交，`00000001__lazy_gold.cpp` 得 AC 11/11、`00000002__sabotage.cpp` 得 AC 14/14，结果见 [result.tsv](../../result/result.tsv) 和 `submissions/<stem>__result/`。
+- 相关文件：[入口](../../test_pipeline.py)、[配置模型](../../judge/problem.py)、[流水线](../../judge/pipeline.py)、[C++ 服务端](../../judge/native/eval_server.cpp)、[协议](../../judge/native/README.md)、[部署](../ops/deployment.md)、[共同约定 reroll 节](../specs/stage1_agreement.md)、[测试证据](../../artifacts/system/20261103_reroll_tests_ai/manifest.json)。
+- 问题与决定：按用户口径不计算 score（ACM：全部 AC 才 AC，否则第一个非 AC）；common 输出上限为 trim 后标准答案字节数，OLE 归入 WA；special 本期只保留枚举并返回 SE；`submissions/` 运行内容被 `.gitignore` 忽略，`result/result.tsv` 作为运行日志保留。旧的 `scripts/demo_eval_pipeline.py`、`run_demo.py`、`compile_demo.py` 已删除/退休；旧 `judge/checker.py` 与 `checker_demo.py` 保留为 Stage1 exact 对照。
+- 下一步：成员复核新 problem.json/协议与 `reroll` 分支改动；确认后再提交，并继续处理旧 Todo/历史文档中仍写 a_plus_b/examples 的条目。
+- AI 协助与人工检查：代码、测试、构建与运行均由 AI 完成；用户提供了 submissions 中的真实提交、problem.json 与口径调整。尚无成员人工复核、本人解释或共同验收，不把本次 AI 实测记为系统功能验收完成。
+
+### 2026-11-03｜AI 协助整理、用户指定｜删除 test_judge.py，原生二进制与源码同目录
+- 状态：清理完成；通用运行时流程仍在 `judge/pipeline.py`，`reroll` 分支未提交。
+- 完成：确认 `judge/pipeline.py` 是通用流程（扫描 `problems/`、监听 `submissions/`、编译/评测/聚合/写 TSV），`test_pipeline.py` 只是前台入口；`judge/test_judge.py` 仅为测试脚本，按用户要求删除。`judge/native/Makefile` 产物统一为 `judge/native/eval_server` 和 `judge/native/eval_server_asan`（与源码同目录）；`.gitignore` 忽略这两个二进制；删除 `work/build` 下的旧二进制；同步 [deployment.md](../ops/deployment.md) 与 [START_HERE.md](../../README.md) 中的路径和验证说明。
+- 验证：`make -C judge/native` 成功；`python3 test_pipeline.py` 使用默认 `judge/native/eval_server` 处理现有两个真实提交，`00000001__lazy_gold.cpp` 仍为 AC 11/11、`00000002__sabotage.cpp` 仍为 AC 14/14。此前的单文件测试日志保留在 [测试证据](../../artifacts/system/20261103_reroll_tests_ai/manifest.json)，但测试脚本已按用户要求删除。
+- 相关文件：[通用流程](../../judge/pipeline.py)、[配置模型](../../judge/problem.py)、[前台入口](../../test_pipeline.py)、[C++ 服务端](../../judge/native/eval_server.cpp)、[构建](../../judge/native/Makefile)、[部署](../ops/deployment.md)。
+- 问题与决定：`judge/pipeline.py` 不针对当前 `submissions/` 中的具体文件名做特化；文件名只按 `编号__题目ID` 解析，问题来自 `problems/*/problem.json`。`judge/compiler.py`、`judge/checker.py` 是 Stage1 遗留模块，新链路不调用。
+- 下一步：成员复核通用流程与文档；确认后再提交。
+- AI 协助与人工检查：清理与复跑由 AI 完成；用户指定删除测试文件并要求二进制与源码同目录。尚无成员人工复核或共同验收。
+
+### 2026-11-03｜AI 协助整理、用户指定｜Markdown 归档与弃用文件清理
+- 状态：完成；根目录只保留 `README.md`，`reroll` 分支未提交。
+- 完成：按用户要求删除 `START_HERE.md`、`TRANSITION_PLAN.md`、`Linux_prompt_initialize.md`、`old/plan.md`、`judge/compiler.py`、`judge/checker.py`、旧原型证据以及缓存/空目录；将 Markdown 归入 `docs/project`、`docs/design`、`docs/ops`、`docs/specs`、`docs/tasks`、`docs/records`、`docs/archive`；根 `README.md` 重写为唯一总索引；批量修正移动后的相对链接。另删除 `judge/native/eval_server_asan` 调试二进制，保留 `make sanitize` 作为可选重建入口。完整清单见 [清理记录](../archive/2026-11-03_cleanup.md)。
+- 验证：全仓库 Markdown 本地链接检查 0 个缺失；`make -C judge/native` 成功；清理后 `python3 test_pipeline.py` 仍能加载 `lazy_gold,sabotage` 并处理现有提交，两个原有提交分别保持 AC 11/11、AC 14/14。
+- 相关文件：[README](../../README.md)、[清理记录](../archive/2026-11-03_cleanup.md)、[AGENTS](../project/AGENTS.md)、[部署](../ops/deployment.md)、[通用流程](../../judge/pipeline.py)。
+- 问题与决定：`AGENTS.md` 已移到 `docs/project/AGENTS.md`，根目录不再自动加载项目 AI 规则；后续会话需从 README 索引进入。历史任务清单与备忘保留在 `docs/tasks/`、`docs/records/notes/`，未删除。指向已删除文件的历史链接统一指向清理记录。
+- 下一步：成员复核文档归档与 `reroll` 改动；确认后再提交。
+- AI 协助与人工检查：移动、删除、链接修正和复跑由 AI 完成；用户指定清理范围。尚无成员人工复核或共同验收。
+
+### 2026-11-03｜AI 协助整理、用户指定｜eval_server 原理文档与提交准备
+- 状态：文档与记录完成；`reroll` 分支改动已暂存，尚未提交。
+- 完成：新增 [eval_server 工作原理与 UML](../design/eval_server.md)，包含 C++23/POSIX 实现说明、进程/线程模型、协议、资源限制、common/special、判定优先级、错误处理、已知限制，以及部署/类/时序/活动四张 Mermaid UML；在根 [README](../../README.md) 文档索引和 [judge/native/README](../../judge/native/README.md) 中加入口。删除 `judge/native/eval_server_asan` 调试二进制，保留 `make -C judge/native sanitize` 可选重建。`judge/pipeline.py` 的空 `message` 改为写 `-`，避免 `result.tsv` 行尾空列。
+- 验证：全仓库 Markdown 本地链接检查 0 个缺失；`make -C judge/native` 成功；`python3 test_pipeline.py` 能加载 `lazy_gold,sabotage` 并处理现有提交，原有的 `00000001__lazy_gold` AC 11/11、`00000002__sabotage` AC 14/14 保持。`result/result.tsv` 另保留一次 `00000003__sabotage` 的 RE 0/14 记录（验证时出现的提交，源码在 `.gitignore` 忽略的 `submissions/` 中，未提交）。
+- 相关文件：[eval_server 文档](../design/eval_server.md)、[README](../../README.md)、[协议说明](../../judge/native/README.md)、[C++ 源码](../../judge/native/eval_server.cpp)、[清理记录](../archive/2026-11-03_cleanup.md)。
+- 问题与决定：文档按当前实现编写，不把 `special` 写成已实现；OLE 仍归入 WA；未声称 cgroup/Isolate 隔离。根目录只保留 README，`AGENTS.md` 已归档到 `docs/project/`。
+- 下一步：审阅暂存内容；确认后提交，建议提交信息 `refactor: reroll 评测守护进程与文档归档`。
+- AI 协助与人工检查：文档、链接检查与复跑由 AI 完成；用户指定文档位置与提交准备。尚无成员人工复核或共同验收。

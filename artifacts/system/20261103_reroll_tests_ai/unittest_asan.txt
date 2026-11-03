@@ -1,0 +1,24 @@
+test_all_ac (judge.test_judge.AggregatorTest.test_all_ac) ... ok
+test_first_non_ac_by_case_order (judge.test_judge.AggregatorTest.test_first_non_ac_by_case_order) ... ok
+test_wall_follows_cpu (judge.test_judge.LimitsTest.test_wall_follows_cpu) ... ok
+test_pipeline (judge.test_judge.PipelineE2ETest.test_pipeline) ... ok
+test_load_synthetic_problems (judge.test_judge.ProblemLoadingTest.test_load_synthetic_problems) ... ok
+test_header_and_append (judge.test_judge.ResultWriterTest.test_header_and_append) ... ok
+test_parse_and_spec (judge.test_judge.SubmissionNameTest.test_parse_and_spec) ... ok
+test_internal_spaces_preserved (judge.test_judge.TrimCommonTest.test_internal_spaces_preserved) ... ok
+test_vectors (judge.test_judge.TrimCommonTest.test_vectors) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.875s
+
+OK
+[test_pipeline] 001__alpha.cpp -> AC (1/1)
+[test_pipeline] 002__alpha.cpp -> WA (0/1)
+[test_pipeline] 003__alpha.cpp -> WA (0/1)
+[test_pipeline] 004__alpha.cpp -> TLE (0/1)
+[test_pipeline] 005__alpha.cpp -> CE (0/1)
+[test_pipeline] 006__alpha.cpp -> RE (0/1)
+[test_pipeline] 007__multi.cpp -> WA (1/2)
+[test_pipeline] 008__special.cpp -> SE (0/1)
+[test_pipeline] 009__zero.cpp -> AC (1/1)
+[test_pipeline] 010__alpha.cpp -> AC (1/1)
