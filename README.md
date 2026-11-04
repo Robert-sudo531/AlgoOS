@@ -1,50 +1,82 @@
 # AlgoOS
 
-> **近期先看 [半个月临时过渡安排](TRANSITION_PLAN.md)**：10 月 9—23 日暂按调整后的分工与优先级推进；三人分工已固定：系统、算法、应用与测试；算法恢复时间待定，其任务与相关共同验收顺延。
+面向算法竞赛的轻量评测与任务调度实验平台。当前实现是 `reroll` 版本的本地评测守护进程：加载 `problems/`，监听 `submissions/`，调用 C++ 评测服务端，把结果写入 `result/result.tsv`。
 
-创新创业实训课程项目：面向算法竞赛的轻量评测与任务调度实验平台。
+## 快速开始
 
-## 从这里开始
+```bash
+make -C judge/native
+python3 test_pipeline.py
+```
 
-1. 先读 [开工导航](START_HERE.md)，各自阅读 C0 并按过渡安排分步复核。
-2. 查看自己的 [系统清单（lhy）](system_list/todo_stage1_system.md) 、[算法清单（cxr）](algorithm_list/todo_stage1_algorithm.md) 或 [应用与测试清单（xyh）](application_list/todo_transition_application.md)。
-3. 按 [共同约定](docs/stage1_agreement.md) 逐步实现，完成一项再记录检查结果。
+- C++ 源码与可执行文件同在 `judge/native/`：`eval_server.cpp`、`eval_server`、`eval_server_asan`。
+- 守护进程启动时扫描 `problems/*/problem.json`，然后保持前台运行。
+- 把提交源码命名为 `编号__题目ID.cpp`（如 `00000003__lazy_gold.cpp`）放入 `submissions/`。
+- 编译产物为 `submissions/<stem>`，实际输出在 `submissions/<stem>__result/`。
+- 每个提交一行追加到 `result/result.tsv`；`Ctrl-C` 停止守护进程。
 
-首次 clone 后先读 [本机环境准备](docs/local_setup.md)：临时目录、编译产物、Isolate 源码和系统安装不会随仓库获得，按自己的任务准备所需条件。
+## 当前目录
 
-项目已跑通 A+B 两组 Python 演示（S3）；`judge/problem.py` 已实现配置读取与基础检查，`judge/compiler.py` 已实现独立编译并接入演示，S2.3 的正常、编译失败阻断和恢复验证已通过。正式三组题目包验收、运行/判定/汇总模块、单提交与批量入口及 `scheduler/` 业务仍按 Todo 推进。系统机器上的 Isolate 可行性检查（S4）已通过，覆盖安装、配置检查、初始化、第一组 A+B 普通模式运行与清理；资源限制和异常行为仍待验证。导航中其余演示命令在对应脚本完成后才能运行，实际进度见 `progress.md`。
+```text
+项目根目录/
+├── README.md                 # 总索引
+├── midterm_report.md         # 中期汇报
+├── test_pipeline.py          # 前台评测入口
+├── judge/
+│   ├── problem.py            # problem.json 模型与派生 out_bytes
+│   ├── pipeline.py           # 通用流程：编译、Socket、聚合、TSV、轮询
+│   └── native/               # C++ 服务端源码、二进制、Makefile、协议说明
+├── problems/                 # 题目包：problem.json + tests/*.in/*.out
+├── submissions/              # 运行时提交与 __result/（内容不提交）
+├── result/result.tsv         # 运行结果日志
+├── docs/                     # 分类后的项目文档
+│   ├── project/              # AI 协作规则、背景与排期
+│   ├── design/               # 设计记录
+│   ├── ops/                  # 部署、环境
+│   ├── specs/                # 共同约定
+│   ├── tasks/                # 系统/算法/应用任务清单
+│   ├── records/              # 开发记录与历史备忘
+│   ├── archive/              # 清理记录
+│   └── templates/            # 课程报告模板
+├── artifacts/                # 运行证据
+└── work/                     # 临时文件（如存在，内容不提交）
+```
 
-内部第 14 周（12 月 14—20 日）收工，12 月 21 日起用于复习。正式报告窗口为第 16 周（2026 年 12 月 28 日—2027 年 1 月 3 日）；允许提前交则提前交，否则届时上传已备材料。
+## 文档索引
 
-## 目录与资料
-
-| 位置 | 用途 |
+| 主题 | 位置 |
 | --- | --- |
-| `judge/` | 系统部分：读配置、编译、运行、比对、汇总 |
-| `scheduler/` | 算法部分：FCFS、模拟时钟、指标计算 |
-| `scripts/` | 命令行与演示入口 |
-| `examples/` | 被评测的 C++ 样例程序 |
-| `problems/a_plus_b/tests/` | 题目测试输入与预期输出 |
-| `system_list/`、`algorithm_list/`、`application_list/` | 系统、算法和应用与测试的任务清单 |
-| [`progress.md`](progress.md) | 三人共同维护的实际开发过程记录 |
-| `docs/` | 共同约定、环境与阶段记录 |
-| `docs/templates/` | [课程报告 Word 模板](docs/templates/创新创业实训课程报告模板.docx) |
-| `artifacts/system/`、`simulation/`、`batch/` | `artifacts/` 下分别保存真实评测、模拟和批量演示结果 |
-| `work/` | 临时编译与运行文件，内容默认不提交 |
-| `old/` | [原始方案](old/plan.md)，供回看 |
+| 中期汇报 | [midterm_report.md](midterm_report.md) |
+| AI 协作规则 | [docs/project/AGENTS.md](docs/project/AGENTS.md) |
+| 项目背景与排期 | [docs/project/plan_revised.md](docs/project/plan_revised.md) |
+| 设计记录 | [docs/design/CoreUML.md](docs/design/CoreUML.md) |
+| C++ 评测服务端工作原理与 UML | [docs/design/eval_server.md](docs/design/eval_server.md) |
+| 部署与使用 | [docs/ops/deployment.md](docs/ops/deployment.md) |
+| 本机环境准备 | [docs/ops/local_setup.md](docs/ops/local_setup.md) |
+| 字段、路径与结果约定 | [docs/specs/stage1_agreement.md](docs/specs/stage1_agreement.md) |
+| 开发过程记录 | [docs/records/progress.md](docs/records/progress.md) |
+| 系统任务清单 | [docs/tasks/system/](docs/tasks/system/) |
+| 算法任务清单 | [docs/tasks/algorithm/](docs/tasks/algorithm/) |
+| 应用与测试清单 | [docs/tasks/application/](docs/tasks/application/) |
+| C++ 评测协议 | [judge/native/README.md](judge/native/README.md) |
+| 2026-11-03 清理记录 | [docs/archive/2026-11-03_cleanup.md](docs/archive/2026-11-03_cleanup.md) |
 
-完整背景与排期见 [修订方案](plan_revised.md)。GitHub 仓库的根目录就是当前文件夹。
+> `AGENTS.md` 已归档到 `docs/project/AGENTS.md`；根目录不再自动加载 AI 协作规则，后续 AI 会话请从本索引进入。
 
-## 怎样记录开发过程
+## 评测口径
 
-三人共用根目录的 [开发过程记录](progress.md)。完成一项任务、遇到影响推进的问题，或调整接口与范围时，按其中的简短模板追加一条：写清记录人、任务编号、实际结果、卡点和下一步。
+- `compare_mode` 只有 `common` / `special`；`special` 本期只保留枚举，返回 `SE`。
+- `common`：统一换行，去行末空格/制表符和末尾空行后严格相等。
+- `wall` 时限等于 `time_limit_ms`。
+- 每个测试点的 `out_bytes` 由标准答案 trim 后字节数派生；输出超限归入 `WA`。
+- 不使用 score；ACM 聚合：全部测试点 AC 才 AC，否则按顺序取第一个非 AC。
+- 提交源码、可执行文件和结果目录都不提交；`submissions/` 内容被 `.gitignore` 忽略，`result/result.tsv` 作为运行日志保留。
 
-Todo 用于安排任务，通过检查后再打勾；开发记录说明实际做了什么、怎样验证。详细阶段材料放在 `docs/`，运行证据放在 `artifacts/`，在记录中链接即可。未验证的工作如实注明；记录随对应改动一起提交 Git，便于协作和后续编写课程报告。
+## 验证
 
-## 提交哪些内容
+```bash
+make -C judge/native
+python3 test_pipeline.py
+```
 
-源码、题目 `.in/.out`、方案、Todo、课程模板和必要的小型 JSON/CSV/日志可提交。每次结果保留来源和运行编号，避免覆盖已有记录。
-
-`.gitignore` 已排除临时工作文件、Python 缓存与虚拟环境、本地工具配置及常见编译产物；题目 `.out` 和实验结果未被统一忽略。大型或一次性文件放 `work/`。`.gitkeep` 只用于让 Git 保存暂时为空的目录，可随首次加入真实文件一并移除；`__init__.py` 是 Python 包标记，应保留。
-
-准备同步时，在项目根目录先运行 `git status` 检查变动，按任务提交，再推送到你们自己的 GitHub 仓库。目录整理本身不会自动完成提交或上传。
+实际提交处理结果见 [result/result.tsv](result/result.tsv)，测试与服务端证据在 [artifacts/system/20261103_reroll_tests_ai/](artifacts/system/20261103_reroll_tests_ai/)。

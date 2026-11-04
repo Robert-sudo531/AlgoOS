@@ -23,6 +23,18 @@ __pycache__/
 /work/*
 !/work/.gitkeep
 
+# Runtime submissions and their result directories
+/submissions/*
+!/submissions/.gitkeep
+
+# Native eval server build outputs (source and binary live together)
+/judge/native/eval_server
+/judge/native/eval_server_asan
+
+# Native eval server build products (source stays in judge/native)
+/judge/native/eval_server
+/judge/native/eval_server_asan
+
 # Common compiled objects (do not ignore *.out: they are expected outputs)
 *.o
 *.obj

@@ -1,0 +1,20 @@
+{
+  "source": "AI 实测（reroll test_pipeline 链路）",
+  "date": "2026-11-03",
+  "branch": "reroll",
+  "build": "make -C judge/native",
+  "tests": "python3 -m unittest judge.test_judge -v",
+  "tests_asan": "make -C judge/native sanitize && ALGOOS_EVAL_SERVER=judge/native/eval_server_asan python3 -m unittest judge.test_judge -v",
+  "real_run": "timeout -s INT 20s python3 test_pipeline.py",
+  "real_submissions": {
+    "00000001__lazy_gold.cpp": "AC 11/11",
+    "00000002__sabotage.cpp": "AC 14/14"
+  },
+  "files": [
+    "unittest.txt",
+    "unittest_asan.txt",
+    "result.tsv"
+  ],
+  "note": "测试脚本 judge/test_judge.py 已按用户要求删除；本目录日志为删除前的运行记录",
+  "not": "不代表成员人工复核或共同验收；submissions 中的源码与 __result 输出不随本证据提交"
+}
