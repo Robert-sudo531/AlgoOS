@@ -1,5 +1,7 @@
 # 中期汇报：轻量级分布式集群的实现与优化
 
+## 下一步方案请见 [docs/project/distributed_implementation_plan.md](docs/project/distributed_implementation_plan.md) 与 [docs/project/next_step.md](docs/project/next_step.md)
+
 ## —— 以 Online Judge 平台为例
 
 日期：2026-11-03
