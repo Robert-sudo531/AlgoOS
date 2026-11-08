@@ -1,5 +1,7 @@
 # AlgoOS
 
+## 下一步方案请见 [docs/project/distributed_implementation_plan.md](docs/project/distributed_implementation_plan.md) 与 [docs/project/next_step.md](docs/project/next_step.md)
+
 面向算法竞赛的轻量评测与任务调度实验平台。当前实现是 `reroll` 版本的本地评测守护进程：加载 `problems/`，监听 `submissions/`，调用 C++ 评测服务端，把结果写入 `result/result.tsv`。
 
 ## 快速开始
