@@ -1,0 +1,32 @@
+[
+  {
+    "ver": 1,
+    "file_id": "0004__a_plus_b",
+    "problem_id": "a_plus_b",
+    "test_id": "01",
+    "verdict": "RE",
+    "cpu_ms": 3,
+    "mem_kb": 3896,
+    "out_bytes": 0,
+    "exit_code": 7,
+    "signal": 0,
+    "wall_timeout": false,
+    "stderr_tail": "intentional nonzero exit\n",
+    "error": ""
+  },
+  {
+    "ver": 1,
+    "file_id": "0004__a_plus_b",
+    "problem_id": "a_plus_b",
+    "test_id": "02",
+    "verdict": "RE",
+    "cpu_ms": 2,
+    "mem_kb": 3896,
+    "out_bytes": 0,
+    "exit_code": 7,
+    "signal": 0,
+    "wall_timeout": false,
+    "stderr_tail": "intentional nonzero exit\n",
+    "error": ""
+  }
+]

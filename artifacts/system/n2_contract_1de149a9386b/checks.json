@@ -1,0 +1,846 @@
+[
+  {
+    "name": "compile_error_result",
+    "expected": "ACCEPT",
+    "input": "{\"ver\":1,\"type\":\"eval_result\",\"msg_id\":\"n2_compile_error_example_001\",\"correlation_id\":\"sub_n2_example_001\",\"emitted_at\":\"2026-11-10T00:00:01Z\",\"file_id\":\"sub_n2_example_001\",\"problem_id\":\"a_plus_b\",\"stage\":\"compile\",\"test_id\":null,\"sequence\":null,\"attempt\":1,\"judge_id\":null,\"node_id\":\"compile-01\",\"cpu_ms\":null,\"wall_ms\":null,\"mem_bytes\":null,\"memory_source\":null,\"out_bytes\":null,\"exit_code\":null,\"signal\":null,\"wall_timeout\":false,\"short_circuited\":false,\"source\":\"compiler\",\"stderr_tail\":\"\",\"status\":\"FINAL\",\"verdict\":\"CE\",\"reason\":\"COMPILE_ERROR\",\"detail\":\"合成示例：源码缺少分号，未产生测试点任务\"}",
+    "Python→C++→Python": {
+      "exit_code": 0,
+      "stderr": ""
+    },
+    "C++→Python→C++": {
+      "exit_code": 0,
+      "stderr": ""
+    },
+    "status": "PASSED"
+  },
+  {
+    "name": "compile_success_result",
+    "expected": "ACCEPT",
+    "input": "{\"ver\":1,\"type\":\"eval_result\",\"msg_id\":\"n2_compile_success_example_001\",\"correlation_id\":\"sub_n2_example_001\",\"emitted_at\":\"2026-11-10T00:00:01Z\",\"file_id\":\"sub_n2_example_001\",\"problem_id\":\"a_plus_b\",\"stage\":\"compile\",\"test_id\":null,\"sequence\":null,\"attempt\":1,\"judge_id\":null,\"node_id\":\"compile-01\",\"cpu_ms\":null,\"wall_ms\":null,\"mem_bytes\":null,\"memory_source\":null,\"out_bytes\":null,\"exit_code\":null,\"signal\":null,\"wall_timeout\":false,\"short_circuited\":false,\"source\":\"compiler\",\"stderr_tail\":\"\",\"status\":\"COMPILED\",\"verdict\":null,\"reason\":\"NONE\",\"enqueue_seq\":1,\"source_hash\":\"sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"bin_hash\":\"sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc\",\"test_bundle_hash\":\"sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\",\"compiler_profile\":\"cpp_baseline_v1\",\"detail\":\"合成示例：编译成功，产物可供派发\"}",
+    "Python→C++→Python": {
+      "exit_code": 0,
+      "stderr": ""
+    },
+    "C++→Python→C++": {
+      "exit_code": 0,
+      "stderr": ""
+    },
+    "status": "PASSED"
+  },
+  {
+    "name": "compile_task",
+    "expected": "ACCEPT",
+    "input": "{\"ver\":1,\"type\":\"compile_task\",\"msg_id\":\"n2_compile_example_001\",\"correlation_id\":\"sub_n2_example_001\",\"emitted_at\":\"2026-11-10T00:00:00Z\",\"file_id\":\"sub_n2_example_001\",\"problem_id\":\"a_plus_b\",\"enqueue_seq\":1,\"attempt\":1,\"source_hash\":\"sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"test_bundle_hash\":\"sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\",\"compiler_profile\":\"cpp_baseline_v1\",\"limits\":{\"cpu_ms\":10000,\"wall_ms\":30000,\"mem_bytes\":536870912,\"out_bytes\":1048576}}",
+    "Python→C++→Python": {
+      "exit_code": 0,
+      "stderr": ""
+    },
+    "C++→Python→C++": {
+      "exit_code": 0,
+      "stderr": ""
+    },
+    "status": "PASSED"
+  },
+  {
+    "name": "eval_result",
+    "expected": "ACCEPT",
+    "input": "{\"ver\":1,\"type\":\"eval_result\",\"msg_id\":\"n2_result_example_001\",\"correlation_id\":\"sub_n2_example_001\",\"emitted_at\":\"2026-11-10T00:00:02Z\",\"file_id\":\"sub_n2_example_001\",\"problem_id\":\"a_plus_b\",\"stage\":\"eval\",\"test_id\":\"01\",\"sequence\":1,\"attempt\":1,\"judge_id\":\"sub_n2_example_001:01:1\",\"node_id\":\"eval-01\",\"verdict\":\"WA\",\"reason\":\"ANSWER_MISMATCH\",\"cpu_ms\":null,\"wall_ms\":null,\"mem_bytes\":null,\"memory_source\":null,\"out_bytes\":1,\"exit_code\":0,\"signal\":0,\"wall_timeout\":false,\"short_circuited\":false,\"source\":\"runner\",\"stderr_tail\":\"\",\"detail\":\"示例：输出内容与标准答案不同\"}",
+    "Python→C++→Python": {
+      "exit_code": 0,
+      "stderr": ""
+    },
+    "C++→Python→C++": {
+      "exit_code": 0,
+      "stderr": ""
+    },
+    "status": "PASSED"
+  },
+  {
+    "name": "eval_task",
+    "expected": "ACCEPT",
+    "input": "{\"ver\":1,\"type\":\"eval_task\",\"msg_id\":\"n2_eval_example_001\",\"correlation_id\":\"sub_n2_example_001\",\"emitted_at\":\"2026-11-10T00:00:01Z\",\"file_id\":\"sub_n2_example_001\",\"problem_id\":\"a_plus_b\",\"enqueue_seq\":1,\"test_id\":\"01\",\"sequence\":1,\"attempt\":1,\"judge_id\":\"sub_n2_example_001:01:1\",\"target_node_id\":\"eval-01\",\"bin_hash\":\"sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc\",\"test_bundle_hash\":\"sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\",\"judge_mode\":\"normal\",\"compare_mode\":\"common\",\"evaluation_mode\":\"all_cases\",\"limits\":{\"cpu_ms\":1000,\"wall_ms\":1000,\"mem_bytes\":268435456,\"out_bytes\":1}}",
+    "Python→C++→Python": {
+      "exit_code": 0,
+      "stderr": ""
+    },
+    "C++→Python→C++": {
+      "exit_code": 0,
+      "stderr": ""
+    },
+    "status": "PASSED"
+  },
+  {
+    "name": "附加字段与整数边界保留",
+    "expected": "ACCEPT",
+    "input": "{\"ver\":1,\"type\":\"eval_task\",\"msg_id\":\"n2_eval_example_001\",\"correlation_id\":\"sub_n2_example_001\",\"emitted_at\":\"2026-11-10T00:00:01Z\",\"file_id\":\"sub_n2_example_001\",\"problem_id\":\"a_plus_b\",\"enqueue_seq\":1,\"test_id\":\"01\",\"sequence\":1,\"attempt\":1,\"judge_id\":\"sub_n2_example_001:01:1\",\"target_node_id\":\"eval-01\",\"bin_hash\":\"sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc\",\"test_bundle_hash\":\"sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\",\"judge_mode\":\"normal\",\"compare_mode\":\"common\",\"evaluation_mode\":\"all_cases\",\"limits\":{\"cpu_ms\":1000,\"wall_ms\":1000,\"mem_bytes\":268435456,\"out_bytes\":1,\"extension\":\"bytes\"},\"extension\":{\"中文\":[null,true,false,0,-3,9223372036854775807,-9223372036854775808,0.125,\"😀\",\"a\\u0000b\",{\"unit\":\"bytes\"}]}}",
+    "Python→C++→Python": {
+      "exit_code": 0,
+      "stderr": ""
+    },
+    "C++→Python→C++": {
+      "exit_code": 0,
+      "stderr": ""
+    },
+    "status": "PASSED"
+  },
+  {
+    "name": "零输出上限",
+    "expected": "ACCEPT",
+    "input": "{\"ver\":1,\"type\":\"eval_task\",\"msg_id\":\"n2_eval_example_001\",\"correlation_id\":\"sub_n2_example_001\",\"emitted_at\":\"2026-11-10T00:00:01Z\",\"file_id\":\"sub_n2_example_001\",\"problem_id\":\"a_plus_b\",\"enqueue_seq\":1,\"test_id\":\"01\",\"sequence\":1,\"attempt\":1,\"judge_id\":\"sub_n2_example_001:01:1\",\"target_node_id\":\"eval-01\",\"bin_hash\":\"sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc\",\"test_bundle_hash\":\"sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\",\"judge_mode\":\"normal\",\"compare_mode\":\"common\",\"evaluation_mode\":\"all_cases\",\"limits\":{\"cpu_ms\":1000,\"wall_ms\":1000,\"mem_bytes\":268435456,\"out_bytes\":0}}",
+    "Python→C++→Python": {
+      "exit_code": 0,
+      "stderr": ""
+    },
+    "C++→Python→C++": {
+      "exit_code": 0,
+      "stderr": ""
+    },
+    "status": "PASSED"
+  },
+  {
+    "name": "显式 FINAL",
+    "expected": "ACCEPT",
+    "input": "{\"ver\":1,\"type\":\"eval_result\",\"msg_id\":\"n2_result_example_001\",\"correlation_id\":\"sub_n2_example_001\",\"emitted_at\":\"2026-11-10T00:00:02Z\",\"file_id\":\"sub_n2_example_001\",\"problem_id\":\"a_plus_b\",\"stage\":\"eval\",\"test_id\":\"01\",\"sequence\":1,\"attempt\":1,\"judge_id\":\"sub_n2_example_001:01:1\",\"node_id\":\"eval-01\",\"verdict\":\"WA\",\"reason\":\"ANSWER_MISMATCH\",\"cpu_ms\":null,\"wall_ms\":null,\"mem_bytes\":null,\"memory_source\":null,\"out_bytes\":1,\"exit_code\":0,\"signal\":0,\"wall_timeout\":false,\"short_circuited\":false,\"source\":\"runner\",\"stderr_tail\":\"\",\"detail\":\"示例：输出内容与标准答案不同\",\"status\":\"FINAL\"}",
+    "Python→C++→Python": {
+      "exit_code": 0,
+      "stderr": ""
+    },
+    "C++→Python→C++": {
+      "exit_code": 0,
+      "stderr": ""
+    },
+    "status": "PASSED"
+  },
+  {
+    "name": "未知测量值保留 null",
+    "expected": "ACCEPT",
+    "input": "{\"ver\":1,\"type\":\"eval_result\",\"msg_id\":\"n2_result_example_001\",\"correlation_id\":\"sub_n2_example_001\",\"emitted_at\":\"2026-11-10T00:00:02Z\",\"file_id\":\"sub_n2_example_001\",\"problem_id\":\"a_plus_b\",\"stage\":\"eval\",\"test_id\":\"01\",\"sequence\":1,\"attempt\":1,\"judge_id\":\"sub_n2_example_001:01:1\",\"node_id\":\"eval-01\",\"verdict\":\"WA\",\"reason\":\"ANSWER_MISMATCH\",\"cpu_ms\":null,\"wall_ms\":null,\"mem_bytes\":null,\"memory_source\":null,\"out_bytes\":null,\"exit_code\":0,\"signal\":0,\"wall_timeout\":false,\"short_circuited\":false,\"source\":\"runner\",\"stderr_tail\":\"\",\"detail\":\"示例：输出内容与标准答案不同\"}",
+    "Python→C++→Python": {
+      "exit_code": 0,
+      "stderr": ""
+    },
+    "C++→Python→C++": {
+      "exit_code": 0,
+      "stderr": ""
+    },
+    "status": "PASSED"
+  },
+  {
+    "name": "UTC 小数秒与闰年",
+    "expected": "ACCEPT",
+    "input": "{\"ver\":1,\"type\":\"eval_task\",\"msg_id\":\"n2_eval_example_001\",\"correlation_id\":\"sub_n2_example_001\",\"emitted_at\":\"2024-02-29T01:02:03.123456Z\",\"file_id\":\"sub_n2_example_001\",\"problem_id\":\"a_plus_b\",\"enqueue_seq\":1,\"test_id\":\"01\",\"sequence\":1,\"attempt\":1,\"judge_id\":\"sub_n2_example_001:01:1\",\"target_node_id\":\"eval-01\",\"bin_hash\":\"sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc\",\"test_bundle_hash\":\"sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\",\"judge_mode\":\"normal\",\"compare_mode\":\"common\",\"evaluation_mode\":\"all_cases\",\"limits\":{\"cpu_ms\":1000,\"wall_ms\":1000,\"mem_bytes\":268435456,\"out_bytes\":1}}",
+    "Python→C++→Python": {
+      "exit_code": 0,
+      "stderr": ""
+    },
+    "C++→Python→C++": {
+      "exit_code": 0,
+      "stderr": ""
+    },
+    "status": "PASSED"
+  },
+  {
+    "name": "系统错误优先但保留墙钟证据",
+    "expected": "ACCEPT",
+    "input": "{\"ver\":1,\"type\":\"eval_result\",\"msg_id\":\"n2_result_example_001\",\"correlation_id\":\"sub_n2_example_001\",\"emitted_at\":\"2026-11-10T00:00:02Z\",\"file_id\":\"sub_n2_example_001\",\"problem_id\":\"a_plus_b\",\"stage\":\"eval\",\"test_id\":\"01\",\"sequence\":1,\"attempt\":1,\"judge_id\":\"sub_n2_example_001:01:1\",\"node_id\":\"eval-01\",\"verdict\":\"SE\",\"reason\":\"SYSTEM_ERROR\",\"cpu_ms\":null,\"wall_ms\":null,\"mem_bytes\":null,\"memory_source\":null,\"out_bytes\":1,\"exit_code\":0,\"signal\":0,\"wall_timeout\":true,\"short_circuited\":false,\"source\":\"runner\",\"stderr_tail\":\"\",\"detail\":\"示例：输出内容与标准答案不同\"}",
+    "Python→C++→Python": {
+      "exit_code": 0,
+      "stderr": ""
+    },
+    "C++→Python→C++": {
+      "exit_code": 0,
+      "stderr": ""
+    },
+    "status": "PASSED"
+  },
+  {
+    "name": "分支 AC/NONE",
+    "expected": "ACCEPT",
+    "input": "{\"ver\":1,\"type\":\"eval_result\",\"msg_id\":\"n2_result_example_001\",\"correlation_id\":\"sub_n2_example_001\",\"emitted_at\":\"2026-11-10T00:00:02Z\",\"file_id\":\"sub_n2_example_001\",\"problem_id\":\"a_plus_b\",\"stage\":\"eval\",\"test_id\":\"01\",\"sequence\":1,\"attempt\":1,\"judge_id\":\"sub_n2_example_001:01:1\",\"node_id\":\"eval-01\",\"verdict\":\"AC\",\"reason\":\"NONE\",\"cpu_ms\":3,\"wall_ms\":5,\"mem_bytes\":4096,\"memory_source\":\"rss_peak\",\"out_bytes\":1,\"exit_code\":0,\"signal\":0,\"wall_timeout\":false,\"short_circuited\":false,\"source\":\"runner\",\"stderr_tail\":\"\",\"detail\":\"示例：输出内容与标准答案不同\"}",
+    "Python→C++→Python": {
+      "exit_code": 0,
+      "stderr": ""
+    },
+    "C++→Python→C++": {
+      "exit_code": 0,
+      "stderr": ""
+    },
+    "status": "PASSED"
+  },
+  {
+    "name": "分支 WA/OUTPUT_LIMIT",
+    "expected": "ACCEPT",
+    "input": "{\"ver\":1,\"type\":\"eval_result\",\"msg_id\":\"n2_result_example_001\",\"correlation_id\":\"sub_n2_example_001\",\"emitted_at\":\"2026-11-10T00:00:02Z\",\"file_id\":\"sub_n2_example_001\",\"problem_id\":\"a_plus_b\",\"stage\":\"eval\",\"test_id\":\"01\",\"sequence\":1,\"attempt\":1,\"judge_id\":\"sub_n2_example_001:01:1\",\"node_id\":\"eval-01\",\"verdict\":\"WA\",\"reason\":\"OUTPUT_LIMIT\",\"cpu_ms\":3,\"wall_ms\":5,\"mem_bytes\":4096,\"memory_source\":\"rss_peak\",\"out_bytes\":1,\"exit_code\":0,\"signal\":0,\"wall_timeout\":false,\"short_circuited\":false,\"source\":\"runner\",\"stderr_tail\":\"\",\"detail\":\"示例：输出内容与标准答案不同\"}",
+    "Python→C++→Python": {
+      "exit_code": 0,
+      "stderr": ""
+    },
+    "C++→Python→C++": {
+      "exit_code": 0,
+      "stderr": ""
+    },
+    "status": "PASSED"
+  },
+  {
+    "name": "分支 RE/NONZERO_EXIT",
+    "expected": "ACCEPT",
+    "input": "{\"ver\":1,\"type\":\"eval_result\",\"msg_id\":\"n2_result_example_001\",\"correlation_id\":\"sub_n2_example_001\",\"emitted_at\":\"2026-11-10T00:00:02Z\",\"file_id\":\"sub_n2_example_001\",\"problem_id\":\"a_plus_b\",\"stage\":\"eval\",\"test_id\":\"01\",\"sequence\":1,\"attempt\":1,\"judge_id\":\"sub_n2_example_001:01:1\",\"node_id\":\"eval-01\",\"verdict\":\"RE\",\"reason\":\"NONZERO_EXIT\",\"cpu_ms\":3,\"wall_ms\":5,\"mem_bytes\":4096,\"memory_source\":\"rss_peak\",\"out_bytes\":1,\"exit_code\":7,\"signal\":0,\"wall_timeout\":false,\"short_circuited\":false,\"source\":\"runner\",\"stderr_tail\":\"\",\"detail\":\"示例：输出内容与标准答案不同\"}",
+    "Python→C++→Python": {
+      "exit_code": 0,
+      "stderr": ""
+    },
+    "C++→Python→C++": {
+      "exit_code": 0,
+      "stderr": ""
+    },
+    "status": "PASSED"
+  },
+  {
+    "name": "分支 RE/CRASH_SIGNAL",
+    "expected": "ACCEPT",
+    "input": "{\"ver\":1,\"type\":\"eval_result\",\"msg_id\":\"n2_result_example_001\",\"correlation_id\":\"sub_n2_example_001\",\"emitted_at\":\"2026-11-10T00:00:02Z\",\"file_id\":\"sub_n2_example_001\",\"problem_id\":\"a_plus_b\",\"stage\":\"eval\",\"test_id\":\"01\",\"sequence\":1,\"attempt\":1,\"judge_id\":\"sub_n2_example_001:01:1\",\"node_id\":\"eval-01\",\"verdict\":\"RE\",\"reason\":\"CRASH_SIGNAL\",\"cpu_ms\":3,\"wall_ms\":5,\"mem_bytes\":4096,\"memory_source\":\"rss_peak\",\"out_bytes\":1,\"exit_code\":null,\"signal\":11,\"wall_timeout\":false,\"short_circuited\":false,\"source\":\"runner\",\"stderr_tail\":\"\",\"detail\":\"示例：输出内容与标准答案不同\"}",
+    "Python→C++→Python": {
+      "exit_code": 0,
+      "stderr": ""
+    },
+    "C++→Python→C++": {
+      "exit_code": 0,
+      "stderr": ""
+    },
+    "status": "PASSED"
+  },
+  {
+    "name": "分支 TLE/WALL_TIMEOUT",
+    "expected": "ACCEPT",
+    "input": "{\"ver\":1,\"type\":\"eval_result\",\"msg_id\":\"n2_result_example_001\",\"correlation_id\":\"sub_n2_example_001\",\"emitted_at\":\"2026-11-10T00:00:02Z\",\"file_id\":\"sub_n2_example_001\",\"problem_id\":\"a_plus_b\",\"stage\":\"eval\",\"test_id\":\"01\",\"sequence\":1,\"attempt\":1,\"judge_id\":\"sub_n2_example_001:01:1\",\"node_id\":\"eval-01\",\"verdict\":\"TLE\",\"reason\":\"WALL_TIMEOUT\",\"cpu_ms\":3,\"wall_ms\":5,\"mem_bytes\":4096,\"memory_source\":\"rss_peak\",\"out_bytes\":1,\"exit_code\":null,\"signal\":9,\"wall_timeout\":true,\"short_circuited\":false,\"source\":\"runner\",\"stderr_tail\":\"\",\"detail\":\"示例：输出内容与标准答案不同\"}",
+    "Python→C++→Python": {
+      "exit_code": 0,
+      "stderr": ""
+    },
+    "C++→Python→C++": {
+      "exit_code": 0,
+      "stderr": ""
+    },
+    "status": "PASSED"
+  },
+  {
+    "name": "分支 TLE/CPU_TIMEOUT",
+    "expected": "ACCEPT",
+    "input": "{\"ver\":1,\"type\":\"eval_result\",\"msg_id\":\"n2_result_example_001\",\"correlation_id\":\"sub_n2_example_001\",\"emitted_at\":\"2026-11-10T00:00:02Z\",\"file_id\":\"sub_n2_example_001\",\"problem_id\":\"a_plus_b\",\"stage\":\"eval\",\"test_id\":\"01\",\"sequence\":1,\"attempt\":1,\"judge_id\":\"sub_n2_example_001:01:1\",\"node_id\":\"eval-01\",\"verdict\":\"TLE\",\"reason\":\"CPU_TIMEOUT\",\"cpu_ms\":3,\"wall_ms\":5,\"mem_bytes\":4096,\"memory_source\":\"rss_peak\",\"out_bytes\":1,\"exit_code\":null,\"signal\":24,\"wall_timeout\":false,\"short_circuited\":false,\"source\":\"runner\",\"stderr_tail\":\"\",\"detail\":\"示例：输出内容与标准答案不同\"}",
+    "Python→C++→Python": {
+      "exit_code": 0,
+      "stderr": ""
+    },
+    "C++→Python→C++": {
+      "exit_code": 0,
+      "stderr": ""
+    },
+    "status": "PASSED"
+  },
+  {
+    "name": "分支 MLE/OOM_KILL",
+    "expected": "ACCEPT",
+    "input": "{\"ver\":1,\"type\":\"eval_result\",\"msg_id\":\"n2_result_example_001\",\"correlation_id\":\"sub_n2_example_001\",\"emitted_at\":\"2026-11-10T00:00:02Z\",\"file_id\":\"sub_n2_example_001\",\"problem_id\":\"a_plus_b\",\"stage\":\"eval\",\"test_id\":\"01\",\"sequence\":1,\"attempt\":1,\"judge_id\":\"sub_n2_example_001:01:1\",\"node_id\":\"eval-01\",\"verdict\":\"MLE\",\"reason\":\"OOM_KILL\",\"cpu_ms\":3,\"wall_ms\":5,\"mem_bytes\":4096,\"memory_source\":\"rss_peak\",\"out_bytes\":1,\"exit_code\":null,\"signal\":9,\"wall_timeout\":false,\"short_circuited\":false,\"source\":\"runner\",\"stderr_tail\":\"\",\"detail\":\"示例：输出内容与标准答案不同\"}",
+    "Python→C++→Python": {
+      "exit_code": 0,
+      "stderr": ""
+    },
+    "C++→Python→C++": {
+      "exit_code": 0,
+      "stderr": ""
+    },
+    "status": "PASSED"
+  },
+  {
+    "name": "分支 MLE/MEM_PEAK_OVER",
+    "expected": "ACCEPT",
+    "input": "{\"ver\":1,\"type\":\"eval_result\",\"msg_id\":\"n2_result_example_001\",\"correlation_id\":\"sub_n2_example_001\",\"emitted_at\":\"2026-11-10T00:00:02Z\",\"file_id\":\"sub_n2_example_001\",\"problem_id\":\"a_plus_b\",\"stage\":\"eval\",\"test_id\":\"01\",\"sequence\":1,\"attempt\":1,\"judge_id\":\"sub_n2_example_001:01:1\",\"node_id\":\"eval-01\",\"verdict\":\"MLE\",\"reason\":\"MEM_PEAK_OVER\",\"cpu_ms\":3,\"wall_ms\":5,\"mem_bytes\":4096,\"memory_source\":\"rss_peak\",\"out_bytes\":1,\"exit_code\":0,\"signal\":0,\"wall_timeout\":false,\"short_circuited\":false,\"source\":\"runner\",\"stderr_tail\":\"\",\"detail\":\"示例：输出内容与标准答案不同\"}",
+    "Python→C++→Python": {
+      "exit_code": 0,
+      "stderr": ""
+    },
+    "C++→Python→C++": {
+      "exit_code": 0,
+      "stderr": ""
+    },
+    "status": "PASSED"
+  },
+  {
+    "name": "分支 SE/SYSTEM_ERROR",
+    "expected": "ACCEPT",
+    "input": "{\"ver\":1,\"type\":\"eval_result\",\"msg_id\":\"n2_result_example_001\",\"correlation_id\":\"sub_n2_example_001\",\"emitted_at\":\"2026-11-10T00:00:02Z\",\"file_id\":\"sub_n2_example_001\",\"problem_id\":\"a_plus_b\",\"stage\":\"eval\",\"test_id\":\"01\",\"sequence\":1,\"attempt\":1,\"judge_id\":\"sub_n2_example_001:01:1\",\"node_id\":\"eval-01\",\"verdict\":\"SE\",\"reason\":\"SYSTEM_ERROR\",\"cpu_ms\":3,\"wall_ms\":5,\"mem_bytes\":4096,\"memory_source\":\"rss_peak\",\"out_bytes\":1,\"exit_code\":0,\"signal\":0,\"wall_timeout\":false,\"short_circuited\":false,\"source\":\"runner\",\"stderr_tail\":\"\",\"detail\":\"示例：输出内容与标准答案不同\"}",
+    "Python→C++→Python": {
+      "exit_code": 0,
+      "stderr": ""
+    },
+    "C++→Python→C++": {
+      "exit_code": 0,
+      "stderr": ""
+    },
+    "status": "PASSED"
+  },
+  {
+    "name": "编译分支 CE/COMPILE_TIMEOUT",
+    "expected": "ACCEPT",
+    "input": "{\"ver\":1,\"type\":\"eval_result\",\"msg_id\":\"n2_compile_error_example_001\",\"correlation_id\":\"sub_n2_example_001\",\"emitted_at\":\"2026-11-10T00:00:01Z\",\"file_id\":\"sub_n2_example_001\",\"problem_id\":\"a_plus_b\",\"stage\":\"compile\",\"test_id\":null,\"sequence\":null,\"attempt\":1,\"judge_id\":null,\"node_id\":\"compile-01\",\"cpu_ms\":null,\"wall_ms\":null,\"mem_bytes\":null,\"memory_source\":null,\"out_bytes\":null,\"exit_code\":null,\"signal\":null,\"wall_timeout\":false,\"short_circuited\":false,\"source\":\"compiler\",\"stderr_tail\":\"\",\"status\":\"FINAL\",\"verdict\":\"CE\",\"reason\":\"COMPILE_TIMEOUT\",\"detail\":\"合成示例：源码缺少分号，未产生测试点任务\"}",
+    "Python→C++→Python": {
+      "exit_code": 0,
+      "stderr": ""
+    },
+    "C++→Python→C++": {
+      "exit_code": 0,
+      "stderr": ""
+    },
+    "status": "PASSED"
+  },
+  {
+    "name": "编译分支 CE/COMPILE_LIMIT",
+    "expected": "ACCEPT",
+    "input": "{\"ver\":1,\"type\":\"eval_result\",\"msg_id\":\"n2_compile_error_example_001\",\"correlation_id\":\"sub_n2_example_001\",\"emitted_at\":\"2026-11-10T00:00:01Z\",\"file_id\":\"sub_n2_example_001\",\"problem_id\":\"a_plus_b\",\"stage\":\"compile\",\"test_id\":null,\"sequence\":null,\"attempt\":1,\"judge_id\":null,\"node_id\":\"compile-01\",\"cpu_ms\":null,\"wall_ms\":null,\"mem_bytes\":null,\"memory_source\":null,\"out_bytes\":null,\"exit_code\":null,\"signal\":null,\"wall_timeout\":false,\"short_circuited\":false,\"source\":\"compiler\",\"stderr_tail\":\"\",\"status\":\"FINAL\",\"verdict\":\"CE\",\"reason\":\"COMPILE_LIMIT\",\"detail\":\"合成示例：源码缺少分号，未产生测试点任务\"}",
+    "Python→C++→Python": {
+      "exit_code": 0,
+      "stderr": ""
+    },
+    "C++→Python→C++": {
+      "exit_code": 0,
+      "stderr": ""
+    },
+    "status": "PASSED"
+  },
+  {
+    "name": "编译分支 SE/SYSTEM_ERROR",
+    "expected": "ACCEPT",
+    "input": "{\"ver\":1,\"type\":\"eval_result\",\"msg_id\":\"n2_compile_error_example_001\",\"correlation_id\":\"sub_n2_example_001\",\"emitted_at\":\"2026-11-10T00:00:01Z\",\"file_id\":\"sub_n2_example_001\",\"problem_id\":\"a_plus_b\",\"stage\":\"compile\",\"test_id\":null,\"sequence\":null,\"attempt\":1,\"judge_id\":null,\"node_id\":\"compile-01\",\"cpu_ms\":null,\"wall_ms\":null,\"mem_bytes\":null,\"memory_source\":null,\"out_bytes\":null,\"exit_code\":null,\"signal\":null,\"wall_timeout\":false,\"short_circuited\":false,\"source\":\"compiler\",\"stderr_tail\":\"\",\"status\":\"FINAL\",\"verdict\":\"SE\",\"reason\":\"SYSTEM_ERROR\",\"detail\":\"合成示例：源码缺少分号，未产生测试点任务\"}",
+    "Python→C++→Python": {
+      "exit_code": 0,
+      "stderr": ""
+    },
+    "C++→Python→C++": {
+      "exit_code": 0,
+      "stderr": ""
+    },
+    "status": "PASSED"
+  },
+  {
+    "name": "缺少版本",
+    "expected": "REJECT",
+    "input_hex": "7b2274797065223a226576616c5f7461736b222c226d73675f6964223a226e325f6576616c5f6578616d706c655f303031222c22636f7272656c6174696f6e5f6964223a227375625f6e325f6578616d706c655f303031222c22656d69747465645f6174223a22323032362d31312d31305430303a30303a30315a222c2266696c655f6964223a227375625f6e325f6578616d706c655f303031222c2270726f626c656d5f6964223a22615f706c75735f62222c22656e71756575655f736571223a312c22746573745f6964223a223031222c2273657175656e6365223a312c22617474656d7074223a312c226a756467655f6964223a227375625f6e325f6578616d706c655f3030313a30313a31222c227461726765745f6e6f64655f6964223a226576616c2d3031222c2262696e5f68617368223a227368613235363a63636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363222c22746573745f62756e646c655f68617368223a227368613235363a62626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262222c226a756467655f6d6f6465223a226e6f726d616c222c22636f6d706172655f6d6f6465223a22636f6d6d6f6e222c226576616c756174696f6e5f6d6f6465223a22616c6c5f6361736573222c226c696d697473223a7b226370755f6d73223a313030302c2277616c6c5f6d73223a313030302c226d656d5f6279746573223a3236383433353435362c226f75745f6279746573223a317d7d",
+    "python_error": "缺少字段：ver",
+    "cpp_exit_code": 1,
+    "cpp_error": "missing field: ver\n",
+    "status": "PASSED"
+  },
+  {
+    "name": "缺少 limits",
+    "expected": "REJECT",
+    "input_hex": "7b22766572223a312c2274797065223a226576616c5f7461736b222c226d73675f6964223a226e325f6576616c5f6578616d706c655f303031222c22636f7272656c6174696f6e5f6964223a227375625f6e325f6578616d706c655f303031222c22656d69747465645f6174223a22323032362d31312d31305430303a30303a30315a222c2266696c655f6964223a227375625f6e325f6578616d706c655f303031222c2270726f626c656d5f6964223a22615f706c75735f62222c22656e71756575655f736571223a312c22746573745f6964223a223031222c2273657175656e6365223a312c22617474656d7074223a312c226a756467655f6964223a227375625f6e325f6578616d706c655f3030313a30313a31222c227461726765745f6e6f64655f6964223a226576616c2d3031222c2262696e5f68617368223a227368613235363a63636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363222c22746573745f62756e646c655f68617368223a227368613235363a62626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262222c226a756467655f6d6f6465223a226e6f726d616c222c22636f6d706172655f6d6f6465223a22636f6d6d6f6e222c226576616c756174696f6e5f6d6f6465223a22616c6c5f6361736573227d",
+    "python_error": "缺少字段：limits",
+    "cpp_exit_code": 1,
+    "cpp_error": "missing field: limits\n",
+    "status": "PASSED"
+  },
+  {
+    "name": "缺少测试点",
+    "expected": "REJECT",
+    "input_hex": "7b22766572223a312c2274797065223a226576616c5f7461736b222c226d73675f6964223a226e325f6576616c5f6578616d706c655f303031222c22636f7272656c6174696f6e5f6964223a227375625f6e325f6578616d706c655f303031222c22656d69747465645f6174223a22323032362d31312d31305430303a30303a30315a222c2266696c655f6964223a227375625f6e325f6578616d706c655f303031222c2270726f626c656d5f6964223a22615f706c75735f62222c22656e71756575655f736571223a312c2273657175656e6365223a312c22617474656d7074223a312c226a756467655f6964223a227375625f6e325f6578616d706c655f3030313a30313a31222c227461726765745f6e6f64655f6964223a226576616c2d3031222c2262696e5f68617368223a227368613235363a63636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363222c22746573745f62756e646c655f68617368223a227368613235363a62626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262222c226a756467655f6d6f6465223a226e6f726d616c222c22636f6d706172655f6d6f6465223a22636f6d6d6f6e222c226576616c756174696f6e5f6d6f6465223a22616c6c5f6361736573222c226c696d697473223a7b226370755f6d73223a313030302c2277616c6c5f6d73223a313030302c226d656d5f6279746573223a3236383433353435362c226f75745f6279746573223a317d7d",
+    "python_error": "缺少字段：test_id",
+    "cpp_exit_code": 1,
+    "cpp_error": "missing field: test_id\n",
+    "status": "PASSED"
+  },
+  {
+    "name": "缺少测量字段",
+    "expected": "REJECT",
+    "input_hex": "7b22766572223a312c2274797065223a226576616c5f726573756c74222c226d73675f6964223a226e325f726573756c745f6578616d706c655f303031222c22636f7272656c6174696f6e5f6964223a227375625f6e325f6578616d706c655f303031222c22656d69747465645f6174223a22323032362d31312d31305430303a30303a30325a222c2266696c655f6964223a227375625f6e325f6578616d706c655f303031222c2270726f626c656d5f6964223a22615f706c75735f62222c227374616765223a226576616c222c22746573745f6964223a223031222c2273657175656e6365223a312c22617474656d7074223a312c226a756467655f6964223a227375625f6e325f6578616d706c655f3030313a30313a31222c226e6f64655f6964223a226576616c2d3031222c2276657264696374223a225741222c22726561736f6e223a22414e535745525f4d49534d41544348222c2277616c6c5f6d73223a6e756c6c2c226d656d5f6279746573223a6e756c6c2c226d656d6f72795f736f75726365223a6e756c6c2c226f75745f6279746573223a312c22657869745f636f6465223a302c227369676e616c223a302c2277616c6c5f74696d656f7574223a66616c73652c2273686f72745f636972637569746564223a66616c73652c22736f75726365223a2272756e6e6572222c227374646572725f7461696c223a22222c2264657461696c223a22e7a4bae4be8befbc9ae8be93e587bae58685e5aeb9e4b88ee6a087e58786e7ad94e6a188e4b88de5908c227d",
+    "python_error": "缺少字段：cpu_ms",
+    "cpp_exit_code": 1,
+    "cpp_error": "missing field: cpu_ms\n",
+    "status": "PASSED"
+  },
+  {
+    "name": "缺少成功产物",
+    "expected": "REJECT",
+    "input_hex": "7b22766572223a312c2274797065223a226576616c5f726573756c74222c226d73675f6964223a226e325f636f6d70696c655f737563636573735f6578616d706c655f303031222c22636f7272656c6174696f6e5f6964223a227375625f6e325f6578616d706c655f303031222c22656d69747465645f6174223a22323032362d31312d31305430303a30303a30315a222c2266696c655f6964223a227375625f6e325f6578616d706c655f303031222c2270726f626c656d5f6964223a22615f706c75735f62222c227374616765223a22636f6d70696c65222c22746573745f6964223a6e756c6c2c2273657175656e6365223a6e756c6c2c22617474656d7074223a312c226a756467655f6964223a6e756c6c2c226e6f64655f6964223a22636f6d70696c652d3031222c226370755f6d73223a6e756c6c2c2277616c6c5f6d73223a6e756c6c2c226d656d5f6279746573223a6e756c6c2c226d656d6f72795f736f75726365223a6e756c6c2c226f75745f6279746573223a6e756c6c2c22657869745f636f6465223a6e756c6c2c227369676e616c223a6e756c6c2c2277616c6c5f74696d656f7574223a66616c73652c2273686f72745f636972637569746564223a66616c73652c22736f75726365223a22636f6d70696c6572222c227374646572725f7461696c223a22222c22737461747573223a22434f4d50494c4544222c2276657264696374223a6e756c6c2c22726561736f6e223a224e4f4e45222c22656e71756575655f736571223a312c22736f757263655f68617368223a227368613235363a61616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161222c22746573745f62756e646c655f68617368223a227368613235363a62626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262222c22636f6d70696c65725f70726f66696c65223a226370705f626173656c696e655f7631222c2264657461696c223a22e59088e68890e7a4bae4be8befbc9ae7bc96e8af91e68890e58a9fefbc8ce4baa7e789a9e58fafe4be9be6b4bee58f91227d",
+    "python_error": "缺少字段：bin_hash",
+    "cpp_exit_code": 1,
+    "cpp_error": "missing field: bin_hash\n",
+    "status": "PASSED"
+  },
+  {
+    "name": "缺少编译空身份字段",
+    "expected": "REJECT",
+    "input_hex": "7b22766572223a312c2274797065223a226576616c5f726573756c74222c226d73675f6964223a226e325f636f6d70696c655f6572726f725f6578616d706c655f303031222c22636f7272656c6174696f6e5f6964223a227375625f6e325f6578616d706c655f303031222c22656d69747465645f6174223a22323032362d31312d31305430303a30303a30315a222c2266696c655f6964223a227375625f6e325f6578616d706c655f303031222c2270726f626c656d5f6964223a22615f706c75735f62222c227374616765223a22636f6d70696c65222c22746573745f6964223a6e756c6c2c2273657175656e6365223a6e756c6c2c22617474656d7074223a312c226e6f64655f6964223a22636f6d70696c652d3031222c226370755f6d73223a6e756c6c2c2277616c6c5f6d73223a6e756c6c2c226d656d5f6279746573223a6e756c6c2c226d656d6f72795f736f75726365223a6e756c6c2c226f75745f6279746573223a6e756c6c2c22657869745f636f6465223a6e756c6c2c227369676e616c223a6e756c6c2c2277616c6c5f74696d656f7574223a66616c73652c2273686f72745f636972637569746564223a66616c73652c22736f75726365223a22636f6d70696c6572222c227374646572725f7461696c223a22222c22737461747573223a2246494e414c222c2276657264696374223a224345222c22726561736f6e223a22434f4d50494c455f4552524f52222c2264657461696c223a22e59088e68890e7a4bae4be8befbc9ae6ba90e7a081e7bcbae5b091e58886e58fb7efbc8ce69caae4baa7e7949fe6b58be8af95e782b9e4bbbbe58aa1227d",
+    "python_error": "缺少字段：judge_id",
+    "cpp_exit_code": 1,
+    "cpp_error": "missing field: judge_id\n",
+    "status": "PASSED"
+  },
+  {
+    "name": "不支持版本",
+    "expected": "REJECT",
+    "input_hex": "7b22766572223a322c2274797065223a226576616c5f7461736b222c226d73675f6964223a226e325f6576616c5f6578616d706c655f303031222c22636f7272656c6174696f6e5f6964223a227375625f6e325f6578616d706c655f303031222c22656d69747465645f6174223a22323032362d31312d31305430303a30303a30315a222c2266696c655f6964223a227375625f6e325f6578616d706c655f303031222c2270726f626c656d5f6964223a22615f706c75735f62222c22656e71756575655f736571223a312c22746573745f6964223a223031222c2273657175656e6365223a312c22617474656d7074223a312c226a756467655f6964223a227375625f6e325f6578616d706c655f3030313a30313a31222c227461726765745f6e6f64655f6964223a226576616c2d3031222c2262696e5f68617368223a227368613235363a63636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363222c22746573745f62756e646c655f68617368223a227368613235363a62626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262222c226a756467655f6d6f6465223a226e6f726d616c222c22636f6d706172655f6d6f6465223a22636f6d6d6f6e222c226576616c756174696f6e5f6d6f6465223a22616c6c5f6361736573222c226c696d697473223a7b226370755f6d73223a313030302c2277616c6c5f6d73223a313030302c226d656d5f6279746573223a3236383433353435362c226f75745f6279746573223a317d7d",
+    "python_error": "不支持的版本",
+    "cpp_exit_code": 1,
+    "cpp_error": "unsupported version\n",
+    "status": "PASSED"
+  },
+  {
+    "name": "不支持消息种类",
+    "expected": "REJECT",
+    "input_hex": "7b22766572223a312c2274797065223a2263616e63656c5f7461736b222c226d73675f6964223a226e325f6576616c5f6578616d706c655f303031222c22636f7272656c6174696f6e5f6964223a227375625f6e325f6578616d706c655f303031222c22656d69747465645f6174223a22323032362d31312d31305430303a30303a30315a222c2266696c655f6964223a227375625f6e325f6578616d706c655f303031222c2270726f626c656d5f6964223a22615f706c75735f62222c22656e71756575655f736571223a312c22746573745f6964223a223031222c2273657175656e6365223a312c22617474656d7074223a312c226a756467655f6964223a227375625f6e325f6578616d706c655f3030313a30313a31222c227461726765745f6e6f64655f6964223a226576616c2d3031222c2262696e5f68617368223a227368613235363a63636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363222c22746573745f62756e646c655f68617368223a227368613235363a62626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262222c226a756467655f6d6f6465223a226e6f726d616c222c22636f6d706172655f6d6f6465223a22636f6d6d6f6e222c226576616c756174696f6e5f6d6f6465223a22616c6c5f6361736573222c226c696d697473223a7b226370755f6d73223a313030302c2277616c6c5f6d73223a313030302c226d656d5f6279746573223a3236383433353435362c226f75745f6279746573223a317d7d",
+    "python_error": "type 不支持：cancel_task",
+    "cpp_exit_code": 1,
+    "cpp_error": "unsupported type\n",
+    "status": "PASSED"
+  },
+  {
+    "name": "布尔值冒充版本",
+    "expected": "REJECT",
+    "input_hex": "7b22766572223a747275652c2274797065223a226576616c5f7461736b222c226d73675f6964223a226e325f6576616c5f6578616d706c655f303031222c22636f7272656c6174696f6e5f6964223a227375625f6e325f6578616d706c655f303031222c22656d69747465645f6174223a22323032362d31312d31305430303a30303a30315a222c2266696c655f6964223a227375625f6e325f6578616d706c655f303031222c2270726f626c656d5f6964223a22615f706c75735f62222c22656e71756575655f736571223a312c22746573745f6964223a223031222c2273657175656e6365223a312c22617474656d7074223a312c226a756467655f6964223a227375625f6e325f6578616d706c655f3030313a30313a31222c227461726765745f6e6f64655f6964223a226576616c2d3031222c2262696e5f68617368223a227368613235363a63636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363222c22746573745f62756e646c655f68617368223a227368613235363a62626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262222c226a756467655f6d6f6465223a226e6f726d616c222c22636f6d706172655f6d6f6465223a22636f6d6d6f6e222c226576616c756174696f6e5f6d6f6465223a22616c6c5f6361736573222c226c696d697473223a7b226370755f6d73223a313030302c2277616c6c5f6d73223a313030302c226d656d5f6279746573223a3236383433353435362c226f75745f6279746573223a317d7d",
+    "python_error": "ver 必须是范围内的整数",
+    "cpp_exit_code": 1,
+    "cpp_error": "expected integer: ver\n",
+    "status": "PASSED"
+  },
+  {
+    "name": "浮点数冒充序号",
+    "expected": "REJECT",
+    "input_hex": "7b22766572223a312c2274797065223a226576616c5f7461736b222c226d73675f6964223a226e325f6576616c5f6578616d706c655f303031222c22636f7272656c6174696f6e5f6964223a227375625f6e325f6578616d706c655f303031222c22656d69747465645f6174223a22323032362d31312d31305430303a30303a30315a222c2266696c655f6964223a227375625f6e325f6578616d706c655f303031222c2270726f626c656d5f6964223a22615f706c75735f62222c22656e71756575655f736571223a312c22746573745f6964223a223031222c2273657175656e6365223a312e302c22617474656d7074223a312c226a756467655f6964223a227375625f6e325f6578616d706c655f3030313a30313a31222c227461726765745f6e6f64655f6964223a226576616c2d3031222c2262696e5f68617368223a227368613235363a63636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363222c22746573745f62756e646c655f68617368223a227368613235363a62626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262222c226a756467655f6d6f6465223a226e6f726d616c222c22636f6d706172655f6d6f6465223a22636f6d6d6f6e222c226576616c756174696f6e5f6d6f6465223a22616c6c5f6361736573222c226c696d697473223a7b226370755f6d73223a313030302c2277616c6c5f6d73223a313030302c226d656d5f6279746573223a3236383433353435362c226f75745f6279746573223a317d7d",
+    "python_error": "sequence 必须是范围内的整数",
+    "cpp_exit_code": 1,
+    "cpp_error": "expected integer: sequence\n",
+    "status": "PASSED"
+  },
+  {
+    "name": "数字丢失前导零",
+    "expected": "REJECT",
+    "input_hex": "7b22766572223a312c2274797065223a226576616c5f7461736b222c226d73675f6964223a226e325f6576616c5f6578616d706c655f303031222c22636f7272656c6174696f6e5f6964223a227375625f6e325f6578616d706c655f303031222c22656d69747465645f6174223a22323032362d31312d31305430303a30303a30315a222c2266696c655f6964223a227375625f6e325f6578616d706c655f303031222c2270726f626c656d5f6964223a22615f706c75735f62222c22656e71756575655f736571223a312c22746573745f6964223a312c2273657175656e6365223a312c22617474656d7074223a312c226a756467655f6964223a227375625f6e325f6578616d706c655f3030313a30313a31222c227461726765745f6e6f64655f6964223a226576616c2d3031222c2262696e5f68617368223a227368613235363a63636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363222c22746573745f62756e646c655f68617368223a227368613235363a62626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262222c226a756467655f6d6f6465223a226e6f726d616c222c22636f6d706172655f6d6f6465223a22636f6d6d6f6e222c226576616c756174696f6e5f6d6f6465223a22616c6c5f6361736573222c226c696d697473223a7b226370755f6d73223a313030302c2277616c6c5f6d73223a313030302c226d656d5f6279746573223a3236383433353435362c226f75745f6279746573223a317d7d",
+    "python_error": "test_id 必须是字符串",
+    "cpp_exit_code": 1,
+    "cpp_error": "expected string: test_id\n",
+    "status": "PASSED"
+  },
+  {
+    "name": "零 attempt",
+    "expected": "REJECT",
+    "input_hex": "7b22766572223a312c2274797065223a226576616c5f7461736b222c226d73675f6964223a226e325f6576616c5f6578616d706c655f303031222c22636f7272656c6174696f6e5f6964223a227375625f6e325f6578616d706c655f303031222c22656d69747465645f6174223a22323032362d31312d31305430303a30303a30315a222c2266696c655f6964223a227375625f6e325f6578616d706c655f303031222c2270726f626c656d5f6964223a22615f706c75735f62222c22656e71756575655f736571223a312c22746573745f6964223a223031222c2273657175656e6365223a312c22617474656d7074223a302c226a756467655f6964223a227375625f6e325f6578616d706c655f3030313a30313a31222c227461726765745f6e6f64655f6964223a226576616c2d3031222c2262696e5f68617368223a227368613235363a63636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363222c22746573745f62756e646c655f68617368223a227368613235363a62626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262222c226a756467655f6d6f6465223a226e6f726d616c222c22636f6d706172655f6d6f6465223a22636f6d6d6f6e222c226576616c756174696f6e5f6d6f6465223a22616c6c5f6361736573222c226c696d697473223a7b226370755f6d73223a313030302c2277616c6c5f6d73223a313030302c226d656d5f6279746573223a3236383433353435362c226f75745f6279746573223a317d7d",
+    "python_error": "attempt 必须是范围内的整数",
+    "cpp_exit_code": 1,
+    "cpp_error": "integer out of range: attempt\n",
+    "status": "PASSED"
+  },
+  {
+    "name": "负测量值",
+    "expected": "REJECT",
+    "input_hex": "7b22766572223a312c2274797065223a226576616c5f726573756c74222c226d73675f6964223a226e325f726573756c745f6578616d706c655f303031222c22636f7272656c6174696f6e5f6964223a227375625f6e325f6578616d706c655f303031222c22656d69747465645f6174223a22323032362d31312d31305430303a30303a30325a222c2266696c655f6964223a227375625f6e325f6578616d706c655f303031222c2270726f626c656d5f6964223a22615f706c75735f62222c227374616765223a226576616c222c22746573745f6964223a223031222c2273657175656e6365223a312c22617474656d7074223a312c226a756467655f6964223a227375625f6e325f6578616d706c655f3030313a30313a31222c226e6f64655f6964223a226576616c2d3031222c2276657264696374223a225741222c22726561736f6e223a22414e535745525f4d49534d41544348222c226370755f6d73223a2d312c2277616c6c5f6d73223a6e756c6c2c226d656d5f6279746573223a6e756c6c2c226d656d6f72795f736f75726365223a6e756c6c2c226f75745f6279746573223a312c22657869745f636f6465223a302c227369676e616c223a302c2277616c6c5f74696d656f7574223a66616c73652c2273686f72745f636972637569746564223a66616c73652c22736f75726365223a2272756e6e6572222c227374646572725f7461696c223a22222c2264657461696c223a22e7a4bae4be8befbc9ae8be93e587bae58685e5aeb9e4b88ee6a087e58786e7ad94e6a188e4b88de5908c227d",
+    "python_error": "cpu_ms 必须是范围内的整数",
+    "cpp_exit_code": 1,
+    "cpp_error": "integer out of range: cpu_ms\n",
+    "status": "PASSED"
+  },
+  {
+    "name": "布尔值冒充内存",
+    "expected": "REJECT",
+    "input_hex": "7b22766572223a312c2274797065223a226576616c5f7461736b222c226d73675f6964223a226e325f6576616c5f6578616d706c655f303031222c22636f7272656c6174696f6e5f6964223a227375625f6e325f6578616d706c655f303031222c22656d69747465645f6174223a22323032362d31312d31305430303a30303a30315a222c2266696c655f6964223a227375625f6e325f6578616d706c655f303031222c2270726f626c656d5f6964223a22615f706c75735f62222c22656e71756575655f736571223a312c22746573745f6964223a223031222c2273657175656e6365223a312c22617474656d7074223a312c226a756467655f6964223a227375625f6e325f6578616d706c655f3030313a30313a31222c227461726765745f6e6f64655f6964223a226576616c2d3031222c2262696e5f68617368223a227368613235363a63636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363222c22746573745f62756e646c655f68617368223a227368613235363a62626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262222c226a756467655f6d6f6465223a226e6f726d616c222c22636f6d706172655f6d6f6465223a22636f6d6d6f6e222c226576616c756174696f6e5f6d6f6465223a22616c6c5f6361736573222c226c696d697473223a7b226370755f6d73223a313030302c2277616c6c5f6d73223a313030302c226d656d5f6279746573223a747275652c226f75745f6279746573223a317d7d",
+    "python_error": "mem_bytes 必须是范围内的整数",
+    "cpp_exit_code": 1,
+    "cpp_error": "expected integer: mem_bytes\n",
+    "status": "PASSED"
+  },
+  {
+    "name": "负输出上限",
+    "expected": "REJECT",
+    "input_hex": "7b22766572223a312c2274797065223a226576616c5f7461736b222c226d73675f6964223a226e325f6576616c5f6578616d706c655f303031222c22636f7272656c6174696f6e5f6964223a227375625f6e325f6578616d706c655f303031222c22656d69747465645f6174223a22323032362d31312d31305430303a30303a30315a222c2266696c655f6964223a227375625f6e325f6578616d706c655f303031222c2270726f626c656d5f6964223a22615f706c75735f62222c22656e71756575655f736571223a312c22746573745f6964223a223031222c2273657175656e6365223a312c22617474656d7074223a312c226a756467655f6964223a227375625f6e325f6578616d706c655f3030313a30313a31222c227461726765745f6e6f64655f6964223a226576616c2d3031222c2262696e5f68617368223a227368613235363a63636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363222c22746573745f62756e646c655f68617368223a227368613235363a62626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262222c226a756467655f6d6f6465223a226e6f726d616c222c22636f6d706172655f6d6f6465223a22636f6d6d6f6e222c226576616c756174696f6e5f6d6f6465223a22616c6c5f6361736573222c226c696d697473223a7b226370755f6d73223a313030302c2277616c6c5f6d73223a313030302c226d656d5f6279746573223a3236383433353435362c226f75745f6279746573223a2d317d7d",
+    "python_error": "out_bytes 必须是范围内的整数",
+    "cpp_exit_code": 1,
+    "cpp_error": "integer out of range: out_bytes\n",
+    "status": "PASSED"
+  },
+  {
+    "name": "零 CPU 上限",
+    "expected": "REJECT",
+    "input_hex": "7b22766572223a312c2274797065223a226576616c5f7461736b222c226d73675f6964223a226e325f6576616c5f6578616d706c655f303031222c22636f7272656c6174696f6e5f6964223a227375625f6e325f6578616d706c655f303031222c22656d69747465645f6174223a22323032362d31312d31305430303a30303a30315a222c2266696c655f6964223a227375625f6e325f6578616d706c655f303031222c2270726f626c656d5f6964223a22615f706c75735f62222c22656e71756575655f736571223a312c22746573745f6964223a223031222c2273657175656e6365223a312c22617474656d7074223a312c226a756467655f6964223a227375625f6e325f6578616d706c655f3030313a30313a31222c227461726765745f6e6f64655f6964223a226576616c2d3031222c2262696e5f68617368223a227368613235363a63636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363222c22746573745f62756e646c655f68617368223a227368613235363a62626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262222c226a756467655f6d6f6465223a226e6f726d616c222c22636f6d706172655f6d6f6465223a22636f6d6d6f6e222c226576616c756174696f6e5f6d6f6465223a22616c6c5f6361736573222c226c696d697473223a7b226370755f6d73223a302c2277616c6c5f6d73223a313030302c226d656d5f6279746573223a3236383433353435362c226f75745f6279746573223a317d7d",
+    "python_error": "cpu_ms 必须是范围内的整数",
+    "cpp_exit_code": 1,
+    "cpp_error": "integer out of range: cpu_ms\n",
+    "status": "PASSED"
+  },
+  {
+    "name": "超大整数",
+    "expected": "REJECT",
+    "input_hex": "7b22766572223a312c2274797065223a226576616c5f7461736b222c226d73675f6964223a226e325f6576616c5f6578616d706c655f303031222c22636f7272656c6174696f6e5f6964223a227375625f6e325f6578616d706c655f303031222c22656d69747465645f6174223a22323032362d31312d31305430303a30303a30315a222c2266696c655f6964223a227375625f6e325f6578616d706c655f303031222c2270726f626c656d5f6964223a22615f706c75735f62222c22656e71756575655f736571223a393232333337323033363835343737353830382c22746573745f6964223a223031222c2273657175656e6365223a312c22617474656d7074223a312c226a756467655f6964223a227375625f6e325f6578616d706c655f3030313a30313a31222c227461726765745f6e6f64655f6964223a226576616c2d3031222c2262696e5f68617368223a227368613235363a63636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363222c22746573745f62756e646c655f68617368223a227368613235363a62626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262222c226a756467655f6d6f6465223a226e6f726d616c222c22636f6d706172655f6d6f6465223a22636f6d6d6f6e222c226576616c756174696f6e5f6d6f6465223a22616c6c5f6361736573222c226c696d697473223a7b226370755f6d73223a313030302c2277616c6c5f6d73223a313030302c226d656d5f6279746573223a3236383433353435362c226f75745f6279746573223a317d7d",
+    "python_error": "整数超出有符号 64 位范围",
+    "cpp_exit_code": 1,
+    "cpp_error": "integer outside signed 64-bit range\n",
+    "status": "PASSED"
+  },
+  {
+    "name": "负整数下溢附加字段",
+    "expected": "REJECT",
+    "input_hex": "7b22766572223a312c2274797065223a226576616c5f7461736b222c226d73675f6964223a226e325f6576616c5f6578616d706c655f303031222c22636f7272656c6174696f6e5f6964223a227375625f6e325f6578616d706c655f303031222c22656d69747465645f6174223a22323032362d31312d31305430303a30303a30315a222c2266696c655f6964223a227375625f6e325f6578616d706c655f303031222c2270726f626c656d5f6964223a22615f706c75735f62222c22656e71756575655f736571223a312c22746573745f6964223a223031222c2273657175656e6365223a312c22617474656d7074223a312c226a756467655f6964223a227375625f6e325f6578616d706c655f3030313a30313a31222c227461726765745f6e6f64655f6964223a226576616c2d3031222c2262696e5f68617368223a227368613235363a63636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363222c22746573745f62756e646c655f68617368223a227368613235363a62626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262222c226a756467655f6d6f6465223a226e6f726d616c222c22636f6d706172655f6d6f6465223a22636f6d6d6f6e222c226576616c756174696f6e5f6d6f6465223a22616c6c5f6361736573222c226c696d697473223a7b226370755f6d73223a313030302c2277616c6c5f6d73223a313030302c226d656d5f6279746573223a3236383433353435362c226f75745f6279746573223a317d2c22657874656e73696f6e223a2d393232333337323033363835343737353830397d",
+    "python_error": "整数超出有符号 64 位范围",
+    "cpp_exit_code": 1,
+    "cpp_error": "invalid JSON syntax/UTF-8: number expected\n",
+    "status": "PASSED"
+  },
+  {
+    "name": "correlation 不一致",
+    "expected": "REJECT",
+    "input_hex": "7b22766572223a312c2274797065223a226576616c5f7461736b222c226d73675f6964223a226e325f6576616c5f6578616d706c655f303031222c22636f7272656c6174696f6e5f6964223a226f74686572222c22656d69747465645f6174223a22323032362d31312d31305430303a30303a30315a222c2266696c655f6964223a227375625f6e325f6578616d706c655f303031222c2270726f626c656d5f6964223a22615f706c75735f62222c22656e71756575655f736571223a312c22746573745f6964223a223031222c2273657175656e6365223a312c22617474656d7074223a312c226a756467655f6964223a227375625f6e325f6578616d706c655f3030313a30313a31222c227461726765745f6e6f64655f6964223a226576616c2d3031222c2262696e5f68617368223a227368613235363a63636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363222c22746573745f62756e646c655f68617368223a227368613235363a62626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262222c226a756467655f6d6f6465223a226e6f726d616c222c22636f6d706172655f6d6f6465223a22636f6d6d6f6e222c226576616c756174696f6e5f6d6f6465223a22616c6c5f6361736573222c226c696d697473223a7b226370755f6d73223a313030302c2277616c6c5f6d73223a313030302c226d656d5f6279746573223a3236383433353435362c226f75745f6279746573223a317d7d",
+    "python_error": "correlation_id 不一致",
+    "cpp_exit_code": 1,
+    "cpp_error": "correlation_id mismatch\n",
+    "status": "PASSED"
+  },
+  {
+    "name": "judge_id 不一致",
+    "expected": "REJECT",
+    "input_hex": "7b22766572223a312c2274797065223a226576616c5f7461736b222c226d73675f6964223a226e325f6576616c5f6578616d706c655f303031222c22636f7272656c6174696f6e5f6964223a227375625f6e325f6578616d706c655f303031222c22656d69747465645f6174223a22323032362d31312d31305430303a30303a30315a222c2266696c655f6964223a227375625f6e325f6578616d706c655f303031222c2270726f626c656d5f6964223a22615f706c75735f62222c22656e71756575655f736571223a312c22746573745f6964223a223031222c2273657175656e6365223a312c22617474656d7074223a322c226a756467655f6964223a227375625f6e325f6578616d706c655f3030313a30313a31222c227461726765745f6e6f64655f6964223a226576616c2d3031222c2262696e5f68617368223a227368613235363a63636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363222c22746573745f62756e646c655f68617368223a227368613235363a62626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262222c226a756467655f6d6f6465223a226e6f726d616c222c22636f6d706172655f6d6f6465223a22636f6d6d6f6e222c226576616c756174696f6e5f6d6f6465223a22616c6c5f6361736573222c226c696d697473223a7b226370755f6d73223a313030302c2277616c6c5f6d73223a313030302c226d656d5f6279746573223a3236383433353435362c226f75745f6279746573223a317d7d",
+    "python_error": "judge_id 不一致",
+    "cpp_exit_code": 1,
+    "cpp_error": "judge_id mismatch\n",
+    "status": "PASSED"
+  },
+  {
+    "name": "test_id 含冒号",
+    "expected": "REJECT",
+    "input_hex": "7b22766572223a312c2274797065223a226576616c5f7461736b222c226d73675f6964223a226e325f6576616c5f6578616d706c655f303031222c22636f7272656c6174696f6e5f6964223a227375625f6e325f6578616d706c655f303031222c22656d69747465645f6174223a22323032362d31312d31305430303a30303a30315a222c2266696c655f6964223a227375625f6e325f6578616d706c655f303031222c2270726f626c656d5f6964223a22615f706c75735f62222c22656e71756575655f736571223a312c22746573745f6964223a22613a62222c2273657175656e6365223a312c22617474656d7074223a312c226a756467655f6964223a227375625f6e325f6578616d706c655f3030313a30313a31222c227461726765745f6e6f64655f6964223a226576616c2d3031222c2262696e5f68617368223a227368613235363a63636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363222c22746573745f62756e646c655f68617368223a227368613235363a62626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262222c226a756467655f6d6f6465223a226e6f726d616c222c22636f6d706172655f6d6f6465223a22636f6d6d6f6e222c226576616c756174696f6e5f6d6f6465223a22616c6c5f6361736573222c226c696d697473223a7b226370755f6d73223a313030302c2277616c6c5f6d73223a313030302c226d656d5f6279746573223a3236383433353435362c226f75745f6279746573223a317d7d",
+    "python_error": "test_id 不能含冒号",
+    "cpp_exit_code": 1,
+    "cpp_error": "colon in test_id\n",
+    "status": "PASSED"
+  },
+  {
+    "name": "node_id 破坏路由",
+    "expected": "REJECT",
+    "input_hex": "7b22766572223a312c2274797065223a226576616c5f7461736b222c226d73675f6964223a226e325f6576616c5f6578616d706c655f303031222c22636f7272656c6174696f6e5f6964223a227375625f6e325f6578616d706c655f303031222c22656d69747465645f6174223a22323032362d31312d31305430303a30303a30315a222c2266696c655f6964223a227375625f6e325f6578616d706c655f303031222c2270726f626c656d5f6964223a22615f706c75735f62222c22656e71756575655f736571223a312c22746573745f6964223a223031222c2273657175656e6365223a312c22617474656d7074223a312c226a756467655f6964223a227375625f6e325f6578616d706c655f3030313a30313a31222c227461726765745f6e6f64655f6964223a226576616c2e3031222c2262696e5f68617368223a227368613235363a63636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363222c22746573745f62756e646c655f68617368223a227368613235363a62626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262222c226a756467655f6d6f6465223a226e6f726d616c222c22636f6d706172655f6d6f6465223a22636f6d6d6f6e222c226576616c756174696f6e5f6d6f6465223a22616c6c5f6361736573222c226c696d697473223a7b226370755f6d73223a313030302c2277616c6c5f6d73223a313030302c226d656d5f6279746573223a3236383433353435362c226f75745f6279746573223a317d7d",
+    "python_error": "target_node_id 格式错误",
+    "cpp_exit_code": 1,
+    "cpp_error": "invalid node id\n",
+    "status": "PASSED"
+  },
+  {
+    "name": "哈希长度错误",
+    "expected": "REJECT",
+    "input_hex": "7b22766572223a312c2274797065223a226576616c5f7461736b222c226d73675f6964223a226e325f6576616c5f6578616d706c655f303031222c22636f7272656c6174696f6e5f6964223a227375625f6e325f6578616d706c655f303031222c22656d69747465645f6174223a22323032362d31312d31305430303a30303a30315a222c2266696c655f6964223a227375625f6e325f6578616d706c655f303031222c2270726f626c656d5f6964223a22615f706c75735f62222c22656e71756575655f736571223a312c22746573745f6964223a223031222c2273657175656e6365223a312c22617474656d7074223a312c226a756467655f6964223a227375625f6e325f6578616d706c655f3030313a30313a31222c227461726765745f6e6f64655f6964223a226576616c2d3031222c2262696e5f68617368223a227368613235363a313233222c22746573745f62756e646c655f68617368223a227368613235363a62626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262222c226a756467655f6d6f6465223a226e6f726d616c222c22636f6d706172655f6d6f6465223a22636f6d6d6f6e222c226576616c756174696f6e5f6d6f6465223a22616c6c5f6361736573222c226c696d697473223a7b226370755f6d73223a313030302c2277616c6c5f6d73223a313030302c226d656d5f6279746573223a3236383433353435362c226f75745f6279746573223a317d7d",
+    "python_error": "bin_hash 哈希格式错误",
+    "cpp_exit_code": 1,
+    "cpp_error": "invalid hash: bin_hash\n",
+    "status": "PASSED"
+  },
+  {
+    "name": "哈希大写",
+    "expected": "REJECT",
+    "input_hex": "7b22766572223a312c2274797065223a226576616c5f7461736b222c226d73675f6964223a226e325f6576616c5f6578616d706c655f303031222c22636f7272656c6174696f6e5f6964223a227375625f6e325f6578616d706c655f303031222c22656d69747465645f6174223a22323032362d31312d31305430303a30303a30315a222c2266696c655f6964223a227375625f6e325f6578616d706c655f303031222c2270726f626c656d5f6964223a22615f706c75735f62222c22656e71756575655f736571223a312c22746573745f6964223a223031222c2273657175656e6365223a312c22617474656d7074223a312c226a756467655f6964223a227375625f6e325f6578616d706c655f3030313a30313a31222c227461726765745f6e6f64655f6964223a226576616c2d3031222c2262696e5f68617368223a227368613235363a41414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141222c22746573745f62756e646c655f68617368223a227368613235363a62626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262222c226a756467655f6d6f6465223a226e6f726d616c222c22636f6d706172655f6d6f6465223a22636f6d6d6f6e222c226576616c756174696f6e5f6d6f6465223a22616c6c5f6361736573222c226c696d697473223a7b226370755f6d73223a313030302c2277616c6c5f6d73223a313030302c226d656d5f6279746573223a3236383433353435362c226f75745f6279746573223a317d7d",
+    "python_error": "bin_hash 哈希格式错误",
+    "cpp_exit_code": 1,
+    "cpp_error": "invalid hash: bin_hash\n",
+    "status": "PASSED"
+  },
+  {
+    "name": "不支持模式",
+    "expected": "REJECT",
+    "input_hex": "7b22766572223a312c2274797065223a226576616c5f7461736b222c226d73675f6964223a226e325f6576616c5f6578616d706c655f303031222c22636f7272656c6174696f6e5f6964223a227375625f6e325f6578616d706c655f303031222c22656d69747465645f6174223a22323032362d31312d31305430303a30303a30315a222c2266696c655f6964223a227375625f6e325f6578616d706c655f303031222c2270726f626c656d5f6964223a22615f706c75735f62222c22656e71756575655f736571223a312c22746573745f6964223a223031222c2273657175656e6365223a312c22617474656d7074223a312c226a756467655f6964223a227375625f6e325f6578616d706c655f3030313a30313a31222c227461726765745f6e6f64655f6964223a226576616c2d3031222c2262696e5f68617368223a227368613235363a63636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363222c22746573745f62756e646c655f68617368223a227368613235363a62626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262222c226a756467655f6d6f6465223a226e6f726d616c222c22636f6d706172655f6d6f6465223a227370656369616c222c226576616c756174696f6e5f6d6f6465223a22616c6c5f6361736573222c226c696d697473223a7b226370755f6d73223a313030302c2277616c6c5f6d73223a313030302c226d656d5f6279746573223a3236383433353435362c226f75745f6279746573223a317d7d",
+    "python_error": "compare_mode 不支持：special",
+    "cpp_exit_code": 1,
+    "cpp_error": "unsupported value: compare_mode\n",
+    "status": "PASSED"
+  },
+  {
+    "name": "不支持编译配置",
+    "expected": "REJECT",
+    "input_hex": "7b22766572223a312c2274797065223a22636f6d70696c655f7461736b222c226d73675f6964223a226e325f636f6d70696c655f6578616d706c655f303031222c22636f7272656c6174696f6e5f6964223a227375625f6e325f6578616d706c655f303031222c22656d69747465645f6174223a22323032362d31312d31305430303a30303a30305a222c2266696c655f6964223a227375625f6e325f6578616d706c655f303031222c2270726f626c656d5f6964223a22615f706c75735f62222c22656e71756575655f736571223a312c22617474656d7074223a312c22736f757263655f68617368223a227368613235363a61616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161222c22746573745f62756e646c655f68617368223a227368613235363a62626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262222c22636f6d70696c65725f70726f66696c65223a226370705f6c6174657374222c226c696d697473223a7b226370755f6d73223a31303030302c2277616c6c5f6d73223a33303030302c226d656d5f6279746573223a3533363837303931322c226f75745f6279746573223a313034383537367d7d",
+    "python_error": "compiler_profile 不支持：cpp_latest",
+    "cpp_exit_code": 1,
+    "cpp_error": "unsupported value: compiler_profile\n",
+    "status": "PASSED"
+  },
+  {
+    "name": "编译配置含 NUL",
+    "expected": "REJECT",
+    "input_hex": "7b22766572223a312c2274797065223a22636f6d70696c655f7461736b222c226d73675f6964223a226e325f636f6d70696c655f6578616d706c655f303031222c22636f7272656c6174696f6e5f6964223a227375625f6e325f6578616d706c655f303031222c22656d69747465645f6174223a22323032362d31312d31305430303a30303a30305a222c2266696c655f6964223a227375625f6e325f6578616d706c655f303031222c2270726f626c656d5f6964223a22615f706c75735f62222c22656e71756575655f736571223a312c22617474656d7074223a312c22736f757263655f68617368223a227368613235363a61616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161222c22746573745f62756e646c655f68617368223a227368613235363a62626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262222c22636f6d70696c65725f70726f66696c65223a226370705f626173656c696e655f76315c7530303030737566666978222c226c696d697473223a7b226370755f6d73223a31303030302c2277616c6c5f6d73223a33303030302c226d656d5f6279746573223a3533363837303931322c226f75745f6279746573223a313034383537367d7d",
+    "python_error": "compiler_profile 不支持：cpp_baseline_v1\u0000suffix",
+    "cpp_exit_code": 1,
+    "cpp_error": "unsupported value: compiler_profile\n",
+    "status": "PASSED"
+  },
+  {
+    "name": "客户端改写编译限制",
+    "expected": "REJECT",
+    "input_hex": "7b22766572223a312c2274797065223a22636f6d70696c655f7461736b222c226d73675f6964223a226e325f636f6d70696c655f6578616d706c655f303031222c22636f7272656c6174696f6e5f6964223a227375625f6e325f6578616d706c655f303031222c22656d69747465645f6174223a22323032362d31312d31305430303a30303a30305a222c2266696c655f6964223a227375625f6e325f6578616d706c655f303031222c2270726f626c656d5f6964223a22615f706c75735f62222c22656e71756575655f736571223a312c22617474656d7074223a312c22736f757263655f68617368223a227368613235363a61616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161222c22746573745f62756e646c655f68617368223a227368613235363a62626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262222c22636f6d70696c65725f70726f66696c65223a226370705f626173656c696e655f7631222c226c696d697473223a7b226370755f6d73223a31303030302c2277616c6c5f6d73223a33303030302c226d656d5f6279746573223a312c226f75745f6279746573223a313034383537367d7d",
+    "python_error": "编译限制与配置不一致",
+    "cpp_exit_code": 1,
+    "cpp_error": "compiler limits mismatch\n",
+    "status": "PASSED"
+  },
+  {
+    "name": "墙钟配置不同",
+    "expected": "REJECT",
+    "input_hex": "7b22766572223a312c2274797065223a226576616c5f7461736b222c226d73675f6964223a226e325f6576616c5f6578616d706c655f303031222c22636f7272656c6174696f6e5f6964223a227375625f6e325f6578616d706c655f303031222c22656d69747465645f6174223a22323032362d31312d31305430303a30303a30315a222c2266696c655f6964223a227375625f6e325f6578616d706c655f303031222c2270726f626c656d5f6964223a22615f706c75735f62222c22656e71756575655f736571223a312c22746573745f6964223a223031222c2273657175656e6365223a312c22617474656d7074223a312c226a756467655f6964223a227375625f6e325f6578616d706c655f3030313a30313a31222c227461726765745f6e6f64655f6964223a226576616c2d3031222c2262696e5f68617368223a227368613235363a63636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363222c22746573745f62756e646c655f68617368223a227368613235363a62626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262222c226a756467655f6d6f6465223a226e6f726d616c222c22636f6d706172655f6d6f6465223a22636f6d6d6f6e222c226576616c756174696f6e5f6d6f6465223a22616c6c5f6361736573222c226c696d697473223a7b226370755f6d73223a313030302c2277616c6c5f6d73223a323030302c226d656d5f6279746573223a3236383433353435362c226f75745f6279746573223a317d7d",
+    "python_error": "v1 墙钟与 CPU 配置必须相等",
+    "cpp_exit_code": 1,
+    "cpp_error": "wall/CPU limits mismatch\n",
+    "status": "PASSED"
+  },
+  {
+    "name": "时间无 UTC 标记",
+    "expected": "REJECT",
+    "input_hex": "7b22766572223a312c2274797065223a226576616c5f7461736b222c226d73675f6964223a226e325f6576616c5f6578616d706c655f303031222c22636f7272656c6174696f6e5f6964223a227375625f6e325f6578616d706c655f303031222c22656d69747465645f6174223a22323032362d31312d31305430303a30303a30302b30383a3030222c2266696c655f6964223a227375625f6e325f6578616d706c655f303031222c2270726f626c656d5f6964223a22615f706c75735f62222c22656e71756575655f736571223a312c22746573745f6964223a223031222c2273657175656e6365223a312c22617474656d7074223a312c226a756467655f6964223a227375625f6e325f6578616d706c655f3030313a30313a31222c227461726765745f6e6f64655f6964223a226576616c2d3031222c2262696e5f68617368223a227368613235363a63636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363222c22746573745f62756e646c655f68617368223a227368613235363a62626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262222c226a756467655f6d6f6465223a226e6f726d616c222c22636f6d706172655f6d6f6465223a22636f6d6d6f6e222c226576616c756174696f6e5f6d6f6465223a22616c6c5f6361736573222c226c696d697473223a7b226370755f6d73223a313030302c2277616c6c5f6d73223a313030302c226d656d5f6279746573223a3236383433353435362c226f75745f6279746573223a317d7d",
+    "python_error": "emitted_at 必须是 UTC 时间",
+    "cpp_exit_code": 1,
+    "cpp_error": "expected UTC timestamp\n",
+    "status": "PASSED"
+  },
+  {
+    "name": "日期不存在",
+    "expected": "REJECT",
+    "input_hex": "7b22766572223a312c2274797065223a226576616c5f7461736b222c226d73675f6964223a226e325f6576616c5f6578616d706c655f303031222c22636f7272656c6174696f6e5f6964223a227375625f6e325f6578616d706c655f303031222c22656d69747465645f6174223a22323032362d30322d32395430303a30303a30305a222c2266696c655f6964223a227375625f6e325f6578616d706c655f303031222c2270726f626c656d5f6964223a22615f706c75735f62222c22656e71756575655f736571223a312c22746573745f6964223a223031222c2273657175656e6365223a312c22617474656d7074223a312c226a756467655f6964223a227375625f6e325f6578616d706c655f3030313a30313a31222c227461726765745f6e6f64655f6964223a226576616c2d3031222c2262696e5f68617368223a227368613235363a63636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363222c22746573745f62756e646c655f68617368223a227368613235363a62626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262222c226a756467655f6d6f6465223a226e6f726d616c222c22636f6d706172655f6d6f6465223a22636f6d6d6f6e222c226576616c756174696f6e5f6d6f6465223a22616c6c5f6361736573222c226c696d697473223a7b226370755f6d73223a313030302c2277616c6c5f6d73223a313030302c226d656d5f6279746573223a3236383433353435362c226f75745f6279746573223a317d7d",
+    "python_error": "emitted_at 日期无效",
+    "cpp_exit_code": 1,
+    "cpp_error": "invalid timestamp\n",
+    "status": "PASSED"
+  },
+  {
+    "name": "错误阶段来源",
+    "expected": "REJECT",
+    "input_hex": "7b22766572223a312c2274797065223a226576616c5f726573756c74222c226d73675f6964223a226e325f726573756c745f6578616d706c655f303031222c22636f7272656c6174696f6e5f6964223a227375625f6e325f6578616d706c655f303031222c22656d69747465645f6174223a22323032362d31312d31305430303a30303a30325a222c2266696c655f6964223a227375625f6e325f6578616d706c655f303031222c2270726f626c656d5f6964223a22615f706c75735f62222c227374616765223a226576616c222c22746573745f6964223a223031222c2273657175656e6365223a312c22617474656d7074223a312c226a756467655f6964223a227375625f6e325f6578616d706c655f3030313a30313a31222c226e6f64655f6964223a226576616c2d3031222c2276657264696374223a225741222c22726561736f6e223a22414e535745525f4d49534d41544348222c226370755f6d73223a6e756c6c2c2277616c6c5f6d73223a6e756c6c2c226d656d5f6279746573223a6e756c6c2c226d656d6f72795f736f75726365223a6e756c6c2c226f75745f6279746573223a312c22657869745f636f6465223a302c227369676e616c223a302c2277616c6c5f74696d656f7574223a66616c73652c2273686f72745f636972637569746564223a66616c73652c22736f75726365223a22636f6d70696c6572222c227374646572725f7461696c223a22222c2264657461696c223a22e7a4bae4be8befbc9ae8be93e587bae58685e5aeb9e4b88ee6a087e58786e7ad94e6a188e4b88de5908c227d",
+    "python_error": "source 与阶段不一致",
+    "cpp_exit_code": 1,
+    "cpp_error": "source/stage mismatch\n",
+    "status": "PASSED"
+  },
+  {
+    "name": "判定原因冲突",
+    "expected": "REJECT",
+    "input_hex": "7b22766572223a312c2274797065223a226576616c5f726573756c74222c226d73675f6964223a226e325f726573756c745f6578616d706c655f303031222c22636f7272656c6174696f6e5f6964223a227375625f6e325f6578616d706c655f303031222c22656d69747465645f6174223a22323032362d31312d31305430303a30303a30325a222c2266696c655f6964223a227375625f6e325f6578616d706c655f303031222c2270726f626c656d5f6964223a22615f706c75735f62222c227374616765223a226576616c222c22746573745f6964223a223031222c2273657175656e6365223a312c22617474656d7074223a312c226a756467655f6964223a227375625f6e325f6578616d706c655f3030313a30313a31222c226e6f64655f6964223a226576616c2d3031222c2276657264696374223a225741222c22726561736f6e223a224e4f4e45222c226370755f6d73223a6e756c6c2c2277616c6c5f6d73223a6e756c6c2c226d656d5f6279746573223a6e756c6c2c226d656d6f72795f736f75726365223a6e756c6c2c226f75745f6279746573223a312c22657869745f636f6465223a302c227369676e616c223a302c2277616c6c5f74696d656f7574223a66616c73652c2273686f72745f636972637569746564223a66616c73652c22736f75726365223a2272756e6e6572222c227374646572725f7461696c223a22222c2264657461696c223a22e7a4bae4be8befbc9ae8be93e587bae58685e5aeb9e4b88ee6a087e58786e7ad94e6a188e4b88de5908c227d",
+    "python_error": "判定与原因不一致",
+    "cpp_exit_code": 1,
+    "cpp_error": "verdict/reason mismatch\n",
+    "status": "PASSED"
+  },
+  {
+    "name": "未定义原因",
+    "expected": "REJECT",
+    "input_hex": "7b22766572223a312c2274797065223a226576616c5f726573756c74222c226d73675f6964223a226e325f726573756c745f6578616d706c655f303031222c22636f7272656c6174696f6e5f6964223a227375625f6e325f6578616d706c655f303031222c22656d69747465645f6174223a22323032362d31312d31305430303a30303a30325a222c2266696c655f6964223a227375625f6e325f6578616d706c655f303031222c2270726f626c656d5f6964223a22615f706c75735f62222c227374616765223a226576616c222c22746573745f6964223a223031222c2273657175656e6365223a312c22617474656d7074223a312c226a756467655f6964223a227375625f6e325f6578616d706c655f3030313a30313a31222c226e6f64655f6964223a226576616c2d3031222c2276657264696374223a225741222c22726561736f6e223a22554e4b4e4f574e222c226370755f6d73223a6e756c6c2c2277616c6c5f6d73223a6e756c6c2c226d656d5f6279746573223a6e756c6c2c226d656d6f72795f736f75726365223a6e756c6c2c226f75745f6279746573223a312c22657869745f636f6465223a302c227369676e616c223a302c2277616c6c5f74696d656f7574223a66616c73652c2273686f72745f636972637569746564223a66616c73652c22736f75726365223a2272756e6e6572222c227374646572725f7461696c223a22222c2264657461696c223a22e7a4bae4be8befbc9ae8be93e587bae58685e5aeb9e4b88ee6a087e58786e7ad94e6a188e4b88de5908c227d",
+    "python_error": "判定与原因不一致",
+    "cpp_exit_code": 1,
+    "cpp_error": "verdict/reason mismatch\n",
+    "status": "PASSED"
+  },
+  {
+    "name": "评测伪造 CE",
+    "expected": "REJECT",
+    "input_hex": "7b22766572223a312c2274797065223a226576616c5f726573756c74222c226d73675f6964223a226e325f726573756c745f6578616d706c655f303031222c22636f7272656c6174696f6e5f6964223a227375625f6e325f6578616d706c655f303031222c22656d69747465645f6174223a22323032362d31312d31305430303a30303a30325a222c2266696c655f6964223a227375625f6e325f6578616d706c655f303031222c2270726f626c656d5f6964223a22615f706c75735f62222c227374616765223a226576616c222c22746573745f6964223a223031222c2273657175656e6365223a312c22617474656d7074223a312c226a756467655f6964223a227375625f6e325f6578616d706c655f3030313a30313a31222c226e6f64655f6964223a226576616c2d3031222c2276657264696374223a224345222c22726561736f6e223a22434f4d50494c455f4552524f52222c226370755f6d73223a6e756c6c2c2277616c6c5f6d73223a6e756c6c2c226d656d5f6279746573223a6e756c6c2c226d656d6f72795f736f75726365223a6e756c6c2c226f75745f6279746573223a312c22657869745f636f6465223a302c227369676e616c223a302c2277616c6c5f74696d656f7574223a66616c73652c2273686f72745f636972637569746564223a66616c73652c22736f75726365223a2272756e6e6572222c227374646572725f7461696c223a22222c2264657461696c223a22e7a4bae4be8befbc9ae8be93e587bae58685e5aeb9e4b88ee6a087e58786e7ad94e6a188e4b88de5908c227d",
+    "python_error": "阶段不支持该判定",
+    "cpp_exit_code": 1,
+    "cpp_error": "unsupported value: verdict\n",
+    "status": "PASSED"
+  },
+  {
+    "name": "编译伪造测试点",
+    "expected": "REJECT",
+    "input_hex": "7b22766572223a312c2274797065223a226576616c5f726573756c74222c226d73675f6964223a226e325f636f6d70696c655f6572726f725f6578616d706c655f303031222c22636f7272656c6174696f6e5f6964223a227375625f6e325f6578616d706c655f303031222c22656d69747465645f6174223a22323032362d31312d31305430303a30303a30315a222c2266696c655f6964223a227375625f6e325f6578616d706c655f303031222c2270726f626c656d5f6964223a22615f706c75735f62222c227374616765223a22636f6d70696c65222c22746573745f6964223a223031222c2273657175656e6365223a6e756c6c2c22617474656d7074223a312c226a756467655f6964223a6e756c6c2c226e6f64655f6964223a22636f6d70696c652d3031222c226370755f6d73223a6e756c6c2c2277616c6c5f6d73223a6e756c6c2c226d656d5f6279746573223a6e756c6c2c226d656d6f72795f736f75726365223a6e756c6c2c226f75745f6279746573223a6e756c6c2c22657869745f636f6465223a6e756c6c2c227369676e616c223a6e756c6c2c2277616c6c5f74696d656f7574223a66616c73652c2273686f72745f636972637569746564223a66616c73652c22736f75726365223a22636f6d70696c6572222c227374646572725f7461696c223a22222c22737461747573223a2246494e414c222c2276657264696374223a224345222c22726561736f6e223a22434f4d50494c455f4552524f52222c2264657461696c223a22e59088e68890e7a4bae4be8befbc9ae6ba90e7a081e7bcbae5b091e58886e58fb7efbc8ce69caae4baa7e7949fe6b58be8af95e782b9e4bbbbe58aa1227d",
+    "python_error": "编译通知的 test_id 必须为 null",
+    "cpp_exit_code": 1,
+    "cpp_error": "compile identity/exit must be null\n",
+    "status": "PASSED"
+  },
+  {
+    "name": "编译伪造程序退出码",
+    "expected": "REJECT",
+    "input_hex": "7b22766572223a312c2274797065223a226576616c5f726573756c74222c226d73675f6964223a226e325f636f6d70696c655f6572726f725f6578616d706c655f303031222c22636f7272656c6174696f6e5f6964223a227375625f6e325f6578616d706c655f303031222c22656d69747465645f6174223a22323032362d31312d31305430303a30303a30315a222c2266696c655f6964223a227375625f6e325f6578616d706c655f303031222c2270726f626c656d5f6964223a22615f706c75735f62222c227374616765223a22636f6d70696c65222c22746573745f6964223a6e756c6c2c2273657175656e6365223a6e756c6c2c22617474656d7074223a312c226a756467655f6964223a6e756c6c2c226e6f64655f6964223a22636f6d70696c652d3031222c226370755f6d73223a6e756c6c2c2277616c6c5f6d73223a6e756c6c2c226d656d5f6279746573223a6e756c6c2c226d656d6f72795f736f75726365223a6e756c6c2c226f75745f6279746573223a6e756c6c2c22657869745f636f6465223a312c227369676e616c223a6e756c6c2c2277616c6c5f74696d656f7574223a66616c73652c2273686f72745f636972637569746564223a66616c73652c22736f75726365223a22636f6d70696c6572222c227374646572725f7461696c223a22222c22737461747573223a2246494e414c222c2276657264696374223a224345222c22726561736f6e223a22434f4d50494c455f4552524f52222c2264657461696c223a22e59088e68890e7a4bae4be8befbc9ae6ba90e7a081e7bcbae5b091e58886e58fb7efbc8ce69caae4baa7e7949fe6b58be8af95e782b9e4bbbbe58aa1227d",
+    "python_error": "编译通知的 exit_code 必须为 null",
+    "cpp_exit_code": 1,
+    "cpp_error": "compile identity/exit must be null\n",
+    "status": "PASSED"
+  },
+  {
+    "name": "COMPILED 携带终态判定",
+    "expected": "REJECT",
+    "input_hex": "7b22766572223a312c2274797065223a226576616c5f726573756c74222c226d73675f6964223a226e325f636f6d70696c655f737563636573735f6578616d706c655f303031222c22636f7272656c6174696f6e5f6964223a227375625f6e325f6578616d706c655f303031222c22656d69747465645f6174223a22323032362d31312d31305430303a30303a30315a222c2266696c655f6964223a227375625f6e325f6578616d706c655f303031222c2270726f626c656d5f6964223a22615f706c75735f62222c227374616765223a22636f6d70696c65222c22746573745f6964223a6e756c6c2c2273657175656e6365223a6e756c6c2c22617474656d7074223a312c226a756467655f6964223a6e756c6c2c226e6f64655f6964223a22636f6d70696c652d3031222c226370755f6d73223a6e756c6c2c2277616c6c5f6d73223a6e756c6c2c226d656d5f6279746573223a6e756c6c2c226d656d6f72795f736f75726365223a6e756c6c2c226f75745f6279746573223a6e756c6c2c22657869745f636f6465223a6e756c6c2c227369676e616c223a6e756c6c2c2277616c6c5f74696d656f7574223a66616c73652c2273686f72745f636972637569746564223a66616c73652c22736f75726365223a22636f6d70696c6572222c227374646572725f7461696c223a22222c22737461747573223a22434f4d50494c4544222c2276657264696374223a224143222c22726561736f6e223a224e4f4e45222c22656e71756575655f736571223a312c22736f757263655f68617368223a227368613235363a61616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161222c2262696e5f68617368223a227368613235363a63636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363222c22746573745f62756e646c655f68617368223a227368613235363a62626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262222c22636f6d70696c65725f70726f66696c65223a226370705f626173656c696e655f7631222c2264657461696c223a22e59088e68890e7a4bae4be8befbc9ae7bc96e8af91e68890e58a9fefbc8ce4baa7e789a9e58fafe4be9be6b4bee58f91227d",
+    "python_error": "编译成功状态不一致",
+    "cpp_exit_code": 1,
+    "cpp_error": "compiled status mismatch\n",
+    "status": "PASSED"
+  },
+  {
+    "name": "编译失败伪装成功",
+    "expected": "REJECT",
+    "input_hex": "7b22766572223a312c2274797065223a226576616c5f726573756c74222c226d73675f6964223a226e325f636f6d70696c655f6572726f725f6578616d706c655f303031222c22636f7272656c6174696f6e5f6964223a227375625f6e325f6578616d706c655f303031222c22656d69747465645f6174223a22323032362d31312d31305430303a30303a30315a222c2266696c655f6964223a227375625f6e325f6578616d706c655f303031222c2270726f626c656d5f6964223a22615f706c75735f62222c227374616765223a22636f6d70696c65222c22746573745f6964223a6e756c6c2c2273657175656e6365223a6e756c6c2c22617474656d7074223a312c226a756467655f6964223a6e756c6c2c226e6f64655f6964223a22636f6d70696c652d3031222c226370755f6d73223a6e756c6c2c2277616c6c5f6d73223a6e756c6c2c226d656d5f6279746573223a6e756c6c2c226d656d6f72795f736f75726365223a6e756c6c2c226f75745f6279746573223a6e756c6c2c22657869745f636f6465223a6e756c6c2c227369676e616c223a6e756c6c2c2277616c6c5f74696d656f7574223a66616c73652c2273686f72745f636972637569746564223a66616c73652c22736f75726365223a22636f6d70696c6572222c227374646572725f7461696c223a22222c22737461747573223a22434f4d50494c4544222c2276657264696374223a224345222c22726561736f6e223a22434f4d50494c455f4552524f52222c2264657461696c223a22e59088e68890e7a4bae4be8befbc9ae6ba90e7a081e7bcbae5b091e58886e58fb7efbc8ce69caae4baa7e7949fe6b58be8af95e782b9e4bbbbe58aa1227d",
+    "python_error": "编译成功状态不一致",
+    "cpp_exit_code": 1,
+    "cpp_error": "compiled status mismatch\n",
+    "status": "PASSED"
+  },
+  {
+    "name": "测试点伪装 COMPILED",
+    "expected": "REJECT",
+    "input_hex": "7b22766572223a312c2274797065223a226576616c5f726573756c74222c226d73675f6964223a226e325f726573756c745f6578616d706c655f303031222c22636f7272656c6174696f6e5f6964223a227375625f6e325f6578616d706c655f303031222c22656d69747465645f6174223a22323032362d31312d31305430303a30303a30325a222c2266696c655f6964223a227375625f6e325f6578616d706c655f303031222c2270726f626c656d5f6964223a22615f706c75735f62222c227374616765223a226576616c222c22746573745f6964223a223031222c2273657175656e6365223a312c22617474656d7074223a312c226a756467655f6964223a227375625f6e325f6578616d706c655f3030313a30313a31222c226e6f64655f6964223a226576616c2d3031222c2276657264696374223a225741222c22726561736f6e223a22414e535745525f4d49534d41544348222c226370755f6d73223a6e756c6c2c2277616c6c5f6d73223a6e756c6c2c226d656d5f6279746573223a6e756c6c2c226d656d6f72795f736f75726365223a6e756c6c2c226f75745f6279746573223a312c22657869745f636f6465223a302c227369676e616c223a302c2277616c6c5f74696d656f7574223a66616c73652c2273686f72745f636972637569746564223a66616c73652c22736f75726365223a2272756e6e6572222c227374646572725f7461696c223a22222c2264657461696c223a22e7a4bae4be8befbc9ae8be93e587bae58685e5aeb9e4b88ee6a087e58786e7ad94e6a188e4b88de5908c222c22737461747573223a22434f4d50494c4544227d",
+    "python_error": "评测结果必须是 FINAL",
+    "cpp_exit_code": 1,
+    "cpp_error": "eval result must be FINAL\n",
+    "status": "PASSED"
+  },
+  {
+    "name": "未知状态",
+    "expected": "REJECT",
+    "input_hex": "7b22766572223a312c2274797065223a226576616c5f726573756c74222c226d73675f6964223a226e325f726573756c745f6578616d706c655f303031222c22636f7272656c6174696f6e5f6964223a227375625f6e325f6578616d706c655f303031222c22656d69747465645f6174223a22323032362d31312d31305430303a30303a30325a222c2266696c655f6964223a227375625f6e325f6578616d706c655f303031222c2270726f626c656d5f6964223a22615f706c75735f62222c227374616765223a226576616c222c22746573745f6964223a223031222c2273657175656e6365223a312c22617474656d7074223a312c226a756467655f6964223a227375625f6e325f6578616d706c655f3030313a30313a31222c226e6f64655f6964223a226576616c2d3031222c2276657264696374223a225741222c22726561736f6e223a22414e535745525f4d49534d41544348222c226370755f6d73223a6e756c6c2c2277616c6c5f6d73223a6e756c6c2c226d656d5f6279746573223a6e756c6c2c226d656d6f72795f736f75726365223a6e756c6c2c226f75745f6279746573223a312c22657869745f636f6465223a302c227369676e616c223a302c2277616c6c5f74696d656f7574223a66616c73652c2273686f72745f636972637569746564223a66616c73652c22736f75726365223a2272756e6e6572222c227374646572725f7461696c223a22222c2264657461696c223a22e7a4bae4be8befbc9ae8be93e587bae58685e5aeb9e4b88ee6a087e58786e7ad94e6a188e4b88de5908c222c22737461747573223a22444f4e45227d",
+    "python_error": "status 不支持：DONE",
+    "cpp_exit_code": 1,
+    "cpp_error": "unsupported value: status\n",
+    "status": "PASSED"
+  },
+  {
+    "name": "null 状态不是缺省",
+    "expected": "REJECT",
+    "input_hex": "7b22766572223a312c2274797065223a226576616c5f726573756c74222c226d73675f6964223a226e325f726573756c745f6578616d706c655f303031222c22636f7272656c6174696f6e5f6964223a227375625f6e325f6578616d706c655f303031222c22656d69747465645f6174223a22323032362d31312d31305430303a30303a30325a222c2266696c655f6964223a227375625f6e325f6578616d706c655f303031222c2270726f626c656d5f6964223a22615f706c75735f62222c227374616765223a226576616c222c22746573745f6964223a223031222c2273657175656e6365223a312c22617474656d7074223a312c226a756467655f6964223a227375625f6e325f6578616d706c655f3030313a30313a31222c226e6f64655f6964223a226576616c2d3031222c2276657264696374223a225741222c22726561736f6e223a22414e535745525f4d49534d41544348222c226370755f6d73223a6e756c6c2c2277616c6c5f6d73223a6e756c6c2c226d656d5f6279746573223a6e756c6c2c226d656d6f72795f736f75726365223a6e756c6c2c226f75745f6279746573223a312c22657869745f636f6465223a302c227369676e616c223a302c2277616c6c5f74696d656f7574223a66616c73652c2273686f72745f636972637569746564223a66616c73652c22736f75726365223a2272756e6e6572222c227374646572725f7461696c223a22222c2264657461696c223a22e7a4bae4be8befbc9ae8be93e587bae58685e5aeb9e4b88ee6a087e58786e7ad94e6a188e4b88de5908c222c22737461747573223a6e756c6c7d",
+    "python_error": "status 必须是字符串",
+    "cpp_exit_code": 1,
+    "cpp_error": "expected string: status\n",
+    "status": "PASSED"
+  },
+  {
+    "name": "信号与退出码冲突",
+    "expected": "REJECT",
+    "input_hex": "7b22766572223a312c2274797065223a226576616c5f726573756c74222c226d73675f6964223a226e325f726573756c745f6578616d706c655f303031222c22636f7272656c6174696f6e5f6964223a227375625f6e325f6578616d706c655f303031222c22656d69747465645f6174223a22323032362d31312d31305430303a30303a30325a222c2266696c655f6964223a227375625f6e325f6578616d706c655f303031222c2270726f626c656d5f6964223a22615f706c75735f62222c227374616765223a226576616c222c22746573745f6964223a223031222c2273657175656e6365223a312c22617474656d7074223a312c226a756467655f6964223a227375625f6e325f6578616d706c655f3030313a30313a31222c226e6f64655f6964223a226576616c2d3031222c2276657264696374223a225741222c22726561736f6e223a22414e535745525f4d49534d41544348222c226370755f6d73223a6e756c6c2c2277616c6c5f6d73223a6e756c6c2c226d656d5f6279746573223a6e756c6c2c226d656d6f72795f736f75726365223a6e756c6c2c226f75745f6279746573223a312c22657869745f636f6465223a302c227369676e616c223a392c2277616c6c5f74696d656f7574223a66616c73652c2273686f72745f636972637569746564223a66616c73652c22736f75726365223a2272756e6e6572222c227374646572725f7461696c223a22222c2264657461696c223a22e7a4bae4be8befbc9ae8be93e587bae58685e5aeb9e4b88ee6a087e58786e7ad94e6a188e4b88de5908c227d",
+    "python_error": "信号终止时 exit_code 必须为 null",
+    "cpp_exit_code": 1,
+    "cpp_error": "signal requires null exit_code\n",
+    "status": "PASSED"
+  },
+  {
+    "name": "整数冒充布尔值",
+    "expected": "REJECT",
+    "input_hex": "7b22766572223a312c2274797065223a226576616c5f726573756c74222c226d73675f6964223a226e325f726573756c745f6578616d706c655f303031222c22636f7272656c6174696f6e5f6964223a227375625f6e325f6578616d706c655f303031222c22656d69747465645f6174223a22323032362d31312d31305430303a30303a30325a222c2266696c655f6964223a227375625f6e325f6578616d706c655f303031222c2270726f626c656d5f6964223a22615f706c75735f62222c227374616765223a226576616c222c22746573745f6964223a223031222c2273657175656e6365223a312c22617474656d7074223a312c226a756467655f6964223a227375625f6e325f6578616d706c655f3030313a30313a31222c226e6f64655f6964223a226576616c2d3031222c2276657264696374223a225741222c22726561736f6e223a22414e535745525f4d49534d41544348222c226370755f6d73223a6e756c6c2c2277616c6c5f6d73223a6e756c6c2c226d656d5f6279746573223a6e756c6c2c226d656d6f72795f736f75726365223a6e756c6c2c226f75745f6279746573223a312c22657869745f636f6465223a302c227369676e616c223a302c2277616c6c5f74696d656f7574223a302c2273686f72745f636972637569746564223a66616c73652c22736f75726365223a2272756e6e6572222c227374646572725f7461696c223a22222c2264657461696c223a22e7a4bae4be8befbc9ae8be93e587bae58685e5aeb9e4b88ee6a087e58786e7ad94e6a188e4b88de5908c227d",
+    "python_error": "wall_timeout 必须是布尔值",
+    "cpp_exit_code": 1,
+    "cpp_error": "expected boolean\n",
+    "status": "PASSED"
+  },
+  {
+    "name": "墙钟证据不一致",
+    "expected": "REJECT",
+    "input_hex": "7b22766572223a312c2274797065223a226576616c5f726573756c74222c226d73675f6964223a226e325f726573756c745f6578616d706c655f303031222c22636f7272656c6174696f6e5f6964223a227375625f6e325f6578616d706c655f303031222c22656d69747465645f6174223a22323032362d31312d31305430303a30303a30325a222c2266696c655f6964223a227375625f6e325f6578616d706c655f303031222c2270726f626c656d5f6964223a22615f706c75735f62222c227374616765223a226576616c222c22746573745f6964223a223031222c2273657175656e6365223a312c22617474656d7074223a312c226a756467655f6964223a227375625f6e325f6578616d706c655f3030313a30313a31222c226e6f64655f6964223a226576616c2d3031222c2276657264696374223a225741222c22726561736f6e223a22414e535745525f4d49534d41544348222c226370755f6d73223a6e756c6c2c2277616c6c5f6d73223a6e756c6c2c226d656d5f6279746573223a6e756c6c2c226d656d6f72795f736f75726365223a6e756c6c2c226f75745f6279746573223a312c22657869745f636f6465223a302c227369676e616c223a302c2277616c6c5f74696d656f7574223a747275652c2273686f72745f636972637569746564223a66616c73652c22736f75726365223a2272756e6e6572222c227374646572725f7461696c223a22222c2264657461696c223a22e7a4bae4be8befbc9ae8be93e587bae58685e5aeb9e4b88ee6a087e58786e7ad94e6a188e4b88de5908c227d",
+    "python_error": "墙钟超时标志与原因不一致",
+    "cpp_exit_code": 1,
+    "cpp_error": "wall timeout evidence mismatch\n",
+    "status": "PASSED"
+  },
+  {
+    "name": "短路不在首轮范围",
+    "expected": "REJECT",
+    "input_hex": "7b22766572223a312c2274797065223a226576616c5f726573756c74222c226d73675f6964223a226e325f726573756c745f6578616d706c655f303031222c22636f7272656c6174696f6e5f6964223a227375625f6e325f6578616d706c655f303031222c22656d69747465645f6174223a22323032362d31312d31305430303a30303a30325a222c2266696c655f6964223a227375625f6e325f6578616d706c655f303031222c2270726f626c656d5f6964223a22615f706c75735f62222c227374616765223a226576616c222c22746573745f6964223a223031222c2273657175656e6365223a312c22617474656d7074223a312c226a756467655f6964223a227375625f6e325f6578616d706c655f3030313a30313a31222c226e6f64655f6964223a226576616c2d3031222c2276657264696374223a225741222c22726561736f6e223a22414e535745525f4d49534d41544348222c226370755f6d73223a6e756c6c2c2277616c6c5f6d73223a6e756c6c2c226d656d5f6279746573223a6e756c6c2c226d656d6f72795f736f75726365223a6e756c6c2c226f75745f6279746573223a312c22657869745f636f6465223a302c227369676e616c223a302c2277616c6c5f74696d656f7574223a66616c73652c2273686f72745f636972637569746564223a747275652c22736f75726365223a2272756e6e6572222c227374646572725f7461696c223a22222c2264657461696c223a22e7a4bae4be8befbc9ae8be93e587bae58685e5aeb9e4b88ee6a087e58786e7ad94e6a188e4b88de5908c227d",
+    "python_error": "v1 不支持短路",
+    "cpp_exit_code": 1,
+    "cpp_error": "short circuit unsupported\n",
+    "status": "PASSED"
+  },
+  {
+    "name": "内存未给口径",
+    "expected": "REJECT",
+    "input_hex": "7b22766572223a312c2274797065223a226576616c5f726573756c74222c226d73675f6964223a226e325f726573756c745f6578616d706c655f303031222c22636f7272656c6174696f6e5f6964223a227375625f6e325f6578616d706c655f303031222c22656d69747465645f6174223a22323032362d31312d31305430303a30303a30325a222c2266696c655f6964223a227375625f6e325f6578616d706c655f303031222c2270726f626c656d5f6964223a22615f706c75735f62222c227374616765223a226576616c222c22746573745f6964223a223031222c2273657175656e6365223a312c22617474656d7074223a312c226a756467655f6964223a227375625f6e325f6578616d706c655f3030313a30313a31222c226e6f64655f6964223a226576616c2d3031222c2276657264696374223a225741222c22726561736f6e223a22414e535745525f4d49534d41544348222c226370755f6d73223a6e756c6c2c2277616c6c5f6d73223a6e756c6c2c226d656d5f6279746573223a343039362c226d656d6f72795f736f75726365223a6e756c6c2c226f75745f6279746573223a312c22657869745f636f6465223a302c227369676e616c223a302c2277616c6c5f74696d656f7574223a66616c73652c2273686f72745f636972637569746564223a66616c73652c22736f75726365223a2272756e6e6572222c227374646572725f7461696c223a22222c2264657461696c223a22e7a4bae4be8befbc9ae8be93e587bae58685e5aeb9e4b88ee6a087e58786e7ad94e6a188e4b88de5908c227d",
+    "python_error": "内存数值与口径应同时提供",
+    "cpp_exit_code": 1,
+    "cpp_error": "memory evidence mismatch\n",
+    "status": "PASSED"
+  },
+  {
+    "name": "内存口径不支持",
+    "expected": "REJECT",
+    "input_hex": "7b22766572223a312c2274797065223a226576616c5f726573756c74222c226d73675f6964223a226e325f726573756c745f6578616d706c655f303031222c22636f7272656c6174696f6e5f6964223a227375625f6e325f6578616d706c655f303031222c22656d69747465645f6174223a22323032362d31312d31305430303a30303a30325a222c2266696c655f6964223a227375625f6e325f6578616d706c655f303031222c2270726f626c656d5f6964223a22615f706c75735f62222c227374616765223a226576616c222c22746573745f6964223a223031222c2273657175656e6365223a312c22617474656d7074223a312c226a756467655f6964223a227375625f6e325f6578616d706c655f3030313a30313a31222c226e6f64655f6964223a226576616c2d3031222c2276657264696374223a225741222c22726561736f6e223a22414e535745525f4d49534d41544348222c226370755f6d73223a6e756c6c2c2277616c6c5f6d73223a6e756c6c2c226d656d5f6279746573223a343039362c226d656d6f72795f736f75726365223a2261735f6c696d6974222c226f75745f6279746573223a312c22657869745f636f6465223a302c227369676e616c223a302c2277616c6c5f74696d656f7574223a66616c73652c2273686f72745f636972637569746564223a66616c73652c22736f75726365223a2272756e6e6572222c227374646572725f7461696c223a22222c2264657461696c223a22e7a4bae4be8befbc9ae8be93e587bae58685e5aeb9e4b88ee6a087e58786e7ad94e6a188e4b88de5908c227d",
+    "python_error": "内存口径不支持",
+    "cpp_exit_code": 1,
+    "cpp_error": "unsupported memory source\n",
+    "status": "PASSED"
+  },
+  {
+    "name": "损坏 JSON",
+    "expected": "REJECT",
+    "input_hex": "7b22766572223a312c2274797065223a226576616c5f7461736b222c226d73675f6964223a226e325f6576616c5f6578616d706c655f303031222c22636f7272656c6174696f6e5f6964223a227375625f6e325f6578616d706c655f303031222c22656d69747465645f6174223a22323032362d31312d31305430303a30303a30315a222c2266696c655f6964223a227375625f6e325f6578616d706c655f303031222c2270726f626c656d5f6964223a22615f706c75735f62222c22656e71756575655f736571223a312c22746573745f6964223a223031222c2273657175656e6365223a312c22617474656d7074223a312c226a756467655f6964223a227375625f6e325f6578616d706c655f3030313a30313a31222c227461726765745f6e6f64655f6964223a226576616c2d3031222c2262696e5f68617368223a227368613235363a63636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363222c22746573745f62756e646c655f68617368223a227368613235363a62626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262222c226a756467655f6d6f6465223a226e6f726d616c222c22636f6d706172655f6d6f6465223a22636f6d6d6f6e222c226576616c756174696f6e5f6d6f6465223a22616c6c5f6361736573222c226c696d697473223a7b226370755f6d73223a313030302c2277616c6c5f6d73223a313030302c226d656d5f6279746573223a3236383433353435362c226f75745f6279746573223a317d",
+    "python_error": "JSON 解析失败：Expecting ',' delimiter: line 1 column 638 (char 637)",
+    "cpp_exit_code": 1,
+    "cpp_error": "invalid JSON syntax/UTF-8: unexpected end of data\n",
+    "status": "PASSED"
+  },
+  {
+    "name": "JSON 后多一条对象",
+    "expected": "REJECT",
+    "input_hex": "7b22766572223a312c2274797065223a226576616c5f7461736b222c226d73675f6964223a226e325f6576616c5f6578616d706c655f303031222c22636f7272656c6174696f6e5f6964223a227375625f6e325f6578616d706c655f303031222c22656d69747465645f6174223a22323032362d31312d31305430303a30303a30315a222c2266696c655f6964223a227375625f6e325f6578616d706c655f303031222c2270726f626c656d5f6964223a22615f706c75735f62222c22656e71756575655f736571223a312c22746573745f6964223a223031222c2273657175656e6365223a312c22617474656d7074223a312c226a756467655f6964223a227375625f6e325f6578616d706c655f3030313a30313a31222c227461726765745f6e6f64655f6964223a226576616c2d3031222c2262696e5f68617368223a227368613235363a63636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363222c22746573745f62756e646c655f68617368223a227368613235363a62626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262222c226a756467655f6d6f6465223a226e6f726d616c222c22636f6d706172655f6d6f6465223a22636f6d6d6f6e222c226576616c756174696f6e5f6d6f6465223a22616c6c5f6361736573222c226c696d697473223a7b226370755f6d73223a313030302c2277616c6c5f6d73223a313030302c226d656d5f6279746573223a3236383433353435362c226f75745f6279746573223a317d7d7b7d",
+    "python_error": "JSON 解析失败：Extra data: line 1 column 639 (char 638)",
+    "cpp_exit_code": 1,
+    "cpp_error": "invalid JSON syntax/UTF-8: unexpected character\n",
+    "status": "PASSED"
+  },
+  {
+    "name": "重复版本键",
+    "expected": "REJECT",
+    "input_hex": "7b22766572223a322c22766572223a312c2274797065223a226576616c5f7461736b222c226d73675f6964223a226e325f6576616c5f6578616d706c655f303031222c22636f7272656c6174696f6e5f6964223a227375625f6e325f6578616d706c655f303031222c22656d69747465645f6174223a22323032362d31312d31305430303a30303a30315a222c2266696c655f6964223a227375625f6e325f6578616d706c655f303031222c2270726f626c656d5f6964223a22615f706c75735f62222c22656e71756575655f736571223a312c22746573745f6964223a223031222c2273657175656e6365223a312c22617474656d7074223a312c226a756467655f6964223a227375625f6e325f6578616d706c655f3030313a30313a31222c227461726765745f6e6f64655f6964223a226576616c2d3031222c2262696e5f68617368223a227368613235363a63636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363222c22746573745f62756e646c655f68617368223a227368613235363a62626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262222c226a756467655f6d6f6465223a226e6f726d616c222c22636f6d706172655f6d6f6465223a22636f6d6d6f6e222c226576616c756174696f6e5f6d6f6465223a22616c6c5f6361736573222c226c696d697473223a7b226370755f6d73223a313030302c2277616c6c5f6d73223a313030302c226d656d5f6279746573223a3236383433353435362c226f75745f6279746573223a317d7d",
+    "python_error": "JSON 解析失败：JSON 键重复：ver",
+    "cpp_exit_code": 1,
+    "cpp_error": "duplicate object key\n",
+    "status": "PASSED"
+  },
+  {
+    "name": "NaN 附加字段",
+    "expected": "REJECT",
+    "input_hex": "7b22766572223a312c2274797065223a226576616c5f7461736b222c226d73675f6964223a226e325f6576616c5f6578616d706c655f303031222c22636f7272656c6174696f6e5f6964223a227375625f6e325f6578616d706c655f303031222c22656d69747465645f6174223a22323032362d31312d31305430303a30303a30315a222c2266696c655f6964223a227375625f6e325f6578616d706c655f303031222c2270726f626c656d5f6964223a22615f706c75735f62222c22656e71756575655f736571223a312c22746573745f6964223a223031222c2273657175656e6365223a312c22617474656d7074223a312c226a756467655f6964223a227375625f6e325f6578616d706c655f3030313a30313a31222c227461726765745f6e6f64655f6964223a226576616c2d3031222c2262696e5f68617368223a227368613235363a63636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363222c22746573745f62756e646c655f68617368223a227368613235363a62626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262222c226a756467655f6d6f6465223a226e6f726d616c222c22636f6d706172655f6d6f6465223a22636f6d6d6f6e222c226576616c756174696f6e5f6d6f6465223a22616c6c5f6361736573222c226c696d697473223a7b226370755f6d73223a313030302c2277616c6c5f6d73223a313030302c226d656d5f6279746573223a3236383433353435362c226f75745f6279746573223a317d2c22657874656e73696f6e223a4e614e7d",
+    "python_error": "JSON 不接受 NaN/Infinity",
+    "cpp_exit_code": 1,
+    "cpp_error": "non-finite JSON number\n",
+    "status": "PASSED"
+  },
+  {
+    "name": "Infinity 附加字段",
+    "expected": "REJECT",
+    "input_hex": "7b22766572223a312c2274797065223a226576616c5f7461736b222c226d73675f6964223a226e325f6576616c5f6578616d706c655f303031222c22636f7272656c6174696f6e5f6964223a227375625f6e325f6578616d706c655f303031222c22656d69747465645f6174223a22323032362d31312d31305430303a30303a30315a222c2266696c655f6964223a227375625f6e325f6578616d706c655f303031222c2270726f626c656d5f6964223a22615f706c75735f62222c22656e71756575655f736571223a312c22746573745f6964223a223031222c2273657175656e6365223a312c22617474656d7074223a312c226a756467655f6964223a227375625f6e325f6578616d706c655f3030313a30313a31222c227461726765745f6e6f64655f6964223a226576616c2d3031222c2262696e5f68617368223a227368613235363a63636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363222c22746573745f62756e646c655f68617368223a227368613235363a62626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262222c226a756467655f6d6f6465223a226e6f726d616c222c22636f6d706172655f6d6f6465223a22636f6d6d6f6e222c226576616c756174696f6e5f6d6f6465223a22616c6c5f6361736573222c226c696d697473223a7b226370755f6d73223a313030302c2277616c6c5f6d73223a313030302c226d656d5f6279746573223a3236383433353435362c226f75745f6279746573223a317d2c22657874656e73696f6e223a31653939397d",
+    "python_error": "JSON 不接受 NaN/Infinity",
+    "cpp_exit_code": 1,
+    "cpp_error": "non-finite JSON number\n",
+    "status": "PASSED"
+  },
+  {
+    "name": "无效 UTF-8",
+    "expected": "REJECT",
+    "input_hex": "7b22766572223a312c2274797065223a226576616c5f7461736b222c226d73675f6964223a226e325f6576616c5f6578616d706c655f303031222c22636f7272656c6174696f6e5f6964223a227375625f6e325f6578616d706c655f303031222c22656d69747465645f6174223a22323032362d31312d31305430303a30303a30315a222c2266696c655f6964223a227375625f6e325f6578616d706c655f303031222c2270726f626c656d5f6964223a22615f706c75735f62222c22656e71756575655f736571223a312c22746573745f6964223a223031222c2273657175656e6365223a312c22617474656d7074223a312c226a756467655f6964223a227375625f6e325f6578616d706c655f3030313a30313a31222c227461726765745f6e6f64655f6964223a226576616c2d3031222c2262696e5f68617368223a227368613235363a63636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363222c22746573745f62756e646c655f68617368223a227368613235363a62626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262222c226a756467655f6d6f6465223a226e6f726d616c222c22636f6d706172655f6d6f6465223a22636f6d6d6f6e222c226576616c756174696f6e5f6d6f6465223a22616c6c5f6361736573222c226c696d697473223a7b226370755f6d73223a313030302c2277616c6c5f6d73223a313030302c226d656d5f6279746573223a3236383433353435362c226f75745f6279746573223a317d2c22657874656e73696f6e223a22ff227d",
+    "python_error": "JSON 解析失败：'utf-8' codec can't decode byte 0xff in position 651: invalid start byte",
+    "cpp_exit_code": 1,
+    "cpp_error": "invalid UTF-8 leading byte\n",
+    "status": "PASSED"
+  },
+  {
+    "name": "孤立 Unicode 代理项",
+    "expected": "REJECT",
+    "input_hex": "7b22766572223a312c2274797065223a226576616c5f7461736b222c226d73675f6964223a226e325f6576616c5f6578616d706c655f303031222c22636f7272656c6174696f6e5f6964223a227375625f6e325f6578616d706c655f303031222c22656d69747465645f6174223a22323032362d31312d31305430303a30303a30315a222c2266696c655f6964223a227375625f6e325f6578616d706c655f303031222c2270726f626c656d5f6964223a22615f706c75735f62222c22656e71756575655f736571223a312c22746573745f6964223a223031222c2273657175656e6365223a312c22617474656d7074223a312c226a756467655f6964223a227375625f6e325f6578616d706c655f3030313a30313a31222c227461726765745f6e6f64655f6964223a226576616c2d3031222c2262696e5f68617368223a227368613235363a63636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363222c22746573745f62756e646c655f68617368223a227368613235363a62626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262222c226a756467655f6d6f6465223a226e6f726d616c222c22636f6d706172655f6d6f6465223a22636f6d6d6f6e222c226576616c756174696f6e5f6d6f6465223a22616c6c5f6361736573222c226c696d697473223a7b226370755f6d73223a313030302c2277616c6c5f6d73223a313030302c226d656d5f6279746573223a3236383433353435362c226f75745f6279746573223a317d2c22657874656e73696f6e223a225c7564383030227d",
+    "python_error": "字符串不是有效 Unicode",
+    "cpp_exit_code": 1,
+    "cpp_error": "unpaired Unicode surrogate\n",
+    "status": "PASSED"
+  },
+  {
+    "name": "键包含 NUL",
+    "expected": "REJECT",
+    "input_hex": "7b22766572223a312c2274797065223a226576616c5f7461736b222c226d73675f6964223a226e325f6576616c5f6578616d706c655f303031222c22636f7272656c6174696f6e5f6964223a227375625f6e325f6578616d706c655f303031222c22656d69747465645f6174223a22323032362d31312d31305430303a30303a30315a222c2266696c655f6964223a227375625f6e325f6578616d706c655f303031222c2270726f626c656d5f6964223a22615f706c75735f62222c22656e71756575655f736571223a312c22746573745f6964223a223031222c2273657175656e6365223a312c22617474656d7074223a312c226a756467655f6964223a227375625f6e325f6578616d706c655f3030313a30313a31222c227461726765745f6e6f64655f6964223a226576616c2d3031222c2262696e5f68617368223a227368613235363a63636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363222c22746573745f62756e646c655f68617368223a227368613235363a62626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262626262222c226a756467655f6d6f6465223a226e6f726d616c222c22636f6d706172655f6d6f6465223a22636f6d6d6f6e222c226576616c756174696f6e5f6d6f6465223a22616c6c5f6361736573222c226c696d697473223a7b226370755f6d73223a313030302c2277616c6c5f6d73223a313030302c226d656d5f6279746573223a3236383433353435362c226f75745f6279746573223a317d2c22615c753030303062223a307d",
+    "python_error": "JSON 键必须是不含 NUL 的字符串",
+    "cpp_exit_code": 1,
+    "cpp_error": "NUL in object key\n",
+    "status": "PASSED"
+  },
+  {
+    "name": "UTF-16 不是线格式",
+    "expected": "REJECT",
+    "input_hex": "fffe7b00220076006500720022003a0031002c002200740079007000650022003a0022006500760061006c005f007400610073006b0022002c0022006d00730067005f006900640022003a0022006e0032005f006500760061006c005f006500780061006d0070006c0065005f0030003000310022002c00220063006f007200720065006c006100740069006f006e005f006900640022003a0022007300750062005f006e0032005f006500780061006d0070006c0065005f0030003000310022002c00220065006d00690074007400650064005f006100740022003a00220032003000320036002d00310031002d00310030005400300030003a00300030003a00300031005a0022002c002200660069006c0065005f006900640022003a0022007300750062005f006e0032005f006500780061006d0070006c0065005f0030003000310022002c002200700072006f0062006c0065006d005f006900640022003a00220061005f0070006c00750073005f00620022002c00220065006e00710075006500750065005f0073006500710022003a0031002c00220074006500730074005f006900640022003a0022003000310022002c002200730065007100750065006e006300650022003a0031002c00220061007400740065006d007000740022003a0031002c0022006a0075006400670065005f006900640022003a0022007300750062005f006e0032005f006500780061006d0070006c0065005f003000300031003a00300031003a00310022002c0022007400610072006700650074005f006e006f00640065005f006900640022003a0022006500760061006c002d003000310022002c002200620069006e005f00680061007300680022003a0022007300680061003200350036003a00630063006300630063006300630063006300630063006300630063006300630063006300630063006300630063006300630063006300630063006300630063006300630063006300630063006300630063006300630063006300630063006300630063006300630063006300630063006300630063006300630063006300630022002c00220074006500730074005f00620075006e0064006c0065005f00680061007300680022003a0022007300680061003200350036003a00620062006200620062006200620062006200620062006200620062006200620062006200620062006200620062006200620062006200620062006200620062006200620062006200620062006200620062006200620062006200620062006200620062006200620062006200620062006200620062006200620062006200620022002c0022006a0075006400670065005f006d006f006400650022003a0022006e006f0072006d0061006c0022002c00220063006f006d0070006100720065005f006d006f006400650022003a00220063006f006d006d006f006e0022002c0022006500760061006c0075006100740069006f006e005f006d006f006400650022003a00220061006c006c005f006300610073006500730022002c0022006c0069006d0069007400730022003a007b0022006300700075005f006d00730022003a0031003000300030002c002200770061006c006c005f006d00730022003a0031003000300030002c0022006d0065006d005f006200790074006500730022003a003200360038003400330035003400350036002c0022006f00750074005f006200790074006500730022003a0031007d007d00",
+    "python_error": "JSON 解析失败：'utf-8' codec can't decode byte 0xff in position 0: invalid start byte",
+    "cpp_exit_code": 1,
+    "cpp_error": "invalid JSON payload\n",
+    "status": "PASSED"
+  },
+  {
+    "name": "根节点不是对象",
+    "expected": "REJECT",
+    "input_hex": "5b5d",
+    "python_error": "消息必须是 JSON 对象",
+    "cpp_exit_code": 1,
+    "cpp_error": "missing field: ver\n",
+    "status": "PASSED"
+  }
+]

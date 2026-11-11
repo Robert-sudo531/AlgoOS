@@ -1,0 +1,26 @@
+{
+  "ver": 1,
+  "type": "eval_task",
+  "msg_id": "n2_eval_example_001",
+  "correlation_id": "sub_n2_example_001",
+  "emitted_at": "2026-11-10T00:00:01Z",
+  "file_id": "sub_n2_example_001",
+  "problem_id": "a_plus_b",
+  "enqueue_seq": 1,
+  "test_id": "01",
+  "sequence": 1,
+  "attempt": 1,
+  "judge_id": "sub_n2_example_001:01:1",
+  "target_node_id": "eval-01",
+  "bin_hash": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+  "test_bundle_hash": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "judge_mode": "normal",
+  "compare_mode": "common",
+  "evaluation_mode": "all_cases",
+  "limits": {
+    "cpu_ms": 1000,
+    "wall_ms": 1000,
+    "mem_bytes": 268435456,
+    "out_bytes": 1
+  }
+}

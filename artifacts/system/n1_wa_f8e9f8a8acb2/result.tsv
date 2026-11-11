@@ -1,0 +1,2 @@
+timestamp	source_file	problem_id	submission_id	verdict	passed	total	cases	elapsed_ms	message
+2026-11-10T20:22:04	0002__a_plus_b.cpp	a_plus_b	0002	WA	0	2	01=WA;02=WA	336	-

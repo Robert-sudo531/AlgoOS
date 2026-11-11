@@ -349,3 +349,86 @@ g++ -std=c++17 -O2 -pipe -o /tmp/test submissions/xxx__yyy.cpp
 - [problems/sabotage/problem.json](../../problems/sabotage/problem.json)
 - [docs/stage1_agreement.md](../specs/stage1_agreement.md)
 - [progress.md](../records/progress.md)
+
+## 2026-11-10 补充：N1.1 最小正常评测
+
+从项目根目录操作。先在本机终端安装构建依赖（sudo 密码由本人在终端输入）：
+
+```bash
+sudo apt-get install libjson-c-dev
+pkg-config --modversion json-c
+```
+
+版本查询成功后运行：
+
+```bash
+python3 -m tests.n1_ac --actor lhy
+```
+
+入口自动构建现有 C++ 服务，把 [正确 A+B 源码](../../examples/a_plus_b.cpp) 复制到独立提交目录，通过现有 `Pipeline` 处理 [最小题包](../../problems/a_plus_b/problem.json)，验证后退出。`--actor` 填实际执行人。
+
+- 预期：两组实际输出分别为 `3\n`、`-5\n`，显示 `N1.1 正常提交验证通过：AC 2/2`，脚本退出码为 0。
+- 临时构建与运行文件：`work/n1_ac_<编号>/`；结果与日志：`artifacts/system/n1_ac_<编号>/`。每次运行创建新目录，结束时打印证据位置。
+- `manifest.json` 保存执行人、源码哈希和结果；`build.txt` 是构建日志，`verify.txt` 是验证日志；评测成功运行后另有 `result.tsv` 和实际输出。
+- 本步骤只验证正确提交。错误样例、完整隔离和分布式能力另行验收；上面的旧操作说明保留作参考。
+
+## 2026-11-10 补充：N1.2 错误答案 WA
+
+在项目根目录运行：
+
+```bash
+python3 -m tests.n1_wa --actor lhy
+```
+
+[错误样例](../../examples/wrong_answer.cpp) 故意输出 `b - a`，沿用原题包和标准答案。预期两组实际输出为 `1\n`、`11\n`，程序退出码均为 0、输出未超限，汇总为 WA、0/2 通过。
+
+验证脚本退出码 0 表示“正确识别了 WA”。每次在 `artifacts/system/n1_wa_<编号>/` 保留独立记录，`responses.json` 是真实单点响应；正常 AC 样例与历史记录均保留。
+
+## 2026-11-10 补充：N1.3 编译错误 CE
+
+在项目根目录运行：
+
+```bash
+python3 -m tests.n1_ce --actor lhy
+```
+
+[错误源码](../../examples/compile_error.cpp) 的 `return 0` 故意缺少分号。入口调用真实编译和提交处理流程，不启动原生评测服务；若编译失败后仍调用测试点评测，检查会报错。
+
+预期看到编译诊断、`编译成功：False`、`是否调用测试点评测：False` 和 `N1.3 编译错误验证通过：CE，未运行测试点`。验证脚本退出 0 表示 CE 检查通过，错误源码本身编译失败。独立证据保存在 `artifacts/system/n1_ce_<编号>/`，`compile.txt` 为完整编译诊断。
+
+## 2026-11-10 补充：N1.4 运行错误 RE
+
+在项目根目录运行：
+
+```bash
+python3 -m tests.n1_re --actor lhy
+```
+
+[样例](../../examples/runtime_error.cpp) 正常计算 A+B、写入错误提示后执行 `return 7`。预期两组输出仍为 `3\n`、`-5\n`，程序退出码均为 7，汇总 RE 0/2，最后显示 `N1.4 运行错误验证通过`。
+
+验证脚本退出 0 表示按预期识别了 RE。证据保存在独立的 `artifacts/system/n1_re_<编号>/`，包含实际输出和真实单点响应。本次只验证主动非零退出，崩溃信号未单独验证。
+
+## 2026-11-10 补充：N1.5 墙钟超时 TLE
+
+在项目根目录运行：
+
+```bash
+python3 -m tests.n1_tle --actor lhy
+```
+
+[样例](../../examples/time_limit.cpp) 先输出并刷新 A+B，再休眠 3 秒；现有题包的墙钟限制为 1000 毫秒。预期两点均 TLE、`墙钟超时=True`、终止信号为 9，保留超时前的 `3\n`、`-5\n`，汇总 TLE 0/2。
+
+验证脚本退出 0 表示检查通过；原生响应中的退出码 -1 表示被信号终止。独立证据在 `artifacts/system/n1_tle_<编号>/`。本步骤只验证实际经过时间保护，未单独验证 CPU 超限或子孙进程清理。
+
+## 2026-11-11 补充：N2.4 Python/C++ 消息契约
+
+沿用已有 Python、g++、pkg-config 与 libjson-c-dev，从项目根目录运行：
+
+```bash
+python3 -m tests.n2_contract --actor lhy
+echo $?
+```
+
+[入口](../../tests/n2_contract.py) 自动编译独立的 C++ 消息检查程序，核对 23 组合法消息的双向往返，以及 58 组错误输入的双端拒绝。预期显示“N2.4 Python/C++ 契约验证通过”，退出码 0；无需修改样例。
+
+构建放在 `work/n2_contract_<编号>/`，独立证据放在 `artifacts/system/n2_contract_<编号>/`：`manifest.json` 记录执行人、源码哈希和结果；`build.txt`、`verify.txt` 保存日志；`checks.json` 保存实际输入及每项检查结果。本步使用合成消息，不启动评测服务或队列。

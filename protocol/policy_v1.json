@@ -1,0 +1,152 @@
+{
+  "ver": 1,
+  "policy_id": "distributed_core_v1",
+  "unknown_field_policy": "preserve",
+  "modes": {
+    "judge_mode": [
+      "normal"
+    ],
+    "compare_mode": [
+      "common"
+    ],
+    "evaluation_mode": [
+      "all_cases"
+    ]
+  },
+  "worker_cpp_standard": "c++23",
+  "compiler_profiles": {
+    "cpp_baseline_v1": {
+      "language": "cpp17",
+      "compiler": "g++",
+      "flags": [
+        "-std=c++17",
+        "-O2",
+        "-pipe"
+      ],
+      "limits": {
+        "cpu_ms": 10000,
+        "wall_ms": 30000,
+        "mem_bytes": 536870912,
+        "out_bytes": 1048576
+      }
+    }
+  },
+  "transport": {
+    "encoding": "UTF-8",
+    "broker": "nats_jetstream",
+    "broker_payload": "json_without_length_prefix",
+    "compile_task_subject": "algoos.compile.task",
+    "compile_result_subject": "algoos.compile.result",
+    "eval_task_subject_template": "algoos.eval.task.{target_node_id}",
+    "eval_result_subject": "algoos.eval.result",
+    "node_id_pattern": "^[A-Za-z0-9_-]+$",
+    "legacy_tcp_framing": "uint32_be_length_then_json"
+  },
+  "runtime": {
+    "wall_limit_rule": "wall_ms_equals_cpu_ms",
+    "memory_limit_rule": "memory_limit_mib_times_1048576",
+    "output_limit_rule": "trimmed_answer_bytes",
+    "fsize_slack_bytes": 4096,
+    "fsize_max_bytes": 268435456,
+    "output_limit_verdict": "WA",
+    "output_limit_reason": "OUTPUT_LIMIT"
+  },
+  "result": {
+    "compile_identity_fields_null": ["test_id", "sequence", "judge_id"],
+    "compile_success_required_fields": ["bin_hash", "test_bundle_hash", "compiler_profile", "enqueue_seq"],
+    "memory_sources": ["rss_peak", "cgroup_peak"],
+    "statuses": [
+      "COMPILED",
+      "FINAL"
+    ],
+    "default_status": "FINAL",
+    "sources_by_stage": {
+      "compile": "compiler",
+      "eval": "runner"
+    },
+    "final_verdicts_by_stage": {
+      "compile": [
+        "CE",
+        "SE"
+      ],
+      "eval": [
+        "AC",
+        "WA",
+        "RE",
+        "TLE",
+        "MLE",
+        "SE"
+      ]
+    },
+    "reason_by_verdict": {
+      "AC": [
+        "NONE"
+      ],
+      "WA": [
+        "ANSWER_MISMATCH",
+        "OUTPUT_LIMIT"
+      ],
+      "CE": [
+        "COMPILE_ERROR",
+        "COMPILE_TIMEOUT",
+        "COMPILE_LIMIT"
+      ],
+      "RE": [
+        "NONZERO_EXIT",
+        "CRASH_SIGNAL"
+      ],
+      "TLE": [
+        "WALL_TIMEOUT",
+        "CPU_TIMEOUT"
+      ],
+      "MLE": [
+        "OOM_KILL",
+        "MEM_PEAK_OVER"
+      ],
+      "SE": [
+        "SYSTEM_ERROR"
+      ]
+    },
+    "compile_success_status": "COMPILED",
+    "compile_success_verdict": null,
+    "compile_success_reason": "NONE",
+    "unknown_metric": null,
+    "signal_exit_code": null,
+    "aggregation": "all_ac_else_first_non_ac_by_sequence",
+    "active_attempt_only": true,
+    "submission_final_immutable": true
+  },
+  "classification_priority": [
+    "SYSTEM_ERROR",
+    "OOM_KILL",
+    "WALL_TIMEOUT",
+    "CPU_LIMIT_SIGNAL",
+    "OUTPUT_LIMIT_SIGNAL",
+    "CRASH_SIGNAL",
+    "NONZERO_EXIT",
+    "MEM_PEAK_OVER",
+    "CPU_TIME_OVER",
+    "OUTPUT_SIZE_OVER",
+    "COMPARE"
+  ],
+  "scheduling": {
+    "unit": "test_case",
+    "ready_queue_order": [
+      "enqueue_seq",
+      "sequence",
+      "attempt"
+    ]
+  },
+  "hashing": {
+    "content_algorithm": "sha256",
+    "wire_prefix": "sha256:",
+    "wire_hex_length": 64,
+    "build_key_fields": [
+      "source_hash",
+      "compiler_profile",
+      "compiler_version",
+      "target_platform"
+    ],
+    "build_key_encoding": "canonical_json_utf8"
+  }
+}

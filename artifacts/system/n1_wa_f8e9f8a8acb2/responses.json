@@ -1,0 +1,32 @@
+[
+  {
+    "ver": 1,
+    "file_id": "0002__a_plus_b",
+    "problem_id": "a_plus_b",
+    "test_id": "01",
+    "verdict": "WA",
+    "cpu_ms": 1,
+    "mem_kb": 3932,
+    "out_bytes": 1,
+    "exit_code": 0,
+    "signal": 0,
+    "wall_timeout": false,
+    "stderr_tail": "",
+    "error": ""
+  },
+  {
+    "ver": 1,
+    "file_id": "0002__a_plus_b",
+    "problem_id": "a_plus_b",
+    "test_id": "02",
+    "verdict": "WA",
+    "cpu_ms": 2,
+    "mem_kb": 3932,
+    "out_bytes": 2,
+    "exit_code": 0,
+    "signal": 0,
+    "wall_timeout": false,
+    "stderr_tail": "",
+    "error": ""
+  }
+]
