@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "/media/robert/WindowsD/active/2026-27_autumn_courses/innovation_training/tests/n1_wa.py", line 89, in main
+    pipeline.start_server()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/media/robert/WindowsD/active/2026-27_autumn_courses/innovation_training/judge/pipeline.py", line 228, in start_server
+    port = self.port or find_free_port()
+                        ~~~~~~~~~~~~~~^^
+  File "/media/robert/WindowsD/active/2026-27_autumn_courses/innovation_training/judge/pipeline.py", line 195, in find_free_port
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+         ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/socket.py", line 236, in __init__
+    _socket.socket.__init__(self, family, type, proto, fileno)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [Errno 1] Operation not permitted

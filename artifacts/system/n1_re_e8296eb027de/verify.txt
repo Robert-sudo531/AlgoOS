@@ -1,0 +1,6 @@
+[test_pipeline] 0004__a_plus_b.cpp -> RE (0/2)
+测试点 01：RE，程序退出码 7，实际=b'3\n'，预期=b'3\n'，输出一致
+运行错误： intentional nonzero exit
+测试点 02：RE，程序退出码 7，实际=b'-5\n'，预期=b'-5\n'，输出一致
+运行错误： intentional nonzero exit
+N1.4 运行错误验证通过：RE，0/2 个测试点通过

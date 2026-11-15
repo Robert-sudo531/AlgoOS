@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/media/robert/WindowsD/active/2026-27_autumn_courses/innovation_training/tests/n1_ac.py", line 61, in main
+    raise RuntimeError("服务构建失败，请查看 build.txt")
+RuntimeError: 服务构建失败，请查看 build.txt

@@ -1,0 +1,23 @@
+{
+  "run_id": "n1_ce_2dccaf45c519",
+  "executed_by": "lhy",
+  "started_at_utc": "2026-11-10T12:42:37.279296+00:00",
+  "python": "3.14.4",
+  "scope": "N1.3 真实语法编译错误及 CE 阻断；不启动原生评测服务",
+  "status": "PASSED",
+  "source_sha256": {
+    "judge/pipeline.py": "6429c03446b33df7bd25b41be2d3393453dd6c9d757ce5bf05a26ce9522fed51",
+    "judge/problem.py": "54f34047d8b0c59f55f85b8d25850bc6b0c19597b46b7f0afc57eb0302cb2257",
+    "tests/n1_ce.py": "e56c379b0668ed902fe4c706a38b5f3e2ac88163d5381ba0dae3110d95166a96",
+    "examples/compile_error.cpp": "28ce881107e6e8be5602e765170a116f4809a5474a9f075a26afc3ff1d6f03a1",
+    "problems/a_plus_b/problem.json": "84a60a6eca90af963a6bd597013d4a62a9e93f6e80bdd85e415f3bf85b01ddb7",
+    "problems/a_plus_b/tests/01.in": "f251ddc12234e0da8d3b778bd0f7463fb477f16f47757f5617dc8b4ff4d4f14a",
+    "problems/a_plus_b/tests/01.out": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+    "problems/a_plus_b/tests/02.in": "e8b85870ce1971fb92ad8183f96e437663d939839d9625ff0bf2065954ead068",
+    "problems/a_plus_b/tests/02.out": "0b2f06dddfa807ee574a78468d3a05904873b97f44377eb93481e091c257b800"
+  },
+  "compile_calls": 1,
+  "compile_success": false,
+  "evaluation_called": false,
+  "exit_code": 0
+}

@@ -371,3 +371,220 @@
 - 问题与决定：报告放在根目录是用户明确要求，因此根目录现有 `README.md` 与 `midterm_report.md` 两个 Markdown；此前“根目录只留 README”的清理约定作为历史记录保留说明。
 - 下一步：成员审阅中期汇报与暂存改动；确认后提交。
 - AI 协助与人工检查：报告由 AI 按用户给定目标和现有证据整理；用户提供项目目标、DeepSeek 讨论内容和优化方向。尚无成员人工复核或共同验收。
+
+### 2026-11-10｜系统负责人确认、AI 整理｜新阶段系统推进方案
+- 改动：将 [当前系统计划](../tasks/system/new_plan_1110.md) 定为任务入口，写明新分工、N1—N4 顺序与验收、首轮 2—4 小时预算及简短记录规则；[README](../../README.md) 增加入口，旧清单保留历史。
+- 验证：AI 只读核对 `00821b5` 的源码与目录，确认现有实现仍为单机原型，新方案主要为设计；计划中的本地链接和文档格式检查通过。本轮未执行编译、业务复现或云端验证。
+- 交接/下一步：先做 N1.1，补齐最小题包与正确提交，取得实际 AC 和输出证据。N1—N4 均未验收；算法交付版本、接口差异及云环境条件继续待确认。
+
+### 2026-11-10｜AI 修正｜恢复被替换的原文
+- 前次重写覆盖了系统负责人的原始笔记，现已在 `new_plan_1110.md` 开头完整恢复；README 被替换的旧入口也已恢复。新增计划和此前开发记录均保留。按用户要求，今后所有文件的旧内容均保留，调整采用追加说明或注明日期的更正。
+
+### 2026-11-10｜AI 编写与检查｜N1.1 材料就绪，构建待依赖
+- 改动：新增最小 [A+B 题包](../../problems/a_plus_b/problem.json)、[正确源码](../../examples/a_plus_b.cpp) 和 [复现入口](../../tests/n1_ac.py)，复用现有 Pipeline；每次使用独立目录。在计划和部署说明末尾追加状态与操作，原文保留。
+- 验证：Python 3.14.4、g++ 15.2.0、Make 已有；题包读取及入口语法检查通过。AI 运行 `python3 -m tests.n1_ac --actor AI` 退出 1，Make 退出 2，因缺少 `json-c/json.h` 未进入评测；[证据](../../artifacts/system/n1_ac_ddc70029187c/manifest.json)、[构建日志](../../artifacts/system/n1_ac_ddc70029187c/build.txt)。`sudo -n apt-get install -y libjson-c-dev` 因需要交互认证退出 1，未完成安装。
+- 交接/下一步：本人安装 `libjson-c-dev` 并确认 `pkg-config` 版本输出后，继续构建和 AC 验证。N1 进行中，N1.1 未通过，错误样例与共同验收未完成。
+
+### 2026-11-10｜lhy 运行、AI 核对｜N1.1 正常评测通过
+- 改动：lhy 完成 `libjson-c-dev` 安装，json-c 版本 0.18；N1.1 更新为通过。
+- 验证：本人执行 `python3 -m tests.n1_ac --actor lhy`，构建和脚本退出 0、AC 2/2，实际输出为 `3\n`、`-5\n`；[证据](../../artifacts/system/n1_ac_9c1bf7fe479d/manifest.json)。AI 只读核对已有记录，未重跑评测。
+- 下一步：N1.2 验证 WA；CE/RE/TLE、其他成员复核待完成，N1 整项继续进行中。
+
+### 2026-11-10｜AI 编写与实测｜N1.2 WA 验证，待本人复跑
+- 改动：新增 [反向相减样例](../../examples/wrong_answer.cpp) 与 [WA 入口](../../tests/n1_wa.py)，透传并保存真实单点响应；原 AC 样例、题包和判定代码均保留。
+- 验证：AI 首次运行因沙箱禁止本机套接字退出 1；获准本机通信后运行 `python3 -m tests.n1_wa --actor AI` 退出 0，构建成功，两点均 WA、程序退出 0、无信号或超时、输出未超限；汇总 WA 0/2。[通过证据](../../artifacts/system/n1_wa_f8e9f8a8acb2/manifest.json)，[沙箱失败记录](../../artifacts/system/n1_wa_e90d6d7b92cc/manifest.json)。
+- 下一步：lhy 按部署说明复跑 N1.2；CE/RE/TLE 与其他成员复核待完成，N1 不勾选完成。
+
+### 2026-11-10｜lhy 运行、AI 核对｜N1.2 WA 验证通过
+- 改动：N1.2 追加为本人验证通过，原样例与历史记录保留。
+- 验证：lhy 运行 `python3 -m tests.n1_wa --actor lhy`，构建与脚本退出 0，两点均正常退出、输出未超限，汇总 WA 0/2；[证据](../../artifacts/system/n1_wa_71e049b249a3/manifest.json)。AI 只读核对真实响应、输出与源码哈希，未重跑评测。
+- 下一步：N1.3 验证 CE；N1.4—N1.6 待完成，N1 整项继续进行中。
+
+### 2026-11-10｜AI 编写与实测｜N1.3 CE 验证，待本人复跑
+- 改动：新增 [缺分号样例](../../examples/compile_error.cpp) 和 [CE 入口](../../tests/n1_ce.py)，透传真实编译结果并检查未调用测试点评测，旧内容保留。
+- 验证：AI 运行 `python3 -m tests.n1_ce --actor AI` 退出 0，真实诊断为缺少分号，编译调用一次且失败、汇总 CE、评测调用为 False，无可执行产物及测试点输出目录；[证据](../../artifacts/system/n1_ce_6ec5ea3b5a70/manifest.json)。未启动原生评测服务。
+- 下一步：lhy 复跑 N1.3；N1.4—N1.6 待完成，N1 不勾选完成。
+
+### 2026-11-10｜lhy 运行、AI 核对｜N1.3 CE 验证通过
+- 改动：N1.3 追加为本人验证通过，保留此前记录。
+- 验证：lhy 运行 `python3 -m tests.n1_ce --actor lhy`，真实编译一次且因缺分号失败，结果 CE，未调用测试点评测，验证脚本退出 0；[证据](../../artifacts/system/n1_ce_2dccaf45c519/manifest.json)。AI 只读核对记录和源码哈希，未重跑。
+- 下一步：N1.4 验证 RE；N1.5、N1.6 待完成，N1 整项仍进行中。
+
+### 2026-11-10｜AI 编写与实测｜N1.4 RE 验证，待本人复跑
+- 改动：新增 [输出正确但返回 7 的样例](../../examples/runtime_error.cpp) 和 [RE 入口](../../tests/n1_re.py)，复用已有响应捕获代码，原内容保留。
+- 验证：AI 运行 `python3 -m tests.n1_re --actor AI` 退出 0，构建成功，两点输出与答案一致、退出码均为 7，无信号或超时，错误提示保留，汇总 RE 0/2；[证据](../../artifacts/system/n1_re_b2e33f65bd82/manifest.json)。仅验证主动非零退出。
+- 下一步：lhy 复跑 N1.4；N1.5、N1.6 待完成，N1 不勾选完成。
+
+### 2026-11-10｜lhy 运行、AI 核对｜N1.4 RE 验证通过
+- 改动：N1.4 主动非零退出路径追加为本人验证通过，保留原记录。
+- 验证：lhy 运行 `python3 -m tests.n1_re --actor lhy`，两点输出正确、退出码均为 7，汇总 RE 0/2，构建与验证脚本退出 0；[证据](../../artifacts/system/n1_re_e8296eb027de/manifest.json)。AI 只读核对响应、实际输出及源码哈希，未重跑；崩溃信号未单独验证。
+- 下一步：N1.5 验证 TLE；N1.6 待复核，N1 整项仍进行中。
+
+### 2026-11-10｜AI 编写与实测｜N1.5 墙钟 TLE，待本人复跑
+- 改动：新增 [休眠超时样例](../../examples/time_limit.cpp) 和 [TLE 入口](../../tests/n1_tle.py)，沿用原题包与判定代码；旧内容保留。
+- 验证：AI 运行 `python3 -m tests.n1_tle --actor AI` 退出 0，构建成功，两点均触发墙钟超时、被 SIGKILL 终止，超时前输出保留，汇总 TLE 0/2；[证据](../../artifacts/system/n1_tle_433a4f8fc658/manifest.json)。未单独验证 CPU 超限或子孙进程清理。
+- 下一步：lhy 复跑 N1.5；N1.6 待其他成员复核，N1 不勾选完成。
+
+### 2026-11-10｜lhy 运行、AI 核对｜N1.5 墙钟 TLE 验证通过
+- 改动：N1.5 墙钟超时路径追加为本人验证通过，历史内容保留。
+- 验证：lhy 运行 `python3 -m tests.n1_tle --actor lhy`，两点墙钟超时为 True、终止信号 9，超时前输出保留，汇总 TLE 0/2，构建与脚本退出 0；[证据](../../artifacts/system/n1_tle_46a134cb511a/manifest.json)。AI 只读核对响应、输出和源码哈希，未重跑；CPU 超限未单独验证。
+- 下一步：N1.1—N1.5 本人验证通过；整理提交并交应用负责人按现有部署说明完成 N1.6，N1 整项仍进行中。
+
+### 2026-11-10｜系统负责人指定、AI 核对｜N2.1 清点与范围确定
+- 改动：按最新安排，由 lhy 连续推进开发、部署和实验，应用负责人后续接 Web UI；N1.6 独立复核后置，不阻塞 N2。[计划末尾](../tasks/system/new_plan_1110.md) 追加资产清点和首轮范围，保留原文。
+- 验证：联网核对五条远端分支，其提交与本地跟踪记录一致，主干为 `00821b5`；只读检查分支源码和五份 lhy 的 N1 成功记录。单机代码可复用，当前可见分支未发现可运行调度/退火源码，按待实现登记；未新增业务功能或重跑评测。
+- 下一步：N2.2 准备编译任务、评测任务、结果字段及 JSON 样例；独立复核仍待完成，N1 新增材料待本人提交，云资源条件待确认。
+
+### 2026-11-10｜AI 整理与检查｜N2.2 字段草案及三类样例
+- 改动：[共同约定](../specs/stage1_agreement.md) 末尾追加消息字段、编号、单位、CE 分流和单机适配边界；新增 [三类 JSON 样例](../../protocol/golden/)，均明确为合成数据，原文保留。
+- 验证：AI 检查 JSON 语法、消息编号唯一、提交/题包/测试点/节点关联、哈希格式和限制数值通过；N1 业务代码未改，尚未执行 Python/C++ 契约或队列联调。
+- 下一步：N2.3 统一编译、传输和判定口径；N2.4 再验证跨语言解析。N2 整项仍进行中。
+
+### 2026-11-10｜AI 整理与检查｜N2.3 第一版规则确定
+- 改动：[共同约定](../specs/stage1_agreement.md) 追加 v1 编译、路由、判定、资源与哈希规则；新增 [机读配置](../../protocol/policy_v1.json) 及编译成功/CE 通知样例，原内容保留。
+- 验证：AI 检查五份 JSON 与配置的版本、编译参数、消息路由、身份关联、状态及判定原因一致；现有 N1 代码及三份旧样例未改，未声称队列或新增资源限制已启用。
+- 下一步：N2.4 编写并实跑 Python/C++ 契约检查；实际业务接入与资源行为在 N3 验证。
+
+### 2026-11-11｜AI 编写与实测｜N2.4 跨语言契约，待本人复跑
+- 改动：新增 Python/C++ 消息检查与往返入口，保留附加字段、补缺省 FINAL；旧样例和 N1 代码保留。解析边界追加到共同约定，操作集中在部署说明。
+- 验证：AI 运行 `python3 -m tests.n2_contract --actor AI`，构建与脚本退出 0，23 组合成合法消息双向往返、58 组错误消息双端拒绝通过；[证据](../../artifacts/system/n2_contract_1de149a9386b/manifest.json)。前三次因本机 json-c 严格模式拒绝未转义中文失败，记录保留于 `n2_contract_9e0387c9974a`、`n2_contract_b086de8f5b1c`、`n2_contract_3490cd718185`；现先校验 UTF-8、等值转义，再严格解析，未放宽 JSON 语法。
+- 下一步：lhy 复跑 N2.4；通过后推进 N3.1。此次只检查合成消息，没有运行被测程序、连接队列或验证新增资源限制。
+
+### 2026-11-11｜lhy 运行、AI 核对｜N2.4 本人通过，N2 完成
+- 改动：计划末尾追加 N2.4 本人通过、N2 完成；历史内容保留。
+- 验证：lhy 运行 `python3 -m tests.n2_contract --actor lhy`，构建与脚本退出 0，23 组合法往返及 58 组错误拒绝通过；[证据](../../artifacts/system/n2_contract_93ff99fe55fc/manifest.json)。AI 只读核对执行人、81 项结果、无警告构建日志及源码哈希，未重跑。
+- 下一步：本人保存 N1/N2 基线提交，推进 N3.1 执行核心与真实 AC 结果验证。N1.6 仍待独立复核；队列、分布式 Worker 和新增资源限制未验收。
+
+### 2026-11-11｜AI 编写与实测｜N3.1 第一步 AC 结果适配
+- 改动：新增 [结果适配层](../../judge/result_adapter.py) 与 [验证入口](../../tests/n3_ac_adapter.py)，复用原生服务，将真实 AC 转为 v1 消息；RSS 乘 1024 转字节，未采集的墙钟耗时保留 null，旧代码不改。
+- 验证：AI 运行 `python3 -m tests.n3_ac_adapter --actor AI`，构建与脚本退出 0，实际输出 `3\n`、`-5\n`，AC 2/2，v1 往返及两项身份/判定防误用检查通过；[证据](../../artifacts/system/n3_ac_adapter_4e30a6f5e9a7/manifest.json)。原生响应和转换结果分别保存，尚未接入新 Worker、对象解析或队列。
+- 下一步：lhy 复跑第一步；之后补异常语义、执行接口与回归。N3.1 进行中，非 AC 适配与新增资源路径未验收。
+
+### 2026-11-11｜lhy 运行、AI 核对｜N3.1 第一步本人通过
+- 改动：计划追加真实 AC 适配本人通过，原文保留。
+- 验证：lhy 运行 `python3 -m tests.n3_ac_adapter --actor lhy`，构建与脚本退出 0，AC 2/2、v1 契约与两项防误用检查通过；[证据](../../artifacts/system/n3_ac_adapter_f39c52249bf7/manifest.json)。AI 只读核对实际输出、原生/转换响应及源码哈希一致，未重跑。
+- 下一步：先补真实 WA 内容错误适配；其余异常、可复用 Worker 接口与回归未完成，N3.1 保持进行中。
+
+### 2026-11-11｜AI 编写与实测｜N3.1 WA 内容错误适配
+- 改动：[适配层](../../judge/result_adapter.py) 追加 WA 内容错误入口，读取实际输出与答案、有界校验长度，确认后生成 ANSWER_MISMATCH；新增 [验证入口](../../tests/n3_wa_adapter.py)，旧 AC 函数、源码与历史记录保留。
+- 验证：AI 运行 `python3 -m tests.n3_wa_adapter --actor AI`，构建与脚本退出 0，真实 WA 0/2，两点退出 0、输出为 `1\n` 和 `11\n` 且未超限，v1 契约通过；另有 5 项合成防误用检查，[证据](../../artifacts/system/n3_wa_adapter_6d7997f4c1ea/manifest.json)。合成检查不算原生输出超限实测。
+- 下一步：lhy 复跑 WA；之后接 RE 非零退出。输出超限、其余异常及 Worker 接口未验收，N3.1 进行中。
+
+### 2026-11-11｜系统负责人提出、AI 修订｜N1—N4 按模块交付
+- 改动：在 [当前计划](../tasks/system/new_plan_1110.md) 末尾追加控制、编译、评测与基础服务配置的交付边界，更新 N1—N4 验收；N3 同步准备各角色产物，N4 按包部署复现，旧内容保留。
+- 验证：AI 对照组长补充要求、实施总案、现有源码与记录核对；本轮仅修订文档，检查原文保留与新增链接，未编译、运行或验收新模块。N1/N2 既有结果保留，N3.1 仍进行中，WA 尚待本人复跑。
+- 下一步：完成 WA 本人复跑，随后优先整理共用 C++ 执行/比较/判定核心，再补异常与独立 Worker；Python 适配层保留作过渡核对。
+
+### 2026-11-12｜AI 编写与实测｜N3.1 C++ 本地核心 AC/WA
+- 改动：新增 [C++ 核心](../../judge/native/eval_core.cpp) 和 [本地入口](../../judge/native/eval_local.cpp)，独立构建，执行节点直接生成 verdict/reason；旧链路与适配代码保留。
+- 验证：AI 运行 `python3 -m tests.n3_local_core --actor AI`，构建和验证退出 0，四个真实执行结果符合 N1 的 AC/WA 期望，两项输入检查通过；[证据](../../artifacts/system/n3_local_core_d0250e10424f/manifest.json)。本轮通过本机文件提供输入，无对象下载或队列；哈希只检查格式。
+- 下一步：lhy 复跑新核心；随后补 RE 非零退出和启动失败的区分。旧 WA 适配仍待本人复核，其他异常和 Worker 打包未验收。
+
+### 2026-11-12｜lhy 运行、AI 核对｜N3.1 C++ 本地核心 AC/WA 本人通过
+- 改动：计划追加共用 C++ 核心 AC/WA 本人通过，旧记录保留。
+- 验证：lhy 运行 `python3 -m tests.n3_local_core --actor lhy`，构建和脚本退出 0，AC 2/2、WA 0/2，v1 检查与两项输入检查通过；[证据](../../artifacts/system/n3_local_core_591022fd4614/manifest.json)。AI 核对实际输出、结果身份和源码哈希，未重跑。
+- 下一步：在同一核心验证非零退出和启动失败的区分，覆盖程序主动返回 125。其他异常与 Worker 发布仍待完成。
+
+### 2026-11-12｜lhy 运行、AI 核对｜N3.1 RE/SE 区分本人通过
+- 改动：共用 C++ 核心根据启动错误记录和程序退出状态区分 RE/SE；未运行的程序不填写退出码和测量值。
+- 验证：lhy 运行 `python3 -m tests.n3_exit_paths --actor lhy`，返回 7、125 均判 RE，真实 `execv` 失败判 SE，AC/WA 回归及两项输入检查通过，构建和脚本退出 0；[证据](../../artifacts/system/n3_exit_paths_0ffdb61d44dd/manifest.json)。AI 只读核对结果与源码哈希。
+- 下一步：补墙钟超时 TLE；信号、其他资源超限和 Worker 发布仍待验证。
+
+### 2026-11-12｜AI 编写与实测｜N3.1 墙钟超时 TLE
+- 改动：共用 C++ 核心在墙钟时限后终止并回收程序，用实际终止状态生成 TLE；保留真实测量，程序退出码和未比较的输出长度留空。
+- 验证：AI 运行 `python3 -m tests.n3_wall_timeout --actor AI`，两点 `TLE/WALL_TIMEOUT`、信号 9，实际墙钟 1000、1001 ms，超时前输出保留；AC/WA/RE/SE 和两项输入检查通过，构建与脚本退出 0。[证据](../../artifacts/system/n3_wall_timeout_1beb6fede1d5/manifest.json)。
+- 下一步：lhy 复跑，再补普通崩溃信号 RE。CPU 超限及子孙进程清理未验收。
+
+### 2026-11-12｜lhy 运行、AI 核对｜N3.1 墙钟超时本人通过
+- 改动：计划追加墙钟超时本人通过，原记录保留。
+- 验证：lhy 运行 `python3 -m tests.n3_wall_timeout --actor lhy`，两点均 `TLE/WALL_TIMEOUT`、墙钟 1001 ms、信号 9，保留超时前输出；原判定回归和两项输入检查通过，构建与脚本退出 0。[证据](../../artifacts/system/n3_wall_timeout_ecedecbcee9e/manifest.json)。AI 只读核对结果及源码哈希。
+- 下一步：补普通崩溃信号 RE。CPU 超限、子孙进程清理等保持待验证。
+
+### 2026-11-12｜AI 编写与实测｜N3.1 崩溃信号 RE
+- 改动：共用核心将常见崩溃信号映射为 `RE/CRASH_SIGNAL`，保留实际信号和测量；资源限制信号继续按各自路径待接入。
+- 验证：AI 运行 `python3 -m tests.n3_crash_signal --actor AI`，真实 `SIGABRT` 为信号 6，判 RE、退出码为空，保留崩溃前输出；9 项已有用例回归和两项输入检查通过，构建与脚本退出 0。[证据](../../artifacts/system/n3_crash_signal_765c1e669467/manifest.json)。
+- 下一步：lhy 复跑，再补输出超限 `WA/OUTPUT_LIMIT`；其他崩溃信号和资源超限未单独验收。
+
+### 2026-11-12｜lhy 报告、AI 修正与实测｜N3.1 本地判定批次
+- 改动：排查 [lhy 崩溃复跑失败](../../artifacts/system/n3_crash_signal_172d165b5c4d/manifest.json)，Apport 延迟回收导致墙钟终止；样例关闭自身转储。新增归一化长度超限与 `SIGXFSZ` 的 `WA/OUTPUT_LIMIT`，以及统一复跑入口。
+- 验证：AI 运行 `python3 -m tests.n3_local_batch --actor AI`，`SIGABRT` 判 RE，正常输出超长和文件触顶均判 WA/OUTPUT_LIMIT，已有判定回归；12 个用例、2 项输入检查通过，构建与脚本退出 0。[证据](../../artifacts/system/n3_local_batch_b02b267f344d/manifest.json)。
+- 下一步：lhy 一次复跑并回传批次汇总；CPU、内存、正式 Worker 部署与宿主转储策略待验收。
+
+### 2026-11-12｜lhy 运行、AI 核对｜N3.1 本地判定批次本人通过
+- 验证：lhy 运行 `python3 -m tests.n3_local_batch --actor lhy`，5 组、12 个用例和 2 项输入检查通过，构建与脚本退出 0；崩溃与两种输出超限结果符合预期。[证据](../../artifacts/system/n3_local_batch_ee65aafac1de/manifest.json)。AI 核对结果与源码哈希，旧失败证据保留。
+- 下一步：按批次处理 CPU/内存边界；N3.1 仍进行中，正式 Worker 部署与宿主转储策略待验收。
+
+### 2026-11-12｜AI 编写与实测｜N3.1 资源判定批次
+- 改动：抽出共用进程判定函数，接入 CPU 超限的三条路径、可信内存证据判定和有界 stderr 摘要；新增 `--resources` 集中验收。
+- 验证：AI 实跑 17 个用例、2 项输入检查和 7 项合成检查，12 项构建与脚本退出 0。CPU 实测分别为 1003、604、1999 ms；地址空间拒绝和限内 RSS/摘要检查通过。合成 MLE/OOM 单列，未冒充真实 OOM。[证据](../../artifacts/system/n3_local_batch_090c3e08934c/manifest.json)。
+- 下一步：lhy 批量复跑并回传汇总。真实 cgroup 内存证据、子孙进程清理和正式 Worker 交付待验收。
+
+### 2026-11-12｜lhy 运行、AI 核对｜N3.1 资源判定批次本人通过
+- 验证：lhy 运行 `python3 -m tests.n3_local_batch --resources --actor lhy`，17 个实际用例、2 项输入检查、7 项合成检查通过，12 项构建与脚本退出 0。三条 CPU 用例实测 1002、606、2002 ms，地址空间/RSS/错误摘要通过。[证据](../../artifacts/system/n3_local_batch_9833c3d76ac9/manifest.json)。AI 只读核对结果与源码哈希。
+- 下一步：整理 Worker 调用边界和本地交付验证；真实 cgroup 内存证据、子孙进程清理及部署保持待验收。
+
+### 2026-11-12｜AI 编写与实测｜N3.1 Worker 本地交付批次
+- 改动：两个入口共用 v1 任务处理；新增 `eval-worker` 一次性入口、配置样例、归档与依赖清单，旧单机链路保留。
+- 验证：AI 运行 `python3 -m tests.n3_local_batch --resources --delivery --actor AI`。源码外解包后，两份节点配置就绪，17 项重放与本地判定一致；全批 34 个实际用例、6 项输入检查、7 项合成检查通过，构建与脚本退出 0。[证据](../../artifacts/system/n3_local_batch_207499471784/manifest.json)。
+- 下一步：lhy 一次复跑。通过后确认 N3.1 本地范围并推进 N3.2；队列、对象校验、真实 cgroup 和跨机交付未验收。
+
+### 2026-11-13｜lhy 运行、AI 核对｜N3.1 本地交付本人通过
+- 验证：lhy 批量复跑 34 个实际用例、6 项输入检查、7 项合成检查，全批退出 0。两份本地节点配置就绪，17 项源码外重放一致。[证据](../../artifacts/system/n3_local_batch_0fafd203a2e3/manifest.json)。AI 核对结果、源码和归档哈希。
+- 下一步：N3.1 本地范围已验收，推进 N3.2 基础服务接入；分布式运行、真实 cgroup 内存证据和部署项保持待验收。
+
+### 2026-11-13｜AI 编写与实测｜N3.2 三项基础服务联通
+- 改动：新增独立配置、免系统安装的依赖准备和批次探针；临时服务结束后停止，运行依赖不入库。
+- 验证：默认入口实连 PostgreSQL 18.6、MinIO 固定源码版、NATS 2.10.27。对象双向校验及错哈希拒绝、v1 拉取、数据库提交读回和之后 ACK 均通过，退出 0。[证据](../../artifacts/system/n32_services_545e43dd9546/manifest.json)。
+- 下一步：lhy 一次复跑并回传汇总；N3.3 再接提交和编译程序，生产消费和部署未验收。
+
+### 2026-11-13｜lhy 运行、AI 核对｜N3.2 本人验收通过
+- 验证：lhy 复跑三项基础服务，对象读写与哈希校验、JetStream 发布拉取、PostgreSQL 提交读回及随后 ACK 均通过，退出 0。[证据](../../artifacts/system/n32_services_3db9037e8d0c/manifest.json)。AI 核对任务、回执及源码配置哈希，未重跑。
+- 下一步：N3.3 提交与独立编译待开始；本轮仅更新记录。
+
+### 2026-11-14｜AI 编写与实测｜N3.3 独立编译入口
+- 改动：新增独立构建目标 `compile-local` 和两用例复跑入口。
+- 验证：A+B 生成可执行文件，运行输出 3；语法错误判 CE，无可执行产物，保留诊断。[证据](../../artifacts/system/n33_compile_local_4aa942c5c89c/manifest.json)。
+- 下一步：lhy 复跑；N3.3 服务联调与编译资源限制仍待完成。
+
+### 2026-11-14｜lhy 复跑、AI 实测｜N3.3 编译入口与提交查询
+- 编译入口：本人复跑成功和 CE 均通过，路径和源码哈希已核对。[证据](../../artifacts/system/n33_compile_local_75dff41efa60/manifest.json)。
+- 提交查询：新增控制侧提交、查询函数及数据库表。AI 用两份源码实测 MinIO 上传下载校验、数据库提交后查询及无效输入拒绝，退出 0。[证据](../../artifacts/system/n33_submissions_794917fb5531/manifest.json)。
+- 下一步：lhy 复跑提交与查询；之后再接编译任务发布和结果回传。
+
+### 2026-11-14｜lhy 复跑、AI 实测｜N3.3 编译与派发批次
+- 核对：提交与查询由本人通过，[证据](../../artifacts/system/n33_submissions_19eb239a1b6e/manifest.json)。
+- 实测：真实三服务联调，C++ 编译入口处理成功与 CE；篡改样例对象得到 SE。三种结果可查，派发数 2/0/0，重复结果不新增数据库派发记录。[证据](../../artifacts/system/n33_compile_batch_dd6cda0fbb03/manifest.json)。
+- 下一步：本人一次复跑；独立常驻服务打包、完整编译限制和评测执行未验收。
+
+### 2026-11-14｜lhy 复跑、AI 实测｜N3.4 本人通过与 N3.5 两节点分发
+- 核对：N3.4 本人复跑结果及源码哈希一致，[证据](../../artifacts/system/n34_eval_batch_cb4ad315e9cc/manifest.json)。恢复 N2.2 段被误粘贴打断的原句。
+- 实测：同一 C++ 程序用两个节点配置，按入队记录顺序发布、按测试点轮询分配；AC/WA 各两点，两个节点均回传，判定与单节点一致。CE/SE 不派发。[证据](../../artifacts/system/n35_two_nodes_399edf953a5d/manifest.json)。
+- 下一步：本人复跑两节点批次；节点失联、重投恢复和跨机部署待验收。
+
+### 2026-11-14｜lhy 运行、AI 核对｜N3.5 本机两节点本人通过
+- 验证：`tests.n34_eval_batch --two-nodes` 退出 0，两节点完成 AC/WA 共四个测试点；WA 乱序回传汇总正确，CE/SE 无派发。AI 核对结果和源码哈希，未重跑。[证据](../../artifacts/system/n35_two_nodes_bcf8d9f07a97/manifest.json)。
+- 下一步：N3.6 重复投递和节点异常；跨机和积压调度优化未验收。
+
+### 2026-11-14｜AI 实测｜N3.6 本机恢复批次
+- 状态：同步 newplan 主表，两个旧阶段 Todo 保留验收并补当前状态索引。
+- 验证：两次未 ACK 断开后发生同任务重投，真实队列重复结果两条，单点记录仍为四条且最终状态正确，脚本退出 0。[证据](../../artifacts/system/n36_recovery_7b9dadcf17d9/manifest.json)。
+- 下一步：lhy 复跑；长期失联迁移、常驻进程故障和跨机部署待验收。
+
+### 2026-11-14｜lhy 运行、AI 核对｜N3.6 本机恢复本人通过
+- 验证：两次未 ACK 重投、两条重复结果去重及 AC/WA 汇总均通过，退出 0。已核对源码哈希。[证据](../../artifacts/system/n36_recovery_71f44ec31aab/manifest.json)。
+- 状态：更新 newplan 状态表；N4 本轮未启动。
+
+### 2026-11-15｜AI 实测｜N4 本机交接预演
+- 交付：部署说明追加应用负责人入口、环境确认项和 AI 接手提示；newplan 更新 N4.2 状态并补三页汇报提纲。
+- 验证：`python3 -m tests.n4_handoff --actor AI` 退出 0。源码包在仓库外重新构建，复用现有本机依赖，AC/WA/CE/SE、同节点重投与结果去重通过，导出四行判定对照。[证据](../../artifacts/system/n4_handoff_1647a0a8ba2a/manifest.json)。
+- 下一步：本人复跑，再交给应用负责人独立复现并确认云环境。首次依赖安装、各角色云发布包和性能指标待验收。
+
+### 2026-11-15｜本人复跑、AI 编写与实测｜N4 本机交接与 Web 演示
+- 本人交接预演通过：[证据](../../artifacts/system/n4_handoff_2c517278babf/manifest.json)。
+- 新增本机 Web/API：读取真实记录、按提交编号查询、触发内置双节点批次；HTTP 查询及实跑通过。[证据](../../artifacts/system/n4_web_01853f0f5bab/manifest.json)。
+- 下一步：应用负责人按清单独立复现、操作演示；系统侧保留生产 API、云部署与实验待办。
+- 交接包复核：含 Web 文件的新版源码包在仓库外重建与复跑通过，解包后可读取本次评测记录。[证据](../../artifacts/system/n4_handoff_afe5d8155b99/manifest.json)。
+
+### 2026-11-15｜AI 实测｜USACO 竞赛题与演示指标
+- 从旧提交 `3414b3a` 恢复《The Lazy Cow》Gold 的 11 点本地题包，新写参考解；新版双节点实跑 AC 11/11，节点分布 6/5。[证据](../../artifacts/system/n4_lazy_gold_44dfabc7d51b/manifest.json)。
+- Web 新增竞赛题区和单点墙钟、CPU、峰值 RSS；竞赛题查询与 A+B 实跑回归均通过。[HTTP 证据](../../artifacts/system/n4_web_08e54b659516/manifest.json)。吞吐、排队和提速待对照实验。

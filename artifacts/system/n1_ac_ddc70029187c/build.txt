@@ -1,0 +1,8 @@
+make: Entering directory '/media/robert/WindowsD/active/2026-27_autumn_courses/innovation_training/judge/native'
+g++ -std=c++23 -O2 -march=native -pipe -Wall -Wextra -Wpedantic -pthread  eval_server.cpp -o /media/robert/WindowsD/active/2026-27_autumn_courses/innovation_training/work/n1_ac_ddc70029187c/native/eval_server -ljson-c
+eval_server.cpp:22:10: fatal error: json-c/json.h: No such file or directory
+   22 | #include <json-c/json.h>
+      |          ^~~~~~~~~~~~~~~
+compilation terminated.
+make: *** [Makefile:17: /media/robert/WindowsD/active/2026-27_autumn_courses/innovation_training/work/n1_ac_ddc70029187c/native/eval_server] Error 1
+make: Leaving directory '/media/robert/WindowsD/active/2026-27_autumn_courses/innovation_training/judge/native'

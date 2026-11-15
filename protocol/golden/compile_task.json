@@ -1,0 +1,20 @@
+{
+  "ver": 1,
+  "type": "compile_task",
+  "msg_id": "n2_compile_example_001",
+  "correlation_id": "sub_n2_example_001",
+  "emitted_at": "2026-11-10T00:00:00Z",
+  "file_id": "sub_n2_example_001",
+  "problem_id": "a_plus_b",
+  "enqueue_seq": 1,
+  "attempt": 1,
+  "source_hash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "test_bundle_hash": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "compiler_profile": "cpp_baseline_v1",
+  "limits": {
+    "cpu_ms": 10000,
+    "wall_ms": 30000,
+    "mem_bytes": 536870912,
+    "out_bytes": 1048576
+  }
+}

@@ -1,0 +1,5 @@
+C++ 契约检查入口编译通过
+Traceback (most recent call last):
+  File "/media/robert/WindowsD/active/2026-27_autumn_courses/innovation_training/tests/n2_contract.py", line 196, in main
+    raise AssertionError(f"{name} / {direction}：C++ 拒绝合法消息")
+AssertionError: compile_error_result / Python→C++→Python：C++ 拒绝合法消息

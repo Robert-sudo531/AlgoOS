@@ -1,0 +1,38 @@
+{
+  "run_id": "n2_contract_9e0387c9974a",
+  "executed_by": "AI",
+  "started_at_utc": "2026-11-11T00:38:30.608898+00:00",
+  "python": "3.14.4",
+  "scope": "N2.4 合成消息契约；未连接队列、执行被测程序或验证资源限制",
+  "status": "FAILED",
+  "source_sha256": {
+    "protocol/__init__.py": "bfc12667cb9796fc06116ff6c7fa1a97a1e924df526c928c5ab4753bb5a5cb57",
+    "protocol/codec_v1.hpp": "cafbae0af34106fe44e3ea2b28a8d1921e424ca2a3a435cb5f0ce8664ca5f188",
+    "protocol/codec_v1.py": "fb28d3dd35504ebf9e9e092d5c1820e59142e6b14c2b79a69d6f8206d0854df3",
+    "protocol/contract_check.cpp": "b6ef285e8af4df3d60712129b1cd2bca980a01ceb35760040c13663004a1746b",
+    "protocol/golden/compile_error_result.json": "1ecbbdd8a05d134c77acc1bb2457c19a847971aa53fa5a5ac68f180dd7640ecb",
+    "protocol/golden/compile_success_result.json": "f983534b9ac87ebe6ba46b2eb9b5a027f9829d002ae84fb746a3f7ce8b968cb7",
+    "protocol/golden/compile_task.json": "934b71d293ecdd1a1aba20a635aba7140430d0e913f76a0e7eebdd77492a1cb8",
+    "protocol/golden/eval_result.json": "272f31b0eec4c823a6e64443b87e8f16ca863bf5c4b47b6543e818284ea4f502",
+    "protocol/golden/eval_task.json": "dfd7614906b3a32df14142ff749192597323a7c172f933988d80b3ef3cb40245",
+    "protocol/policy_v1.json": "2dd5dac9f1f97a32b9e84806ee18408eb9f26c0c27576356554701aad33d22ee",
+    "tests/n2_contract.py": "d782e3cc10c1b49aa16b66a4189c8c6fbaa0a15a8c56c4d35198506cdcbf0eb7"
+  },
+  "build_command": [
+    "g++",
+    "-std=c++23",
+    "-O2",
+    "-pipe",
+    "-Wall",
+    "-Wextra",
+    "-Wpedantic",
+    "/media/robert/WindowsD/active/2026-27_autumn_courses/innovation_training/protocol/contract_check.cpp",
+    "-o",
+    "/media/robert/WindowsD/active/2026-27_autumn_courses/innovation_training/work/n2_contract_9e0387c9974a/contract_check",
+    "-I/usr/include/json-c",
+    "-ljson-c"
+  ],
+  "build_exit_code": 0,
+  "error": "compile_error_result / Python→C++→Python：C++ 拒绝合法消息",
+  "exit_code": 1
+}

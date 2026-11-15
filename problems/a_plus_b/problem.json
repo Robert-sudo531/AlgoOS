@@ -1,0 +1,11 @@
+{
+  "problem_id": "a_plus_b",
+  "title": "A+B",
+  "time_limit_ms": 1000,
+  "memory_limit_mib": 256,
+  "compare_mode": "common",
+  "tests": [
+    {"case_id": "01", "input": "tests/01.in", "output": "tests/01.out"},
+    {"case_id": "02", "input": "tests/02.in", "output": "tests/02.out"}
+  ]
+}

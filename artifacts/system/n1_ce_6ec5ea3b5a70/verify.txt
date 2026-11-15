@@ -1,0 +1,12 @@
+[test_pipeline] 0003__a_plus_b.cpp -> CE (0/2)
+编译成功： False
+编译诊断：
+/media/robert/WindowsD/active/2026-27_autumn_courses/innovation_training/work/n1_ce_6ec5ea3b5a70/submissions/0003__a_plus_b.cpp: In function ‘int main()’:
+/media/robert/WindowsD/active/2026-27_autumn_courses/innovation_training/work/n1_ce_6ec5ea3b5a70/submissions/0003__a_plus_b.cpp:2:13: error: expected ‘;’ before ‘}’ token
+    2 |     return 0  // 故意缺少分号，用于验证编译错误 CE。
+      |             ^
+      |             ;
+    3 | }
+      | ~            
+是否调用测试点评测： False
+N1.3 编译错误验证通过：CE，未运行测试点

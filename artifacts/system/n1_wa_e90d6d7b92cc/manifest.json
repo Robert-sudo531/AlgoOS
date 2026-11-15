@@ -1,0 +1,30 @@
+{
+  "run_id": "n1_wa_e90d6d7b92cc",
+  "executed_by": "AI",
+  "started_at_utc": "2026-11-10T12:19:23.043684+00:00",
+  "python": "3.14.4",
+  "scope": "N1.2 正常退出、输出不超限的错误答案；只验证 WA",
+  "status": "FAILED",
+  "source_sha256": {
+    "judge/native/eval_server.cpp": "28cc4745ffb1ff0fc94d3155613599799c26340953efb6a142bd8422d6459daa",
+    "judge/native/Makefile": "0450b5c9ea70549cb80fcb89ecebf3c99b5612b368e459e0b5ba245c7db5c340",
+    "judge/pipeline.py": "6429c03446b33df7bd25b41be2d3393453dd6c9d757ce5bf05a26ce9522fed51",
+    "judge/problem.py": "54f34047d8b0c59f55f85b8d25850bc6b0c19597b46b7f0afc57eb0302cb2257",
+    "tests/n1_wa.py": "12671c0ce7662c6a15be757a2d3a6d491ef375762952324f8666ba37106e434d",
+    "examples/wrong_answer.cpp": "f512ca51b518658720b8be2f4942cca69c4582ecd34417a19be35b54d590016d",
+    "problems/a_plus_b/problem.json": "84a60a6eca90af963a6bd597013d4a62a9e93f6e80bdd85e415f3bf85b01ddb7",
+    "problems/a_plus_b/tests/01.in": "f251ddc12234e0da8d3b778bd0f7463fb477f16f47757f5617dc8b4ff4d4f14a",
+    "problems/a_plus_b/tests/01.out": "1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+    "problems/a_plus_b/tests/02.in": "e8b85870ce1971fb92ad8183f96e437663d939839d9625ff0bf2065954ead068",
+    "problems/a_plus_b/tests/02.out": "0b2f06dddfa807ee574a78468d3a05904873b97f44377eb93481e091c257b800"
+  },
+  "build_command": [
+    "make",
+    "-C",
+    "/media/robert/WindowsD/active/2026-27_autumn_courses/innovation_training/judge/native",
+    "BUILD_DIR=/media/robert/WindowsD/active/2026-27_autumn_courses/innovation_training/work/n1_wa_e90d6d7b92cc/native"
+  ],
+  "build_exit_code": 0,
+  "error": "[Errno 1] Operation not permitted",
+  "exit_code": 1
+}

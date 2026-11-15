@@ -2,6 +2,8 @@
 
 ## 下一步方案请见 [docs/project/distributed_implementation_plan.md](docs/project/distributed_implementation_plan.md) 与 [docs/project/next_step.md](docs/project/next_step.md)
 
+当前系统任务先看 [系统推进计划](docs/tasks/system/new_plan_1110.md)。完整技术设计按需查阅 [实施总案](docs/project/distributed_implementation_plan.md) 与 [目标 UML/接口](docs/project/next_step.md)。
+
 面向算法竞赛的轻量评测与任务调度实验平台。当前实现是 `reroll` 版本的本地评测守护进程：加载 `problems/`，监听 `submissions/`，调用 C++ 评测服务端，把结果写入 `result/result.tsv`。
 
 ## 快速开始
@@ -48,6 +50,7 @@ python3 test_pipeline.py
 
 | 主题 | 位置 |
 | --- | --- |
+| 当前系统任务与验收 | [系统推进计划](docs/tasks/system/new_plan_1110.md) |
 | 中期汇报 | [midterm_report.md](midterm_report.md) |
 | AI 协作规则 | [docs/project/AGENTS.md](docs/project/AGENTS.md) |
 | 项目背景与排期 | [docs/project/plan_revised.md](docs/project/plan_revised.md) |

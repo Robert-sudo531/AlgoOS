@@ -1,0 +1,4 @@
+make: Entering directory '/tmp/algoos_handoff_33r_3ouz/judge/native'
+g++ -std=c++23 -O2 -pipe -Wall -Wextra -Wpedantic -pthread compile_local.cpp -o "/tmp/algoos_handoff_33r_3ouz/work/n36_recovery_30eebec43a5b/compile-local"
+g++ -std=c++23 -O2 -pipe -Wall -Wextra -Wpedantic -pthread -I/usr/include/json-c eval_core.cpp eval_task_v1.cpp eval_worker.cpp -o "/tmp/algoos_handoff_33r_3ouz/work/n36_recovery_30eebec43a5b/eval-worker" -ljson-c
+make: Leaving directory '/tmp/algoos_handoff_33r_3ouz/judge/native'
