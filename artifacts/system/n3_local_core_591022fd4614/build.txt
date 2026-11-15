@@ -1,0 +1,6 @@
+["make", "-C", "/media/robert/WindowsD/active/2026-27_autumn_courses/innovation_training/judge/native", "LOCAL_BUILD_DIR=/media/robert/WindowsD/active/2026-27_autumn_courses/innovation_training/work/n3_local_core_591022fd4614/native", "eval-local"]
+make: Entering directory '/media/robert/WindowsD/active/2026-27_autumn_courses/innovation_training/judge/native'
+g++ -std=c++23 -O2 -pipe -Wall -Wextra -Wpedantic -pthread -I/usr/include/json-c eval_core.cpp eval_local.cpp -o "/media/robert/WindowsD/active/2026-27_autumn_courses/innovation_training/work/n3_local_core_591022fd4614/native/eval_local" -ljson-c
+make: Leaving directory '/media/robert/WindowsD/active/2026-27_autumn_courses/innovation_training/judge/native'
+["g++", "-std=c++17", "-O2", "-pipe", "/media/robert/WindowsD/active/2026-27_autumn_courses/innovation_training/examples/a_plus_b.cpp", "-o", "/media/robert/WindowsD/active/2026-27_autumn_courses/innovation_training/work/n3_local_core_591022fd4614/ac"]
+["g++", "-std=c++17", "-O2", "-pipe", "/media/robert/WindowsD/active/2026-27_autumn_courses/innovation_training/examples/wrong_answer.cpp", "-o", "/media/robert/WindowsD/active/2026-27_autumn_courses/innovation_training/work/n3_local_core_591022fd4614/wa"]

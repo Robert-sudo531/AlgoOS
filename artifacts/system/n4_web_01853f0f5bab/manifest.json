@@ -1,0 +1,10 @@
+{
+  "executed_by": "AI",
+  "checks": [
+    "页面资源、回放、详情及无效请求通过",
+    "真实双节点运行及结果查询通过"
+  ],
+  "live_evidence": "n35_two_nodes_2a556535523f",
+  "status": "PASSED",
+  "exit_code": 0
+}

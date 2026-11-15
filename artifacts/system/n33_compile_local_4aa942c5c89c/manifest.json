@@ -1,0 +1,36 @@
+{
+  "executed_by": "AI",
+  "cases": [
+    {
+      "command": [
+        "/media/robert/WindowsD/active/2026-27_autumn_courses/innovation_training/work/n33_compile_local_4aa942c5c89c/compile-local",
+        "/media/robert/WindowsD/active/2026-27_autumn_courses/innovation_training/examples/a_plus_b.cpp",
+        "/media/robert/WindowsD/active/2026-27_autumn_courses/innovation_training/work/n33_compile_local_4aa942c5c89c/a_plus_b"
+      ],
+      "exit_code": 0,
+      "stdout": "COMPILED\n",
+      "binary_exists": true,
+      "diagnostics": "a_plus_b.stderr"
+    },
+    {
+      "command": [
+        "/media/robert/WindowsD/active/2026-27_autumn_courses/innovation_training/work/n33_compile_local_4aa942c5c89c/compile-local",
+        "/media/robert/WindowsD/active/2026-27_autumn_courses/innovation_training/examples/compile_error.cpp",
+        "/media/robert/WindowsD/active/2026-27_autumn_courses/innovation_training/work/n33_compile_local_4aa942c5c89c/compile_error"
+      ],
+      "exit_code": 2,
+      "stdout": "CE\n",
+      "binary_exists": false,
+      "diagnostics": "compile_error.stderr"
+    }
+  ],
+  "source_sha256": {
+    "judge/native/Makefile": "f7e84f14ea2d8fd55b36519851c9fc2887e930bd9501a7811a558cc655294c14",
+    "judge/native/compile_local.cpp": "d07b500c7bc039b3f155fc8e8816b367b2aed2d8b93f405148e32687ea573097",
+    "examples/a_plus_b.cpp": "54306d07a3d65375822f39408810826d8737dde3eb9d68b6964a06e9cb67150e",
+    "examples/compile_error.cpp": "28ce881107e6e8be5602e765170a116f4809a5474a9f075a26afc3ff1d6f03a1",
+    "tests/n33_compile_local.py": "7271f0faeffbb9e75e6f8ff61bd02e3977e2a2ebe5154f45afc1031cae7159b8"
+  },
+  "status": "PASSED",
+  "exit_code": 0
+}

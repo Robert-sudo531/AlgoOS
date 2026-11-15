@@ -1,0 +1,7 @@
+/media/robert/WindowsD/active/2026-27_autumn_courses/innovation_training/examples/compile_error.cpp: In function ‘int main()’:
+/media/robert/WindowsD/active/2026-27_autumn_courses/innovation_training/examples/compile_error.cpp:2:13: error: expected ‘;’ before ‘}’ token
+    2 |     return 0  // 故意缺少分号，用于验证编译错误 CE。
+      |             ^
+      |             ;
+    3 | }
+      | ~            

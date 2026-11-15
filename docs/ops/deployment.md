@@ -432,3 +432,108 @@ echo $?
 [入口](../../tests/n2_contract.py) 自动编译独立的 C++ 消息检查程序，核对 23 组合法消息的双向往返，以及 58 组错误输入的双端拒绝。预期显示“N2.4 Python/C++ 契约验证通过”，退出码 0；无需修改样例。
 
 构建放在 `work/n2_contract_<编号>/`，独立证据放在 `artifacts/system/n2_contract_<编号>/`：`manifest.json` 记录执行人、源码哈希和结果；`build.txt`、`verify.txt` 保存日志；`checks.json` 保存实际输入及每项检查结果。本步使用合成消息，不启动评测服务或队列。
+
+## 2026-11-11 补充：N3.1 第一步，真实 AC 结果适配
+
+沿用已有依赖，在项目根目录运行：
+
+```bash
+python3 -m tests.n3_ac_adapter --actor lhy
+echo $?
+```
+
+[入口](../../tests/n3_ac_adapter.py) 自动构建原 C++ 服务、编译并运行正确 A+B，再将真实响应转换成 v1 结果。预期两点显示 `AC/NONE`，实际输出分别为 `3\n`、`-5\n`，最后显示“N3.1 第一步验证通过”，退出 0。
+
+运行使用本机 TCP；临时文件在 `work/n3_ac_adapter_<编号>/`，证据在 `artifacts/system/n3_ac_adapter_<编号>/`。重点看 `responses.json`（原生响应）和 `v1_results.json`（新格式）：内存从 KiB 换成字节，`wall_ms=null` 表示未采集；其他日志沿用原结构。本步只适配 AC，尚未接收分布式任务或连接队列。
+
+## 2026-11-11 补充：N3.1 WA 内容错误适配
+
+在项目根目录运行：
+
+```bash
+python3 -m tests.n3_wa_adapter --actor lhy
+echo $?
+```
+
+[入口](../../tests/n3_wa_adapter.py) 复用已有减法样例和 C++ 服务。预期两点显示 `WA/ANSWER_MISMATCH`、退出码 0、输出未超限；实际为 `1\n`、`11\n`，预期为 `3\n`、`-5\n`。最后显示“N3.1 WA 内容错误适配验证通过”，验证脚本退出 0 表示按预期识别了错误答案。
+
+临时文件和独立证据分别位于 `work/n3_wa_adapter_<编号>/`、`artifacts/system/n3_wa_adapter_<编号>/`。原生响应、新格式仍看 `responses.json`、`v1_results.json`；`guards.json` 单独记录 5 项合成防误用检查，不代表原生输出超限已实测。当前入口只适配 common 内容错误，其他 WA 原因后续接入。
+
+## 2026-11-12 补充：N3.1 C++ 本地核心 AC/WA
+
+在项目根目录运行：
+
+```bash
+python3 -m tests.n3_local_core --actor lhy
+echo $?
+```
+
+[验证入口](../../tests/n3_local_core.py) 构建 `eval-local` 目标，编译原有 A+B 正确/错误样例，各跑两个测试点。预期正确样例为 `AC/NONE`，错误样例为 `WA/ANSWER_MISMATCH`，最后显示“N3.1 C++ 本地核心验证通过：AC 2/2，WA 0/2”，退出 0。
+
+临时产物在 `work/n3_local_core_<编号>/`，证据在 `artifacts/system/n3_local_core_<编号>/`，`cases.json` 保存任务、实际输出与 v1 结果。入口从标准输入读任务，本机文件由测试脚本传入，不启动 TCP 服务。本步验证正常退出的 AC/WA；异常结果、下载和内容校验、正式 Worker 发布包仍待后续。
+
+## 2026-11-12 补充：N3.1 墙钟超时 TLE
+
+在项目根目录运行 `python3 -m tests.n3_wall_timeout --actor lhy`。[验证入口](../../tests/n3_wall_timeout.py) 构建本地核心，回归 AC/WA/RE/SE，再用原休眠样例执行两个测试点。预期两点均为 `TLE/WALL_TIMEOUT`、信号 9，保留超时前输出；末尾显示“墙钟超时验证通过”，脚本退出 0。
+
+证据在 `artifacts/system/n3_wall_timeout_<编号>/`，`cases.json` 包含超时结果、实际耗时和输出。本步验证 1000 ms 墙钟时限，CPU 超限另行验证。
+
+## 2026-11-12 补充：N3.1 崩溃信号 RE
+
+在项目根目录运行 `python3 -m tests.n3_crash_signal --actor lhy`。[入口](../../tests/n3_crash_signal.py) 回归已有判定，并实测 `SIGABRT`。预期为 `RE/CRASH_SIGNAL`、信号 6、退出码为空、墙钟未超时，保留崩溃前输出；最后显示“崩溃信号验证通过”，脚本退出 0。结果见 `artifacts/system/n3_crash_signal_<编号>/cases.json`。
+
+## 2026-11-12 补充：N3.1 本地判定批次
+
+在项目根目录运行 `python3 -m tests.n3_local_batch --actor lhy`。[入口](../../tests/n3_local_batch.py) 一次构建核心，汇总 AC/WA、RE/SE、墙钟超时、崩溃及两种输出超限。末尾报告 12 个用例、2 项输入检查通过，退出 0；证据目录中的 `manifest.json` 保存各组日志，`cases.json` 保存实际结果。可用这条命令集中复跑，旧单项入口保留。
+
+## 2026-11-12 补充：N3.1 资源判定批次
+
+在项目根目录运行 `python3 -m tests.n3_local_batch --resources --actor lhy`，在原批次上增加 CPU、地址空间、RSS、诊断摘要和合成内存规则。预期 17 个实际用例、2 项输入检查、7 项合成检查通过。CPU 软限制及实测超限需要约 2 个可用 CPU，硬限制需要约 3 个；容量不足单独标记跳过。真实 cgroup OOM 不在本批验收范围。
+
+## 2026-11-12 补充：本地评测 Worker 归档
+
+在项目根目录运行 `python3 -m tests.n3_local_batch --resources --delivery --actor lhy`。预期 34 个实际用例、6 项输入检查、7 项合成检查通过；`manifest.json` 的 `delivery` 记录归档路径、哈希及节点检查。CPU 条件不足的组单独保留待验收。
+
+单独构建归档用 `make -C judge/native eval-worker-package`，默认写入 `work/eval-worker-build/packages/`；再次打包可指定新的 `WORKER_BUILD_DIR`，同名归档不覆盖。解包后用 `bin/eval-worker check conf/eval-worker.example.json` 检查配置。`run CONFIG BINARY INPUT ANSWER RUN_NAME` 从标准输入读一条 v1 任务、输出一条结果后退出；配置中的相对路径以配置文件目录为基准，运行名用于创建新的工作目录。包内 `manifest.json` 列出所需系统运行库。本轮验收为同机源码外运行，跨机和队列服务留待后续。
+
+## 2026-11-13 补充：N3.2 基础服务批次
+
+从项目根目录以普通用户运行：
+
+```bash
+bash scripts/setup_n32.sh && work/n32_runtime/venv/bin/python -m tests.n32_services --actor lhy
+```
+
+依赖齐备时第一段直接返回。新 Ubuntu 26.04 x86_64 环境首次需从已配置的 Ubuntu 软件源、MinIO 官方仓库、Go 模块代理与 PyPI 下载和构建；网络中断后可重新运行，复用已完成步骤。MinIO 按 [官方发布标签](https://github.com/minio/minio/releases/tag/RELEASE.2025-10-15T17-29-55Z)构建。其他本机安装可通过 `--config` 传入与 [local.json](../../deploy/n32/local.json) 同结构的二进制路径配置。
+
+探针仅使用回环地址与临时数据目录，自行启动和停止服务。预期末尾显示“N3.2 基础服务联通验证通过”；`artifacts/system/n32_services_<编号>/` 保存脱敏日志、v1 任务和提交回执。这只验收本机服务协作，尚未接正式编译或评测 Worker。
+
+## N4 应用负责人接手入口（2026-11-15）
+
+先核对交接分支、提交号和 `git status --short`。源码归档可单独复现下方批次；正式协作用双方确认的仓库提交。当前开发目录有尚未提交的源码，不能假定远端已有。归档只含本地验收所需文件，完整历史与原始记录请在主仓库查阅。
+
+```bash
+bash scripts/setup_n32.sh && python3 -m tests.n4_handoff --actor 本人姓名
+```
+
+从仓库或交接包的根目录执行。首次准备依赖的适用环境与下载说明见上节。批次打出源码归档、在仓库外重新构建和复跑，复用刚准备的运行依赖；临时服务自动退出。成功后保留 `artifacts/system/n4_handoff_<编号>/` 下的 `manifest.json`、`replay.txt` 和 `correctness.csv`。对照表应有 AC、WA、CE、SE 四行，评测任务数分别为 2、2、0、0；重投和去重见 `replay/manifest.json`。失败时回传首个报错和证据路径。
+
+应用负责人先独立复现，再确认云环境的 OS/架构、工具链与运行库、专网、数据盘、虚拟化条件和预算。首轮按控制与基础服务、编译节点、两个评测节点整理角色和连接清单；用干净目录逐角色验收。当前只有本机批次和一次性 Worker；跨机连接配置、常驻进程启动停止和生产隔离需补齐后再验收。Web 只需先定提交、按 ID 查询、显示单点与最终结果三项；接口形状以实际交付为准。当前尚无可供页面调用的正式 HTTP API。
+
+给接手 AI 的任务说明可直接用：「先读 README、本文 N4 交接节、newplan 的状态表。核对当前提交并复跑交接批次。按组记录通过、失败或跳过，保留历史记录。下一批只做一项缺失的部署或接口验收，复用 v1 契约；不要把本机证据写成云端或性能结果。」
+
+### 本机 Web 演示（2026-11-15）
+
+在 N4 复跑后，从项目根目录运行 `python3 -m scripts.demo_web`，打开 `http://127.0.0.1:8765/`；端口冲突可加 `--port 8766`。默认读取最近通过的本机交接记录；也可用 `--evidence <manifest.json>` 指定一次已通过的交接或评测批次。应用负责人只需运行和演示，见[接手清单](../tasks/application/handoff_n1_n4.md)。
+
+- 默认显示真实记录回放，可按提交编号查询结果；AC/WA 各显示两个节点，CE/SE 无评测点。
+- 「运行内置样例」会实际重跑本机双节点批次，成功后更新证据号和结果；它只运行仓库内置样例。预录演示时建议先跑一次。
+- 本机 HTTP：`GET /api/submissions` 列表，`GET /api/submissions/<id>` 详情，`POST /api/demo/run` 空请求启动内置批次。Ctrl+C 停止服务；批次正在运行时等待它结束。此接口为本机演示，不开放任意源码提交。
+
+竞赛题区展示 [USACO 2014 年 3 月赛 Gold《The Lazy Cow》](https://usaco.org/index.php?cpid=418&page=viewproblem2)。题包的 11 组输入、答案与本地限制从旧提交 `3414b3a` 恢复，参考程序是新写的。启动页面前可用一条命令生成当前版本的竞赛题记录：
+
+```bash
+work/n32_runtime/venv/bin/python -m tests.n34_eval_batch --lazy-gold --actor lhy
+```
+
+成功后刷新页面。竞赛题区读取最近通过的 `n4_lazy_gold_*` 批次；「运行内置样例」按钮仍跑 A+B。页面的单点墙钟、CPU、峰值 RSS 和各节点完成点数各有独立口径，不能据此推断吞吐或提速。
