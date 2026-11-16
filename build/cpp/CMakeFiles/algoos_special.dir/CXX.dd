@@ -1,3 +1,0 @@
-ninja_dyndep_version = 1.0
-build CMakeFiles/algoos_special.dir/apps/algoos-special.cpp.o: dyndep
-
