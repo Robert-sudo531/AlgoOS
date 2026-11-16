@@ -115725,6 +115725,7108 @@ namespace algoos::sandbox {
 
 }
 # 18 "/home/AlgoOS/cpp/tests/unit_tests.cpp" 2
+# 1 "/home/AlgoOS/cpp/include/algoos/worker/cancel_registry.hpp" 1
+       
+
+
+# 1 "/usr/include/c++/16/map" 1 3
+# 64 "/usr/include/c++/16/map" 3
+# 1 "/usr/include/c++/16/bits/stl_tree.h" 1 3
+# 85 "/usr/include/c++/16/bits/stl_tree.h" 3
+
+# 85 "/usr/include/c++/16/bits/stl_tree.h" 3
+namespace std __attribute__ ((__visibility__ ("default")))
+{
+
+# 105 "/usr/include/c++/16/bits/stl_tree.h" 3
+  enum _Rb_tree_color { _S_red = false, _S_black = true };
+
+  struct _Rb_tree_node_base
+  {
+    typedef _Rb_tree_node_base* _Base_ptr;
+
+    _Rb_tree_color _M_color;
+    _Base_ptr _M_parent;
+    _Base_ptr _M_left;
+    _Base_ptr _M_right;
+
+    static _Base_ptr
+    _S_minimum(_Base_ptr __x) noexcept
+    {
+      while (__x->_M_left != 0) __x = __x->_M_left;
+      return __x;
+    }
+
+    static _Base_ptr
+    _S_maximum(_Base_ptr __x) noexcept
+    {
+      while (__x->_M_right != 0) __x = __x->_M_right;
+      return __x;
+    }
+
+
+
+
+    _Base_ptr
+    _M_base_ptr() const noexcept
+    { return const_cast<_Rb_tree_node_base*>(this); }
+  };
+
+
+  template<typename _Key_compare>
+    struct _Rb_tree_key_compare
+    {
+      _Key_compare _M_key_compare;
+
+      _Rb_tree_key_compare()
+      noexcept(is_nothrow_default_constructible<_Key_compare>::value)
+
+      : _M_key_compare()
+      { }
+
+      _Rb_tree_key_compare(const _Key_compare& __comp)
+      : _M_key_compare(__comp)
+      { }
+
+
+
+      _Rb_tree_key_compare(const _Rb_tree_key_compare&) = default;
+
+      _Rb_tree_key_compare(_Rb_tree_key_compare&& __x)
+ noexcept(is_nothrow_copy_constructible<_Key_compare>::value)
+      : _M_key_compare(__x._M_key_compare)
+      { }
+
+    };
+
+
+  struct _Rb_tree_header
+  {
+    _Rb_tree_node_base _M_header;
+    size_t _M_node_count;
+
+    _Rb_tree_header() noexcept
+    {
+      _M_header._M_color = _S_red;
+      _M_reset();
+    }
+
+
+    _Rb_tree_header(_Rb_tree_header&& __x) noexcept
+    {
+      if (__x._M_header._M_parent != nullptr)
+ _M_move_data(__x);
+      else
+ {
+   _M_header._M_color = _S_red;
+   _M_reset();
+ }
+    }
+
+
+    void
+    _M_move_data(_Rb_tree_header& __from)
+    {
+      _M_header._M_color = __from._M_header._M_color;
+      _M_header._M_parent = __from._M_header._M_parent;
+      _M_header._M_left = __from._M_header._M_left;
+      _M_header._M_right = __from._M_header._M_right;
+      _M_header._M_parent->_M_parent = &_M_header;
+      _M_node_count = __from._M_node_count;
+
+      __from._M_reset();
+    }
+
+    void
+    _M_reset()
+    {
+      _M_header._M_parent = 0;
+      _M_header._M_left = &_M_header;
+      _M_header._M_right = &_M_header;
+      _M_node_count = 0;
+    }
+  };
+
+  template<typename _Val>
+    struct _Rb_tree_node : public _Rb_tree_node_base
+    {
+# 227 "/usr/include/c++/16/bits/stl_tree.h" 3
+      __gnu_cxx::__aligned_membuf<_Val> _M_storage;
+
+      _Val*
+      _M_valptr()
+      { return _M_storage._M_ptr(); }
+
+      const _Val*
+      _M_valptr() const
+      { return _M_storage._M_ptr(); }
+
+
+      _Rb_tree_node*
+      _M_node_ptr() noexcept
+      { return this; }
+    };
+
+
+namespace __rb_tree
+{
+  template<typename _VoidPtr>
+    struct _Node_base
+    {
+      using _Base_ptr = __ptr_rebind<_VoidPtr, _Node_base>;
+
+      _Rb_tree_color _M_color;
+      _Base_ptr _M_parent;
+      _Base_ptr _M_left;
+      _Base_ptr _M_right;
+
+      static _Base_ptr
+      _S_minimum(_Base_ptr __x) noexcept
+      {
+ while (__x->_M_left) __x = __x->_M_left;
+ return __x;
+      }
+
+      static _Base_ptr
+      _S_maximum(_Base_ptr __x) noexcept
+      {
+ while (__x->_M_right) __x = __x->_M_right;
+ return __x;
+      }
+
+
+
+
+      _Base_ptr
+      _M_base_ptr() const noexcept
+      {
+ return pointer_traits<_Base_ptr>::pointer_to
+   (*const_cast<_Node_base*>(this));
+      }
+    };
+
+
+  template<typename _NodeBase>
+    struct _Header
+    {
+    private:
+      using _Base_ptr = typename _NodeBase::_Base_ptr;
+
+    public:
+      _NodeBase _M_header;
+      size_t _M_node_count;
+
+      _Header() noexcept
+      {
+ _M_header._M_color = _S_red;
+ _M_reset();
+      }
+
+      _Header(_Header&& __x) noexcept
+      {
+ if (__x._M_header._M_parent)
+   _M_move_data(__x);
+ else
+   {
+     _M_header._M_color = _S_red;
+     _M_reset();
+   }
+      }
+
+      void
+      _M_move_data(_Header& __from)
+      {
+ _M_header._M_color = __from._M_header._M_color;
+ _M_header._M_parent = __from._M_header._M_parent;
+ _M_header._M_left = __from._M_header._M_left;
+ _M_header._M_right = __from._M_header._M_right;
+ _M_header._M_parent->_M_parent = _M_header._M_base_ptr();
+ _M_node_count = __from._M_node_count;
+
+ __from._M_reset();
+      }
+
+      void
+      _M_reset()
+      {
+ _M_header._M_parent = nullptr;
+ _M_header._M_left = _M_header._M_right = _M_header._M_base_ptr();
+ _M_node_count = 0;
+      }
+    };
+
+  template<typename _ValPtr>
+    struct _Node : public __rb_tree::_Node_base<__ptr_rebind<_ValPtr, void>>
+    {
+      using value_type = typename pointer_traits<_ValPtr>::element_type;
+      using _Node_ptr = __ptr_rebind<_ValPtr, _Node>;
+
+      _Node() noexcept { }
+      ~_Node() { }
+      _Node(_Node&&) = delete;
+
+      union _Uninit_storage
+      {
+ _Uninit_storage() noexcept { }
+ ~_Uninit_storage() { }
+
+ value_type _M_data;
+      };
+      _Uninit_storage _M_u;
+
+      value_type*
+      _M_valptr()
+      { return std::addressof(_M_u._M_data); }
+
+      value_type const*
+      _M_valptr() const
+      { return std::addressof(_M_u._M_data); }
+
+      _Node_ptr
+      _M_node_ptr() noexcept
+      { return pointer_traits<_Node_ptr>::pointer_to(*this); }
+    };
+}
+
+
+  __attribute__ ((__pure__)) _Rb_tree_node_base*
+  _Rb_tree_increment(_Rb_tree_node_base* __x) throw ();
+
+  __attribute__ ((__pure__)) _Rb_tree_node_base*
+  _Rb_tree_decrement(_Rb_tree_node_base* __x) throw ();
+
+  template<typename _Tp>
+    struct _Rb_tree_iterator
+    {
+      typedef _Tp value_type;
+      typedef _Tp& reference;
+      typedef _Tp* pointer;
+
+      typedef bidirectional_iterator_tag iterator_category;
+      typedef ptrdiff_t difference_type;
+
+      typedef _Rb_tree_node_base::_Base_ptr _Base_ptr;
+      typedef _Rb_tree_node<_Tp>* _Node_ptr;
+
+      _Rb_tree_iterator() noexcept
+      : _M_node() { }
+
+      explicit
+      _Rb_tree_iterator(_Base_ptr __x) noexcept
+      : _M_node(__x) { }
+
+      reference
+      operator*() const noexcept
+      { return *static_cast<_Node_ptr>(_M_node)->_M_valptr(); }
+
+      pointer
+      operator->() const noexcept
+      { return static_cast<_Node_ptr>(_M_node)->_M_valptr(); }
+
+      _Rb_tree_iterator&
+      operator++() noexcept
+      {
+ _M_node = _Rb_tree_increment(_M_node);
+ return *this;
+      }
+
+      _Rb_tree_iterator
+      operator++(int) noexcept
+      {
+ _Rb_tree_iterator __tmp = *this;
+ _M_node = _Rb_tree_increment(_M_node);
+ return __tmp;
+      }
+
+      _Rb_tree_iterator&
+      operator--() noexcept
+      {
+ _M_node = _Rb_tree_decrement(_M_node);
+ return *this;
+      }
+
+      _Rb_tree_iterator
+      operator--(int) noexcept
+      {
+ _Rb_tree_iterator __tmp = *this;
+ _M_node = _Rb_tree_decrement(_M_node);
+ return __tmp;
+      }
+
+      friend bool
+      operator==(const _Rb_tree_iterator& __x,
+   const _Rb_tree_iterator& __y) noexcept
+      { return __x._M_node == __y._M_node; }
+# 441 "/usr/include/c++/16/bits/stl_tree.h" 3
+      _Base_ptr _M_node;
+    };
+
+  template<typename _Tp>
+    struct _Rb_tree_const_iterator
+    {
+      typedef _Tp value_type;
+      typedef const _Tp& reference;
+      typedef const _Tp* pointer;
+
+      typedef _Rb_tree_iterator<_Tp> iterator;
+
+      typedef bidirectional_iterator_tag iterator_category;
+      typedef ptrdiff_t difference_type;
+
+      typedef _Rb_tree_node_base::_Base_ptr _Base_ptr;
+      typedef const _Rb_tree_node<_Tp>* _Node_ptr;
+
+      _Rb_tree_const_iterator() noexcept
+      : _M_node() { }
+
+      explicit
+      _Rb_tree_const_iterator(_Base_ptr __x) noexcept
+      : _M_node(__x) { }
+
+      _Rb_tree_const_iterator(const iterator& __it) noexcept
+      : _M_node(__it._M_node) { }
+
+      reference
+      operator*() const noexcept
+      { return *static_cast<_Node_ptr>(_M_node)->_M_valptr(); }
+
+      pointer
+      operator->() const noexcept
+      { return static_cast<_Node_ptr>(_M_node)->_M_valptr(); }
+
+      _Rb_tree_const_iterator&
+      operator++() noexcept
+      {
+ _M_node = _Rb_tree_increment(_M_node);
+ return *this;
+      }
+
+      _Rb_tree_const_iterator
+      operator++(int) noexcept
+      {
+ _Rb_tree_const_iterator __tmp = *this;
+ _M_node = _Rb_tree_increment(_M_node);
+ return __tmp;
+      }
+
+      _Rb_tree_const_iterator&
+      operator--() noexcept
+      {
+ _M_node = _Rb_tree_decrement(_M_node);
+ return *this;
+      }
+
+      _Rb_tree_const_iterator
+      operator--(int) noexcept
+      {
+ _Rb_tree_const_iterator __tmp = *this;
+ _M_node = _Rb_tree_decrement(_M_node);
+ return __tmp;
+      }
+
+      friend bool
+      operator==(const _Rb_tree_const_iterator& __x,
+   const _Rb_tree_const_iterator& __y) noexcept
+      { return __x._M_node == __y._M_node; }
+# 519 "/usr/include/c++/16/bits/stl_tree.h" 3
+      _Base_ptr _M_node;
+    };
+
+  __attribute__((__nonnull__))
+  void
+  _Rb_tree_insert_and_rebalance(const bool __insert_left,
+    _Rb_tree_node_base* __x,
+    _Rb_tree_node_base* __p,
+    _Rb_tree_node_base& __header) throw ();
+
+  __attribute__((__nonnull__,__returns_nonnull__))
+  _Rb_tree_node_base*
+  _Rb_tree_rebalance_for_erase(_Rb_tree_node_base* const __z,
+          _Rb_tree_node_base& __header) throw ();
+
+namespace __rb_tree
+{
+
+  template<bool _Const, typename _ValPtr>
+    struct _Iterator
+    {
+      template<typename _Tp>
+ using __maybe_const = __conditional_t<_Const, const _Tp, _Tp>;
+
+      using __ptr_traits = pointer_traits<_ValPtr>;
+      using value_type = typename __ptr_traits::element_type;
+      using reference = __maybe_const<value_type>&;
+      using pointer = __maybe_const<value_type>*;
+
+      using iterator_category = bidirectional_iterator_tag;
+      using difference_type = ptrdiff_t;
+
+      using _Node = __rb_tree::_Node<_ValPtr>;
+      using _Node_base = __rb_tree::_Node_base<__ptr_rebind<_ValPtr, void>>;
+      using _Base_ptr = typename _Node_base::_Base_ptr;
+
+      _Iterator() noexcept
+      : _M_node() { }
+
+      constexpr explicit
+      _Iterator(_Base_ptr __x) noexcept
+      : _M_node(__x) { }
+
+      _Iterator(const _Iterator&) = default;
+      _Iterator& operator=(const _Iterator&) = default;
+
+
+      constexpr
+      _Iterator(const _Iterator<false, _ValPtr>& __it) requires _Const
+
+
+
+
+
+
+ : _M_node(__it._M_node) { }
+
+      [[__nodiscard__]]
+      reference
+      operator*() const noexcept
+      { return *static_cast<_Node&>(*_M_node)._M_valptr(); }
+
+      [[__nodiscard__]]
+      pointer
+      operator->() const noexcept
+      { return static_cast<_Node&>(*_M_node)._M_valptr(); }
+
+      constexpr _Iterator&
+      operator++() noexcept
+      {
+ if (_M_node->_M_right)
+   {
+     _M_node = _M_node->_M_right;
+     while (_M_node->_M_left)
+       _M_node = _M_node->_M_left;
+   }
+ else
+   {
+     _Base_ptr __y = _M_node->_M_parent;
+     while (_M_node == __y->_M_right)
+       {
+  _M_node = __y;
+  __y = __y->_M_parent;
+       }
+     if (_M_node->_M_right != __y)
+       _M_node = __y;
+   }
+
+ return *this;
+      }
+
+      constexpr _Iterator
+      operator++(int) noexcept
+      {
+ _Iterator __tmp(this->_M_node);
+ ++*this;
+ return __tmp;
+      }
+
+      constexpr _Iterator&
+      operator--() noexcept
+      {
+ if (_M_node->_M_color == _S_red
+     && _M_node->_M_parent->_M_parent == _M_node)
+   _M_node = _M_node->_M_right;
+ else if (_M_node->_M_left)
+   {
+     _Base_ptr __y = _M_node->_M_left;
+     while (__y->_M_right)
+       __y = __y->_M_right;
+     _M_node = __y;
+   }
+ else
+   {
+     _Base_ptr __y = _M_node->_M_parent;
+     while (_M_node == __y->_M_left)
+       {
+  _M_node = __y;
+  __y = __y->_M_parent;
+       }
+     _M_node = __y;
+   }
+ return *this;
+      }
+
+      constexpr _Iterator
+      operator--(int) noexcept
+      {
+ _Iterator __tmp(this->_M_node);
+ --*this;
+ return __tmp;
+      }
+
+      [[__nodiscard__]]
+      friend bool
+      operator==(const _Iterator& __x, const _Iterator& __y) noexcept
+      { return __x._M_node == __y._M_node; }
+# 664 "/usr/include/c++/16/bits/stl_tree.h" 3
+      _Base_ptr _M_node;
+    };
+
+
+
+  template<typename _Val, typename _Ptr>
+    struct _Node_traits;
+
+
+
+
+
+  template<typename _Val>
+    struct _Node_traits<_Val, _Val*>
+    {
+      typedef _Rb_tree_node<_Val> _Node;
+      typedef _Node* _Node_ptr;
+      typedef _Rb_tree_node_base _Node_base;
+      typedef _Node_base* _Base_ptr;
+      typedef _Rb_tree_header _Header_t;
+      typedef _Rb_tree_iterator<_Val> _Iterator;
+      typedef _Rb_tree_const_iterator<_Val> _Const_iterator;
+
+      __attribute__((__nonnull__))
+      static void
+      _S_insert_and_rebalance(const bool __insert_left,
+         _Node_base* __x, _Node_base* __p,
+         _Node_base& __header) noexcept
+      {
+ return _Rb_tree_insert_and_rebalance(__insert_left, __x, __p, __header);
+      }
+
+      __attribute__((__nonnull__,__returns_nonnull__))
+      static _Node_base*
+      _S_rebalance_for_erase(_Node_base* const __z,
+        _Node_base& __header) noexcept
+      { return _Rb_tree_rebalance_for_erase(__z, __header); }
+    };
+# 712 "/usr/include/c++/16/bits/stl_tree.h" 3
+  template<typename _Val, typename _ValPtr>
+    struct _Node_traits
+    {
+      using _Node = __rb_tree::_Node<_ValPtr>;
+      using _Node_ptr = __ptr_rebind<_ValPtr, _Node>;
+      using _Node_base = __rb_tree::_Node_base<__ptr_rebind<_ValPtr, void>>;
+      using _Base_ptr = __ptr_rebind<_ValPtr, _Node_base>;
+      using _Header_t = __rb_tree::_Header<_Node_base>;
+      using _Iterator = __rb_tree::_Iterator<false, _ValPtr>;
+      using _Const_iterator = __rb_tree::_Iterator<true, _ValPtr>;
+
+      static void
+      _Rotate_left(_Base_ptr __x, _Base_ptr& __root)
+      {
+ const _Base_ptr __y = __x->_M_right;
+
+ __x->_M_right = __y->_M_left;
+ if (__y->_M_left)
+   __y->_M_left->_M_parent = __x;
+ __y->_M_parent = __x->_M_parent;
+
+ if (__x == __root)
+   __root = __y;
+ else if (__x == __x->_M_parent->_M_left)
+   __x->_M_parent->_M_left = __y;
+ else
+   __x->_M_parent->_M_right = __y;
+ __y->_M_left = __x;
+ __x->_M_parent = __y;
+      }
+
+      static void
+      _Rotate_right(_Base_ptr __x, _Base_ptr& __root)
+      {
+ const _Base_ptr __y = __x->_M_left;
+
+ __x->_M_left = __y->_M_right;
+ if (__y->_M_right)
+   __y->_M_right->_M_parent = __x;
+ __y->_M_parent = __x->_M_parent;
+
+ if (__x == __root)
+   __root = __y;
+ else if (__x == __x->_M_parent->_M_right)
+   __x->_M_parent->_M_right = __y;
+ else
+   __x->_M_parent->_M_left = __y;
+ __y->_M_right = __x;
+ __x->_M_parent = __y;
+      }
+
+      static void
+      _S_insert_and_rebalance(const bool __insert_left,
+         _Base_ptr __x, _Base_ptr __p,
+         _Node_base& __header)
+      {
+ _Base_ptr& __root = __header._M_parent;
+
+
+ __x->_M_parent = __p;
+ __x->_M_left = __x->_M_right = nullptr;
+ __x->_M_color = _S_red;
+
+
+
+
+
+ if (__insert_left)
+   {
+     __p->_M_left = __x;
+
+     if (std::__to_address(__p) == std::addressof(__header))
+       {
+  __header._M_parent = __x;
+  __header._M_right = __x;
+       }
+     else if (__p == __header._M_left)
+       __header._M_left = __x;
+   }
+ else
+   {
+     __p->_M_right = __x;
+
+     if (__p == __header._M_right)
+       __header._M_right = __x;
+   }
+
+ while (__x != __root
+        && __x->_M_parent->_M_color == _S_red)
+   {
+     const _Base_ptr __xpp = __x->_M_parent->_M_parent;
+
+     if (__x->_M_parent == __xpp->_M_left)
+       {
+  const _Base_ptr __y = __xpp->_M_right;
+  if (__y && __y->_M_color == _S_red)
+    {
+      __x->_M_parent->_M_color = _S_black;
+      __y->_M_color = _S_black;
+      __xpp->_M_color = _S_red;
+      __x = __xpp;
+    }
+  else
+    {
+      if (__x == __x->_M_parent->_M_right)
+        {
+   __x = __x->_M_parent;
+   _Rotate_left(__x, __root);
+        }
+      __x->_M_parent->_M_color = _S_black;
+      __xpp->_M_color = _S_red;
+      _Rotate_right(__xpp, __root);
+    }
+       }
+     else
+       {
+  const _Base_ptr __y = __xpp->_M_left;
+  if (__y && __y->_M_color == _S_red)
+    {
+      __x->_M_parent->_M_color = _S_black;
+      __y->_M_color = _S_black;
+      __xpp->_M_color = _S_red;
+      __x = __xpp;
+    }
+  else
+    {
+      if (__x == __x->_M_parent->_M_left)
+        {
+   __x = __x->_M_parent;
+   _Rotate_right(__x, __root);
+        }
+      __x->_M_parent->_M_color = _S_black;
+      __xpp->_M_color = _S_red;
+      _Rotate_left(__xpp, __root);
+    }
+       }
+   }
+ __root->_M_color = _S_black;
+      }
+
+      static _Base_ptr
+      _S_rebalance_for_erase(_Base_ptr __z, _Node_base& __header)
+      {
+ _Base_ptr& __root = __header._M_parent;
+ _Base_ptr& __leftmost = __header._M_left;
+ _Base_ptr& __rightmost = __header._M_right;
+ _Base_ptr __y = __z;
+ _Base_ptr __x{};
+ _Base_ptr __x_parent{};
+
+ if (!__y->_M_left)
+   __x = __y->_M_right;
+ else
+   if (!__y->_M_right)
+     __x = __y->_M_left;
+   else
+     {
+
+       __y = __y->_M_right;
+       while (__y->_M_left)
+  __y = __y->_M_left;
+       __x = __y->_M_right;
+     }
+ if (__y != __z)
+   {
+
+     __z->_M_left->_M_parent = __y;
+     __y->_M_left = __z->_M_left;
+     if (__y != __z->_M_right)
+       {
+  __x_parent = __y->_M_parent;
+  if (__x)
+    __x->_M_parent = __y->_M_parent;
+  __y->_M_parent->_M_left = __x;
+  __y->_M_right = __z->_M_right;
+  __z->_M_right->_M_parent = __y;
+       }
+     else
+       __x_parent = __y;
+     if (__root == __z)
+       __root = __y;
+     else if (__z->_M_parent->_M_left == __z)
+       __z->_M_parent->_M_left = __y;
+     else
+       __z->_M_parent->_M_right = __y;
+     __y->_M_parent = __z->_M_parent;
+     std::swap(__y->_M_color, __z->_M_color);
+     __y = __z;
+
+   }
+ else
+   {
+     __x_parent = __y->_M_parent;
+     if (__x)
+       __x->_M_parent = __y->_M_parent;
+     if (__root == __z)
+       __root = __x;
+     else
+       if (__z->_M_parent->_M_left == __z)
+  __z->_M_parent->_M_left = __x;
+       else
+  __z->_M_parent->_M_right = __x;
+     if (__leftmost == __z)
+       {
+  if (!__z->_M_right)
+    __leftmost = __z->_M_parent;
+
+  else
+    __leftmost = _Node_base::_S_minimum(__x);
+       }
+     if (__rightmost == __z)
+       {
+  if (__z->_M_left == 0)
+    __rightmost = __z->_M_parent;
+
+  else
+    __rightmost = _Node_base::_S_maximum(__x);
+       }
+   }
+ if (__y->_M_color != _S_red)
+   {
+     while (__x != __root && (__x == 0 || __x->_M_color == _S_black))
+       if (__x == __x_parent->_M_left)
+  {
+    _Base_ptr __w = __x_parent->_M_right;
+    if (__w->_M_color == _S_red)
+      {
+        __w->_M_color = _S_black;
+        __x_parent->_M_color = _S_red;
+        _Rotate_left(__x_parent, __root);
+        __w = __x_parent->_M_right;
+      }
+    if ((!__w->_M_left || __w->_M_left->_M_color == _S_black) &&
+        (!__w->_M_right || __w->_M_right->_M_color == _S_black))
+      {
+        __w->_M_color = _S_red;
+        __x = __x_parent;
+        __x_parent = __x_parent->_M_parent;
+      }
+    else
+      {
+        if (!__w->_M_right || __w->_M_right->_M_color == _S_black)
+   {
+     __w->_M_left->_M_color = _S_black;
+     __w->_M_color = _S_red;
+     _Rotate_right(__w, __root);
+     __w = __x_parent->_M_right;
+   }
+        __w->_M_color = __x_parent->_M_color;
+        __x_parent->_M_color = _S_black;
+        if (__w->_M_right)
+   __w->_M_right->_M_color = _S_black;
+        _Rotate_left(__x_parent, __root);
+        break;
+      }
+  }
+       else
+  {
+
+    _Base_ptr __w = __x_parent->_M_left;
+    if (__w->_M_color == _S_red)
+      {
+        __w->_M_color = _S_black;
+        __x_parent->_M_color = _S_red;
+        _Rotate_right(__x_parent, __root);
+        __w = __x_parent->_M_left;
+      }
+    if ((!__w->_M_right || __w->_M_right->_M_color == _S_black) &&
+        (!__w->_M_left || __w->_M_left->_M_color == _S_black))
+      {
+        __w->_M_color = _S_red;
+        __x = __x_parent;
+        __x_parent = __x_parent->_M_parent;
+      }
+    else
+      {
+        if (!__w->_M_left || __w->_M_left->_M_color == _S_black)
+   {
+     __w->_M_right->_M_color = _S_black;
+     __w->_M_color = _S_red;
+     _Rotate_left(__w, __root);
+     __w = __x_parent->_M_left;
+   }
+        __w->_M_color = __x_parent->_M_color;
+        __x_parent->_M_color = _S_black;
+        if (__w->_M_left)
+   __w->_M_left->_M_color = _S_black;
+        _Rotate_right(__x_parent, __root);
+        break;
+      }
+  }
+     if (__x)
+       __x->_M_color = _S_black;
+   }
+
+ return __y;
+      }
+    };
+
+}
+
+
+  template<typename _Tree1, typename _Cmp2>
+    struct _Rb_tree_merge_helper { };
+
+
+  template<typename _Key, typename _Val, typename _KeyOfValue,
+    typename _Compare, typename _Alloc = allocator<_Val> >
+    class _Rb_tree
+    {
+      typedef typename __gnu_cxx::__alloc_traits<_Alloc>::template
+ rebind<_Val>::other _Val_alloc_type;
+
+      typedef __gnu_cxx::__alloc_traits<_Val_alloc_type> _Val_alloc_traits;
+      typedef typename _Val_alloc_traits::pointer _ValPtr;
+      typedef __rb_tree::_Node_traits<_Val, _ValPtr> _Node_traits;
+
+      typedef typename _Node_traits::_Node_base _Node_base;
+      typedef typename _Node_traits::_Node _Node;
+
+      typedef typename __gnu_cxx::__alloc_traits<_Alloc>::template
+ rebind<_Node>::other _Node_allocator;
+
+      typedef __gnu_cxx::__alloc_traits<_Node_allocator> _Node_alloc_traits;
+
+    protected:
+      typedef typename _Node_traits::_Base_ptr _Base_ptr;
+      typedef typename _Node_traits::_Node_ptr _Node_ptr;
+
+    private:
+
+
+      struct _Reuse_or_alloc_node
+      {
+ _Reuse_or_alloc_node(_Rb_tree& __t)
+ : _M_root(__t._M_root()), _M_nodes(__t._M_rightmost()), _M_t(__t)
+ {
+   if (_M_root)
+     {
+       _M_root->_M_parent = _Base_ptr();
+
+       if (_M_nodes->_M_left)
+  _M_nodes = _M_nodes->_M_left;
+     }
+   else
+     _M_nodes = _Base_ptr();
+ }
+
+
+ _Reuse_or_alloc_node(const _Reuse_or_alloc_node&) = delete;
+
+
+ ~_Reuse_or_alloc_node()
+ {
+   if (_M_root)
+     _M_t._M_erase(static_cast<_Node&>(*_M_root)._M_node_ptr());
+ }
+
+ template<typename _Arg>
+   _Node_ptr
+   operator()(_Arg&& __arg)
+   {
+     _Base_ptr __base = _M_extract();
+     if (__base)
+       {
+  _Node_ptr __node = static_cast<_Node&>(*__base)._M_node_ptr();
+  _M_t._M_destroy_node(__node);
+  _M_t._M_construct_node(__node, std::forward<_Arg>(__arg));
+  return __node;
+       }
+
+     return _M_t._M_create_node(std::forward<_Arg>(__arg));
+   }
+
+      private:
+ _Base_ptr
+ _M_extract()
+ {
+   if (!_M_nodes)
+     return _M_nodes;
+
+   _Base_ptr __node = _M_nodes;
+   _M_nodes = _M_nodes->_M_parent;
+   if (_M_nodes)
+     {
+       if (_M_nodes->_M_right == __node)
+  {
+    _M_nodes->_M_right = _Base_ptr();
+
+    if (_M_nodes->_M_left)
+      {
+        _M_nodes = _M_nodes->_M_left;
+
+        while (_M_nodes->_M_right)
+   _M_nodes = _M_nodes->_M_right;
+
+        if (_M_nodes->_M_left)
+   _M_nodes = _M_nodes->_M_left;
+      }
+  }
+       else
+  _M_nodes->_M_left = _Base_ptr();
+     }
+   else
+     _M_root = _Base_ptr();
+
+   return __node;
+ }
+
+ _Base_ptr _M_root;
+ _Base_ptr _M_nodes;
+ _Rb_tree& _M_t;
+      };
+
+
+
+      struct _Alloc_node
+      {
+ _Alloc_node(_Rb_tree& __t)
+ : _M_t(__t) { }
+
+ template<typename _Arg>
+   _Node_ptr
+   operator()(_Arg&& __arg) const
+   { return _M_t._M_create_node(std::forward<_Arg>(__arg)); }
+
+      private:
+ _Rb_tree& _M_t;
+      };
+
+    public:
+      typedef _Key key_type;
+      typedef _Val value_type;
+      typedef value_type* pointer;
+      typedef const value_type* const_pointer;
+      typedef value_type& reference;
+      typedef const value_type& const_reference;
+      typedef size_t size_type;
+      typedef ptrdiff_t difference_type;
+      typedef _Alloc allocator_type;
+
+      _Node_allocator&
+      _M_get_Node_allocator() noexcept
+      { return this->_M_impl; }
+
+      const _Node_allocator&
+      _M_get_Node_allocator() const noexcept
+      { return this->_M_impl; }
+
+      allocator_type
+      get_allocator() const noexcept
+      { return allocator_type(_M_get_Node_allocator()); }
+
+    protected:
+      _Node_ptr
+      _M_get_node()
+      {
+
+ return _Node_alloc_traits::allocate(_M_get_Node_allocator(), 1);
+# 1185 "/usr/include/c++/16/bits/stl_tree.h" 3
+      }
+
+      void
+      _M_put_node(_Node_ptr __p) noexcept
+      {
+
+ _Node_alloc_traits::deallocate(_M_get_Node_allocator(), __p, 1);
+# 1207 "/usr/include/c++/16/bits/stl_tree.h" 3
+      }
+# 1230 "/usr/include/c++/16/bits/stl_tree.h" 3
+      template<typename... _Args>
+ void
+ _M_construct_node(_Node_ptr __node, _Args&&... __args)
+ {
+   try
+     {
+       ::new(std::addressof(*__node)) _Node;
+       _Node_alloc_traits::construct(_M_get_Node_allocator(),
+         __node->_M_valptr(),
+         std::forward<_Args>(__args)...);
+     }
+   catch(...)
+     {
+       __node->~_Node();
+       _M_put_node(__node);
+       throw;
+     }
+ }
+
+      template<typename... _Args>
+ _Node_ptr
+ _M_create_node(_Args&&... __args)
+ {
+   _Node_ptr __tmp = _M_get_node();
+   _M_construct_node(__tmp, std::forward<_Args>(__args)...);
+   return __tmp;
+ }
+
+
+      void
+      _M_destroy_node(_Node_ptr __p) noexcept
+      {
+
+
+
+ _Node_alloc_traits::destroy(_M_get_Node_allocator(), __p->_M_valptr());
+ __p->~_Node();
+
+      }
+
+      void
+      _M_drop_node(_Node_ptr __p) noexcept
+      {
+ _M_destroy_node(__p);
+ _M_put_node(__p);
+      }
+
+      template<bool _MoveValue, typename _NodeGen>
+ _Node_ptr
+ _M_clone_node(_Node_ptr __x, _NodeGen& __node_gen)
+ {
+
+   using _Vp = __conditional_t<_MoveValue,
+          value_type&&,
+          const value_type&>;
+
+   _Node_ptr __tmp
+     = __node_gen(std::forward<_Vp>(*__x->_M_valptr()));
+   __tmp->_M_color = __x->_M_color;
+   __tmp->_M_left = __tmp->_M_right = _Base_ptr();
+   return __tmp;
+ }
+
+    protected:
+      typedef typename _Node_traits::_Header_t _Header_t;
+
+
+
+
+
+      template<typename _Key_compare,
+        bool = __is_pod(_Key_compare)>
+
+ struct _Rb_tree_impl
+ : public _Node_allocator
+ , public _Rb_tree_key_compare<_Key_compare>
+ , public _Header_t
+ {
+   typedef _Rb_tree_key_compare<_Key_compare> _Base_key_compare;
+
+   _Rb_tree_impl()
+     noexcept(is_nothrow_default_constructible<_Node_allocator>::value && is_nothrow_default_constructible<_Base_key_compare>::value)
+
+
+   : _Node_allocator()
+   { }
+
+   _Rb_tree_impl(const _Rb_tree_impl& __x)
+   : _Node_allocator(_Node_alloc_traits::_S_select_on_copy(__x))
+   , _Base_key_compare(__x._M_key_compare)
+   , _Header_t()
+   { }
+
+
+
+
+
+
+   _Rb_tree_impl(_Rb_tree_impl&&)
+     noexcept( is_nothrow_move_constructible<_Base_key_compare>::value )
+   = default;
+
+   explicit
+   _Rb_tree_impl(_Node_allocator&& __a)
+   : _Node_allocator(std::move(__a))
+   { }
+
+   _Rb_tree_impl(_Rb_tree_impl&& __x, _Node_allocator&& __a)
+   : _Node_allocator(std::move(__a)),
+     _Base_key_compare(std::move(__x)),
+     _Header_t(std::move(__x))
+   { }
+
+   _Rb_tree_impl(const _Key_compare& __comp, _Node_allocator&& __a)
+   : _Node_allocator(std::move(__a)), _Base_key_compare(__comp)
+   { }
+
+ };
+
+      _Rb_tree_impl<_Compare> _M_impl;
+
+    protected:
+      _Base_ptr&
+      _M_root() noexcept
+      { return this->_M_impl._M_header._M_parent; }
+
+      _Base_ptr
+      _M_root() const noexcept
+      { return this->_M_impl._M_header._M_parent; }
+
+      _Base_ptr&
+      _M_leftmost() noexcept
+      { return this->_M_impl._M_header._M_left; }
+
+      _Base_ptr
+      _M_leftmost() const noexcept
+      { return this->_M_impl._M_header._M_left; }
+
+      _Base_ptr&
+      _M_rightmost() noexcept
+      { return this->_M_impl._M_header._M_right; }
+
+      _Base_ptr
+      _M_rightmost() const noexcept
+      { return this->_M_impl._M_header._M_right; }
+
+      _Base_ptr
+      _M_begin() const noexcept
+      { return this->_M_impl._M_header._M_parent; }
+
+      _Node_ptr
+      _M_begin_node() const noexcept
+      {
+ _Base_ptr __begin = this->_M_impl._M_header._M_parent;
+ return __begin
+   ? static_cast<_Node&>(*__begin)._M_node_ptr()
+   : _Node_ptr();
+      }
+
+      _Base_ptr
+      _M_end() const noexcept
+      { return this->_M_impl._M_header._M_base_ptr(); }
+
+
+
+      template<typename _Key1, typename _Key2>
+ bool
+ _M_key_compare(const _Key1& __k1, const _Key2& __k2) const
+ {
+
+
+   static_assert(
+     __is_invocable<const _Compare&, const _Key&, const _Key&>::value,
+     "comparison object must be invocable with arguments of key_type"
+   );
+
+   return _M_impl._M_key_compare(__k1, __k2);
+ }
+
+      static const _Key&
+      _S_key(const _Node& __node)
+      { return _KeyOfValue()(*__node._M_valptr()); }
+
+      static const _Key&
+      _S_key(_Base_ptr __x)
+      { return _S_key(static_cast<const _Node&>(*__x)); }
+
+      static const _Key&
+      _S_key(_Node_ptr __x)
+      { return _S_key(*__x); }
+
+      static _Base_ptr
+      _S_left(_Base_ptr __x) noexcept
+      { return __x->_M_left; }
+
+      static _Node_ptr
+      _S_left(_Node_ptr __x)
+      {
+ return __x->_M_left
+   ? static_cast<_Node&>(*__x->_M_left)._M_node_ptr()
+   : _Node_ptr();
+      }
+
+      static _Base_ptr
+      _S_right(_Base_ptr __x) noexcept
+      { return __x->_M_right; }
+
+      static _Node_ptr
+      _S_right(_Node_ptr __x) noexcept
+      {
+ return __x->_M_right
+   ? static_cast<_Node&>(*__x->_M_right)._M_node_ptr()
+   : _Node_ptr();
+      }
+
+    public:
+      typedef typename _Node_traits::_Iterator iterator;
+      typedef typename _Node_traits::_Const_iterator const_iterator;
+
+      typedef std::reverse_iterator<iterator> reverse_iterator;
+      typedef std::reverse_iterator<const_iterator> const_reverse_iterator;
+
+
+      using node_type = _Node_handle<_Key, _Val, _Node_allocator>;
+      using insert_return_type = _Node_insert_return<
+ __conditional_t<is_same_v<_Key, _Val>, const_iterator, iterator>,
+ node_type>;
+
+
+      pair<_Base_ptr, _Base_ptr>
+      _M_get_insert_unique_pos(const key_type& __k);
+
+      pair<_Base_ptr, _Base_ptr>
+      _M_get_insert_equal_pos(const key_type& __k);
+
+      pair<_Base_ptr, _Base_ptr>
+      _M_get_insert_hint_unique_pos(const_iterator __pos,
+        const key_type& __k);
+
+      pair<_Base_ptr, _Base_ptr>
+      _M_get_insert_hint_equal_pos(const_iterator __pos,
+       const key_type& __k);
+# 1487 "/usr/include/c++/16/bits/stl_tree.h" 3
+    private:
+
+      template<typename _Arg, typename _NodeGen>
+ iterator
+ _M_insert_(_Base_ptr __x, _Base_ptr __y, _Arg&& __v, _NodeGen&);
+
+      iterator
+      _M_insert_node(_Base_ptr __x, _Base_ptr __y, _Node_ptr __z);
+
+      template<typename _Arg>
+ iterator
+ _M_insert_lower(_Base_ptr __y, _Arg&& __v);
+
+      template<typename _Arg>
+ iterator
+ _M_insert_equal_lower(_Arg&& __x);
+
+      iterator
+      _M_insert_lower_node(_Base_ptr __p, _Node_ptr __z);
+
+      iterator
+      _M_insert_equal_lower_node(_Node_ptr __z);
+# 1524 "/usr/include/c++/16/bits/stl_tree.h" 3
+      enum { __as_lvalue, __as_rvalue };
+
+      template<bool _MoveValues, typename _NodeGen>
+ _Base_ptr
+ _M_copy(_Node_ptr, _Base_ptr, _NodeGen&);
+
+      template<bool _MoveValues, typename _NodeGen>
+ _Base_ptr
+ _M_copy(const _Rb_tree& __x, _NodeGen& __gen)
+ {
+   _Base_ptr __root =
+     _M_copy<_MoveValues>(__x._M_begin_node(), _M_end(), __gen);
+   _M_leftmost() = _Node_base::_S_minimum(__root);
+   _M_rightmost() = _Node_base::_S_maximum(__root);
+   _M_impl._M_node_count = __x._M_impl._M_node_count;
+   return __root;
+ }
+
+      _Base_ptr
+      _M_copy(const _Rb_tree& __x)
+      {
+ _Alloc_node __an(*this);
+ return _M_copy<__as_lvalue>(__x, __an);
+      }
+
+      void
+      _M_erase(_Node_ptr __x);
+
+      _Base_ptr
+      _M_lower_bound(_Base_ptr __x, _Base_ptr __y,
+       const _Key& __k) const;
+
+      template <typename _Kt>
+ _Base_ptr
+ _M_lower_bound_tr(_Base_ptr __x, _Base_ptr __y, const _Kt& __k) const;
+
+      _Base_ptr
+      _M_upper_bound(_Base_ptr __x, _Base_ptr __y,
+       const _Key& __k) const;
+
+      template <typename _Kt>
+ _Base_ptr
+ _M_upper_bound_tr(_Base_ptr __x, _Base_ptr __y, const _Kt& __k) const;
+
+    public:
+
+
+
+
+      _Rb_tree() = default;
+
+
+      _Rb_tree(const _Compare& __comp,
+        const allocator_type& __a = allocator_type())
+      : _M_impl(__comp, _Node_allocator(__a)) { }
+
+      _Rb_tree(const _Rb_tree& __x)
+      : _M_impl(__x._M_impl)
+      {
+ if (__x._M_root())
+   _M_root() = _M_copy(__x);
+      }
+
+
+      _Rb_tree(const allocator_type& __a)
+      : _M_impl(_Node_allocator(__a))
+      { }
+
+      _Rb_tree(const _Rb_tree& __x, const allocator_type& __a)
+      : _M_impl(__x._M_impl._M_key_compare, _Node_allocator(__a))
+      {
+ if (__x._M_root())
+   _M_root() = _M_copy(__x);
+      }
+
+      _Rb_tree(_Rb_tree&&) = default;
+
+      _Rb_tree(_Rb_tree&& __x, const allocator_type& __a)
+      : _Rb_tree(std::move(__x), _Node_allocator(__a))
+      { }
+
+    private:
+      _Rb_tree(_Rb_tree&& __x, _Node_allocator&& __a, true_type)
+      noexcept(is_nothrow_default_constructible<_Compare>::value)
+      : _M_impl(std::move(__x._M_impl), std::move(__a))
+      { }
+
+      _Rb_tree(_Rb_tree&& __x, _Node_allocator&& __a, false_type)
+      : _M_impl(__x._M_impl._M_key_compare, std::move(__a))
+      {
+ if (__x._M_root())
+   _M_move_data(__x, false_type{});
+      }
+
+    public:
+      _Rb_tree(_Rb_tree&& __x, _Node_allocator&& __a)
+      noexcept( noexcept(
+ _Rb_tree(std::declval<_Rb_tree&&>(), std::declval<_Node_allocator&&>(),
+   std::declval<typename _Node_alloc_traits::is_always_equal>())) )
+      : _Rb_tree(std::move(__x), std::move(__a),
+   typename _Node_alloc_traits::is_always_equal{})
+      { }
+
+
+      ~_Rb_tree() noexcept
+      { _M_erase(_M_begin_node()); }
+
+      _Rb_tree&
+      operator=(const _Rb_tree& __x);
+
+
+      _Compare
+      key_comp() const
+      { return _M_impl._M_key_compare; }
+
+      iterator
+      begin() noexcept
+      { return iterator(this->_M_impl._M_header._M_left); }
+
+      const_iterator
+      begin() const noexcept
+      { return const_iterator(this->_M_impl._M_header._M_left); }
+
+      iterator
+      end() noexcept
+      { return iterator(_M_end()); }
+
+      const_iterator
+      end() const noexcept
+      { return const_iterator(_M_end()); }
+
+      reverse_iterator
+      rbegin() noexcept
+      { return reverse_iterator(end()); }
+
+      const_reverse_iterator
+      rbegin() const noexcept
+      { return const_reverse_iterator(end()); }
+
+      reverse_iterator
+      rend() noexcept
+      { return reverse_iterator(begin()); }
+
+      const_reverse_iterator
+      rend() const noexcept
+      { return const_reverse_iterator(begin()); }
+
+      [[__nodiscard__]] bool
+      empty() const noexcept
+      { return _M_impl._M_node_count == 0; }
+
+      size_type
+      size() const noexcept
+      { return _M_impl._M_node_count; }
+
+      size_type
+      max_size() const noexcept
+      { return _Node_alloc_traits::max_size(_M_get_Node_allocator()); }
+
+      void
+      swap(_Rb_tree& __t)
+      noexcept(__is_nothrow_swappable<_Compare>::value);
+
+
+
+      template<typename _Arg>
+ pair<iterator, bool>
+ _M_insert_unique(_Arg&& __x);
+
+      template<typename _Arg>
+ iterator
+ _M_insert_equal(_Arg&& __x);
+
+      template<typename _Arg, typename _NodeGen>
+ iterator
+ _M_insert_unique_(const_iterator __pos, _Arg&& __x, _NodeGen&);
+
+      template<typename _Arg>
+ iterator
+ _M_insert_unique_(const_iterator __pos, _Arg&& __x)
+ {
+   _Alloc_node __an(*this);
+   return _M_insert_unique_(__pos, std::forward<_Arg>(__x), __an);
+ }
+
+      template<typename _Arg, typename _NodeGen>
+ iterator
+ _M_insert_equal_(const_iterator __pos, _Arg&& __x, _NodeGen&);
+
+      template<typename _Arg>
+ iterator
+ _M_insert_equal_(const_iterator __pos, _Arg&& __x)
+ {
+   _Alloc_node __an(*this);
+   return _M_insert_equal_(__pos, std::forward<_Arg>(__x), __an);
+ }
+
+      template<typename... _Args>
+ pair<iterator, bool>
+ _M_emplace_unique(_Args&&... __args);
+
+      template<typename... _Args>
+ iterator
+ _M_emplace_equal(_Args&&... __args);
+
+      template<typename... _Args>
+ iterator
+ _M_emplace_hint_unique(const_iterator __pos, _Args&&... __args);
+
+      template<typename... _Args>
+ iterator
+ _M_emplace_hint_equal(const_iterator __pos, _Args&&... __args);
+
+      template<typename _Iter>
+ using __same_value_type
+   = is_same<value_type, typename iterator_traits<_Iter>::value_type>;
+
+      template<typename _InputIterator>
+ __enable_if_t<__same_value_type<_InputIterator>::value>
+ _M_insert_range_unique(_InputIterator __first, _InputIterator __last)
+ {
+   _Alloc_node __an(*this);
+   for (; __first != __last; ++__first)
+     _M_insert_unique_(end(), *__first, __an);
+ }
+
+      template<typename _InputIterator>
+ __enable_if_t<!__same_value_type<_InputIterator>::value>
+ _M_insert_range_unique(_InputIterator __first, _InputIterator __last)
+ {
+   for (; __first != __last; ++__first)
+     _M_emplace_unique(*__first);
+ }
+
+      template<typename _InputIterator>
+ __enable_if_t<__same_value_type<_InputIterator>::value>
+ _M_insert_range_equal(_InputIterator __first, _InputIterator __last)
+ {
+   _Alloc_node __an(*this);
+   for (; __first != __last; ++__first)
+     _M_insert_equal_(end(), *__first, __an);
+ }
+
+      template<typename _InputIterator>
+ __enable_if_t<!__same_value_type<_InputIterator>::value>
+ _M_insert_range_equal(_InputIterator __first, _InputIterator __last)
+ {
+   for (; __first != __last; ++__first)
+     _M_emplace_equal(*__first);
+ }
+# 1823 "/usr/include/c++/16/bits/stl_tree.h" 3
+    private:
+      void
+      _M_erase_aux(const_iterator __position);
+
+      void
+      _M_erase_aux(const_iterator __first, const_iterator __last);
+
+    public:
+
+
+
+      __attribute ((__abi_tag__ ("cxx11")))
+      iterator
+      erase(const_iterator __position)
+      {
+ do { if (std::__is_constant_evaluated() && !bool(__position != end())) std::__glibcxx_assert_fail(); } while (false);
+ const_iterator __result = __position;
+ ++__result;
+ _M_erase_aux(__position);
+ return iterator(__result._M_node);
+      }
+
+
+      __attribute ((__abi_tag__ ("cxx11")))
+      iterator
+      erase(iterator __position)
+      {
+ do { if (std::__is_constant_evaluated() && !bool(__position != end())) std::__glibcxx_assert_fail(); } while (false);
+ iterator __result = __position;
+ ++__result;
+ _M_erase_aux(__position);
+ return __result;
+      }
+# 1872 "/usr/include/c++/16/bits/stl_tree.h" 3
+      size_type
+      erase(const key_type& __x);
+
+      template <typename _Kt>
+ size_type
+ _M_erase_tr(const _Kt& __x);
+
+      size_type
+      _M_erase_unique(const key_type& __x);
+
+
+
+
+      __attribute ((__abi_tag__ ("cxx11")))
+      iterator
+      erase(const_iterator __first, const_iterator __last)
+      {
+ _M_erase_aux(__first, __last);
+ return iterator(__last._M_node);
+      }
+# 1902 "/usr/include/c++/16/bits/stl_tree.h" 3
+      void
+      clear() noexcept
+      {
+ _M_erase(_M_begin_node());
+ _M_impl._M_reset();
+      }
+
+
+      iterator
+      find(const key_type& __k);
+
+      const_iterator
+      find(const key_type& __k) const;
+
+      size_type
+      count(const key_type& __k) const;
+
+      iterator
+      lower_bound(const key_type& __k)
+      { return iterator(_M_lower_bound(_M_begin(), _M_end(), __k)); }
+
+      const_iterator
+      lower_bound(const key_type& __k) const
+      {
+ return const_iterator
+   (_M_lower_bound(_M_begin(), _M_end(), __k));
+      }
+
+      iterator
+      upper_bound(const key_type& __k)
+      { return iterator(_M_upper_bound(_M_begin(), _M_end(), __k)); }
+
+      const_iterator
+      upper_bound(const key_type& __k) const
+      {
+ return const_iterator
+   (_M_upper_bound(_M_begin(), _M_end(), __k));
+      }
+
+      pair<iterator, iterator>
+      equal_range(const key_type& __k);
+
+      pair<const_iterator, const_iterator>
+      equal_range(const key_type& __k) const;
+
+
+      template<typename _Kt,
+        typename _Req = __has_is_transparent_t<_Compare, _Kt>>
+ iterator
+ _M_find_tr(const _Kt& __k)
+ {
+   const _Rb_tree* __const_this = this;
+   return iterator(__const_this->_M_find_tr(__k)._M_node);
+ }
+
+      template<typename _Kt,
+        typename _Req = __has_is_transparent_t<_Compare, _Kt>>
+ const_iterator
+ _M_find_tr(const _Kt& __k) const
+ {
+   const_iterator __j(_M_lower_bound_tr(__k));
+   if (__j != end() && _M_key_compare(__k, _S_key(__j._M_node)))
+     __j = end();
+   return __j;
+ }
+
+      template<typename _Kt,
+        typename _Req = __has_is_transparent_t<_Compare, _Kt>>
+ size_type
+ _M_count_tr(const _Kt& __k) const
+ {
+   auto __p = _M_equal_range_tr(__k);
+   return std::distance(__p.first, __p.second);
+ }
+
+      template<typename _Kt,
+        typename _Req = __has_is_transparent_t<_Compare, _Kt>>
+ _Base_ptr
+ _M_lower_bound_tr(const _Kt& __k) const
+ {
+   auto __x = _M_begin();
+   auto __y = _M_end();
+   while (__x)
+     if (!_M_key_compare(_S_key(__x), __k))
+       {
+  __y = __x;
+  __x = _S_left(__x);
+       }
+     else
+       __x = _S_right(__x);
+   return __y;
+ }
+
+      template<typename _Kt,
+        typename _Req = __has_is_transparent_t<_Compare, _Kt>>
+ _Base_ptr
+ _M_upper_bound_tr(const _Kt& __k) const
+ {
+   auto __x = _M_begin();
+   auto __y = _M_end();
+   while (__x)
+     if (_M_key_compare(__k, _S_key(__x)))
+       {
+  __y = __x;
+  __x = _S_left(__x);
+       }
+     else
+       __x = _S_right(__x);
+   return __y;
+ }
+
+      template<typename _Kt,
+        typename _Req = __has_is_transparent_t<_Compare, _Kt>>
+ pair<iterator, iterator>
+ _M_equal_range_tr(const _Kt& __k)
+ {
+   const _Rb_tree* __const_this = this;
+   auto __ret = __const_this->_M_equal_range_tr(__k);
+   return
+     { iterator(__ret.first._M_node), iterator(__ret.second._M_node) };
+ }
+
+      template<typename _Kt,
+        typename _Req = __has_is_transparent_t<_Compare, _Kt>>
+ pair<const_iterator, const_iterator>
+ _M_equal_range_tr(const _Kt& __k) const
+ {
+   const_iterator __low(_M_lower_bound_tr(__k));
+   auto __high = __low;
+   auto& __cmp = _M_impl._M_key_compare;
+   while (__high != end() && !__cmp(__k, _S_key(__high._M_node)))
+     ++__high;
+   return { __low, __high };
+ }
+
+
+
+      bool
+      __rb_verify() const;
+
+
+      _Rb_tree&
+      operator=(_Rb_tree&&)
+      noexcept(_Node_alloc_traits::_S_nothrow_move()
+        && is_nothrow_move_assignable<_Compare>::value);
+
+      template<typename _Iterator>
+ void
+ _M_assign_unique(_Iterator, _Iterator);
+
+      template<typename _Iterator>
+ void
+ _M_assign_equal(_Iterator, _Iterator);
+
+    private:
+
+      void
+      _M_move_data(_Rb_tree& __x, true_type)
+      { _M_impl._M_move_data(__x._M_impl); }
+
+
+
+      void
+      _M_move_data(_Rb_tree&, false_type);
+
+
+      void
+      _M_move_assign(_Rb_tree&, true_type);
+
+
+
+      void
+      _M_move_assign(_Rb_tree&, false_type);
+
+
+
+      static _Node_ptr
+      _S_adapt(typename _Node_alloc_traits::pointer __ptr)
+      {
+
+ return __ptr;
+# 2093 "/usr/include/c++/16/bits/stl_tree.h" 3
+      }
+
+    public:
+
+      insert_return_type
+      _M_reinsert_node_unique(node_type&& __nh)
+      {
+ insert_return_type __ret;
+ if (__nh.empty())
+   __ret.position = end();
+ else
+   {
+     do { if (std::__is_constant_evaluated() && !bool(_M_get_Node_allocator() == *__nh._M_alloc)) std::__glibcxx_assert_fail(); } while (false);
+
+     auto __res = _M_get_insert_unique_pos(__nh._M_key());
+     if (__res.second)
+       {
+  __ret.position
+    = _M_insert_node(__res.first, __res.second,
+       _S_adapt(__nh._M_ptr));
+  __nh.release();
+  __ret.inserted = true;
+       }
+     else
+       {
+  __ret.node = std::move(__nh);
+  __ret.position = iterator(__res.first);
+  __ret.inserted = false;
+       }
+   }
+ return __ret;
+      }
+
+
+      iterator
+      _M_reinsert_node_equal(node_type&& __nh)
+      {
+ iterator __ret;
+ if (__nh.empty())
+   __ret = end();
+ else
+   {
+     do { if (std::__is_constant_evaluated() && !bool(_M_get_Node_allocator() == *__nh._M_alloc)) std::__glibcxx_assert_fail(); } while (false);
+     auto __res = _M_get_insert_equal_pos(__nh._M_key());
+     if (__res.second)
+       __ret = _M_insert_node(__res.first, __res.second,
+         _S_adapt(__nh._M_ptr));
+     else
+       __ret = _M_insert_equal_lower_node(_S_adapt(__nh._M_ptr));
+     __nh.release();
+   }
+ return __ret;
+      }
+
+
+      iterator
+      _M_reinsert_node_hint_unique(const_iterator __hint, node_type&& __nh)
+      {
+ iterator __ret;
+ if (__nh.empty())
+   __ret = end();
+ else
+   {
+     do { if (std::__is_constant_evaluated() && !bool(_M_get_Node_allocator() == *__nh._M_alloc)) std::__glibcxx_assert_fail(); } while (false);
+     auto __res = _M_get_insert_hint_unique_pos(__hint, __nh._M_key());
+     if (__res.second)
+       {
+  __ret = _M_insert_node(__res.first, __res.second,
+           _S_adapt(__nh._M_ptr));
+  __nh.release();
+       }
+     else
+       __ret = iterator(__res.first);
+   }
+ return __ret;
+      }
+
+
+      iterator
+      _M_reinsert_node_hint_equal(const_iterator __hint, node_type&& __nh)
+      {
+ iterator __ret;
+ if (__nh.empty())
+   __ret = end();
+ else
+   {
+     do { if (std::__is_constant_evaluated() && !bool(_M_get_Node_allocator() == *__nh._M_alloc)) std::__glibcxx_assert_fail(); } while (false);
+     auto __res = _M_get_insert_hint_equal_pos(__hint, __nh._M_key());
+     if (__res.second)
+       __ret = _M_insert_node(__res.first, __res.second,
+         _S_adapt(__nh._M_ptr));
+     else
+       __ret = _M_insert_equal_lower_node(_S_adapt(__nh._M_ptr));
+     __nh.release();
+   }
+ return __ret;
+      }
+
+
+      node_type
+      extract(const_iterator __pos)
+      {
+ auto __ptr = _Node_traits::_S_rebalance_for_erase
+   (__pos._M_node, _M_impl._M_header);
+ --_M_impl._M_node_count;
+ auto __node_ptr = static_cast<_Node&>(*__ptr)._M_node_ptr();
+
+ return { __node_ptr, _M_get_Node_allocator() };
+# 2214 "/usr/include/c++/16/bits/stl_tree.h" 3
+      }
+
+
+      node_type
+      extract(const key_type& __k)
+      {
+ node_type __nh;
+ auto __pos = find(__k);
+ if (__pos != end())
+   __nh = extract(const_iterator(__pos));
+ return __nh;
+      }
+
+      template <typename _Kt>
+ node_type
+ _M_extract_tr(const _Kt& __k)
+ {
+   node_type __nh;
+   auto __pos = _M_find_tr(__k);
+   if (__pos != end())
+     __nh = extract(const_iterator(__pos));
+   return __nh;
+ }
+
+      template<typename _Compare2>
+ using _Compatible_tree
+   = _Rb_tree<_Key, _Val, _KeyOfValue, _Compare2, _Alloc>;
+
+      template<typename, typename>
+ friend struct _Rb_tree_merge_helper;
+
+
+      template<typename _Compare2>
+ void
+ _M_merge_unique(_Compatible_tree<_Compare2>& __src) noexcept
+ {
+   using _Merge_helper = _Rb_tree_merge_helper<_Rb_tree, _Compare2>;
+   for (auto __i = __src.begin(), __end = __src.end(); __i != __end;)
+     {
+       auto __pos = __i++;
+       auto __res = _M_get_insert_unique_pos(_KeyOfValue()(*__pos));
+       if (__res.second)
+  {
+    auto& __src_impl = _Merge_helper::_S_get_impl(__src);
+    auto __ptr = _Node_traits::_S_rebalance_for_erase
+      (__pos._M_node, __src_impl._M_header);
+    --__src_impl._M_node_count;
+    auto __node_ptr = static_cast<_Node&>(*__ptr)._M_node_ptr();
+    _M_insert_node(__res.first, __res.second, __node_ptr);
+  }
+     }
+ }
+
+
+      template<typename _Compare2>
+ void
+ _M_merge_equal(_Compatible_tree<_Compare2>& __src) noexcept
+ {
+   using _Merge_helper = _Rb_tree_merge_helper<_Rb_tree, _Compare2>;
+   for (auto __i = __src.begin(), __end = __src.end(); __i != __end;)
+     {
+       auto __pos = __i++;
+       auto __res = _M_get_insert_equal_pos(_KeyOfValue()(*__pos));
+       if (__res.second)
+  {
+    auto& __src_impl = _Merge_helper::_S_get_impl(__src);
+    auto __ptr = _Node_traits::_S_rebalance_for_erase
+      (__pos._M_node, __src_impl._M_header);
+    --__src_impl._M_node_count;
+    auto __node_ptr = static_cast<_Node&>(*__ptr)._M_node_ptr();
+    _M_insert_node(__res.first, __res.second, __node_ptr);
+  }
+     }
+ }
+
+
+      friend bool
+      operator==(const _Rb_tree& __x, const _Rb_tree& __y)
+      {
+ return __x.size() == __y.size()
+   && std::equal(__x.begin(), __x.end(), __y.begin());
+      }
+
+
+      friend auto
+      operator<=>(const _Rb_tree& __x, const _Rb_tree& __y)
+      {
+ if constexpr (requires { typename __detail::__synth3way_t<_Val>; })
+   return std::lexicographical_compare_three_way(__x.begin(), __x.end(),
+       __y.begin(), __y.end(),
+       __detail::__synth3way);
+      }
+# 2315 "/usr/include/c++/16/bits/stl_tree.h" 3
+    private:
+
+
+      struct _Auto_node
+      {
+ template<typename... _Args>
+   _Auto_node(_Rb_tree& __t, _Args&&... __args)
+   : _M_t(__t),
+     _M_node(__t._M_create_node(std::forward<_Args>(__args)...))
+   { }
+
+ ~_Auto_node()
+ {
+   if (_M_node)
+     _M_t._M_drop_node(_M_node);
+ }
+
+ _Auto_node(_Auto_node&& __n)
+ : _M_t(__n._M_t), _M_node(__n._M_node)
+ { __n._M_node = nullptr; }
+
+ const _Key&
+ _M_key() const
+ { return _S_key(_M_node); }
+
+ iterator
+ _M_insert(pair<_Base_ptr, _Base_ptr> __p)
+ {
+   auto __it = _M_t._M_insert_node(__p.first, __p.second, _M_node);
+   _M_node = nullptr;
+   return __it;
+ }
+
+ iterator
+ _M_insert_equal_lower()
+ {
+   auto __it = _M_t._M_insert_equal_lower_node(_M_node);
+   _M_node = nullptr;
+   return __it;
+ }
+
+ _Rb_tree& _M_t;
+ _Node_ptr _M_node;
+      };
+
+    };
+
+  template<typename _Key, typename _Val, typename _KeyOfValue,
+    typename _Compare, typename _Alloc>
+    inline void
+    swap(_Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>& __x,
+  _Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>& __y)
+    { __x.swap(__y); }
+
+
+  template<typename _Key, typename _Val, typename _KeyOfValue,
+    typename _Compare, typename _Alloc>
+    void
+    _Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::
+    _M_move_data(_Rb_tree& __x, false_type)
+    {
+      if (_M_get_Node_allocator() == __x._M_get_Node_allocator())
+ _M_move_data(__x, true_type());
+      else
+ {
+   constexpr bool __move = !__move_if_noexcept_cond<value_type>::value;
+   _Alloc_node __an(*this);
+   _M_root() = _M_copy<__move>(__x, __an);
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wc++17-extensions"
+   if constexpr (__move)
+     __x.clear();
+#pragma GCC diagnostic pop
+ }
+    }
+
+  template<typename _Key, typename _Val, typename _KeyOfValue,
+    typename _Compare, typename _Alloc>
+    inline void
+    _Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::
+    _M_move_assign(_Rb_tree& __x, true_type)
+    {
+      clear();
+      if (__x._M_root())
+ _M_move_data(__x, true_type());
+      std::__alloc_on_move(_M_get_Node_allocator(),
+      __x._M_get_Node_allocator());
+    }
+
+  template<typename _Key, typename _Val, typename _KeyOfValue,
+    typename _Compare, typename _Alloc>
+    void
+    _Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::
+    _M_move_assign(_Rb_tree& __x, false_type)
+    {
+      if (_M_get_Node_allocator() == __x._M_get_Node_allocator())
+ return _M_move_assign(__x, true_type{});
+
+
+
+      _Reuse_or_alloc_node __roan(*this);
+      _M_impl._M_reset();
+      if (__x._M_root())
+ {
+   _M_root() = _M_copy<__as_rvalue>(__x, __roan);
+   __x.clear();
+ }
+    }
+
+  template<typename _Key, typename _Val, typename _KeyOfValue,
+    typename _Compare, typename _Alloc>
+    inline _Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>&
+    _Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::
+    operator=(_Rb_tree&& __x)
+    noexcept(_Node_alloc_traits::_S_nothrow_move()
+      && is_nothrow_move_assignable<_Compare>::value)
+    {
+      _M_impl._M_key_compare = std::move(__x._M_impl._M_key_compare);
+      _M_move_assign(__x,
+       __bool_constant<_Node_alloc_traits::_S_nothrow_move()>());
+      return *this;
+    }
+
+  template<typename _Key, typename _Val, typename _KeyOfValue,
+    typename _Compare, typename _Alloc>
+    template<typename _Iterator>
+      void
+      _Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::
+      _M_assign_unique(_Iterator __first, _Iterator __last)
+      {
+ _Reuse_or_alloc_node __roan(*this);
+ _M_impl._M_reset();
+ for (; __first != __last; ++__first)
+   _M_insert_unique_(end(), *__first, __roan);
+      }
+
+  template<typename _Key, typename _Val, typename _KeyOfValue,
+    typename _Compare, typename _Alloc>
+    template<typename _Iterator>
+      void
+      _Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::
+      _M_assign_equal(_Iterator __first, _Iterator __last)
+      {
+ _Reuse_or_alloc_node __roan(*this);
+ _M_impl._M_reset();
+ for (; __first != __last; ++__first)
+   _M_insert_equal_(end(), *__first, __roan);
+      }
+
+
+  template<typename _Key, typename _Val, typename _KeyOfValue,
+    typename _Compare, typename _Alloc>
+    _Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>&
+    _Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::
+    operator=(const _Rb_tree& __x)
+    {
+      if (this != std::__addressof(__x))
+ {
+
+
+   if (_Node_alloc_traits::_S_propagate_on_copy_assign())
+     {
+       auto& __this_alloc = this->_M_get_Node_allocator();
+       auto& __that_alloc = __x._M_get_Node_allocator();
+       if (!_Node_alloc_traits::_S_always_equal()
+    && __this_alloc != __that_alloc)
+  {
+
+
+    clear();
+    std::__alloc_on_copy(__this_alloc, __that_alloc);
+  }
+     }
+
+
+   _Reuse_or_alloc_node __roan(*this);
+   _M_impl._M_reset();
+   _M_impl._M_key_compare = __x._M_impl._M_key_compare;
+   if (__x._M_root())
+     _M_root() = _M_copy<__as_lvalue>(__x, __roan);
+ }
+
+      return *this;
+    }
+
+  template<typename _Key, typename _Val, typename _KeyOfValue,
+    typename _Compare, typename _Alloc>
+
+    template<typename _Arg, typename _NodeGen>
+
+
+
+      typename _Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::iterator
+      _Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::
+      _M_insert_(_Base_ptr __x, _Base_ptr __p,
+
+   _Arg&& __v,
+
+
+
+   _NodeGen& __node_gen)
+      {
+ bool __insert_left = (__x || __p == _M_end()
+         || _M_key_compare(_KeyOfValue()(__v),
+      _S_key(__p)));
+
+ _Base_ptr __z =
+   __node_gen(std::forward<_Arg>(__v))->_M_base_ptr();
+
+ _Node_traits::_S_insert_and_rebalance
+   (__insert_left, __z, __p, this->_M_impl._M_header);
+ ++_M_impl._M_node_count;
+ return iterator(__z);
+      }
+
+  template<typename _Key, typename _Val, typename _KeyOfValue,
+    typename _Compare, typename _Alloc>
+
+    template<typename _Arg>
+
+    typename _Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::iterator
+    _Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::
+
+    _M_insert_lower(_Base_ptr __p, _Arg&& __v)
+
+
+
+    {
+      bool __insert_left = (__p == _M_end()
+       || !_M_key_compare(_S_key(__p),
+            _KeyOfValue()(__v)));
+
+      _Base_ptr __z =
+ _M_create_node(std::forward<_Arg>(__v))->_M_base_ptr();
+      _Node_traits::_S_insert_and_rebalance
+ (__insert_left, __z, __p, this->_M_impl._M_header);
+      ++_M_impl._M_node_count;
+      return iterator(__z);
+    }
+
+  template<typename _Key, typename _Val, typename _KeyOfValue,
+    typename _Compare, typename _Alloc>
+
+    template<typename _Arg>
+
+    typename _Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::iterator
+    _Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::
+
+    _M_insert_equal_lower(_Arg&& __v)
+
+
+
+    {
+      _Base_ptr __x = _M_begin();
+      _Base_ptr __y = _M_end();
+      while (__x)
+ {
+   __y = __x;
+   __x = !_M_key_compare(_S_key(__x), _KeyOfValue()(__v)) ?
+  _S_left(__x) : _S_right(__x);
+ }
+      return _M_insert_lower(__y, std::forward<_Arg>(__v));
+    }
+
+  template<typename _Key, typename _Val, typename _KoV,
+    typename _Compare, typename _Alloc>
+    template<bool _MoveValues, typename _NodeGen>
+      typename _Rb_tree<_Key, _Val, _KoV, _Compare, _Alloc>::_Base_ptr
+      _Rb_tree<_Key, _Val, _KoV, _Compare, _Alloc>::
+      _M_copy(_Node_ptr __x, _Base_ptr __p, _NodeGen& __node_gen)
+      {
+
+ _Node_ptr __top = _M_clone_node<_MoveValues>(__x, __node_gen);
+ _Base_ptr __top_base = __top->_M_base_ptr();
+ __top->_M_parent = __p;
+
+ try
+   {
+     if (__x->_M_right)
+       __top->_M_right =
+  _M_copy<_MoveValues>(_S_right(__x), __top_base, __node_gen);
+     __p = __top_base;
+     __x = _S_left(__x);
+
+     while (__x)
+       {
+  _Base_ptr __y =
+    _M_clone_node<_MoveValues>(__x, __node_gen)->_M_base_ptr();
+  __p->_M_left = __y;
+  __y->_M_parent = __p;
+  if (__x->_M_right)
+    __y->_M_right = _M_copy<_MoveValues>(_S_right(__x),
+             __y, __node_gen);
+  __p = __y;
+  __x = _S_left(__x);
+       }
+   }
+ catch(...)
+   {
+     _M_erase(__top);
+     throw;
+   }
+ return __top_base;
+      }
+
+  template<typename _Key, typename _Val, typename _KeyOfValue,
+    typename _Compare, typename _Alloc>
+    void
+    _Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::
+    _M_erase(_Node_ptr __x)
+    {
+
+      while (__x)
+ {
+   _M_erase(_S_right(__x));
+   _Node_ptr __y = _S_left(__x);
+   _M_drop_node(__x);
+   __x = __y;
+ }
+    }
+
+  template<typename _Key, typename _Val, typename _KeyOfValue,
+    typename _Compare, typename _Alloc>
+    typename _Rb_tree<_Key, _Val, _KeyOfValue,
+        _Compare, _Alloc>::_Base_ptr
+    _Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::
+    _M_lower_bound(_Base_ptr __x, _Base_ptr __y,
+     const _Key& __k) const
+    {
+      while (__x)
+ if (!_M_key_compare(_S_key(__x), __k))
+   __y = __x, __x = _S_left(__x);
+ else
+   __x = _S_right(__x);
+      return __y;
+    }
+
+  template<typename _Key, typename _Val, typename _KeyOfValue,
+ typename _Compare, typename _Alloc>
+    template <typename _Kt>
+      typename _Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::_Base_ptr
+      _Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::
+      _M_lower_bound_tr(_Base_ptr __x, _Base_ptr __y, const _Kt& __k) const
+      {
+ while (__x)
+   if (!_M_key_compare(_S_key(__x), __k))
+     __y = __x, __x = _S_left(__x);
+   else
+     __x = _S_right(__x);
+ return __y;
+      }
+
+  template<typename _Key, typename _Val, typename _KeyOfValue,
+    typename _Compare, typename _Alloc>
+    typename _Rb_tree<_Key, _Val, _KeyOfValue,
+        _Compare, _Alloc>::_Base_ptr
+    _Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::
+    _M_upper_bound(_Base_ptr __x, _Base_ptr __y,
+     const _Key& __k) const
+    {
+      while (__x)
+ if (_M_key_compare(__k, _S_key(__x)))
+   __y = __x, __x = _S_left(__x);
+ else
+   __x = _S_right(__x);
+      return __y;
+    }
+
+  template<typename _Key, typename _Val, typename _KeyOfValue,
+    typename _Compare, typename _Alloc>
+    template <typename _Kt>
+      typename _Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::_Base_ptr
+      _Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::
+      _M_upper_bound_tr(_Base_ptr __x, _Base_ptr __y, const _Kt& __k) const
+      {
+ while (__x)
+   if (_M_key_compare(__k, _S_key(__x)))
+     __y = __x, __x = _S_left(__x);
+   else
+     __x = _S_right(__x);
+ return __y;
+      }
+
+  template<typename _Key, typename _Val, typename _KeyOfValue,
+    typename _Compare, typename _Alloc>
+    pair<typename _Rb_tree<_Key, _Val, _KeyOfValue,
+      _Compare, _Alloc>::iterator,
+  typename _Rb_tree<_Key, _Val, _KeyOfValue,
+      _Compare, _Alloc>::iterator>
+    _Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::
+    equal_range(const _Key& __k)
+    {
+      typedef pair<iterator, iterator> _Ret;
+
+      _Base_ptr __x = _M_begin();
+      _Base_ptr __y = _M_end();
+      while (__x)
+ {
+   if (_M_key_compare(_S_key(__x), __k))
+     __x = _S_right(__x);
+   else if (_M_key_compare(__k, _S_key(__x)))
+     __y = __x, __x = _S_left(__x);
+   else
+     {
+       _Base_ptr __xu(__x);
+       _Base_ptr __yu(__y);
+       __y = __x, __x = _S_left(__x);
+       __xu = _S_right(__xu);
+       return _Ret(iterator(_M_lower_bound(__x, __y, __k)),
+     iterator(_M_upper_bound(__xu, __yu, __k)));
+     }
+ }
+      return _Ret(iterator(__y), iterator(__y));
+    }
+
+  template<typename _Key, typename _Val, typename _KeyOfValue,
+    typename _Compare, typename _Alloc>
+    pair<typename _Rb_tree<_Key, _Val, _KeyOfValue,
+      _Compare, _Alloc>::const_iterator,
+  typename _Rb_tree<_Key, _Val, _KeyOfValue,
+      _Compare, _Alloc>::const_iterator>
+    _Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::
+    equal_range(const _Key& __k) const
+    {
+      typedef pair<const_iterator, const_iterator> _Ret;
+
+      _Base_ptr __x = _M_begin();
+      _Base_ptr __y = _M_end();
+      while (__x)
+ {
+   if (_M_key_compare(_S_key(__x), __k))
+     __x = _S_right(__x);
+   else if (_M_key_compare(__k, _S_key(__x)))
+     __y = __x, __x = _S_left(__x);
+   else
+     {
+       _Base_ptr __xu(__x);
+       _Base_ptr __yu(__y);
+       __y = __x, __x = _S_left(__x);
+       __xu = _S_right(__xu);
+       return _Ret(const_iterator(_M_lower_bound(__x, __y, __k)),
+     const_iterator(_M_upper_bound(__xu, __yu, __k)));
+     }
+ }
+      return _Ret(const_iterator(__y), const_iterator(__y));
+    }
+
+  template<typename _Key, typename _Val, typename _KeyOfValue,
+    typename _Compare, typename _Alloc>
+    void
+    _Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::
+    swap(_Rb_tree& __t)
+    noexcept(__is_nothrow_swappable<_Compare>::value)
+    {
+      if (!_M_root())
+ {
+   if (__t._M_root())
+     _M_impl._M_move_data(__t._M_impl);
+ }
+      else if (!__t._M_root())
+ __t._M_impl._M_move_data(_M_impl);
+      else
+ {
+   std::swap(_M_root(),__t._M_root());
+   std::swap(_M_leftmost(),__t._M_leftmost());
+   std::swap(_M_rightmost(),__t._M_rightmost());
+
+   _M_root()->_M_parent = _M_end();
+   __t._M_root()->_M_parent = __t._M_end();
+   std::swap(this->_M_impl._M_node_count, __t._M_impl._M_node_count);
+ }
+
+
+      using std::swap;
+      swap(this->_M_impl._M_key_compare, __t._M_impl._M_key_compare);
+
+      _Node_alloc_traits::_S_on_swap(_M_get_Node_allocator(),
+         __t._M_get_Node_allocator());
+    }
+
+  template<typename _Key, typename _Val, typename _KeyOfValue,
+    typename _Compare, typename _Alloc>
+    pair<typename _Rb_tree<_Key, _Val, _KeyOfValue,
+      _Compare, _Alloc>::_Base_ptr,
+  typename _Rb_tree<_Key, _Val, _KeyOfValue,
+      _Compare, _Alloc>::_Base_ptr>
+    _Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::
+    _M_get_insert_unique_pos(const key_type& __k)
+    {
+      typedef pair<_Base_ptr, _Base_ptr> _Res;
+      _Base_ptr __x = _M_begin();
+      _Base_ptr __y = _M_end();
+      bool __comp = true;
+      while (__x)
+ {
+   __y = __x;
+   __comp = _M_key_compare(__k, _S_key(__x));
+   __x = __comp ? _S_left(__x) : _S_right(__x);
+ }
+      iterator __j = iterator(__y);
+      if (__comp)
+ {
+   if (__j == begin())
+     return _Res(__x, __y);
+   else
+     --__j;
+ }
+      if (_M_key_compare(_S_key(__j._M_node), __k))
+ return _Res(__x, __y);
+      return _Res(__j._M_node, _Base_ptr());
+    }
+
+  template<typename _Key, typename _Val, typename _KeyOfValue,
+    typename _Compare, typename _Alloc>
+    pair<typename _Rb_tree<_Key, _Val, _KeyOfValue,
+      _Compare, _Alloc>::_Base_ptr,
+  typename _Rb_tree<_Key, _Val, _KeyOfValue,
+      _Compare, _Alloc>::_Base_ptr>
+    _Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::
+    _M_get_insert_equal_pos(const key_type& __k)
+    {
+      typedef pair<_Base_ptr, _Base_ptr> _Res;
+      _Base_ptr __x = _M_begin();
+      _Base_ptr __y = _M_end();
+      while (__x)
+ {
+   __y = __x;
+   __x = _M_key_compare(__k, _S_key(__x)) ? _S_left(__x) : _S_right(__x);
+ }
+      return _Res(__x, __y);
+    }
+# 2897 "/usr/include/c++/16/bits/stl_tree.h" 3
+  template<typename _Key, typename _Val, typename _KeyOfValue,
+    typename _Compare, typename _Alloc>
+
+    template<typename _Arg>
+
+    pair<typename _Rb_tree<_Key, _Val, _KeyOfValue,
+      _Compare, _Alloc>::iterator, bool>
+    _Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::
+
+    _M_insert_unique(_Arg&& __v)
+
+
+
+    {
+      typedef pair<iterator, bool> _Res;
+      pair<_Base_ptr, _Base_ptr> __res
+ = _M_get_insert_unique_pos(_KeyOfValue()(__v));
+
+      if (__res.second)
+ {
+   _Alloc_node __an(*this);
+   return _Res(_M_insert_(__res.first, __res.second,
+     std::forward<_Arg>(__v), __an),
+        true);
+ }
+
+      return _Res(iterator(__res.first), false);
+    }
+
+  template<typename _Key, typename _Val, typename _KeyOfValue,
+    typename _Compare, typename _Alloc>
+
+    template<typename _Arg>
+
+    typename _Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::iterator
+    _Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::
+
+    _M_insert_equal(_Arg&& __v)
+
+
+
+    {
+      pair<_Base_ptr, _Base_ptr> __res
+ = _M_get_insert_equal_pos(_KeyOfValue()(__v));
+      _Alloc_node __an(*this);
+      return _M_insert_(__res.first, __res.second,
+   std::forward<_Arg>(__v), __an);
+    }
+
+  template<typename _Key, typename _Val, typename _KeyOfValue,
+    typename _Compare, typename _Alloc>
+    pair<typename _Rb_tree<_Key, _Val, _KeyOfValue,
+      _Compare, _Alloc>::_Base_ptr,
+  typename _Rb_tree<_Key, _Val, _KeyOfValue,
+      _Compare, _Alloc>::_Base_ptr>
+    _Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::
+    _M_get_insert_hint_unique_pos(const_iterator __position,
+      const key_type& __k)
+    {
+      typedef pair<_Base_ptr, _Base_ptr> _Res;
+
+
+      if (__position._M_node == _M_end())
+ {
+   if (size() > 0 && _M_key_compare(_S_key(_M_rightmost()), __k))
+     return _Res(_Base_ptr(), _M_rightmost());
+   else
+     return _M_get_insert_unique_pos(__k);
+ }
+      else if (_M_key_compare(__k, _S_key(__position._M_node)))
+ {
+
+   iterator __before(__position._M_node);
+   if (__position._M_node == _M_leftmost())
+     return _Res(_M_leftmost(), _M_leftmost());
+   else if (_M_key_compare(_S_key((--__before)._M_node), __k))
+     {
+       if (!_S_right(__before._M_node))
+  return _Res(_Base_ptr(), __before._M_node);
+       else
+  return _Res(__position._M_node, __position._M_node);
+     }
+   else
+     return _M_get_insert_unique_pos(__k);
+ }
+      else if (_M_key_compare(_S_key(__position._M_node), __k))
+ {
+
+   iterator __after(__position._M_node);
+   if (__position._M_node == _M_rightmost())
+     return _Res(_Base_ptr(), _M_rightmost());
+   else if (_M_key_compare(__k, _S_key((++__after)._M_node)))
+     {
+       if (!_S_right(__position._M_node))
+  return _Res(_Base_ptr(), __position._M_node);
+       else
+  return _Res(__after._M_node, __after._M_node);
+     }
+   else
+     return _M_get_insert_unique_pos(__k);
+ }
+      else
+
+ return _Res(__position._M_node, _Base_ptr());
+    }
+# 3056 "/usr/include/c++/16/bits/stl_tree.h" 3
+  template<typename _Key, typename _Val, typename _KeyOfValue,
+    typename _Compare, typename _Alloc>
+
+    template<typename _Arg, typename _NodeGen>
+
+
+
+      typename _Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::iterator
+      _Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::
+      _M_insert_unique_(const_iterator __position,
+
+   _Arg&& __v,
+
+
+
+   _NodeGen& __node_gen)
+    {
+      pair<_Base_ptr, _Base_ptr> __res
+ = _M_get_insert_hint_unique_pos(__position, _KeyOfValue()(__v));
+
+      if (__res.second)
+ return _M_insert_(__res.first, __res.second,
+     std::forward<_Arg>(__v),
+     __node_gen);
+      return iterator(__res.first);
+    }
+
+  template<typename _Key, typename _Val, typename _KeyOfValue,
+    typename _Compare, typename _Alloc>
+    pair<typename _Rb_tree<_Key, _Val, _KeyOfValue,
+      _Compare, _Alloc>::_Base_ptr,
+  typename _Rb_tree<_Key, _Val, _KeyOfValue,
+      _Compare, _Alloc>::_Base_ptr>
+    _Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::
+    _M_get_insert_hint_equal_pos(const_iterator __position, const key_type& __k)
+    {
+      typedef pair<_Base_ptr, _Base_ptr> _Res;
+
+
+      if (__position._M_node == _M_end())
+ {
+   if (size() > 0
+       && !_M_key_compare(__k, _S_key(_M_rightmost())))
+     return _Res(_Base_ptr(), _M_rightmost());
+   else
+     return _M_get_insert_equal_pos(__k);
+ }
+      else if (!_M_key_compare(_S_key(__position._M_node), __k))
+ {
+
+   iterator __before(__position._M_node);
+   if (__position._M_node == _M_leftmost())
+     return _Res(_M_leftmost(), _M_leftmost());
+   else if (!_M_key_compare(__k, _S_key((--__before)._M_node)))
+     {
+       if (!_S_right(__before._M_node))
+  return _Res(_Base_ptr(), __before._M_node);
+       else
+  return _Res(__position._M_node, __position._M_node);
+     }
+   else
+     return _M_get_insert_equal_pos(__k);
+ }
+      else
+ {
+
+   iterator __after(__position._M_node);
+   if (__position._M_node == _M_rightmost())
+     return _Res(_Base_ptr(), _M_rightmost());
+   else if (!_M_key_compare(_S_key((++__after)._M_node), __k))
+     {
+       if (!_S_right(__position._M_node))
+  return _Res(_Base_ptr(), __position._M_node);
+       else
+  return _Res(__after._M_node, __after._M_node);
+     }
+   else
+     return _Res(_Base_ptr(), _Base_ptr());
+ }
+    }
+
+  template<typename _Key, typename _Val, typename _KeyOfValue,
+    typename _Compare, typename _Alloc>
+
+    template<typename _Arg, typename _NodeGen>
+
+
+
+      typename _Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::iterator
+      _Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::
+      _M_insert_equal_(const_iterator __position,
+
+         _Arg&& __v,
+
+
+
+         _NodeGen& __node_gen)
+      {
+ pair<_Base_ptr, _Base_ptr> __res
+   = _M_get_insert_hint_equal_pos(__position, _KeyOfValue()(__v));
+
+ if (__res.second)
+   return _M_insert_(__res.first, __res.second,
+       std::forward<_Arg>(__v),
+       __node_gen);
+
+ return _M_insert_equal_lower(std::forward<_Arg>(__v));
+      }
+
+
+  template<typename _Key, typename _Val, typename _KeyOfValue,
+    typename _Compare, typename _Alloc>
+    auto
+    _Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::
+    _M_insert_node(_Base_ptr __x, _Base_ptr __p, _Node_ptr __z)
+    -> iterator
+    {
+      bool __insert_left = (__x || __p == _M_end()
+       || _M_key_compare(_S_key(__z), _S_key(__p)));
+
+      _Base_ptr __base_z = __z->_M_base_ptr();
+      _Node_traits::_S_insert_and_rebalance
+ (__insert_left, __base_z, __p, this->_M_impl._M_header);
+      ++_M_impl._M_node_count;
+      return iterator(__base_z);
+    }
+
+  template<typename _Key, typename _Val, typename _KeyOfValue,
+    typename _Compare, typename _Alloc>
+    auto
+    _Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::
+    _M_insert_lower_node(_Base_ptr __p, _Node_ptr __z)
+    -> iterator
+    {
+      bool __insert_left = (__p == _M_end()
+       || !_M_key_compare(_S_key(__p), _S_key(__z)));
+
+      _Base_ptr __base_z = __z->_M_base_ptr();
+      _Node_traits::_S_insert_and_rebalance
+ (__insert_left, __base_z, __p, this->_M_impl._M_header);
+      ++_M_impl._M_node_count;
+      return iterator(__base_z);
+    }
+
+  template<typename _Key, typename _Val, typename _KeyOfValue,
+    typename _Compare, typename _Alloc>
+    auto
+    _Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::
+    _M_insert_equal_lower_node(_Node_ptr __z)
+    -> iterator
+    {
+      _Base_ptr __x = _M_begin();
+      _Base_ptr __y = _M_end();
+      while (__x)
+ {
+   __y = __x;
+   __x = !_M_key_compare(_S_key(__x), _S_key(__z)) ?
+  _S_left(__x) : _S_right(__x);
+ }
+      return _M_insert_lower_node(__y, __z);
+    }
+
+  template<typename _Key, typename _Val, typename _KeyOfValue,
+    typename _Compare, typename _Alloc>
+    template<typename... _Args>
+      auto
+      _Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::
+      _M_emplace_unique(_Args&&... __args)
+      -> pair<iterator, bool>
+      {
+ _Auto_node __z(*this, std::forward<_Args>(__args)...);
+ auto __res = _M_get_insert_unique_pos(__z._M_key());
+ if (__res.second)
+   return {__z._M_insert(__res), true};
+ return {iterator(__res.first), false};
+      }
+
+  template<typename _Key, typename _Val, typename _KeyOfValue,
+    typename _Compare, typename _Alloc>
+    template<typename... _Args>
+      auto
+      _Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::
+      _M_emplace_equal(_Args&&... __args)
+      -> iterator
+      {
+ _Auto_node __z(*this, std::forward<_Args>(__args)...);
+ auto __res = _M_get_insert_equal_pos(__z._M_key());
+ return __z._M_insert(__res);
+      }
+
+  template<typename _Key, typename _Val, typename _KeyOfValue,
+    typename _Compare, typename _Alloc>
+    template<typename... _Args>
+      auto
+      _Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::
+      _M_emplace_hint_unique(const_iterator __pos, _Args&&... __args)
+      -> iterator
+      {
+ _Auto_node __z(*this, std::forward<_Args>(__args)...);
+ auto __res = _M_get_insert_hint_unique_pos(__pos, __z._M_key());
+ if (__res.second)
+   return __z._M_insert(__res);
+ return iterator(__res.first);
+      }
+
+  template<typename _Key, typename _Val, typename _KeyOfValue,
+    typename _Compare, typename _Alloc>
+    template<typename... _Args>
+      auto
+      _Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::
+      _M_emplace_hint_equal(const_iterator __pos, _Args&&... __args)
+      -> iterator
+      {
+ _Auto_node __z(*this, std::forward<_Args>(__args)...);
+ auto __res = _M_get_insert_hint_equal_pos(__pos, __z._M_key());
+ if (__res.second)
+   return __z._M_insert(__res);
+ return __z._M_insert_equal_lower();
+      }
+# 3298 "/usr/include/c++/16/bits/stl_tree.h" 3
+  template<typename _Key, typename _Val, typename _KeyOfValue,
+    typename _Compare, typename _Alloc>
+    void
+    _Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::
+    _M_erase_aux(const_iterator __position)
+    {
+      _Base_ptr __y = _Node_traits::_S_rebalance_for_erase
+ (__position._M_node, this->_M_impl._M_header);
+      _M_drop_node(static_cast<_Node&>(*__y)._M_node_ptr());
+      --_M_impl._M_node_count;
+    }
+
+  template<typename _Key, typename _Val, typename _KeyOfValue,
+    typename _Compare, typename _Alloc>
+    void
+    _Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::
+    _M_erase_aux(const_iterator __first, const_iterator __last)
+    {
+      if (__first == begin() && __last == end())
+ clear();
+      else
+ while (__first != __last)
+   _M_erase_aux(__first++);
+    }
+
+  template<typename _Key, typename _Val, typename _KeyOfValue,
+    typename _Compare, typename _Alloc>
+    typename _Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::size_type
+    _Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::
+    erase(const _Key& __x)
+    {
+      pair<iterator, iterator> __p = equal_range(__x);
+      const size_type __old_size = size();
+      _M_erase_aux(__p.first, __p.second);
+      return __old_size - size();
+    }
+
+  template<typename _Key, typename _Val, typename _KeyOfValue,
+    typename _Compare, typename _Alloc>
+    template <typename _Kt>
+      typename _Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::size_type
+      _Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::
+      _M_erase_tr(const _Kt& __x)
+      {
+ pair<iterator, iterator> __p = _M_equal_range_tr(__x);
+ const size_type __old_size = size();
+ _M_erase_aux(__p.first, __p.second);
+ return __old_size - size();
+      }
+
+  template<typename _Key, typename _Val, typename _KeyOfValue,
+    typename _Compare, typename _Alloc>
+    typename _Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::size_type
+    _Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::
+    _M_erase_unique(const _Key& __x)
+    {
+      iterator __it = find(__x);
+      if (__it == end())
+ return 0;
+
+      _M_erase_aux(__it);
+      return 1;
+    }
+
+  template<typename _Key, typename _Val, typename _KeyOfValue,
+    typename _Compare, typename _Alloc>
+    typename _Rb_tree<_Key, _Val, _KeyOfValue,
+        _Compare, _Alloc>::iterator
+    _Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::
+    find(const _Key& __k)
+    {
+      iterator __j(_M_lower_bound(_M_begin(), _M_end(), __k));
+      return (__j == end()
+       || _M_key_compare(__k, _S_key(__j._M_node))) ? end() : __j;
+    }
+
+  template<typename _Key, typename _Val, typename _KeyOfValue,
+    typename _Compare, typename _Alloc>
+    typename _Rb_tree<_Key, _Val, _KeyOfValue,
+        _Compare, _Alloc>::const_iterator
+    _Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::
+    find(const _Key& __k) const
+    {
+      const_iterator __j(_M_lower_bound(_M_begin(), _M_end(), __k));
+      return (__j == end()
+       || _M_key_compare(__k, _S_key(__j._M_node))) ? end() : __j;
+    }
+
+  template<typename _Key, typename _Val, typename _KeyOfValue,
+    typename _Compare, typename _Alloc>
+    typename _Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::size_type
+    _Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::
+    count(const _Key& __k) const
+    {
+      pair<const_iterator, const_iterator> __p = equal_range(__k);
+      const size_type __n = std::distance(__p.first, __p.second);
+      return __n;
+    }
+
+  __attribute__ ((__pure__)) unsigned int
+  _Rb_tree_black_count(const _Rb_tree_node_base* __node,
+         const _Rb_tree_node_base* __root) throw ();
+
+  template<typename _Key, typename _Val, typename _KeyOfValue,
+    typename _Compare, typename _Alloc>
+    bool
+    _Rb_tree<_Key,_Val,_KeyOfValue,_Compare,_Alloc>::__rb_verify() const
+    {
+      if (_M_impl._M_node_count == 0 || begin() == end())
+ return _M_impl._M_node_count == 0 && begin() == end()
+        && this->_M_impl._M_header._M_left == _M_end()
+        && this->_M_impl._M_header._M_right == _M_end();
+
+      unsigned int __len = _Rb_tree_black_count(_M_leftmost(), _M_root());
+      for (const_iterator __it = begin(); __it != end(); ++__it)
+ {
+   _Base_ptr __x = __it._M_node;
+   _Base_ptr __L = _S_left(__x);
+   _Base_ptr __R = _S_right(__x);
+
+   if (__x->_M_color == _S_red)
+     if ((__L && __L->_M_color == _S_red)
+  || (__R && __R->_M_color == _S_red))
+       return false;
+
+   if (__L && _M_key_compare(_S_key(__x), _S_key(__L)))
+     return false;
+   if (__R && _M_key_compare(_S_key(__R), _S_key(__x)))
+     return false;
+
+   if (!__L && !__R && _Rb_tree_black_count(__x, _M_root()) != __len)
+     return false;
+ }
+
+      if (_M_leftmost() != _Node_base::_S_minimum(_M_root()))
+ return false;
+      if (_M_rightmost() != _Node_base::_S_maximum(_M_root()))
+ return false;
+      return true;
+    }
+
+
+
+  template<typename _Key, typename _Val, typename _Sel, typename _Cmp1,
+    typename _Alloc, typename _Cmp2>
+    struct _Rb_tree_merge_helper<_Rb_tree<_Key, _Val, _Sel, _Cmp1, _Alloc>,
+     _Cmp2>
+    {
+    private:
+      friend class _Rb_tree<_Key, _Val, _Sel, _Cmp1, _Alloc>;
+
+      static auto&
+      _S_get_impl(_Rb_tree<_Key, _Val, _Sel, _Cmp2, _Alloc>& __tree)
+      { return __tree._M_impl; }
+    };
+
+
+
+template <typename _Kt, typename _Container>
+  concept __heterogeneous_tree_key =
+    __transparent_comparator<typename _Container::key_compare> &&
+    __heterogeneous_key<_Kt, _Container>;
+
+
+
+}
+# 65 "/usr/include/c++/16/map" 2 3
+# 1 "/usr/include/c++/16/bits/stl_map.h" 1 3
+# 59 "/usr/include/c++/16/bits/stl_map.h" 3
+# 1 "/usr/include/c++/16/bits/stdexcept_throw.h" 1 3
+# 60 "/usr/include/c++/16/bits/stl_map.h" 2 3
+# 70 "/usr/include/c++/16/bits/stl_map.h" 3
+namespace std __attribute__ ((__visibility__ ("default")))
+{
+
+
+
+  template <typename _Key, typename _Tp, typename _Compare, typename _Alloc>
+    class multimap;
+# 104 "/usr/include/c++/16/bits/stl_map.h" 3
+  template <typename _Key, typename _Tp, typename _Compare = std::less<_Key>,
+     typename _Alloc = std::allocator<std::pair<const _Key, _Tp> > >
+    class map
+    {
+    public:
+      typedef _Key key_type;
+      typedef _Tp mapped_type;
+      typedef std::pair<const _Key, _Tp> value_type;
+      typedef _Compare key_compare;
+      typedef _Alloc allocator_type;
+
+    private:
+# 129 "/usr/include/c++/16/bits/stl_map.h" 3
+      static_assert(is_same<typename _Alloc::value_type, value_type>::value,
+   "std::map must have the same value_type as its allocator");
+
+
+
+    public:
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+      class value_compare
+      : public std::binary_function<value_type, value_type, bool>
+      {
+ friend class map<_Key, _Tp, _Compare, _Alloc>;
+      protected:
+ _Compare comp;
+
+ value_compare(_Compare __c)
+ : comp(__c) { }
+
+      public:
+ bool operator()(const value_type& __x, const value_type& __y) const
+ { return comp(__x.first, __y.first); }
+      };
+#pragma GCC diagnostic pop
+
+    private:
+
+      typedef typename __gnu_cxx::__alloc_traits<_Alloc>::template
+ rebind<value_type>::other _Pair_alloc_type;
+
+      typedef _Rb_tree<key_type, value_type, _Select1st<value_type>,
+         key_compare, _Pair_alloc_type> _Rep_type;
+
+
+      _Rep_type _M_t;
+
+      typedef __gnu_cxx::__alloc_traits<_Pair_alloc_type> _Alloc_traits;
+
+
+      template<typename _Up, typename _Vp = remove_reference_t<_Up>>
+ static constexpr bool __usable_key
+   = __or_v<is_same<const _Vp, const _Key>,
+     __and_<is_scalar<_Vp>, is_scalar<_Key>>>;
+
+
+    public:
+
+
+      typedef typename _Alloc_traits::pointer pointer;
+      typedef typename _Alloc_traits::const_pointer const_pointer;
+      typedef typename _Alloc_traits::reference reference;
+      typedef typename _Alloc_traits::const_reference const_reference;
+      typedef typename _Rep_type::iterator iterator;
+      typedef typename _Rep_type::const_iterator const_iterator;
+      typedef typename _Rep_type::size_type size_type;
+      typedef typename _Rep_type::difference_type difference_type;
+      typedef typename _Rep_type::reverse_iterator reverse_iterator;
+      typedef typename _Rep_type::const_reverse_iterator const_reverse_iterator;
+
+
+      using node_type = typename _Rep_type::node_type;
+      using insert_return_type = typename _Rep_type::insert_return_type;
+# 201 "/usr/include/c++/16/bits/stl_map.h" 3
+      map() = default;
+
+
+
+
+
+
+
+      explicit
+      map(const _Compare& __comp,
+   const allocator_type& __a = allocator_type())
+      : _M_t(__comp, _Pair_alloc_type(__a)) { }
+# 223 "/usr/include/c++/16/bits/stl_map.h" 3
+      map(const map&) = default;
+
+
+
+
+
+
+
+      map(map&&) = default;
+# 244 "/usr/include/c++/16/bits/stl_map.h" 3
+      map(initializer_list<value_type> __l,
+   const _Compare& __comp = _Compare(),
+   const allocator_type& __a = allocator_type())
+      : _M_t(__comp, _Pair_alloc_type(__a))
+      { _M_t._M_insert_range_unique(__l.begin(), __l.end()); }
+
+
+      explicit
+      map(const allocator_type& __a)
+      : _M_t(_Pair_alloc_type(__a)) { }
+
+
+      map(const map& __m, const __type_identity_t<allocator_type>& __a)
+      : _M_t(__m._M_t, _Pair_alloc_type(__a)) { }
+
+
+      map(map&& __m, const __type_identity_t<allocator_type>& __a)
+      noexcept(is_nothrow_copy_constructible<_Compare>::value
+        && _Alloc_traits::_S_always_equal())
+      : _M_t(std::move(__m._M_t), _Pair_alloc_type(__a)) { }
+
+
+      map(initializer_list<value_type> __l, const allocator_type& __a)
+      : _M_t(_Pair_alloc_type(__a))
+      { _M_t._M_insert_range_unique(__l.begin(), __l.end()); }
+
+
+      template<typename _InputIterator>
+ map(_InputIterator __first, _InputIterator __last,
+     const allocator_type& __a)
+ : _M_t(_Pair_alloc_type(__a))
+ { _M_t._M_insert_range_unique(__first, __last); }
+# 288 "/usr/include/c++/16/bits/stl_map.h" 3
+      template<typename _InputIterator>
+ map(_InputIterator __first, _InputIterator __last)
+ : _M_t()
+ { _M_t._M_insert_range_unique(__first, __last); }
+# 305 "/usr/include/c++/16/bits/stl_map.h" 3
+      template<typename _InputIterator>
+ map(_InputIterator __first, _InputIterator __last,
+     const _Compare& __comp,
+     const allocator_type& __a = allocator_type())
+ : _M_t(__comp, _Pair_alloc_type(__a))
+ { _M_t._M_insert_range_unique(__first, __last); }
+
+
+
+
+
+
+      template<__detail::__container_compatible_range<value_type> _Rg>
+ map(from_range_t, _Rg&& __rg,
+     const _Compare& __comp,
+     const _Alloc& __a = _Alloc())
+ : _M_t(__comp, _Pair_alloc_type(__a))
+ { insert_range(std::forward<_Rg>(__rg)); }
+
+
+      template<__detail::__container_compatible_range<value_type> _Rg>
+ map(from_range_t, _Rg&& __rg, const _Alloc& __a = _Alloc())
+ : _M_t(_Pair_alloc_type(__a))
+ { insert_range(std::forward<_Rg>(__rg)); }
+# 338 "/usr/include/c++/16/bits/stl_map.h" 3
+      ~map() = default;
+# 354 "/usr/include/c++/16/bits/stl_map.h" 3
+      map&
+      operator=(const map&) = default;
+
+
+      map&
+      operator=(map&&) = default;
+# 372 "/usr/include/c++/16/bits/stl_map.h" 3
+      map&
+      operator=(initializer_list<value_type> __l)
+      {
+ _M_t._M_assign_unique(__l.begin(), __l.end());
+ return *this;
+      }
+
+
+
+      allocator_type
+      get_allocator() const noexcept
+      { return allocator_type(_M_t.get_allocator()); }
+
+
+
+
+
+
+
+      iterator
+      begin() noexcept
+      { return _M_t.begin(); }
+
+
+
+
+
+
+      const_iterator
+      begin() const noexcept
+      { return _M_t.begin(); }
+
+
+
+
+
+
+      iterator
+      end() noexcept
+      { return _M_t.end(); }
+
+
+
+
+
+
+      const_iterator
+      end() const noexcept
+      { return _M_t.end(); }
+
+
+
+
+
+
+      reverse_iterator
+      rbegin() noexcept
+      { return _M_t.rbegin(); }
+
+
+
+
+
+
+      const_reverse_iterator
+      rbegin() const noexcept
+      { return _M_t.rbegin(); }
+
+
+
+
+
+
+      reverse_iterator
+      rend() noexcept
+      { return _M_t.rend(); }
+
+
+
+
+
+
+      const_reverse_iterator
+      rend() const noexcept
+      { return _M_t.rend(); }
+
+
+
+
+
+
+
+      const_iterator
+      cbegin() const noexcept
+      { return _M_t.begin(); }
+
+
+
+
+
+
+      const_iterator
+      cend() const noexcept
+      { return _M_t.end(); }
+
+
+
+
+
+
+      const_reverse_iterator
+      crbegin() const noexcept
+      { return _M_t.rbegin(); }
+
+
+
+
+
+
+      const_reverse_iterator
+      crend() const noexcept
+      { return _M_t.rend(); }
+
+
+
+
+
+
+      [[__nodiscard__]] bool
+      empty() const noexcept
+      { return _M_t.empty(); }
+
+
+      size_type
+      size() const noexcept
+      { return _M_t.size(); }
+
+
+      size_type
+      max_size() const noexcept
+      { return _M_t.max_size(); }
+# 530 "/usr/include/c++/16/bits/stl_map.h" 3
+      mapped_type&
+      operator[](const key_type& __k)
+      {
+
+
+
+ iterator __i = lower_bound(__k);
+
+ if (__i == end() || key_comp()(__k, (*__i).first))
+
+   __i = _M_t._M_emplace_hint_unique(__i, std::piecewise_construct,
+         std::tuple<const key_type&>(__k),
+         std::tuple<>());
+
+
+
+ return (*__i).second;
+      }
+
+
+      mapped_type&
+      operator[](key_type&& __k)
+      {
+
+
+
+ iterator __i = lower_bound(__k);
+
+ if (__i == end() || key_comp()(__k, (*__i).first))
+   __i = _M_t._M_emplace_hint_unique(__i, std::piecewise_construct,
+     std::forward_as_tuple(std::move(__k)),
+     std::tuple<>());
+ return (*__i).second;
+      }
+# 585 "/usr/include/c++/16/bits/stl_map.h" 3
+      mapped_type&
+      at(const key_type& __k)
+      {
+ iterator __i = lower_bound(__k);
+ if (__i == end() || key_comp()(__k, (*__i).first))
+   __throw_out_of_range(("map::at"));
+ return (*__i).second;
+      }
+# 606 "/usr/include/c++/16/bits/stl_map.h" 3
+      const mapped_type&
+      at(const key_type& __k) const
+      {
+ const_iterator __i = lower_bound(__k);
+ if (__i == end() || key_comp()(__k, (*__i).first))
+   __throw_out_of_range(("map::at"));
+ return (*__i).second;
+      }
+# 647 "/usr/include/c++/16/bits/stl_map.h" 3
+      template<typename... _Args>
+ std::pair<iterator, bool>
+ emplace(_Args&&... __args)
+ {
+
+   if constexpr (sizeof...(_Args) == 2)
+     if constexpr (is_same_v<allocator_type, allocator<value_type>>)
+       {
+  auto&& [__a, __v] = pair<_Args&...>(__args...);
+  if constexpr (__usable_key<decltype(__a)>)
+    {
+      const key_type& __k = __a;
+      iterator __i = lower_bound(__k);
+      if (__i == end() || key_comp()(__k, (*__i).first))
+        {
+   __i = emplace_hint(__i, std::forward<_Args>(__args)...);
+   return {__i, true};
+        }
+      return {__i, false};
+    }
+       }
+
+   return _M_t._M_emplace_unique(std::forward<_Args>(__args)...);
+ }
+# 697 "/usr/include/c++/16/bits/stl_map.h" 3
+      template<typename... _Args>
+ iterator
+ emplace_hint(const_iterator __pos, _Args&&... __args)
+ {
+   return _M_t._M_emplace_hint_unique(__pos,
+          std::forward<_Args>(__args)...);
+ }
+
+
+
+
+      node_type
+      extract(const_iterator __pos)
+      {
+ do { if (std::__is_constant_evaluated() && !bool(__pos != end())) std::__glibcxx_assert_fail(); } while (false);
+ return _M_t.extract(__pos);
+      }
+
+
+      node_type
+      extract(const key_type& __x)
+      { return _M_t.extract(__x); }
+
+
+      template <__heterogeneous_tree_key<map> _Kt>
+ node_type
+ extract(_Kt&& __key)
+ { return _M_t._M_extract_tr(__key); }
+
+
+
+      insert_return_type
+      insert(node_type&& __nh)
+      { return _M_t._M_reinsert_node_unique(std::move(__nh)); }
+
+
+      iterator
+      insert(const_iterator __hint, node_type&& __nh)
+      { return _M_t._M_reinsert_node_hint_unique(__hint, std::move(__nh)); }
+
+      template<typename, typename>
+ friend struct std::_Rb_tree_merge_helper;
+
+      template<typename _Cmp2>
+ void
+ merge(map<_Key, _Tp, _Cmp2, _Alloc>& __source)
+ {
+   using _Merge_helper = _Rb_tree_merge_helper<map, _Cmp2>;
+   _M_t._M_merge_unique(_Merge_helper::_S_get_tree(__source));
+ }
+
+      template<typename _Cmp2>
+ void
+ merge(map<_Key, _Tp, _Cmp2, _Alloc>&& __source)
+ { merge(__source); }
+
+      template<typename _Cmp2>
+ void
+ merge(multimap<_Key, _Tp, _Cmp2, _Alloc>& __source)
+ {
+   using _Merge_helper = _Rb_tree_merge_helper<map, _Cmp2>;
+   _M_t._M_merge_unique(_Merge_helper::_S_get_tree(__source));
+ }
+
+      template<typename _Cmp2>
+ void
+ merge(multimap<_Key, _Tp, _Cmp2, _Alloc>&& __source)
+ { merge(__source); }
+# 791 "/usr/include/c++/16/bits/stl_map.h" 3
+      template <typename... _Args>
+ pair<iterator, bool>
+ try_emplace(const key_type& __k, _Args&&... __args)
+ {
+   iterator __i = lower_bound(__k);
+   if (__i == end() || key_comp()(__k, (*__i).first))
+     {
+       __i = emplace_hint(__i, std::piecewise_construct,
+     std::forward_as_tuple(__k),
+     std::forward_as_tuple(
+       std::forward<_Args>(__args)...));
+       return {__i, true};
+     }
+   return {__i, false};
+ }
+
+
+      template <typename... _Args>
+ pair<iterator, bool>
+ try_emplace(key_type&& __k, _Args&&... __args)
+ {
+   iterator __i = lower_bound(__k);
+   if (__i == end() || key_comp()(__k, (*__i).first))
+     {
+       __i = emplace_hint(__i, std::piecewise_construct,
+     std::forward_as_tuple(std::move(__k)),
+     std::forward_as_tuple(
+       std::forward<_Args>(__args)...));
+       return {__i, true};
+     }
+   return {__i, false};
+ }
+# 876 "/usr/include/c++/16/bits/stl_map.h" 3
+      template <typename... _Args>
+ iterator
+ try_emplace(const_iterator __hint, const key_type& __k,
+      _Args&&... __args)
+ {
+   iterator __i;
+   auto __true_hint = _M_t._M_get_insert_hint_unique_pos(__hint, __k);
+   if (__true_hint.second)
+     __i = emplace_hint(iterator(__true_hint.second),
+          std::piecewise_construct,
+          std::forward_as_tuple(__k),
+          std::forward_as_tuple(
+     std::forward<_Args>(__args)...));
+   else
+     __i = iterator(__true_hint.first);
+   return __i;
+ }
+
+
+      template <typename... _Args>
+ iterator
+ try_emplace(const_iterator __hint, key_type&& __k, _Args&&... __args)
+ {
+   iterator __i;
+   auto __true_hint = _M_t._M_get_insert_hint_unique_pos(__hint, __k);
+   if (__true_hint.second)
+     __i = emplace_hint(iterator(__true_hint.second),
+          std::piecewise_construct,
+          std::forward_as_tuple(std::move(__k)),
+          std::forward_as_tuple(
+     std::forward<_Args>(__args)...));
+   else
+     __i = iterator(__true_hint.first);
+   return __i;
+ }
+# 950 "/usr/include/c++/16/bits/stl_map.h" 3
+      std::pair<iterator, bool>
+      insert(const value_type& __x)
+      { return _M_t._M_insert_unique(__x); }
+
+
+
+
+      std::pair<iterator, bool>
+      insert(value_type&& __x)
+      { return _M_t._M_insert_unique(std::move(__x)); }
+
+      template<typename _Pair>
+ __enable_if_t<is_constructible<value_type, _Pair>::value,
+        pair<iterator, bool>>
+ insert(_Pair&& __x)
+ {
+
+   using _P2 = remove_reference_t<_Pair>;
+   if constexpr (__is_pair<remove_const_t<_P2>>)
+     if constexpr (is_same_v<allocator_type, allocator<value_type>>)
+       if constexpr (__usable_key<typename _P2::first_type>)
+  {
+    const key_type& __k = __x.first;
+    iterator __i = lower_bound(__k);
+    if (__i == end() || key_comp()(__k, (*__i).first))
+      {
+        __i = emplace_hint(__i, std::forward<_Pair>(__x));
+        return {__i, true};
+      }
+    return {__i, false};
+  }
+
+   return _M_t._M_emplace_unique(std::forward<_Pair>(__x));
+ }
+# 995 "/usr/include/c++/16/bits/stl_map.h" 3
+      void
+      insert(std::initializer_list<value_type> __list)
+      { insert(__list.begin(), __list.end()); }
+# 1007 "/usr/include/c++/16/bits/stl_map.h" 3
+      template<__detail::__container_compatible_range<value_type> _Rg>
+ void
+ insert_range(_Rg&& __rg)
+ {
+   auto __first = ranges::begin(__rg);
+   const auto __last = ranges::end(__rg);
+   for (; __first != __last; ++__first)
+     insert(*__first);
+ }
+# 1042 "/usr/include/c++/16/bits/stl_map.h" 3
+      iterator
+
+      insert(const_iterator __position, const value_type& __x)
+
+
+
+      { return _M_t._M_insert_unique_(__position, __x); }
+
+
+
+
+      iterator
+      insert(const_iterator __position, value_type&& __x)
+      { return _M_t._M_insert_unique_(__position, std::move(__x)); }
+
+      template<typename _Pair>
+ __enable_if_t<is_constructible<value_type, _Pair>::value, iterator>
+ insert(const_iterator __position, _Pair&& __x)
+ {
+   return _M_t._M_emplace_hint_unique(__position,
+          std::forward<_Pair>(__x));
+ }
+# 1075 "/usr/include/c++/16/bits/stl_map.h" 3
+      template<typename _InputIterator>
+ void
+ insert(_InputIterator __first, _InputIterator __last)
+ { _M_t._M_insert_range_unique(__first, __last); }
+# 1101 "/usr/include/c++/16/bits/stl_map.h" 3
+      template <typename _Obj>
+ pair<iterator, bool>
+ insert_or_assign(const key_type& __k, _Obj&& __obj)
+ {
+   iterator __i = lower_bound(__k);
+   if (__i == end() || key_comp()(__k, (*__i).first))
+     {
+       __i = emplace_hint(__i, std::piecewise_construct,
+     std::forward_as_tuple(__k),
+     std::forward_as_tuple(
+       std::forward<_Obj>(__obj)));
+       return {__i, true};
+     }
+   (*__i).second = std::forward<_Obj>(__obj);
+   return {__i, false};
+ }
+
+
+      template <typename _Obj>
+ pair<iterator, bool>
+ insert_or_assign(key_type&& __k, _Obj&& __obj)
+ {
+   iterator __i = lower_bound(__k);
+   if (__i == end() || key_comp()(__k, (*__i).first))
+     {
+       __i = emplace_hint(__i, std::piecewise_construct,
+     std::forward_as_tuple(std::move(__k)),
+     std::forward_as_tuple(
+       std::forward<_Obj>(__obj)));
+       return {__i, true};
+     }
+   (*__i).second = std::forward<_Obj>(__obj);
+   return {__i, false};
+ }
+# 1182 "/usr/include/c++/16/bits/stl_map.h" 3
+      template <typename _Obj>
+ iterator
+ insert_or_assign(const_iterator __hint,
+    const key_type& __k, _Obj&& __obj)
+ {
+   iterator __i;
+   auto __true_hint = _M_t._M_get_insert_hint_unique_pos(__hint, __k);
+   if (__true_hint.second)
+     {
+       return emplace_hint(iterator(__true_hint.second),
+      std::piecewise_construct,
+      std::forward_as_tuple(__k),
+      std::forward_as_tuple(
+        std::forward<_Obj>(__obj)));
+     }
+   __i = iterator(__true_hint.first);
+   (*__i).second = std::forward<_Obj>(__obj);
+   return __i;
+ }
+
+
+      template <typename _Obj>
+ iterator
+ insert_or_assign(const_iterator __hint, key_type&& __k, _Obj&& __obj)
+ {
+   iterator __i;
+   auto __true_hint = _M_t._M_get_insert_hint_unique_pos(__hint, __k);
+   if (__true_hint.second)
+     {
+       return emplace_hint(iterator(__true_hint.second),
+      std::piecewise_construct,
+      std::forward_as_tuple(std::move(__k)),
+      std::forward_as_tuple(
+        std::forward<_Obj>(__obj)));
+     }
+   __i = iterator(__true_hint.first);
+   (*__i).second = std::forward<_Obj>(__obj);
+   return __i;
+ }
+# 1263 "/usr/include/c++/16/bits/stl_map.h" 3
+      iterator
+      erase(const_iterator __position)
+      { return _M_t.erase(__position); }
+
+
+      __attribute ((__abi_tag__ ("cxx11")))
+      iterator
+      erase(iterator __position)
+      { return _M_t.erase(__position); }
+# 1301 "/usr/include/c++/16/bits/stl_map.h" 3
+      size_type
+      erase(const key_type& __x)
+      { return _M_t._M_erase_unique(__x); }
+
+
+
+
+
+      template <__heterogeneous_tree_key<map> _Kt>
+ size_type
+ erase(_Kt&& __x)
+ { return _M_t._M_erase_tr(__x); }
+# 1332 "/usr/include/c++/16/bits/stl_map.h" 3
+      iterator
+      erase(const_iterator __first, const_iterator __last)
+      { return _M_t.erase(__first, __last); }
+# 1366 "/usr/include/c++/16/bits/stl_map.h" 3
+      void
+      swap(map& __x)
+      noexcept(__is_nothrow_swappable<_Compare>::value)
+      { _M_t.swap(__x._M_t); }
+
+
+
+
+
+
+
+      void
+      clear() noexcept
+      { _M_t.clear(); }
+
+
+
+
+
+
+      key_compare
+      key_comp() const
+      { return _M_t.key_comp(); }
+
+
+
+
+
+      value_compare
+      value_comp() const
+      { return value_compare(_M_t.key_comp()); }
+# 1413 "/usr/include/c++/16/bits/stl_map.h" 3
+      iterator
+      find(const key_type& __x)
+      { return _M_t.find(__x); }
+
+
+      template<typename _Kt>
+ auto
+ find(const _Kt& __x) -> decltype(_M_t._M_find_tr(__x))
+ { return _M_t._M_find_tr(__x); }
+# 1438 "/usr/include/c++/16/bits/stl_map.h" 3
+      const_iterator
+      find(const key_type& __x) const
+      { return _M_t.find(__x); }
+
+
+      template<typename _Kt>
+ auto
+ find(const _Kt& __x) const -> decltype(_M_t._M_find_tr(__x))
+ { return _M_t._M_find_tr(__x); }
+# 1459 "/usr/include/c++/16/bits/stl_map.h" 3
+      size_type
+      count(const key_type& __x) const
+      { return _M_t.find(__x) == _M_t.end() ? 0 : 1; }
+
+
+      template<typename _Kt>
+ auto
+ count(const _Kt& __x) const -> decltype(_M_t._M_count_tr(__x))
+ { return _M_t._M_count_tr(__x); }
+# 1478 "/usr/include/c++/16/bits/stl_map.h" 3
+      bool
+      contains(const key_type& __x) const
+      { return _M_t.find(__x) != _M_t.end(); }
+
+      template<typename _Kt>
+ auto
+ contains(const _Kt& __x) const
+ -> decltype(_M_t._M_find_tr(__x), void(), true)
+ { return _M_t._M_find_tr(__x) != _M_t.end(); }
+# 1502 "/usr/include/c++/16/bits/stl_map.h" 3
+      iterator
+      lower_bound(const key_type& __x)
+      { return _M_t.lower_bound(__x); }
+
+
+      template<typename _Kt>
+ auto
+ lower_bound(const _Kt& __x)
+ -> decltype(iterator(_M_t._M_lower_bound_tr(__x)))
+ { return iterator(_M_t._M_lower_bound_tr(__x)); }
+# 1527 "/usr/include/c++/16/bits/stl_map.h" 3
+      const_iterator
+      lower_bound(const key_type& __x) const
+      { return _M_t.lower_bound(__x); }
+
+
+      template<typename _Kt>
+ auto
+ lower_bound(const _Kt& __x) const
+ -> decltype(const_iterator(_M_t._M_lower_bound_tr(__x)))
+ { return const_iterator(_M_t._M_lower_bound_tr(__x)); }
+# 1547 "/usr/include/c++/16/bits/stl_map.h" 3
+      iterator
+      upper_bound(const key_type& __x)
+      { return _M_t.upper_bound(__x); }
+
+
+      template<typename _Kt>
+ auto
+ upper_bound(const _Kt& __x)
+ -> decltype(iterator(_M_t._M_upper_bound_tr(__x)))
+ { return iterator(_M_t._M_upper_bound_tr(__x)); }
+# 1567 "/usr/include/c++/16/bits/stl_map.h" 3
+      const_iterator
+      upper_bound(const key_type& __x) const
+      { return _M_t.upper_bound(__x); }
+
+
+      template<typename _Kt>
+ auto
+ upper_bound(const _Kt& __x) const
+ -> decltype(const_iterator(_M_t._M_upper_bound_tr(__x)))
+ { return const_iterator(_M_t._M_upper_bound_tr(__x)); }
+# 1596 "/usr/include/c++/16/bits/stl_map.h" 3
+      std::pair<iterator, iterator>
+      equal_range(const key_type& __x)
+      { return _M_t.equal_range(__x); }
+
+
+      template<typename _Kt>
+ auto
+ equal_range(const _Kt& __x)
+ -> decltype(pair<iterator, iterator>(_M_t._M_equal_range_tr(__x)))
+ { return pair<iterator, iterator>(_M_t._M_equal_range_tr(__x)); }
+# 1625 "/usr/include/c++/16/bits/stl_map.h" 3
+      std::pair<const_iterator, const_iterator>
+      equal_range(const key_type& __x) const
+      { return _M_t.equal_range(__x); }
+
+
+      template<typename _Kt>
+ auto
+ equal_range(const _Kt& __x) const
+ -> decltype(pair<const_iterator, const_iterator>(
+       _M_t._M_equal_range_tr(__x)))
+ {
+   return pair<const_iterator, const_iterator>(
+       _M_t._M_equal_range_tr(__x));
+ }
+
+
+
+      template<typename _K1, typename _T1, typename _C1, typename _A1>
+ friend bool
+ operator==(const map<_K1, _T1, _C1, _A1>&,
+     const map<_K1, _T1, _C1, _A1>&);
+
+
+      template<typename _K1, typename _T1, typename _C1, typename _A1>
+ friend __detail::__synth3way_t<pair<const _K1, _T1>>
+ operator<=>(const map<_K1, _T1, _C1, _A1>&,
+      const map<_K1, _T1, _C1, _A1>&);
+
+
+
+
+
+
+    };
+
+
+
+
+  template<typename _InputIterator,
+    typename _Compare = less<__iter_key_t<_InputIterator>>,
+    typename _Allocator = allocator<__iter_to_alloc_t<_InputIterator>>,
+    typename = _RequireInputIter<_InputIterator>,
+    typename = _RequireNotAllocator<_Compare>,
+    typename = _RequireAllocator<_Allocator>>
+    map(_InputIterator, _InputIterator,
+ _Compare = _Compare(), _Allocator = _Allocator())
+    -> map<__iter_key_t<_InputIterator>, __iter_val_t<_InputIterator>,
+    _Compare, _Allocator>;
+
+  template<typename _Key, typename _Tp, typename _Compare = less<_Key>,
+    typename _Allocator = allocator<pair<const _Key, _Tp>>,
+    typename = _RequireNotAllocator<_Compare>,
+    typename = _RequireAllocator<_Allocator>>
+    map(initializer_list<pair<_Key, _Tp>>,
+ _Compare = _Compare(), _Allocator = _Allocator())
+    -> map<_Key, _Tp, _Compare, _Allocator>;
+
+  template <typename _InputIterator, typename _Allocator,
+     typename = _RequireInputIter<_InputIterator>,
+     typename = _RequireAllocator<_Allocator>>
+    map(_InputIterator, _InputIterator, _Allocator)
+    -> map<__iter_key_t<_InputIterator>, __iter_val_t<_InputIterator>,
+    less<__iter_key_t<_InputIterator>>, _Allocator>;
+
+  template<typename _Key, typename _Tp, typename _Allocator,
+    typename = _RequireAllocator<_Allocator>>
+    map(initializer_list<pair<_Key, _Tp>>, _Allocator)
+    -> map<_Key, _Tp, less<_Key>, _Allocator>;
+
+
+  template<ranges::input_range _Rg,
+    __not_allocator_like _Compare = less<__detail::__range_key_type<_Rg>>,
+    __allocator_like _Alloc =
+       std::allocator<__detail::__range_to_alloc_type<_Rg>>>
+    map(from_range_t, _Rg&&, _Compare = _Compare(), _Alloc = _Alloc())
+      -> map<__detail::__range_key_type<_Rg>,
+      __detail::__range_mapped_type<_Rg>,
+      _Compare, _Alloc>;
+
+  template<ranges::input_range _Rg, __allocator_like _Alloc>
+    map(from_range_t, _Rg&&, _Alloc)
+      -> map<__detail::__range_key_type<_Rg>,
+      __detail::__range_mapped_type<_Rg>,
+      less<__detail::__range_key_type<_Rg>>,
+      _Alloc>;
+# 1724 "/usr/include/c++/16/bits/stl_map.h" 3
+  template<typename _Key, typename _Tp, typename _Compare, typename _Alloc>
+    inline bool
+    operator==(const map<_Key, _Tp, _Compare, _Alloc>& __x,
+        const map<_Key, _Tp, _Compare, _Alloc>& __y)
+    { return __x._M_t == __y._M_t; }
+# 1745 "/usr/include/c++/16/bits/stl_map.h" 3
+  template<typename _Key, typename _Tp, typename _Compare, typename _Alloc>
+    inline __detail::__synth3way_t<pair<const _Key, _Tp>>
+    operator<=>(const map<_Key, _Tp, _Compare, _Alloc>& __x,
+  const map<_Key, _Tp, _Compare, _Alloc>& __y)
+    { return __x._M_t <=> __y._M_t; }
+# 1798 "/usr/include/c++/16/bits/stl_map.h" 3
+  template<typename _Key, typename _Tp, typename _Compare, typename _Alloc>
+    inline void
+    swap(map<_Key, _Tp, _Compare, _Alloc>& __x,
+  map<_Key, _Tp, _Compare, _Alloc>& __y)
+    noexcept(noexcept(__x.swap(__y)))
+    { __x.swap(__y); }
+
+
+
+
+
+  template<typename _Key, typename _Val, typename _Cmp1, typename _Alloc,
+    typename _Cmp2>
+    struct
+    _Rb_tree_merge_helper<std::map<_Key, _Val, _Cmp1, _Alloc>,
+     _Cmp2>
+    {
+    private:
+      friend class std::map<_Key, _Val, _Cmp1, _Alloc>;
+
+      static auto&
+      _S_get_tree(std::map<_Key, _Val, _Cmp2, _Alloc>& __map)
+      { return __map._M_t; }
+
+      static auto&
+      _S_get_tree(std::multimap<_Key, _Val, _Cmp2, _Alloc>& __map)
+      { return __map._M_t; }
+    };
+
+
+
+}
+# 66 "/usr/include/c++/16/map" 2 3
+# 1 "/usr/include/c++/16/bits/stl_multimap.h" 1 3
+# 68 "/usr/include/c++/16/bits/stl_multimap.h" 3
+namespace std __attribute__ ((__visibility__ ("default")))
+{
+
+
+
+  template <typename _Key, typename _Tp, typename _Compare, typename _Alloc>
+    class map;
+# 102 "/usr/include/c++/16/bits/stl_multimap.h" 3
+  template <typename _Key, typename _Tp,
+     typename _Compare = std::less<_Key>,
+     typename _Alloc = std::allocator<std::pair<const _Key, _Tp> > >
+    class multimap
+    {
+    public:
+      typedef _Key key_type;
+      typedef _Tp mapped_type;
+      typedef std::pair<const _Key, _Tp> value_type;
+      typedef _Compare key_compare;
+      typedef _Alloc allocator_type;
+
+    private:
+# 128 "/usr/include/c++/16/bits/stl_multimap.h" 3
+      static_assert(is_same<typename _Alloc::value_type, value_type>::value,
+   "std::multimap must have the same value_type as its allocator");
+
+
+
+    public:
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+      class value_compare
+      : public std::binary_function<value_type, value_type, bool>
+      {
+ friend class multimap<_Key, _Tp, _Compare, _Alloc>;
+      protected:
+ _Compare comp;
+
+ value_compare(_Compare __c)
+ : comp(__c) { }
+
+      public:
+ bool operator()(const value_type& __x, const value_type& __y) const
+ { return comp(__x.first, __y.first); }
+      };
+#pragma GCC diagnostic pop
+
+    private:
+
+      typedef typename __gnu_cxx::__alloc_traits<_Alloc>::template
+ rebind<value_type>::other _Pair_alloc_type;
+
+      typedef _Rb_tree<key_type, value_type, _Select1st<value_type>,
+         key_compare, _Pair_alloc_type> _Rep_type;
+
+      _Rep_type _M_t;
+
+      typedef __gnu_cxx::__alloc_traits<_Pair_alloc_type> _Alloc_traits;
+
+    public:
+
+
+      typedef typename _Alloc_traits::pointer pointer;
+      typedef typename _Alloc_traits::const_pointer const_pointer;
+      typedef typename _Alloc_traits::reference reference;
+      typedef typename _Alloc_traits::const_reference const_reference;
+      typedef typename _Rep_type::iterator iterator;
+      typedef typename _Rep_type::const_iterator const_iterator;
+      typedef typename _Rep_type::size_type size_type;
+      typedef typename _Rep_type::difference_type difference_type;
+      typedef typename _Rep_type::reverse_iterator reverse_iterator;
+      typedef typename _Rep_type::const_reverse_iterator const_reverse_iterator;
+
+
+      using node_type = typename _Rep_type::node_type;
+# 191 "/usr/include/c++/16/bits/stl_multimap.h" 3
+      multimap() = default;
+
+
+
+
+
+
+
+      explicit
+      multimap(const _Compare& __comp,
+        const allocator_type& __a = allocator_type())
+      : _M_t(__comp, _Pair_alloc_type(__a)) { }
+# 213 "/usr/include/c++/16/bits/stl_multimap.h" 3
+      multimap(const multimap&) = default;
+# 222 "/usr/include/c++/16/bits/stl_multimap.h" 3
+      multimap(multimap&&) = default;
+# 234 "/usr/include/c++/16/bits/stl_multimap.h" 3
+      multimap(initializer_list<value_type> __l,
+        const _Compare& __comp = _Compare(),
+        const allocator_type& __a = allocator_type())
+      : _M_t(__comp, _Pair_alloc_type(__a))
+      { _M_t._M_insert_range_equal(__l.begin(), __l.end()); }
+
+
+      explicit
+      multimap(const allocator_type& __a)
+      : _M_t(_Pair_alloc_type(__a)) { }
+
+
+      multimap(const multimap& __m,
+        const __type_identity_t<allocator_type>& __a)
+      : _M_t(__m._M_t, _Pair_alloc_type(__a)) { }
+
+
+      multimap(multimap&& __m, const __type_identity_t<allocator_type>& __a)
+      noexcept(is_nothrow_copy_constructible<_Compare>::value
+        && _Alloc_traits::_S_always_equal())
+      : _M_t(std::move(__m._M_t), _Pair_alloc_type(__a)) { }
+
+
+      multimap(initializer_list<value_type> __l, const allocator_type& __a)
+      : _M_t(_Pair_alloc_type(__a))
+      { _M_t._M_insert_range_equal(__l.begin(), __l.end()); }
+
+
+      template<typename _InputIterator>
+ multimap(_InputIterator __first, _InputIterator __last,
+   const allocator_type& __a)
+ : _M_t(_Pair_alloc_type(__a))
+ { _M_t._M_insert_range_equal(__first, __last); }
+# 278 "/usr/include/c++/16/bits/stl_multimap.h" 3
+      template<typename _InputIterator>
+ multimap(_InputIterator __first, _InputIterator __last)
+ : _M_t()
+ { _M_t._M_insert_range_equal(__first, __last); }
+# 294 "/usr/include/c++/16/bits/stl_multimap.h" 3
+      template<typename _InputIterator>
+ multimap(_InputIterator __first, _InputIterator __last,
+   const _Compare& __comp,
+   const allocator_type& __a = allocator_type())
+ : _M_t(__comp, _Pair_alloc_type(__a))
+ { _M_t._M_insert_range_equal(__first, __last); }
+
+
+
+
+
+
+      template<__detail::__container_compatible_range<value_type> _Rg>
+ multimap(from_range_t, _Rg&& __rg,
+   const _Compare& __comp,
+   const _Alloc& __a = _Alloc())
+ : _M_t(__comp, _Pair_alloc_type(__a))
+ { insert_range(std::forward<_Rg>(__rg)); }
+
+
+      template<__detail::__container_compatible_range<value_type> _Rg>
+ multimap(from_range_t, _Rg&& __rg, const _Alloc& __a = _Alloc())
+ : _M_t(_Pair_alloc_type(__a))
+ { insert_range(std::forward<_Rg>(__rg)); }
+# 327 "/usr/include/c++/16/bits/stl_multimap.h" 3
+      ~multimap() = default;
+# 343 "/usr/include/c++/16/bits/stl_multimap.h" 3
+      multimap&
+      operator=(const multimap&) = default;
+
+
+      multimap&
+      operator=(multimap&&) = default;
+# 361 "/usr/include/c++/16/bits/stl_multimap.h" 3
+      multimap&
+      operator=(initializer_list<value_type> __l)
+      {
+ _M_t._M_assign_equal(__l.begin(), __l.end());
+ return *this;
+      }
+
+
+
+      allocator_type
+      get_allocator() const noexcept
+      { return allocator_type(_M_t.get_allocator()); }
+
+
+
+
+
+
+
+      iterator
+      begin() noexcept
+      { return _M_t.begin(); }
+
+
+
+
+
+
+      const_iterator
+      begin() const noexcept
+      { return _M_t.begin(); }
+
+
+
+
+
+
+      iterator
+      end() noexcept
+      { return _M_t.end(); }
+
+
+
+
+
+
+      const_iterator
+      end() const noexcept
+      { return _M_t.end(); }
+
+
+
+
+
+
+      reverse_iterator
+      rbegin() noexcept
+      { return _M_t.rbegin(); }
+
+
+
+
+
+
+      const_reverse_iterator
+      rbegin() const noexcept
+      { return _M_t.rbegin(); }
+
+
+
+
+
+
+      reverse_iterator
+      rend() noexcept
+      { return _M_t.rend(); }
+
+
+
+
+
+
+      const_reverse_iterator
+      rend() const noexcept
+      { return _M_t.rend(); }
+
+
+
+
+
+
+
+      const_iterator
+      cbegin() const noexcept
+      { return _M_t.begin(); }
+
+
+
+
+
+
+      const_iterator
+      cend() const noexcept
+      { return _M_t.end(); }
+
+
+
+
+
+
+      const_reverse_iterator
+      crbegin() const noexcept
+      { return _M_t.rbegin(); }
+
+
+
+
+
+
+      const_reverse_iterator
+      crend() const noexcept
+      { return _M_t.rend(); }
+
+
+
+
+      [[__nodiscard__]] bool
+      empty() const noexcept
+      { return _M_t.empty(); }
+
+
+      size_type
+      size() const noexcept
+      { return _M_t.size(); }
+
+
+      size_type
+      max_size() const noexcept
+      { return _M_t.max_size(); }
+# 519 "/usr/include/c++/16/bits/stl_multimap.h" 3
+      template<typename... _Args>
+ iterator
+ emplace(_Args&&... __args)
+ { return _M_t._M_emplace_equal(std::forward<_Args>(__args)...); }
+# 546 "/usr/include/c++/16/bits/stl_multimap.h" 3
+      template<typename... _Args>
+ iterator
+ emplace_hint(const_iterator __pos, _Args&&... __args)
+ {
+   return _M_t._M_emplace_hint_equal(__pos,
+         std::forward<_Args>(__args)...);
+ }
+# 568 "/usr/include/c++/16/bits/stl_multimap.h" 3
+      iterator
+      insert(const value_type& __x)
+      { return _M_t._M_insert_equal(__x); }
+
+
+
+
+      iterator
+      insert(value_type&& __x)
+      { return _M_t._M_insert_equal(std::move(__x)); }
+
+      template<typename _Pair>
+ __enable_if_t<is_constructible<value_type, _Pair>::value, iterator>
+ insert(_Pair&& __x)
+ { return _M_t._M_emplace_equal(std::forward<_Pair>(__x)); }
+# 607 "/usr/include/c++/16/bits/stl_multimap.h" 3
+      iterator
+
+      insert(const_iterator __position, const value_type& __x)
+
+
+
+      { return _M_t._M_insert_equal_(__position, __x); }
+
+
+
+
+      iterator
+      insert(const_iterator __position, value_type&& __x)
+      { return _M_t._M_insert_equal_(__position, std::move(__x)); }
+
+      template<typename _Pair>
+ __enable_if_t<is_constructible<value_type, _Pair&&>::value, iterator>
+ insert(const_iterator __position, _Pair&& __x)
+ {
+   return _M_t._M_emplace_hint_equal(__position,
+         std::forward<_Pair>(__x));
+ }
+# 641 "/usr/include/c++/16/bits/stl_multimap.h" 3
+      template<typename _InputIterator>
+ void
+ insert(_InputIterator __first, _InputIterator __last)
+ { _M_t._M_insert_range_equal(__first, __last); }
+# 654 "/usr/include/c++/16/bits/stl_multimap.h" 3
+      void
+      insert(initializer_list<value_type> __l)
+      { this->insert(__l.begin(), __l.end()); }
+# 666 "/usr/include/c++/16/bits/stl_multimap.h" 3
+      template<__detail::__container_compatible_range<value_type> _Rg>
+ void
+ insert_range(_Rg&& __rg)
+ {
+   auto __first = ranges::begin(__rg);
+   const auto __last = ranges::end(__rg);
+   for (; __first != __last; ++__first)
+     _M_t._M_emplace_equal(*__first);
+ }
+
+
+
+
+
+      node_type
+      extract(const_iterator __pos)
+      {
+ do { if (std::__is_constant_evaluated() && !bool(__pos != end())) std::__glibcxx_assert_fail(); } while (false);
+ return _M_t.extract(__pos);
+      }
+
+
+      node_type
+      extract(const key_type& __x)
+      { return _M_t.extract(__x); }
+
+
+      template <__heterogeneous_tree_key<multimap> _Kt>
+ node_type
+ extract(_Kt&& __key)
+ { return _M_t._M_extract_tr(__key); }
+
+
+
+      iterator
+      insert(node_type&& __nh)
+      { return _M_t._M_reinsert_node_equal(std::move(__nh)); }
+
+
+      iterator
+      insert(const_iterator __hint, node_type&& __nh)
+      { return _M_t._M_reinsert_node_hint_equal(__hint, std::move(__nh)); }
+
+      template<typename, typename>
+ friend struct std::_Rb_tree_merge_helper;
+
+      template<typename _Cmp2>
+ void
+ merge(multimap<_Key, _Tp, _Cmp2, _Alloc>& __source)
+ {
+   using _Merge_helper = _Rb_tree_merge_helper<multimap, _Cmp2>;
+   _M_t._M_merge_equal(_Merge_helper::_S_get_tree(__source));
+ }
+
+      template<typename _Cmp2>
+ void
+ merge(multimap<_Key, _Tp, _Cmp2, _Alloc>&& __source)
+ { merge(__source); }
+
+      template<typename _Cmp2>
+ void
+ merge(map<_Key, _Tp, _Cmp2, _Alloc>& __source)
+ {
+   using _Merge_helper = _Rb_tree_merge_helper<multimap, _Cmp2>;
+   _M_t._M_merge_equal(_Merge_helper::_S_get_tree(__source));
+ }
+
+      template<typename _Cmp2>
+ void
+ merge(map<_Key, _Tp, _Cmp2, _Alloc>&& __source)
+ { merge(__source); }
+# 757 "/usr/include/c++/16/bits/stl_multimap.h" 3
+      iterator
+      erase(const_iterator __position)
+      { return _M_t.erase(__position); }
+
+
+      __attribute ((__abi_tag__ ("cxx11")))
+      iterator
+      erase(iterator __position)
+      { return _M_t.erase(__position); }
+# 794 "/usr/include/c++/16/bits/stl_multimap.h" 3
+      size_type
+      erase(const key_type& __x)
+      { return _M_t.erase(__x); }
+
+
+      template <__heterogeneous_tree_key<multimap> _Kt>
+ size_type
+ erase(_Kt&& __key)
+ { return _M_t._M_erase_tr(__key); }
+# 822 "/usr/include/c++/16/bits/stl_multimap.h" 3
+      iterator
+      erase(const_iterator __first, const_iterator __last)
+      { return _M_t.erase(__first, __last); }
+# 859 "/usr/include/c++/16/bits/stl_multimap.h" 3
+      void
+      swap(multimap& __x)
+      noexcept(__is_nothrow_swappable<_Compare>::value)
+      { _M_t.swap(__x._M_t); }
+
+
+
+
+
+
+
+      void
+      clear() noexcept
+      { _M_t.clear(); }
+
+
+
+
+
+
+      key_compare
+      key_comp() const
+      { return _M_t.key_comp(); }
+
+
+
+
+
+      value_compare
+      value_comp() const
+      { return value_compare(_M_t.key_comp()); }
+# 905 "/usr/include/c++/16/bits/stl_multimap.h" 3
+      iterator
+      find(const key_type& __x)
+      { return _M_t.find(__x); }
+
+
+      template<typename _Kt>
+ auto
+ find(const _Kt& __x) -> decltype(_M_t._M_find_tr(__x))
+ { return _M_t._M_find_tr(__x); }
+# 929 "/usr/include/c++/16/bits/stl_multimap.h" 3
+      const_iterator
+      find(const key_type& __x) const
+      { return _M_t.find(__x); }
+
+
+      template<typename _Kt>
+ auto
+ find(const _Kt& __x) const -> decltype(_M_t._M_find_tr(__x))
+ { return _M_t._M_find_tr(__x); }
+# 947 "/usr/include/c++/16/bits/stl_multimap.h" 3
+      size_type
+      count(const key_type& __x) const
+      { return _M_t.count(__x); }
+
+
+      template<typename _Kt>
+ auto
+ count(const _Kt& __x) const -> decltype(_M_t._M_count_tr(__x))
+ { return _M_t._M_count_tr(__x); }
+# 966 "/usr/include/c++/16/bits/stl_multimap.h" 3
+      bool
+      contains(const key_type& __x) const
+      { return _M_t.find(__x) != _M_t.end(); }
+
+      template<typename _Kt>
+ auto
+ contains(const _Kt& __x) const
+ -> decltype(_M_t._M_find_tr(__x), void(), true)
+ { return _M_t._M_find_tr(__x) != _M_t.end(); }
+# 990 "/usr/include/c++/16/bits/stl_multimap.h" 3
+      iterator
+      lower_bound(const key_type& __x)
+      { return _M_t.lower_bound(__x); }
+
+
+      template<typename _Kt>
+ auto
+ lower_bound(const _Kt& __x)
+ -> decltype(iterator(_M_t._M_lower_bound_tr(__x)))
+ { return iterator(_M_t._M_lower_bound_tr(__x)); }
+# 1015 "/usr/include/c++/16/bits/stl_multimap.h" 3
+      const_iterator
+      lower_bound(const key_type& __x) const
+      { return _M_t.lower_bound(__x); }
+
+
+      template<typename _Kt>
+ auto
+ lower_bound(const _Kt& __x) const
+ -> decltype(const_iterator(_M_t._M_lower_bound_tr(__x)))
+ { return const_iterator(_M_t._M_lower_bound_tr(__x)); }
+# 1035 "/usr/include/c++/16/bits/stl_multimap.h" 3
+      iterator
+      upper_bound(const key_type& __x)
+      { return _M_t.upper_bound(__x); }
+
+
+      template<typename _Kt>
+ auto
+ upper_bound(const _Kt& __x)
+ -> decltype(iterator(_M_t._M_upper_bound_tr(__x)))
+ { return iterator(_M_t._M_upper_bound_tr(__x)); }
+# 1055 "/usr/include/c++/16/bits/stl_multimap.h" 3
+      const_iterator
+      upper_bound(const key_type& __x) const
+      { return _M_t.upper_bound(__x); }
+
+
+      template<typename _Kt>
+ auto
+ upper_bound(const _Kt& __x) const
+ -> decltype(const_iterator(_M_t._M_upper_bound_tr(__x)))
+ { return const_iterator(_M_t._M_upper_bound_tr(__x)); }
+# 1082 "/usr/include/c++/16/bits/stl_multimap.h" 3
+      std::pair<iterator, iterator>
+      equal_range(const key_type& __x)
+      { return _M_t.equal_range(__x); }
+
+
+      template<typename _Kt>
+ auto
+ equal_range(const _Kt& __x)
+ -> decltype(pair<iterator, iterator>(_M_t._M_equal_range_tr(__x)))
+ { return pair<iterator, iterator>(_M_t._M_equal_range_tr(__x)); }
+# 1109 "/usr/include/c++/16/bits/stl_multimap.h" 3
+      std::pair<const_iterator, const_iterator>
+      equal_range(const key_type& __x) const
+      { return _M_t.equal_range(__x); }
+
+
+      template<typename _Kt>
+ auto
+ equal_range(const _Kt& __x) const
+ -> decltype(pair<const_iterator, const_iterator>(
+       _M_t._M_equal_range_tr(__x)))
+ {
+   return pair<const_iterator, const_iterator>(
+       _M_t._M_equal_range_tr(__x));
+ }
+
+
+
+      template<typename _K1, typename _T1, typename _C1, typename _A1>
+ friend bool
+ operator==(const multimap<_K1, _T1, _C1, _A1>&,
+     const multimap<_K1, _T1, _C1, _A1>&);
+
+
+      template<typename _K1, typename _T1, typename _C1, typename _A1>
+ friend __detail::__synth3way_t<pair<const _K1, _T1>>
+ operator<=>(const multimap<_K1, _T1, _C1, _A1>&,
+      const multimap<_K1, _T1, _C1, _A1>&);
+
+
+
+
+
+
+  };
+
+
+
+  template<typename _InputIterator,
+    typename _Compare = less<__iter_key_t<_InputIterator>>,
+    typename _Allocator = allocator<__iter_to_alloc_t<_InputIterator>>,
+    typename = _RequireInputIter<_InputIterator>,
+    typename = _RequireNotAllocator<_Compare>,
+    typename = _RequireAllocator<_Allocator>>
+    multimap(_InputIterator, _InputIterator,
+      _Compare = _Compare(), _Allocator = _Allocator())
+    -> multimap<__iter_key_t<_InputIterator>, __iter_val_t<_InputIterator>,
+  _Compare, _Allocator>;
+
+  template<typename _Key, typename _Tp, typename _Compare = less<_Key>,
+    typename _Allocator = allocator<pair<const _Key, _Tp>>,
+    typename = _RequireNotAllocator<_Compare>,
+    typename = _RequireAllocator<_Allocator>>
+    multimap(initializer_list<pair<_Key, _Tp>>,
+      _Compare = _Compare(), _Allocator = _Allocator())
+    -> multimap<_Key, _Tp, _Compare, _Allocator>;
+
+  template<typename _InputIterator, typename _Allocator,
+    typename = _RequireInputIter<_InputIterator>,
+    typename = _RequireAllocator<_Allocator>>
+    multimap(_InputIterator, _InputIterator, _Allocator)
+    -> multimap<__iter_key_t<_InputIterator>, __iter_val_t<_InputIterator>,
+  less<__iter_key_t<_InputIterator>>, _Allocator>;
+
+  template<typename _Key, typename _Tp, typename _Allocator,
+    typename = _RequireAllocator<_Allocator>>
+    multimap(initializer_list<pair<_Key, _Tp>>, _Allocator)
+    -> multimap<_Key, _Tp, less<_Key>, _Allocator>;
+
+
+  template<ranges::input_range _Rg,
+    __not_allocator_like _Compare = less<__detail::__range_key_type<_Rg>>,
+    __allocator_like _Alloc =
+       std::allocator<__detail::__range_to_alloc_type<_Rg>>>
+    multimap(from_range_t, _Rg&&, _Compare = _Compare(), _Alloc = _Alloc())
+      -> multimap<__detail::__range_key_type<_Rg>,
+    __detail::__range_mapped_type<_Rg>,
+    _Compare, _Alloc>;
+
+  template<ranges::input_range _Rg, __allocator_like _Alloc>
+    multimap(from_range_t, _Rg&&, _Alloc)
+      -> multimap<__detail::__range_key_type<_Rg>,
+    __detail::__range_mapped_type<_Rg>,
+    less<__detail::__range_key_type<_Rg>>,
+    _Alloc>;
+# 1207 "/usr/include/c++/16/bits/stl_multimap.h" 3
+  template<typename _Key, typename _Tp, typename _Compare, typename _Alloc>
+    inline bool
+    operator==(const multimap<_Key, _Tp, _Compare, _Alloc>& __x,
+        const multimap<_Key, _Tp, _Compare, _Alloc>& __y)
+    { return __x._M_t == __y._M_t; }
+# 1228 "/usr/include/c++/16/bits/stl_multimap.h" 3
+  template<typename _Key, typename _Tp, typename _Compare, typename _Alloc>
+    inline __detail::__synth3way_t<pair<const _Key, _Tp>>
+    operator<=>(const multimap<_Key, _Tp, _Compare, _Alloc>& __x,
+  const multimap<_Key, _Tp, _Compare, _Alloc>& __y)
+    { return __x._M_t <=> __y._M_t; }
+# 1281 "/usr/include/c++/16/bits/stl_multimap.h" 3
+  template<typename _Key, typename _Tp, typename _Compare, typename _Alloc>
+    inline void
+    swap(multimap<_Key, _Tp, _Compare, _Alloc>& __x,
+  multimap<_Key, _Tp, _Compare, _Alloc>& __y)
+    noexcept(noexcept(__x.swap(__y)))
+    { __x.swap(__y); }
+
+
+
+
+
+  template<typename _Key, typename _Val, typename _Cmp1, typename _Alloc,
+    typename _Cmp2>
+    struct
+    _Rb_tree_merge_helper<std::multimap<_Key, _Val, _Cmp1, _Alloc>,
+     _Cmp2>
+    {
+    private:
+      friend class std::multimap<_Key, _Val, _Cmp1, _Alloc>;
+
+      static auto&
+      _S_get_tree(std::map<_Key, _Val, _Cmp2, _Alloc>& __map)
+      { return __map._M_t; }
+
+      static auto&
+      _S_get_tree(std::multimap<_Key, _Val, _Cmp2, _Alloc>& __map)
+      { return __map._M_t; }
+    };
+
+
+
+}
+# 67 "/usr/include/c++/16/map" 2 3
+# 84 "/usr/include/c++/16/map" 3
+# 1 "/usr/include/c++/16/bits/version.h" 1 3
+# 85 "/usr/include/c++/16/map" 2 3
+
+
+
+namespace std __attribute__ ((__visibility__ ("default")))
+{
+
+  namespace pmr
+  {
+    template<typename _Key, typename _Tp, typename _Cmp = std::less<_Key>>
+      using map
+ = std::map<_Key, _Tp, _Cmp,
+     polymorphic_allocator<pair<const _Key, _Tp>>>;
+    template<typename _Key, typename _Tp, typename _Cmp = std::less<_Key>>
+      using multimap
+ = std::multimap<_Key, _Tp, _Cmp,
+   polymorphic_allocator<pair<const _Key, _Tp>>>;
+  }
+
+}
+
+
+
+namespace std __attribute__ ((__visibility__ ("default")))
+{
+
+  template<typename _Key, typename _Tp, typename _Compare, typename _Alloc,
+    typename _Predicate>
+    inline typename std::map<_Key, _Tp, _Compare, _Alloc>::size_type
+    erase_if(std::map<_Key, _Tp, _Compare, _Alloc>& __cont,
+      _Predicate __pred)
+    { return __detail::__erase_nodes_if(__cont, __cont, __pred); }
+
+  template<typename _Key, typename _Tp, typename _Compare, typename _Alloc,
+    typename _Predicate>
+    inline typename std::multimap<_Key, _Tp,
+          _Compare, _Alloc>::size_type
+    erase_if(std::multimap<_Key, _Tp, _Compare, _Alloc>& __cont,
+      _Predicate __pred)
+    { return __detail::__erase_nodes_if(__cont, __cont, __pred); }
+
+}
+# 5 "/home/AlgoOS/cpp/include/algoos/worker/cancel_registry.hpp" 2
+# 1 "/usr/include/c++/16/mutex" 1 3
+# 49 "/usr/include/c++/16/mutex" 3
+# 1 "/usr/include/c++/16/bits/std_mutex.h" 1 3
+# 46 "/usr/include/c++/16/bits/std_mutex.h" 3
+namespace std __attribute__ ((__visibility__ ("default")))
+{
+
+# 62 "/usr/include/c++/16/bits/std_mutex.h" 3
+  class __mutex_base
+  {
+  protected:
+    typedef __gthread_mutex_t __native_type;
+
+
+    __native_type _M_mutex = { { 0, 0, 0, 0, PTHREAD_MUTEX_TIMED_NP, 0, 0, { __null, __null } } };
+
+    constexpr __mutex_base() noexcept = default;
+# 83 "/usr/include/c++/16/bits/std_mutex.h" 3
+    __mutex_base(const __mutex_base&) = delete;
+    __mutex_base& operator=(const __mutex_base&) = delete;
+  };
+# 99 "/usr/include/c++/16/bits/std_mutex.h" 3
+  class mutex : private __mutex_base
+  {
+  public:
+    typedef __native_type* native_handle_type;
+
+
+    constexpr
+
+    mutex() noexcept = default;
+    ~mutex() = default;
+
+    mutex(const mutex&) = delete;
+    mutex& operator=(const mutex&) = delete;
+
+    void
+    lock()
+    {
+      int __e = __gthread_mutex_lock(&_M_mutex);
+
+
+      if (__e)
+ __throw_system_error(__e);
+    }
+
+    [[__nodiscard__]]
+    bool
+    try_lock() noexcept
+    {
+
+      return !__gthread_mutex_trylock(&_M_mutex);
+    }
+
+    void
+    unlock()
+    {
+
+      __gthread_mutex_unlock(&_M_mutex);
+    }
+
+    native_handle_type
+    native_handle() noexcept
+    { return &_M_mutex; }
+  };
+
+
+
+
+  class __condvar
+  {
+    using timespec = __gthread_time_t;
+
+  public:
+    __condvar() noexcept
+    {
+
+
+
+    }
+
+    ~__condvar()
+    {
+      int __e __attribute__((__unused__)) = __gthread_cond_destroy(&_M_cond);
+      do { if (std::__is_constant_evaluated() && !bool(__e != 16)) std::__glibcxx_assert_fail(); } while (false);
+    }
+
+    __condvar(const __condvar&) = delete;
+    __condvar& operator=(const __condvar&) = delete;
+
+    __gthread_cond_t* native_handle() noexcept { return &_M_cond; }
+
+
+    void
+    wait(mutex& __m)
+    {
+      int __e __attribute__((__unused__))
+ = __gthread_cond_wait(&_M_cond, __m.native_handle());
+      do { if (std::__is_constant_evaluated() && !bool(__e == 0)) std::__glibcxx_assert_fail(); } while (false);
+    }
+
+    void
+    wait_until(mutex& __m, timespec& __abs_time)
+    {
+      __gthread_cond_timedwait(&_M_cond, __m.native_handle(), &__abs_time);
+    }
+
+
+    void
+    wait_until(mutex& __m, clockid_t __clock, timespec& __abs_time)
+    {
+      pthread_cond_clockwait(&_M_cond, __m.native_handle(), __clock,
+        &__abs_time);
+    }
+
+
+    void
+    notify_one() noexcept
+    {
+      int __e __attribute__((__unused__)) = __gthread_cond_signal(&_M_cond);
+      do { if (std::__is_constant_evaluated() && !bool(__e == 0)) std::__glibcxx_assert_fail(); } while (false);
+    }
+
+    void
+    notify_all() noexcept
+    {
+      int __e __attribute__((__unused__)) = __gthread_cond_broadcast(&_M_cond);
+      do { if (std::__is_constant_evaluated() && !bool(__e == 0)) std::__glibcxx_assert_fail(); } while (false);
+    }
+
+  protected:
+
+    __gthread_cond_t _M_cond = { { {0}, {0}, {0, 0}, 0, 0, {0, 0}, 0, 0 } };
+
+
+
+  };
+
+namespace chrono
+{
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wc++17-extensions"
+
+
+  template<typename _Clock, typename _Dur>
+    [[__nodiscard__]] constexpr inline
+    __gthread_time_t
+    __to_timeout_gthread_time_t(const time_point<_Clock, _Dur>& __t)
+    {
+      auto __ts = chrono::__to_timeout_timespec(__t.time_since_epoch());
+      if constexpr (is_same<::timespec, __gthread_time_t>::value)
+ return __ts;
+      else if constexpr (is_convertible<::timespec, __gthread_time_t>::value)
+ return __ts;
+      else if constexpr (is_scalar<__gthread_time_t>::value)
+ return static_cast<__gthread_time_t>(__ts.tv_sec);
+      else
+ return __gthread_time_t{ __ts.tv_sec, __ts.tv_nsec };
+    }
+#pragma GCC diagnostic pop
+}
+
+
+
+
+  struct defer_lock_t { explicit defer_lock_t() = default; };
+
+
+  struct try_to_lock_t { explicit try_to_lock_t() = default; };
+
+
+
+  struct adopt_lock_t { explicit adopt_lock_t() = default; };
+
+
+  inline constexpr defer_lock_t defer_lock { };
+
+
+  inline constexpr try_to_lock_t try_to_lock { };
+
+
+  inline constexpr adopt_lock_t adopt_lock { };
+# 268 "/usr/include/c++/16/bits/std_mutex.h" 3
+  template<typename _Mutex>
+    class lock_guard
+    {
+    public:
+      typedef _Mutex mutex_type;
+
+      [[__nodiscard__]]
+      explicit lock_guard(mutex_type& __m) : _M_device(__m)
+      { _M_device.lock(); }
+
+      [[__nodiscard__]]
+      lock_guard(mutex_type& __m, adopt_lock_t) noexcept : _M_device(__m)
+      { }
+
+      ~lock_guard()
+      { _M_device.unlock(); }
+
+      lock_guard(const lock_guard&) = delete;
+      lock_guard& operator=(const lock_guard&) = delete;
+
+    private:
+      mutex_type& _M_device;
+    };
+
+
+
+}
+# 50 "/usr/include/c++/16/mutex" 2 3
+# 1 "/usr/include/c++/16/bits/unique_lock.h" 1 3
+# 46 "/usr/include/c++/16/bits/unique_lock.h" 3
+namespace std __attribute__ ((__visibility__ ("default")))
+{
+
+# 61 "/usr/include/c++/16/bits/unique_lock.h" 3
+  template<typename _Mutex>
+    class unique_lock
+    {
+    public:
+      typedef _Mutex mutex_type;
+
+      unique_lock() noexcept
+      : _M_device(0), _M_owns(false)
+      { }
+
+      [[__nodiscard__]]
+      explicit unique_lock(mutex_type& __m)
+      : _M_device(std::__addressof(__m)), _M_owns(false)
+      {
+ lock();
+ _M_owns = true;
+      }
+
+      unique_lock(mutex_type& __m, defer_lock_t) noexcept
+      : _M_device(std::__addressof(__m)), _M_owns(false)
+      { }
+
+      [[__nodiscard__]]
+      unique_lock(mutex_type& __m, try_to_lock_t)
+      : _M_device(std::__addressof(__m)), _M_owns(_M_device->try_lock())
+      { }
+
+      [[__nodiscard__]]
+      unique_lock(mutex_type& __m, adopt_lock_t) noexcept
+      : _M_device(std::__addressof(__m)), _M_owns(true)
+      {
+
+      }
+
+      template<typename _Clock, typename _Duration>
+ [[__nodiscard__]]
+ unique_lock(mutex_type& __m,
+      const chrono::time_point<_Clock, _Duration>& __atime)
+ : _M_device(std::__addressof(__m)),
+   _M_owns(_M_device->try_lock_until(__atime))
+ { }
+
+      template<typename _Rep, typename _Period>
+ [[__nodiscard__]]
+ unique_lock(mutex_type& __m,
+      const chrono::duration<_Rep, _Period>& __rtime)
+ : _M_device(std::__addressof(__m)),
+   _M_owns(_M_device->try_lock_for(__rtime))
+ { }
+
+      ~unique_lock()
+      {
+ if (_M_owns)
+   unlock();
+      }
+
+      unique_lock(const unique_lock&) = delete;
+      unique_lock& operator=(const unique_lock&) = delete;
+
+      unique_lock(unique_lock&& __u) noexcept
+      : _M_device(__u._M_device), _M_owns(__u._M_owns)
+      {
+ __u._M_device = 0;
+ __u._M_owns = false;
+      }
+
+      unique_lock& operator=(unique_lock&& __u) noexcept
+      {
+
+
+ unique_lock(std::move(__u)).swap(*this);
+ return *this;
+      }
+
+      void
+      lock()
+      {
+ if (!_M_device)
+   __throw_system_error(int(errc::operation_not_permitted));
+ else if (_M_owns)
+   __throw_system_error(int(errc::resource_deadlock_would_occur));
+ else
+   {
+     _M_device->lock();
+     _M_owns = true;
+   }
+      }
+
+      [[__nodiscard__]]
+      bool
+      try_lock()
+      {
+ if (!_M_device)
+   __throw_system_error(int(errc::operation_not_permitted));
+ else if (_M_owns)
+   __throw_system_error(int(errc::resource_deadlock_would_occur));
+ else
+   {
+     _M_owns = _M_device->try_lock();
+     return _M_owns;
+   }
+      }
+
+      template<typename _Clock, typename _Duration>
+ [[__nodiscard__]]
+ bool
+ try_lock_until(const chrono::time_point<_Clock, _Duration>& __atime)
+ {
+   if (!_M_device)
+     __throw_system_error(int(errc::operation_not_permitted));
+   else if (_M_owns)
+     __throw_system_error(int(errc::resource_deadlock_would_occur));
+   else
+     {
+       _M_owns = _M_device->try_lock_until(__atime);
+       return _M_owns;
+     }
+ }
+
+      template<typename _Rep, typename _Period>
+ [[__nodiscard__]]
+ bool
+ try_lock_for(const chrono::duration<_Rep, _Period>& __rtime)
+ {
+   if (!_M_device)
+     __throw_system_error(int(errc::operation_not_permitted));
+   else if (_M_owns)
+     __throw_system_error(int(errc::resource_deadlock_would_occur));
+   else
+     {
+       _M_owns = _M_device->try_lock_for(__rtime);
+       return _M_owns;
+     }
+  }
+
+      void
+      unlock()
+      {
+ if (!_M_owns)
+   __throw_system_error(int(errc::operation_not_permitted));
+ else if (_M_device)
+   {
+     _M_device->unlock();
+     _M_owns = false;
+   }
+      }
+
+      void
+      swap(unique_lock& __u) noexcept
+      {
+ std::swap(_M_device, __u._M_device);
+ std::swap(_M_owns, __u._M_owns);
+      }
+
+      mutex_type*
+      release() noexcept
+      {
+ mutex_type* __ret = _M_device;
+ _M_device = 0;
+ _M_owns = false;
+ return __ret;
+      }
+
+      [[__nodiscard__]]
+      bool
+      owns_lock() const noexcept
+      { return _M_owns; }
+
+      explicit operator bool() const noexcept
+      { return owns_lock(); }
+
+      [[__nodiscard__]]
+      mutex_type*
+      mutex() const noexcept
+      { return _M_device; }
+
+    private:
+      mutex_type* _M_device;
+      bool _M_owns;
+    };
+
+
+
+  template<typename _Mutex>
+    inline void
+    swap(unique_lock<_Mutex>& __x, unique_lock<_Mutex>& __y) noexcept
+    { __x.swap(__y); }
+
+
+}
+# 51 "/usr/include/c++/16/mutex" 2 3
+# 62 "/usr/include/c++/16/mutex" 3
+# 1 "/usr/include/c++/16/bits/version.h" 1 3
+# 63 "/usr/include/c++/16/mutex" 2 3
+
+namespace std __attribute__ ((__visibility__ ("default")))
+{
+
+# 77 "/usr/include/c++/16/mutex" 3
+  class __recursive_mutex_base
+  {
+  protected:
+    typedef __gthread_recursive_mutex_t __native_type;
+
+    __recursive_mutex_base(const __recursive_mutex_base&) = delete;
+    __recursive_mutex_base& operator=(const __recursive_mutex_base&) = delete;
+
+
+    __native_type _M_mutex = { { 0, 0, 0, 0, PTHREAD_MUTEX_RECURSIVE_NP, 0, 0, { __null, __null } } };
+
+    __recursive_mutex_base() = default;
+# 101 "/usr/include/c++/16/mutex" 3
+  };
+# 113 "/usr/include/c++/16/mutex" 3
+  class recursive_mutex : private __recursive_mutex_base
+  {
+  public:
+    typedef __native_type* native_handle_type;
+
+    recursive_mutex() = default;
+    ~recursive_mutex() = default;
+
+    recursive_mutex(const recursive_mutex&) = delete;
+    recursive_mutex& operator=(const recursive_mutex&) = delete;
+
+    void
+    lock()
+    {
+      int __e = __gthread_recursive_mutex_lock(&_M_mutex);
+
+
+      if (__e)
+ __throw_system_error(__e);
+    }
+
+    [[__nodiscard__]]
+    bool
+    try_lock() noexcept
+    {
+
+      return !__gthread_recursive_mutex_trylock(&_M_mutex);
+    }
+
+    void
+    unlock()
+    {
+
+      __gthread_recursive_mutex_unlock(&_M_mutex);
+    }
+
+    native_handle_type
+    native_handle() noexcept
+    { return &_M_mutex; }
+  };
+
+
+
+
+  template<typename _Derived>
+    class __timed_mutex_impl
+    {
+    protected:
+      template<typename _Rep, typename _Period>
+ bool
+ _M_try_lock_for(const chrono::duration<_Rep, _Period>& __rtime)
+ {
+
+   using __clock = chrono::steady_clock;
+
+
+
+
+   auto __rt = chrono::duration_cast<__clock::duration>(__rtime);
+   if (ratio_greater<__clock::period, _Period>())
+     ++__rt;
+   return _M_try_lock_until(__clock::now() + __rt);
+ }
+
+      template<typename _Duration>
+ bool
+ _M_try_lock_until(const chrono::time_point<chrono::system_clock,
+         _Duration>& __atime)
+ {
+   __gthread_time_t __ts = chrono::__to_timeout_gthread_time_t(__atime);
+   return static_cast<_Derived*>(this)->_M_timedlock(__ts);
+ }
+
+
+      template<typename _Duration>
+ bool
+ _M_try_lock_until(const chrono::time_point<chrono::steady_clock,
+         _Duration>& __atime)
+ {
+   __gthread_time_t __ts = chrono::__to_timeout_gthread_time_t(__atime);
+   return static_cast<_Derived*>(this)->_M_clocklock(1,
+           __ts);
+ }
+
+
+      template<typename _Clock, typename _Duration>
+ bool
+ _M_try_lock_until(const chrono::time_point<_Clock, _Duration>& __atime)
+ {
+
+   static_assert(chrono::is_clock_v<_Clock>);
+
+
+
+
+   auto __now = _Clock::now();
+   do {
+     auto __rtime = __atime - __now;
+     if (_M_try_lock_for(__rtime))
+       return true;
+     __now = _Clock::now();
+   } while (__atime > __now);
+   return false;
+ }
+    };
+# 228 "/usr/include/c++/16/mutex" 3
+  class timed_mutex
+  : private __mutex_base, public __timed_mutex_impl<timed_mutex>
+  {
+  public:
+    typedef __native_type* native_handle_type;
+
+    timed_mutex() = default;
+    ~timed_mutex() = default;
+
+    timed_mutex(const timed_mutex&) = delete;
+    timed_mutex& operator=(const timed_mutex&) = delete;
+
+    void
+    lock()
+    {
+      int __e = __gthread_mutex_lock(&_M_mutex);
+
+
+      if (__e)
+ __throw_system_error(__e);
+    }
+
+    [[__nodiscard__]]
+    bool
+    try_lock() noexcept
+    {
+
+      return !__gthread_mutex_trylock(&_M_mutex);
+    }
+
+    template <class _Rep, class _Period>
+      [[__nodiscard__]]
+      bool
+      try_lock_for(const chrono::duration<_Rep, _Period>& __rtime)
+      { return _M_try_lock_for(__rtime); }
+
+    template <class _Clock, class _Duration>
+      [[__nodiscard__]]
+      bool
+      try_lock_until(const chrono::time_point<_Clock, _Duration>& __atime)
+      { return _M_try_lock_until(__atime); }
+
+    void
+    unlock()
+    {
+
+      __gthread_mutex_unlock(&_M_mutex);
+    }
+
+    native_handle_type
+    native_handle() noexcept
+    { return &_M_mutex; }
+
+    private:
+      friend class __timed_mutex_impl<timed_mutex>;
+
+      bool
+      _M_timedlock(const __gthread_time_t& __ts)
+      { return !__gthread_mutex_timedlock(&_M_mutex, &__ts); }
+
+
+      bool
+      _M_clocklock(clockid_t __clockid, const __gthread_time_t& __ts)
+      { return !pthread_mutex_clocklock(&_M_mutex, __clockid, &__ts); }
+
+  };
+# 305 "/usr/include/c++/16/mutex" 3
+  class recursive_timed_mutex
+  : private __recursive_mutex_base,
+    public __timed_mutex_impl<recursive_timed_mutex>
+  {
+  public:
+    typedef __native_type* native_handle_type;
+
+    recursive_timed_mutex() = default;
+    ~recursive_timed_mutex() = default;
+
+    recursive_timed_mutex(const recursive_timed_mutex&) = delete;
+    recursive_timed_mutex& operator=(const recursive_timed_mutex&) = delete;
+
+    void
+    lock()
+    {
+      int __e = __gthread_recursive_mutex_lock(&_M_mutex);
+
+
+      if (__e)
+ __throw_system_error(__e);
+    }
+
+    [[__nodiscard__]]
+    bool
+    try_lock() noexcept
+    {
+
+      return !__gthread_recursive_mutex_trylock(&_M_mutex);
+    }
+
+    template <class _Rep, class _Period>
+      [[__nodiscard__]]
+      bool
+      try_lock_for(const chrono::duration<_Rep, _Period>& __rtime)
+      { return _M_try_lock_for(__rtime); }
+
+    template <class _Clock, class _Duration>
+      [[__nodiscard__]]
+      bool
+      try_lock_until(const chrono::time_point<_Clock, _Duration>& __atime)
+      { return _M_try_lock_until(__atime); }
+
+    void
+    unlock()
+    {
+
+      __gthread_recursive_mutex_unlock(&_M_mutex);
+    }
+
+    native_handle_type
+    native_handle() noexcept
+    { return &_M_mutex; }
+
+    private:
+      friend class __timed_mutex_impl<recursive_timed_mutex>;
+
+      bool
+      _M_timedlock(const __gthread_time_t& __ts)
+      { return !__gthread_recursive_mutex_timedlock(&_M_mutex, &__ts); }
+
+
+      bool
+      _M_clocklock(clockid_t __clockid, const __gthread_time_t& __ts)
+      { return !pthread_mutex_clocklock(&_M_mutex, __clockid, &__ts); }
+
+  };
+# 552 "/usr/include/c++/16/mutex" 3
+  namespace __detail
+  {
+
+    template<typename _Lockable>
+      inline int
+      __try_lock_impl(_Lockable& __l)
+      {
+ if (unique_lock<_Lockable> __lock{__l, try_to_lock})
+   {
+     __lock.release();
+     return -1;
+   }
+ else
+   return 0;
+      }
+
+
+
+    template<typename _L0, typename... _Lockables>
+      inline int
+      __try_lock_impl(_L0& __l0, _Lockables&... __lockables)
+      {
+
+ if constexpr ((is_same_v<_L0, _Lockables> && ...))
+   {
+     constexpr int _Np = 1 + sizeof...(_Lockables);
+     unique_lock<_L0> __locks[_Np] = {
+  {__l0, defer_lock}, {__lockables, defer_lock}...
+     };
+     for (int __i = 0; __i < _Np; ++__i)
+       {
+  if (!__locks[__i].try_lock())
+    {
+      const int __failed = __i;
+      while (__i--)
+        __locks[__i].unlock();
+      return __failed;
+    }
+       }
+     for (auto& __l : __locks)
+       __l.release();
+     return -1;
+   }
+ else
+
+ if (unique_lock<_L0> __lock{__l0, try_to_lock})
+   {
+     int __idx = __detail::__try_lock_impl(__lockables...);
+     if (__idx == -1)
+       {
+  __lock.release();
+  return -1;
+       }
+     return __idx + 1;
+   }
+ else
+   return 0;
+      }
+
+  }
+# 624 "/usr/include/c++/16/mutex" 3
+  template<typename _L1, typename _L2, typename... _L3>
+    [[__nodiscard__]]
+    inline int
+    try_lock(_L1& __l1, _L2& __l2, _L3&... __l3)
+    {
+      return __detail::__try_lock_impl(__l1, __l2, __l3...);
+    }
+
+
+  namespace __detail
+  {
+
+
+
+
+
+    template<typename _L0, typename... _L1>
+      void
+      __lock_impl(int& __i, int __depth, _L0& __l0, _L1&... __l1)
+      {
+ while (__i >= __depth)
+   {
+     if (__i == __depth)
+       {
+  int __failed = 1;
+  {
+    unique_lock<_L0> __first(__l0);
+    __failed += __detail::__try_lock_impl(__l1...);
+    if (!__failed)
+      {
+        __i = -1;
+        __first.release();
+        return;
+      }
+  }
+
+  __gthread_yield();
+
+  constexpr auto __n = 1 + sizeof...(_L1);
+  __i = (__depth + __failed) % __n;
+       }
+     else
+       __detail::__lock_impl(__i, __depth + 1, __l1..., __l0);
+   }
+      }
+
+  }
+# 684 "/usr/include/c++/16/mutex" 3
+  template<typename _L1, typename _L2, typename... _L3>
+    void
+    lock(_L1& __l1, _L2& __l2, _L3&... __l3)
+    {
+
+      if constexpr (is_same_v<_L1, _L2> && (is_same_v<_L1, _L3> && ...))
+ {
+   constexpr int _Np = 2 + sizeof...(_L3);
+   unique_lock<_L1> __locks[] = {
+       {__l1, defer_lock}, {__l2, defer_lock}, {__l3, defer_lock}...
+   };
+   int __first = 0;
+   do {
+     __locks[__first].lock();
+     for (int __j = 1; __j < _Np; ++__j)
+       {
+  const int __idx = (__first + __j) % _Np;
+  if (!__locks[__idx].try_lock())
+    {
+      for (int __k = __j; __k != 0; --__k)
+        __locks[(__first + __k - 1) % _Np].unlock();
+      __first = __idx;
+      break;
+    }
+       }
+   } while (!__locks[__first].owns_lock());
+
+   for (auto& __l : __locks)
+     __l.release();
+ }
+      else
+
+ {
+   int __i = 0;
+   __detail::__lock_impl(__i, 0, __l1, __l2, __l3...);
+ }
+    }
+# 731 "/usr/include/c++/16/mutex" 3
+  template<typename... _MutexTypes>
+    class scoped_lock
+    {
+    public:
+
+      [[nodiscard]]
+      explicit scoped_lock(_MutexTypes&... __m) : _M_devices(std::tie(__m...))
+      { std::lock(__m...); }
+
+      [[nodiscard]]
+      explicit scoped_lock(adopt_lock_t, _MutexTypes&... __m) noexcept
+      : _M_devices(std::tie(__m...))
+      { }
+
+      ~scoped_lock()
+      { std::apply([](auto&... __m) { (__m.unlock(), ...); }, _M_devices); }
+
+      scoped_lock(const scoped_lock&) = delete;
+      scoped_lock& operator=(const scoped_lock&) = delete;
+
+    private:
+      tuple<_MutexTypes&...> _M_devices;
+    };
+
+  template<>
+    class scoped_lock<>
+    {
+    public:
+      explicit scoped_lock() = default;
+      explicit scoped_lock(adopt_lock_t) noexcept { }
+      ~scoped_lock() = default;
+
+      scoped_lock(const scoped_lock&) = delete;
+      scoped_lock& operator=(const scoped_lock&) = delete;
+    };
+
+  template<typename _Mutex>
+    class scoped_lock<_Mutex>
+    {
+    public:
+      using mutex_type = _Mutex;
+
+      [[nodiscard]]
+      explicit scoped_lock(mutex_type& __m) : _M_device(__m)
+      { _M_device.lock(); }
+
+      [[nodiscard]]
+      explicit scoped_lock(adopt_lock_t, mutex_type& __m) noexcept
+      : _M_device(__m)
+      { }
+
+      ~scoped_lock()
+      { _M_device.unlock(); }
+
+      scoped_lock(const scoped_lock&) = delete;
+      scoped_lock& operator=(const scoped_lock&) = delete;
+
+    private:
+      mutex_type& _M_device;
+    };
+
+
+
+
+  struct once_flag
+  {
+    constexpr once_flag() noexcept = default;
+
+
+    once_flag(const once_flag&) = delete;
+
+    once_flag& operator=(const once_flag&) = delete;
+
+  private:
+
+
+    __gthread_once_t _M_once = 0;
+
+    struct _Prepare_execution;
+
+    template<typename _Callable, typename... _Args>
+      friend void
+      call_once(once_flag& __once, _Callable&& __f, _Args&&... __args);
+  };
+# 834 "/usr/include/c++/16/mutex" 3
+  extern __thread void* __once_callable;
+  extern __thread void (*__once_call)();
+
+
+
+
+  struct once_flag::_Prepare_execution
+  {
+    template<typename _Callable>
+      explicit
+      _Prepare_execution(_Callable& __c)
+      {
+
+ __once_callable = std::__addressof(__c);
+
+ __once_call = [] { (*static_cast<_Callable*>(__once_callable))(); };
+      }
+
+    ~_Prepare_execution()
+    {
+
+      __once_callable = nullptr;
+      __once_call = nullptr;
+    }
+
+    _Prepare_execution(const _Prepare_execution&) = delete;
+    _Prepare_execution& operator=(const _Prepare_execution&) = delete;
+  };
+# 907 "/usr/include/c++/16/mutex" 3
+  extern "C" void __once_proxy(void);
+
+
+  template<typename _Callable, typename... _Args>
+    void
+    call_once(once_flag& __once, _Callable&& __f, _Args&&... __args)
+    {
+
+      auto __callable = [&] {
+   std::__invoke(std::forward<_Callable>(__f),
+   std::forward<_Args>(__args)...);
+      };
+
+      once_flag::_Prepare_execution __exec(__callable);
+
+
+      if (int __e = __gthread_once(&__once._M_once, &__once_proxy))
+ __throw_system_error(__e);
+    }
+# 1028 "/usr/include/c++/16/mutex" 3
+
+}
+# 6 "/home/AlgoOS/cpp/include/algoos/worker/cancel_registry.hpp" 2
+
+# 1 "/usr/include/c++/16/set" 1 3
+# 65 "/usr/include/c++/16/set" 3
+# 1 "/usr/include/c++/16/bits/stl_set.h" 1 3
+# 68 "/usr/include/c++/16/bits/stl_set.h" 3
+namespace std __attribute__ ((__visibility__ ("default")))
+{
+
+
+
+  template<typename _Key, typename _Compare, typename _Alloc>
+    class multiset;
+# 98 "/usr/include/c++/16/bits/stl_set.h" 3
+  template<typename _Key, typename _Compare = std::less<_Key>,
+    typename _Alloc = std::allocator<_Key> >
+    class set
+    {
+# 114 "/usr/include/c++/16/bits/stl_set.h" 3
+      static_assert(is_same<typename remove_cv<_Key>::type, _Key>::value,
+   "std::set must have a non-const, non-volatile value_type");
+
+      static_assert(is_same<typename _Alloc::value_type, _Key>::value,
+   "std::set must have the same value_type as its allocator");
+
+
+
+    public:
+
+
+
+      typedef _Key key_type;
+      typedef _Key value_type;
+      typedef _Compare key_compare;
+      typedef _Compare value_compare;
+      typedef _Alloc allocator_type;
+
+
+    private:
+      typedef typename __gnu_cxx::__alloc_traits<_Alloc>::template
+ rebind<_Key>::other _Key_alloc_type;
+
+      typedef _Rb_tree<key_type, value_type, _Identity<value_type>,
+         key_compare, _Key_alloc_type> _Rep_type;
+      _Rep_type _M_t;
+
+      typedef __gnu_cxx::__alloc_traits<_Key_alloc_type> _Alloc_traits;
+
+    public:
+
+
+      typedef typename _Alloc_traits::pointer pointer;
+      typedef typename _Alloc_traits::const_pointer const_pointer;
+      typedef typename _Alloc_traits::reference reference;
+      typedef typename _Alloc_traits::const_reference const_reference;
+
+
+
+      typedef typename _Rep_type::const_iterator iterator;
+      typedef typename _Rep_type::const_iterator const_iterator;
+      typedef typename _Rep_type::const_reverse_iterator reverse_iterator;
+      typedef typename _Rep_type::const_reverse_iterator const_reverse_iterator;
+      typedef typename _Rep_type::size_type size_type;
+      typedef typename _Rep_type::difference_type difference_type;
+
+
+
+      using node_type = typename _Rep_type::node_type;
+      using insert_return_type = typename _Rep_type::insert_return_type;
+# 173 "/usr/include/c++/16/bits/stl_set.h" 3
+      set() = default;
+
+
+
+
+
+
+
+      explicit
+      set(const _Compare& __comp,
+   const allocator_type& __a = allocator_type())
+      : _M_t(__comp, _Key_alloc_type(__a)) { }
+# 196 "/usr/include/c++/16/bits/stl_set.h" 3
+      template<typename _InputIterator>
+ set(_InputIterator __first, _InputIterator __last)
+ : _M_t()
+ { _M_t._M_insert_range_unique(__first, __last); }
+# 213 "/usr/include/c++/16/bits/stl_set.h" 3
+      template<typename _InputIterator>
+ set(_InputIterator __first, _InputIterator __last,
+     const _Compare& __comp,
+     const allocator_type& __a = allocator_type())
+ : _M_t(__comp, _Key_alloc_type(__a))
+ { _M_t._M_insert_range_unique(__first, __last); }
+# 229 "/usr/include/c++/16/bits/stl_set.h" 3
+      set(const set&) = default;
+
+
+
+
+
+
+
+      set(set&&) = default;
+# 249 "/usr/include/c++/16/bits/stl_set.h" 3
+      set(initializer_list<value_type> __l,
+   const _Compare& __comp = _Compare(),
+   const allocator_type& __a = allocator_type())
+      : _M_t(__comp, _Key_alloc_type(__a))
+      { _M_t._M_insert_range_unique(__l.begin(), __l.end()); }
+
+
+      explicit
+      set(const allocator_type& __a)
+      : _M_t(_Key_alloc_type(__a)) { }
+
+
+      set(const set& __x, const __type_identity_t<allocator_type>& __a)
+      : _M_t(__x._M_t, _Key_alloc_type(__a)) { }
+
+
+      set(set&& __x, const __type_identity_t<allocator_type>& __a)
+      noexcept(is_nothrow_copy_constructible<_Compare>::value
+        && _Alloc_traits::_S_always_equal())
+      : _M_t(std::move(__x._M_t), _Key_alloc_type(__a)) { }
+
+
+      set(initializer_list<value_type> __l, const allocator_type& __a)
+      : _M_t(_Key_alloc_type(__a))
+      { _M_t._M_insert_range_unique(__l.begin(), __l.end()); }
+
+
+      template<typename _InputIterator>
+ set(_InputIterator __first, _InputIterator __last,
+     const allocator_type& __a)
+ : _M_t(_Key_alloc_type(__a))
+ { _M_t._M_insert_range_unique(__first, __last); }
+
+
+
+
+
+
+      template<__detail::__container_compatible_range<_Key> _Rg>
+ set(from_range_t, _Rg&& __rg,
+     const _Compare& __comp,
+     const _Alloc& __a = _Alloc())
+ : _M_t(__comp, _Key_alloc_type(__a))
+ { insert_range(std::forward<_Rg>(__rg)); }
+
+
+      template<__detail::__container_compatible_range<_Key> _Rg>
+ set(from_range_t, _Rg&& __rg, const _Alloc& __a = _Alloc())
+ : _M_t(_Key_alloc_type(__a))
+ { insert_range(std::forward<_Rg>(__rg)); }
+
+
+
+
+
+
+
+      ~set() = default;
+# 322 "/usr/include/c++/16/bits/stl_set.h" 3
+      set&
+      operator=(const set&) = default;
+
+
+      set&
+      operator=(set&&) = default;
+# 340 "/usr/include/c++/16/bits/stl_set.h" 3
+      set&
+      operator=(initializer_list<value_type> __l)
+      {
+ _M_t._M_assign_unique(__l.begin(), __l.end());
+ return *this;
+      }
+
+
+
+
+
+      key_compare
+      key_comp() const
+      { return _M_t.key_comp(); }
+
+      value_compare
+      value_comp() const
+      { return _M_t.key_comp(); }
+
+      allocator_type
+      get_allocator() const noexcept
+      { return allocator_type(_M_t.get_allocator()); }
+
+
+
+
+
+
+      iterator
+      begin() const noexcept
+      { return _M_t.begin(); }
+
+
+
+
+
+
+      iterator
+      end() const noexcept
+      { return _M_t.end(); }
+
+
+
+
+
+
+      reverse_iterator
+      rbegin() const noexcept
+      { return _M_t.rbegin(); }
+
+
+
+
+
+
+      reverse_iterator
+      rend() const noexcept
+      { return _M_t.rend(); }
+
+
+
+
+
+
+
+      iterator
+      cbegin() const noexcept
+      { return _M_t.begin(); }
+
+
+
+
+
+
+      iterator
+      cend() const noexcept
+      { return _M_t.end(); }
+
+
+
+
+
+
+      reverse_iterator
+      crbegin() const noexcept
+      { return _M_t.rbegin(); }
+
+
+
+
+
+
+      reverse_iterator
+      crend() const noexcept
+      { return _M_t.rend(); }
+
+
+
+      [[__nodiscard__]] bool
+      empty() const noexcept
+      { return _M_t.empty(); }
+
+
+      size_type
+      size() const noexcept
+      { return _M_t.size(); }
+
+
+      size_type
+      max_size() const noexcept
+      { return _M_t.max_size(); }
+# 465 "/usr/include/c++/16/bits/stl_set.h" 3
+      void
+      swap(set& __x)
+      noexcept(__is_nothrow_swappable<_Compare>::value)
+      { _M_t.swap(__x._M_t); }
+# 485 "/usr/include/c++/16/bits/stl_set.h" 3
+      template<typename... _Args>
+ std::pair<iterator, bool>
+ emplace(_Args&&... __args)
+ { return _M_t._M_emplace_unique(std::forward<_Args>(__args)...); }
+# 511 "/usr/include/c++/16/bits/stl_set.h" 3
+      template<typename... _Args>
+ iterator
+ emplace_hint(const_iterator __pos, _Args&&... __args)
+ {
+   return _M_t._M_emplace_hint_unique(__pos,
+          std::forward<_Args>(__args)...);
+ }
+# 533 "/usr/include/c++/16/bits/stl_set.h" 3
+      std::pair<iterator, bool>
+      insert(const value_type& __x)
+      {
+ std::pair<typename _Rep_type::iterator, bool> __p =
+   _M_t._M_insert_unique(__x);
+ return std::pair<iterator, bool>(__p.first, __p.second);
+      }
+
+
+      std::pair<iterator, bool>
+      insert(value_type&& __x)
+      {
+ std::pair<typename _Rep_type::iterator, bool> __p =
+   _M_t._M_insert_unique(std::move(__x));
+ return std::pair<iterator, bool>(__p.first, __p.second);
+      }
+# 590 "/usr/include/c++/16/bits/stl_set.h" 3
+      iterator
+      insert(const_iterator __position, const value_type& __x)
+      { return _M_t._M_insert_unique_(__position, __x); }
+
+
+      iterator
+      insert(const_iterator __position, value_type&& __x)
+      { return _M_t._M_insert_unique_(__position, std::move(__x)); }
+# 625 "/usr/include/c++/16/bits/stl_set.h" 3
+      template<typename _InputIterator>
+ void
+ insert(_InputIterator __first, _InputIterator __last)
+ { _M_t._M_insert_range_unique(__first, __last); }
+# 638 "/usr/include/c++/16/bits/stl_set.h" 3
+      void
+      insert(initializer_list<value_type> __l)
+      { this->insert(__l.begin(), __l.end()); }
+# 650 "/usr/include/c++/16/bits/stl_set.h" 3
+      template<__detail::__container_compatible_range<_Key> _Rg>
+ void
+ insert_range(_Rg&& __rg)
+ {
+   auto __first = ranges::begin(__rg);
+   const auto __last = ranges::end(__rg);
+   using _Rv = remove_cvref_t<ranges::range_reference_t<_Rg>>;
+   for (; __first != __last; ++__first)
+     if constexpr (is_same_v<_Rv, _Key>)
+       _M_t._M_insert_unique(*__first);
+     else
+       _M_t._M_emplace_unique(*__first);
+ }
+
+
+
+
+      node_type
+      extract(const_iterator __pos)
+      {
+ do { if (std::__is_constant_evaluated() && !bool(__pos != end())) std::__glibcxx_assert_fail(); } while (false);
+ return _M_t.extract(__pos);
+      }
+
+
+      node_type
+      extract(const key_type& __x)
+      { return _M_t.extract(__x); }
+
+
+      template <__heterogeneous_tree_key<set> _Kt>
+ node_type
+ extract(_Kt&& __key)
+ { return _M_t._M_extract_tr(__key); }
+
+
+
+      insert_return_type
+      insert(node_type&& __nh)
+      { return _M_t._M_reinsert_node_unique(std::move(__nh)); }
+
+
+      iterator
+      insert(const_iterator __hint, node_type&& __nh)
+      { return _M_t._M_reinsert_node_hint_unique(__hint, std::move(__nh)); }
+
+      template<typename, typename>
+ friend struct std::_Rb_tree_merge_helper;
+
+      template<typename _Compare1>
+ void
+ merge(set<_Key, _Compare1, _Alloc>& __source)
+ {
+   using _Merge_helper = _Rb_tree_merge_helper<set, _Compare1>;
+   _M_t._M_merge_unique(_Merge_helper::_S_get_tree(__source));
+ }
+
+      template<typename _Compare1>
+ void
+ merge(set<_Key, _Compare1, _Alloc>&& __source)
+ { merge(__source); }
+
+      template<typename _Compare1>
+ void
+ merge(multiset<_Key, _Compare1, _Alloc>& __source)
+ {
+   using _Merge_helper = _Rb_tree_merge_helper<set, _Compare1>;
+   _M_t._M_merge_unique(_Merge_helper::_S_get_tree(__source));
+ }
+
+      template<typename _Compare1>
+ void
+ merge(multiset<_Key, _Compare1, _Alloc>&& __source)
+ { merge(__source); }
+# 742 "/usr/include/c++/16/bits/stl_set.h" 3
+      __attribute ((__abi_tag__ ("cxx11")))
+      iterator
+      erase(const_iterator __position)
+      { return _M_t.erase(__position); }
+# 773 "/usr/include/c++/16/bits/stl_set.h" 3
+      size_type
+      erase(const key_type& __x)
+      { return _M_t._M_erase_unique(__x); }
+
+
+
+
+
+      template <__heterogeneous_tree_key<set> _Kt>
+ size_type
+ erase(_Kt&& __key)
+ { return _M_t._M_erase_tr(__key); }
+# 804 "/usr/include/c++/16/bits/stl_set.h" 3
+      __attribute ((__abi_tag__ ("cxx11")))
+      iterator
+      erase(const_iterator __first, const_iterator __last)
+      { return _M_t.erase(__first, __last); }
+# 832 "/usr/include/c++/16/bits/stl_set.h" 3
+      void
+      clear() noexcept
+      { _M_t.clear(); }
+# 847 "/usr/include/c++/16/bits/stl_set.h" 3
+      size_type
+      count(const key_type& __x) const
+      { return _M_t.find(__x) == _M_t.end() ? 0 : 1; }
+
+
+      template<typename _Kt>
+ auto
+ count(const _Kt& __x) const
+ -> decltype(_M_t._M_count_tr(__x))
+ { return _M_t._M_count_tr(__x); }
+# 867 "/usr/include/c++/16/bits/stl_set.h" 3
+      bool
+      contains(const key_type& __x) const
+      { return _M_t.find(__x) != _M_t.end(); }
+
+      template<typename _Kt>
+ auto
+ contains(const _Kt& __x) const
+ -> decltype(_M_t._M_find_tr(__x), void(), true)
+ { return _M_t._M_find_tr(__x) != _M_t.end(); }
+# 893 "/usr/include/c++/16/bits/stl_set.h" 3
+      iterator
+      find(const key_type& __x)
+      { return _M_t.find(__x); }
+
+      const_iterator
+      find(const key_type& __x) const
+      { return _M_t.find(__x); }
+
+
+      template<typename _Kt>
+ auto
+ find(const _Kt& __x)
+ -> decltype(iterator{_M_t._M_find_tr(__x)})
+ { return iterator{_M_t._M_find_tr(__x)}; }
+
+      template<typename _Kt>
+ auto
+ find(const _Kt& __x) const
+ -> decltype(const_iterator{_M_t._M_find_tr(__x)})
+ { return const_iterator{_M_t._M_find_tr(__x)}; }
+# 928 "/usr/include/c++/16/bits/stl_set.h" 3
+      iterator
+      lower_bound(const key_type& __x)
+      { return _M_t.lower_bound(__x); }
+
+      const_iterator
+      lower_bound(const key_type& __x) const
+      { return _M_t.lower_bound(__x); }
+
+
+      template<typename _Kt>
+ auto
+ lower_bound(const _Kt& __x)
+ -> decltype(iterator(_M_t._M_lower_bound_tr(__x)))
+ { return iterator(_M_t._M_lower_bound_tr(__x)); }
+
+      template<typename _Kt>
+ auto
+ lower_bound(const _Kt& __x) const
+ -> decltype(const_iterator(_M_t._M_lower_bound_tr(__x)))
+ { return const_iterator(_M_t._M_lower_bound_tr(__x)); }
+# 958 "/usr/include/c++/16/bits/stl_set.h" 3
+      iterator
+      upper_bound(const key_type& __x)
+      { return _M_t.upper_bound(__x); }
+
+      const_iterator
+      upper_bound(const key_type& __x) const
+      { return _M_t.upper_bound(__x); }
+
+
+      template<typename _Kt>
+ auto
+ upper_bound(const _Kt& __x)
+ -> decltype(iterator(_M_t._M_upper_bound_tr(__x)))
+ { return iterator(_M_t._M_upper_bound_tr(__x)); }
+
+      template<typename _Kt>
+ auto
+ upper_bound(const _Kt& __x) const
+ -> decltype(const_iterator(_M_t._M_upper_bound_tr(__x)))
+ { return const_iterator(_M_t._M_upper_bound_tr(__x)); }
+# 997 "/usr/include/c++/16/bits/stl_set.h" 3
+      std::pair<iterator, iterator>
+      equal_range(const key_type& __x)
+      { return _M_t.equal_range(__x); }
+
+      std::pair<const_iterator, const_iterator>
+      equal_range(const key_type& __x) const
+      { return _M_t.equal_range(__x); }
+
+
+      template<typename _Kt>
+ auto
+ equal_range(const _Kt& __x)
+ -> decltype(pair<iterator, iterator>(_M_t._M_equal_range_tr(__x)))
+ { return pair<iterator, iterator>(_M_t._M_equal_range_tr(__x)); }
+
+      template<typename _Kt>
+ auto
+ equal_range(const _Kt& __x) const
+ -> decltype(pair<iterator, iterator>(_M_t._M_equal_range_tr(__x)))
+ { return pair<iterator, iterator>(_M_t._M_equal_range_tr(__x)); }
+
+
+
+      template<typename _K1, typename _C1, typename _A1>
+ friend bool
+ operator==(const set<_K1, _C1, _A1>&, const set<_K1, _C1, _A1>&);
+
+
+      template<typename _K1, typename _C1, typename _A1>
+ friend __detail::__synth3way_t<_K1>
+ operator<=>(const set<_K1, _C1, _A1>&, const set<_K1, _C1, _A1>&);
+
+
+
+
+
+    };
+
+
+
+  template<typename _InputIterator,
+    typename _Compare =
+      less<typename iterator_traits<_InputIterator>::value_type>,
+    typename _Allocator =
+      allocator<typename iterator_traits<_InputIterator>::value_type>,
+    typename = _RequireInputIter<_InputIterator>,
+    typename = _RequireNotAllocator<_Compare>,
+    typename = _RequireAllocator<_Allocator>>
+    set(_InputIterator, _InputIterator,
+ _Compare = _Compare(), _Allocator = _Allocator())
+    -> set<typename iterator_traits<_InputIterator>::value_type,
+   _Compare, _Allocator>;
+
+  template<typename _Key, typename _Compare = less<_Key>,
+    typename _Allocator = allocator<_Key>,
+    typename = _RequireNotAllocator<_Compare>,
+    typename = _RequireAllocator<_Allocator>>
+    set(initializer_list<_Key>,
+ _Compare = _Compare(), _Allocator = _Allocator())
+    -> set<_Key, _Compare, _Allocator>;
+
+  template<typename _InputIterator, typename _Allocator,
+    typename = _RequireInputIter<_InputIterator>,
+    typename = _RequireAllocator<_Allocator>>
+    set(_InputIterator, _InputIterator, _Allocator)
+    -> set<typename iterator_traits<_InputIterator>::value_type,
+    less<typename iterator_traits<_InputIterator>::value_type>,
+    _Allocator>;
+
+  template<typename _Key, typename _Allocator,
+    typename = _RequireAllocator<_Allocator>>
+    set(initializer_list<_Key>, _Allocator)
+    -> set<_Key, less<_Key>, _Allocator>;
+
+
+  template<ranges::input_range _Rg,
+    __not_allocator_like _Compare = less<ranges::range_value_t<_Rg>>,
+    __allocator_like _Alloc = std::allocator<ranges::range_value_t<_Rg>>>
+    set(from_range_t, _Rg&&, _Compare = _Compare(), _Alloc = _Alloc())
+      -> set<ranges::range_value_t<_Rg>, _Compare, _Alloc>;
+
+  template<ranges::input_range _Rg, __allocator_like _Alloc>
+    set(from_range_t, _Rg&&, _Alloc)
+      -> set<ranges::range_value_t<_Rg>, less<ranges::range_value_t<_Rg>>, _Alloc>;
+# 1094 "/usr/include/c++/16/bits/stl_set.h" 3
+  template<typename _Key, typename _Compare, typename _Alloc>
+    inline bool
+    operator==(const set<_Key, _Compare, _Alloc>& __x,
+        const set<_Key, _Compare, _Alloc>& __y)
+    { return __x._M_t == __y._M_t; }
+# 1115 "/usr/include/c++/16/bits/stl_set.h" 3
+  template<typename _Key, typename _Compare, typename _Alloc>
+    inline __detail::__synth3way_t<_Key>
+    operator<=>(const set<_Key, _Compare, _Alloc>& __x,
+  const set<_Key, _Compare, _Alloc>& __y)
+    { return __x._M_t <=> __y._M_t; }
+# 1168 "/usr/include/c++/16/bits/stl_set.h" 3
+  template<typename _Key, typename _Compare, typename _Alloc>
+    inline void
+    swap(set<_Key, _Compare, _Alloc>& __x, set<_Key, _Compare, _Alloc>& __y)
+    noexcept(noexcept(__x.swap(__y)))
+    { __x.swap(__y); }
+
+
+
+
+
+  template<typename _Val, typename _Cmp1, typename _Alloc, typename _Cmp2>
+    struct
+    _Rb_tree_merge_helper<std::set<_Val, _Cmp1, _Alloc>, _Cmp2>
+    {
+    private:
+      friend class std::set<_Val, _Cmp1, _Alloc>;
+
+      static auto&
+      _S_get_tree(std::set<_Val, _Cmp2, _Alloc>& __set)
+      { return __set._M_t; }
+
+      static auto&
+      _S_get_tree(std::multiset<_Val, _Cmp2, _Alloc>& __set)
+      { return __set._M_t; }
+    };
+
+
+
+}
+# 66 "/usr/include/c++/16/set" 2 3
+# 1 "/usr/include/c++/16/bits/stl_multiset.h" 1 3
+# 68 "/usr/include/c++/16/bits/stl_multiset.h" 3
+namespace std __attribute__ ((__visibility__ ("default")))
+{
+
+
+
+  template<typename _Key, typename _Compare, typename _Alloc>
+    class set;
+# 99 "/usr/include/c++/16/bits/stl_multiset.h" 3
+  template <typename _Key, typename _Compare = std::less<_Key>,
+     typename _Alloc = std::allocator<_Key> >
+    class multiset
+    {
+# 115 "/usr/include/c++/16/bits/stl_multiset.h" 3
+      static_assert(is_same<typename remove_cv<_Key>::type, _Key>::value,
+   "std::multiset must have a non-const, non-volatile value_type");
+
+      static_assert(is_same<typename _Alloc::value_type, _Key>::value,
+   "std::multiset must have the same value_type as its allocator");
+
+
+
+    public:
+
+      typedef _Key key_type;
+      typedef _Key value_type;
+      typedef _Compare key_compare;
+      typedef _Compare value_compare;
+      typedef _Alloc allocator_type;
+
+    private:
+
+      typedef typename __gnu_cxx::__alloc_traits<_Alloc>::template
+ rebind<_Key>::other _Key_alloc_type;
+
+      typedef _Rb_tree<key_type, value_type, _Identity<value_type>,
+         key_compare, _Key_alloc_type> _Rep_type;
+
+      _Rep_type _M_t;
+
+      typedef __gnu_cxx::__alloc_traits<_Key_alloc_type> _Alloc_traits;
+
+    public:
+      typedef typename _Alloc_traits::pointer pointer;
+      typedef typename _Alloc_traits::const_pointer const_pointer;
+      typedef typename _Alloc_traits::reference reference;
+      typedef typename _Alloc_traits::const_reference const_reference;
+
+
+
+      typedef typename _Rep_type::const_iterator iterator;
+      typedef typename _Rep_type::const_iterator const_iterator;
+      typedef typename _Rep_type::const_reverse_iterator reverse_iterator;
+      typedef typename _Rep_type::const_reverse_iterator const_reverse_iterator;
+      typedef typename _Rep_type::size_type size_type;
+      typedef typename _Rep_type::difference_type difference_type;
+
+
+      using node_type = typename _Rep_type::node_type;
+# 169 "/usr/include/c++/16/bits/stl_multiset.h" 3
+      multiset() = default;
+
+
+
+
+
+
+
+      explicit
+      multiset(const _Compare& __comp,
+        const allocator_type& __a = allocator_type())
+      : _M_t(__comp, _Key_alloc_type(__a)) { }
+# 191 "/usr/include/c++/16/bits/stl_multiset.h" 3
+      template<typename _InputIterator>
+ multiset(_InputIterator __first, _InputIterator __last)
+ : _M_t()
+ { _M_t._M_insert_range_equal(__first, __last); }
+# 207 "/usr/include/c++/16/bits/stl_multiset.h" 3
+      template<typename _InputIterator>
+ multiset(_InputIterator __first, _InputIterator __last,
+   const _Compare& __comp,
+   const allocator_type& __a = allocator_type())
+ : _M_t(__comp, _Key_alloc_type(__a))
+ { _M_t._M_insert_range_equal(__first, __last); }
+# 223 "/usr/include/c++/16/bits/stl_multiset.h" 3
+      multiset(const multiset&) = default;
+# 232 "/usr/include/c++/16/bits/stl_multiset.h" 3
+      multiset(multiset&&) = default;
+# 244 "/usr/include/c++/16/bits/stl_multiset.h" 3
+      multiset(initializer_list<value_type> __l,
+        const _Compare& __comp = _Compare(),
+        const allocator_type& __a = allocator_type())
+      : _M_t(__comp, _Key_alloc_type(__a))
+      { _M_t._M_insert_range_equal(__l.begin(), __l.end()); }
+
+
+      explicit
+      multiset(const allocator_type& __a)
+      : _M_t(_Key_alloc_type(__a)) { }
+
+
+      multiset(const multiset& __m,
+        const __type_identity_t<allocator_type>& __a)
+      : _M_t(__m._M_t, _Key_alloc_type(__a)) { }
+
+
+      multiset(multiset&& __m, const __type_identity_t<allocator_type>& __a)
+      noexcept(is_nothrow_copy_constructible<_Compare>::value
+        && _Alloc_traits::_S_always_equal())
+      : _M_t(std::move(__m._M_t), _Key_alloc_type(__a)) { }
+
+
+      multiset(initializer_list<value_type> __l, const allocator_type& __a)
+      : _M_t(_Key_alloc_type(__a))
+      { _M_t._M_insert_range_equal(__l.begin(), __l.end()); }
+
+
+      template<typename _InputIterator>
+ multiset(_InputIterator __first, _InputIterator __last,
+   const allocator_type& __a)
+ : _M_t(_Key_alloc_type(__a))
+ { _M_t._M_insert_range_equal(__first, __last); }
+
+
+
+
+
+
+      template<__detail::__container_compatible_range<_Key> _Rg>
+ multiset(from_range_t, _Rg&& __rg,
+   const _Compare& __comp,
+   const _Alloc& __a = _Alloc())
+ : _M_t(__comp, _Key_alloc_type(__a))
+ { insert_range(std::forward<_Rg>(__rg)); }
+
+
+      template<__detail::__container_compatible_range<_Key> _Rg>
+ multiset(from_range_t, _Rg&& __rg, const _Alloc& __a = _Alloc())
+ : _M_t(_Key_alloc_type(__a))
+ { insert_range(std::forward<_Rg>(__rg)); }
+
+
+
+
+
+
+
+      ~multiset() = default;
+# 318 "/usr/include/c++/16/bits/stl_multiset.h" 3
+      multiset&
+      operator=(const multiset&) = default;
+
+
+      multiset&
+      operator=(multiset&&) = default;
+# 336 "/usr/include/c++/16/bits/stl_multiset.h" 3
+      multiset&
+      operator=(initializer_list<value_type> __l)
+      {
+ _M_t._M_assign_equal(__l.begin(), __l.end());
+ return *this;
+      }
+
+
+
+
+
+      key_compare
+      key_comp() const
+      { return _M_t.key_comp(); }
+
+      value_compare
+      value_comp() const
+      { return _M_t.key_comp(); }
+
+      allocator_type
+      get_allocator() const noexcept
+      { return allocator_type(_M_t.get_allocator()); }
+
+
+
+
+
+
+      iterator
+      begin() const noexcept
+      { return _M_t.begin(); }
+
+
+
+
+
+
+      iterator
+      end() const noexcept
+      { return _M_t.end(); }
+
+
+
+
+
+
+      reverse_iterator
+      rbegin() const noexcept
+      { return _M_t.rbegin(); }
+
+
+
+
+
+
+      reverse_iterator
+      rend() const noexcept
+      { return _M_t.rend(); }
+
+
+
+
+
+
+
+      iterator
+      cbegin() const noexcept
+      { return _M_t.begin(); }
+
+
+
+
+
+
+      iterator
+      cend() const noexcept
+      { return _M_t.end(); }
+
+
+
+
+
+
+      reverse_iterator
+      crbegin() const noexcept
+      { return _M_t.rbegin(); }
+
+
+
+
+
+
+      reverse_iterator
+      crend() const noexcept
+      { return _M_t.rend(); }
+
+
+
+      [[__nodiscard__]] bool
+      empty() const noexcept
+      { return _M_t.empty(); }
+
+
+      size_type
+      size() const noexcept
+      { return _M_t.size(); }
+
+
+      size_type
+      max_size() const noexcept
+      { return _M_t.max_size(); }
+# 461 "/usr/include/c++/16/bits/stl_multiset.h" 3
+      void
+      swap(multiset& __x)
+      noexcept(__is_nothrow_swappable<_Compare>::value)
+      { _M_t.swap(__x._M_t); }
+# 480 "/usr/include/c++/16/bits/stl_multiset.h" 3
+      template<typename... _Args>
+ iterator
+ emplace(_Args&&... __args)
+ { return _M_t._M_emplace_equal(std::forward<_Args>(__args)...); }
+# 506 "/usr/include/c++/16/bits/stl_multiset.h" 3
+      template<typename... _Args>
+ iterator
+ emplace_hint(const_iterator __pos, _Args&&... __args)
+ {
+   return _M_t._M_emplace_hint_equal(__pos,
+         std::forward<_Args>(__args)...);
+ }
+# 526 "/usr/include/c++/16/bits/stl_multiset.h" 3
+      iterator
+      insert(const value_type& __x)
+      { return _M_t._M_insert_equal(__x); }
+
+
+      iterator
+      insert(value_type&& __x)
+      { return _M_t._M_insert_equal(std::move(__x)); }
+# 556 "/usr/include/c++/16/bits/stl_multiset.h" 3
+      iterator
+      insert(const_iterator __position, const value_type& __x)
+      { return _M_t._M_insert_equal_(__position, __x); }
+
+
+      iterator
+      insert(const_iterator __position, value_type&& __x)
+      { return _M_t._M_insert_equal_(__position, std::move(__x)); }
+# 574 "/usr/include/c++/16/bits/stl_multiset.h" 3
+      template<typename _InputIterator>
+ void
+ insert(_InputIterator __first, _InputIterator __last)
+ { _M_t._M_insert_range_equal(__first, __last); }
+# 587 "/usr/include/c++/16/bits/stl_multiset.h" 3
+      void
+      insert(initializer_list<value_type> __l)
+      { this->insert(__l.begin(), __l.end()); }
+# 599 "/usr/include/c++/16/bits/stl_multiset.h" 3
+      template<__detail::__container_compatible_range<_Key> _Rg>
+ void
+ insert_range(_Rg&& __rg)
+ {
+   auto __first = ranges::begin(__rg);
+   const auto __last = ranges::end(__rg);
+   for (; __first != __last; ++__first)
+     _M_t._M_emplace_equal(*__first);
+ }
+
+
+
+
+
+      node_type
+      extract(const_iterator __pos)
+      {
+ do { if (std::__is_constant_evaluated() && !bool(__pos != end())) std::__glibcxx_assert_fail(); } while (false);
+ return _M_t.extract(__pos);
+      }
+
+
+      node_type
+      extract(const key_type& __x)
+      { return _M_t.extract(__x); }
+
+
+      template <__heterogeneous_tree_key<multiset> _Kt>
+ node_type
+ extract(_Kt&& __key)
+ { return _M_t._M_extract_tr(__key); }
+
+
+
+      iterator
+      insert(node_type&& __nh)
+      { return _M_t._M_reinsert_node_equal(std::move(__nh)); }
+
+
+      iterator
+      insert(const_iterator __hint, node_type&& __nh)
+      { return _M_t._M_reinsert_node_hint_equal(__hint, std::move(__nh)); }
+
+      template<typename, typename>
+ friend struct std::_Rb_tree_merge_helper;
+
+      template<typename _Compare1>
+ void
+ merge(multiset<_Key, _Compare1, _Alloc>& __source)
+ {
+   using _Merge_helper = _Rb_tree_merge_helper<multiset, _Compare1>;
+   _M_t._M_merge_equal(_Merge_helper::_S_get_tree(__source));
+ }
+
+      template<typename _Compare1>
+ void
+ merge(multiset<_Key, _Compare1, _Alloc>&& __source)
+ { merge(__source); }
+
+      template<typename _Compare1>
+ void
+ merge(set<_Key, _Compare1, _Alloc>& __source)
+ {
+   using _Merge_helper = _Rb_tree_merge_helper<multiset, _Compare1>;
+   _M_t._M_merge_equal(_Merge_helper::_S_get_tree(__source));
+ }
+
+      template<typename _Compare1>
+ void
+ merge(set<_Key, _Compare1, _Alloc>&& __source)
+ { merge(__source); }
+# 688 "/usr/include/c++/16/bits/stl_multiset.h" 3
+      __attribute ((__abi_tag__ ("cxx11")))
+      iterator
+      erase(const_iterator __position)
+      { return _M_t.erase(__position); }
+# 719 "/usr/include/c++/16/bits/stl_multiset.h" 3
+      size_type
+      erase(const key_type& __x)
+      { return _M_t.erase(__x); }
+
+
+      template <__heterogeneous_tree_key<multiset> _Kt>
+ size_type
+ erase(_Kt&& __key)
+ { return _M_t._M_erase_tr(__key); }
+# 747 "/usr/include/c++/16/bits/stl_multiset.h" 3
+      __attribute ((__abi_tag__ ("cxx11")))
+      iterator
+      erase(const_iterator __first, const_iterator __last)
+      { return _M_t.erase(__first, __last); }
+# 775 "/usr/include/c++/16/bits/stl_multiset.h" 3
+      void
+      clear() noexcept
+      { _M_t.clear(); }
+# 787 "/usr/include/c++/16/bits/stl_multiset.h" 3
+      size_type
+      count(const key_type& __x) const
+      { return _M_t.count(__x); }
+
+
+      template<typename _Kt>
+ auto
+ count(const _Kt& __x) const -> decltype(_M_t._M_count_tr(__x))
+ { return _M_t._M_count_tr(__x); }
+# 806 "/usr/include/c++/16/bits/stl_multiset.h" 3
+      bool
+      contains(const key_type& __x) const
+      { return _M_t.find(__x) != _M_t.end(); }
+
+      template<typename _Kt>
+ auto
+ contains(const _Kt& __x) const
+ -> decltype(_M_t._M_find_tr(__x), void(), true)
+ { return _M_t._M_find_tr(__x) != _M_t.end(); }
+# 832 "/usr/include/c++/16/bits/stl_multiset.h" 3
+      iterator
+      find(const key_type& __x)
+      { return _M_t.find(__x); }
+
+      const_iterator
+      find(const key_type& __x) const
+      { return _M_t.find(__x); }
+
+
+      template<typename _Kt>
+ auto
+ find(const _Kt& __x)
+ -> decltype(iterator{_M_t._M_find_tr(__x)})
+ { return iterator{_M_t._M_find_tr(__x)}; }
+
+      template<typename _Kt>
+ auto
+ find(const _Kt& __x) const
+ -> decltype(const_iterator{_M_t._M_find_tr(__x)})
+ { return const_iterator{_M_t._M_find_tr(__x)}; }
+# 867 "/usr/include/c++/16/bits/stl_multiset.h" 3
+      iterator
+      lower_bound(const key_type& __x)
+      { return _M_t.lower_bound(__x); }
+
+      const_iterator
+      lower_bound(const key_type& __x) const
+      { return _M_t.lower_bound(__x); }
+
+
+      template<typename _Kt>
+ auto
+ lower_bound(const _Kt& __x)
+ -> decltype(iterator(_M_t._M_lower_bound_tr(__x)))
+ { return iterator(_M_t._M_lower_bound_tr(__x)); }
+
+      template<typename _Kt>
+ auto
+ lower_bound(const _Kt& __x) const
+ -> decltype(iterator(_M_t._M_lower_bound_tr(__x)))
+ { return iterator(_M_t._M_lower_bound_tr(__x)); }
+# 897 "/usr/include/c++/16/bits/stl_multiset.h" 3
+      iterator
+      upper_bound(const key_type& __x)
+      { return _M_t.upper_bound(__x); }
+
+      const_iterator
+      upper_bound(const key_type& __x) const
+      { return _M_t.upper_bound(__x); }
+
+
+      template<typename _Kt>
+ auto
+ upper_bound(const _Kt& __x)
+ -> decltype(iterator(_M_t._M_upper_bound_tr(__x)))
+ { return iterator(_M_t._M_upper_bound_tr(__x)); }
+
+      template<typename _Kt>
+ auto
+ upper_bound(const _Kt& __x) const
+ -> decltype(iterator(_M_t._M_upper_bound_tr(__x)))
+ { return iterator(_M_t._M_upper_bound_tr(__x)); }
+# 936 "/usr/include/c++/16/bits/stl_multiset.h" 3
+      std::pair<iterator, iterator>
+      equal_range(const key_type& __x)
+      { return _M_t.equal_range(__x); }
+
+      std::pair<const_iterator, const_iterator>
+      equal_range(const key_type& __x) const
+      { return _M_t.equal_range(__x); }
+
+
+      template<typename _Kt>
+ auto
+ equal_range(const _Kt& __x)
+ -> decltype(pair<iterator, iterator>(_M_t._M_equal_range_tr(__x)))
+ { return pair<iterator, iterator>(_M_t._M_equal_range_tr(__x)); }
+
+      template<typename _Kt>
+ auto
+ equal_range(const _Kt& __x) const
+ -> decltype(pair<iterator, iterator>(_M_t._M_equal_range_tr(__x)))
+ { return pair<iterator, iterator>(_M_t._M_equal_range_tr(__x)); }
+
+
+
+      template<typename _K1, typename _C1, typename _A1>
+ friend bool
+ operator==(const multiset<_K1, _C1, _A1>&,
+     const multiset<_K1, _C1, _A1>&);
+
+
+      template<typename _K1, typename _C1, typename _A1>
+ friend __detail::__synth3way_t<_K1>
+ operator<=>(const multiset<_K1, _C1, _A1>&,
+      const multiset<_K1, _C1, _A1>&);
+
+
+
+
+
+
+    };
+
+
+
+  template<typename _InputIterator,
+    typename _Compare =
+      less<typename iterator_traits<_InputIterator>::value_type>,
+    typename _Allocator =
+      allocator<typename iterator_traits<_InputIterator>::value_type>,
+    typename = _RequireInputIter<_InputIterator>,
+    typename = _RequireNotAllocator<_Compare>,
+    typename = _RequireAllocator<_Allocator>>
+    multiset(_InputIterator, _InputIterator,
+      _Compare = _Compare(), _Allocator = _Allocator())
+    -> multiset<typename iterator_traits<_InputIterator>::value_type,
+  _Compare, _Allocator>;
+
+  template<typename _Key,
+    typename _Compare = less<_Key>,
+    typename _Allocator = allocator<_Key>,
+    typename = _RequireNotAllocator<_Compare>,
+    typename = _RequireAllocator<_Allocator>>
+    multiset(initializer_list<_Key>,
+      _Compare = _Compare(), _Allocator = _Allocator())
+    -> multiset<_Key, _Compare, _Allocator>;
+
+  template<typename _InputIterator, typename _Allocator,
+    typename = _RequireInputIter<_InputIterator>,
+    typename = _RequireAllocator<_Allocator>>
+    multiset(_InputIterator, _InputIterator, _Allocator)
+    -> multiset<typename iterator_traits<_InputIterator>::value_type,
+         less<typename iterator_traits<_InputIterator>::value_type>,
+         _Allocator>;
+
+  template<typename _Key, typename _Allocator,
+    typename = _RequireAllocator<_Allocator>>
+    multiset(initializer_list<_Key>, _Allocator)
+    -> multiset<_Key, less<_Key>, _Allocator>;
+
+
+  template<ranges::input_range _Rg,
+    __not_allocator_like _Compare = less<ranges::range_value_t<_Rg>>,
+    __allocator_like _Alloc = std::allocator<ranges::range_value_t<_Rg>>>
+    multiset(from_range_t, _Rg&&, _Compare = _Compare(), _Alloc = _Alloc())
+      -> multiset<ranges::range_value_t<_Rg>, _Compare, _Alloc>;
+
+  template<ranges::input_range _Rg, __allocator_like _Alloc>
+    multiset(from_range_t, _Rg&&, _Alloc)
+      -> multiset<ranges::range_value_t<_Rg>, less<ranges::range_value_t<_Rg>>, _Alloc>;
+# 1038 "/usr/include/c++/16/bits/stl_multiset.h" 3
+  template<typename _Key, typename _Compare, typename _Alloc>
+    inline bool
+    operator==(const multiset<_Key, _Compare, _Alloc>& __x,
+        const multiset<_Key, _Compare, _Alloc>& __y)
+    { return __x._M_t == __y._M_t; }
+# 1059 "/usr/include/c++/16/bits/stl_multiset.h" 3
+  template<typename _Key, typename _Compare, typename _Alloc>
+    inline __detail::__synth3way_t<_Key>
+    operator<=>(const multiset<_Key, _Compare, _Alloc>& __x,
+  const multiset<_Key, _Compare, _Alloc>& __y)
+    { return __x._M_t <=> __y._M_t; }
+# 1112 "/usr/include/c++/16/bits/stl_multiset.h" 3
+  template<typename _Key, typename _Compare, typename _Alloc>
+    inline void
+    swap(multiset<_Key, _Compare, _Alloc>& __x,
+  multiset<_Key, _Compare, _Alloc>& __y)
+    noexcept(noexcept(__x.swap(__y)))
+    { __x.swap(__y); }
+
+
+
+
+
+  template<typename _Val, typename _Cmp1, typename _Alloc, typename _Cmp2>
+    struct
+    _Rb_tree_merge_helper<std::multiset<_Val, _Cmp1, _Alloc>,
+     _Cmp2>
+    {
+    private:
+      friend class std::multiset<_Val, _Cmp1, _Alloc>;
+
+      static auto&
+      _S_get_tree(std::set<_Val, _Cmp2, _Alloc>& __set)
+      { return __set._M_t; }
+
+      static auto&
+      _S_get_tree(std::multiset<_Val, _Cmp2, _Alloc>& __set)
+      { return __set._M_t; }
+    };
+
+
+
+}
+# 67 "/usr/include/c++/16/set" 2 3
+# 82 "/usr/include/c++/16/set" 3
+# 1 "/usr/include/c++/16/bits/version.h" 1 3
+# 83 "/usr/include/c++/16/set" 2 3
+
+
+
+namespace std __attribute__ ((__visibility__ ("default")))
+{
+
+  namespace pmr
+  {
+    template<typename _Key, typename _Cmp = std::less<_Key>>
+      using set = std::set<_Key, _Cmp, polymorphic_allocator<_Key>>;
+    template<typename _Key, typename _Cmp = std::less<_Key>>
+      using multiset = std::multiset<_Key, _Cmp, polymorphic_allocator<_Key>>;
+  }
+
+}
+
+
+
+namespace std __attribute__ ((__visibility__ ("default")))
+{
+
+  template<typename _Key, typename _Compare, typename _Alloc,
+    typename _Predicate>
+    inline typename std::set<_Key, _Compare, _Alloc>::size_type
+    erase_if(std::set<_Key, _Compare, _Alloc>& __cont,
+      _Predicate __pred)
+    { return __detail::__erase_nodes_if(__cont, __cont, __pred); }
+
+  template<typename _Key, typename _Compare, typename _Alloc,
+    typename _Predicate>
+    inline typename std::multiset<_Key, _Compare, _Alloc>::size_type
+    erase_if(std::multiset<_Key, _Compare, _Alloc>& __cont,
+      _Predicate __pred)
+    { return __detail::__erase_nodes_if(__cont, __cont, __pred); }
+
+}
+# 8 "/home/AlgoOS/cpp/include/algoos/worker/cancel_registry.hpp" 2
+
+
+
+# 10 "/home/AlgoOS/cpp/include/algoos/worker/cancel_registry.hpp"
+namespace algoos::worker {
+
+
+
+
+class CancelRegistry {
+ public:
+  enum class Kind { none, submission, case_level };
+
+
+
+
+  void cancel_submission(const std::string& file_id, std::optional<int64_t> boundary,
+                         std::string reason);
+  void cancel_case(const std::string& file_id, const std::string& judge_id, std::string reason);
+
+
+  [[nodiscard]] bool cancelled(const std::string& file_id, const std::string& judge_id,
+                               int64_t sequence) const;
+
+
+  [[nodiscard]] std::string reason(const std::string& file_id, const std::string& judge_id,
+                                   int64_t sequence) const;
+
+
+
+  bool attach(const std::string& file_id, const std::string& judge_id, int64_t sequence,
+              int64_t pid, int64_t host_pid);
+  void detach(const std::string& file_id, const std::string& judge_id, int64_t sequence);
+
+  void clear_submission(const std::string& file_id);
+  [[nodiscard]] std::size_t active_count() const;
+
+ private:
+  struct SubmissionState {
+    bool all{false};
+    std::optional<int64_t> boundary;
+    std::set<std::string> cases;
+    std::string reason{"SHORT_CIRCUITED"};
+  };
+
+  [[nodiscard]] bool cancelled_locked(const SubmissionState& state, const std::string& judge_id,
+                                      int64_t sequence) const;
+
+  mutable std::mutex mutex_;
+  std::map<std::string, SubmissionState> submissions_;
+
+  std::map<std::string, int64_t> active_host_pids_;
+};
+
+}
+# 19 "/home/AlgoOS/cpp/tests/unit_tests.cpp" 2
 
 namespace {
 namespace fs = std::filesystem;
@@ -115834,9 +122936,9 @@ void test_classify() {
   evidence.wifsignaled = true;
   evidence.wifexited = false;
   evidence.term_sig = 
-# 126 "/home/AlgoOS/cpp/tests/unit_tests.cpp" 3
+# 127 "/home/AlgoOS/cpp/tests/unit_tests.cpp" 3
                      9
-# 126 "/home/AlgoOS/cpp/tests/unit_tests.cpp"
+# 127 "/home/AlgoOS/cpp/tests/unit_tests.cpp"
                             ;
   evidence.wall_dog_fired = true;
   decision = algoos::sandbox::classify(evidence, limits);
@@ -115847,9 +122949,9 @@ void test_classify() {
   evidence.wifsignaled = true;
   evidence.wifexited = false;
   evidence.term_sig = 
-# 135 "/home/AlgoOS/cpp/tests/unit_tests.cpp" 3
+# 136 "/home/AlgoOS/cpp/tests/unit_tests.cpp" 3
                      11
-# 135 "/home/AlgoOS/cpp/tests/unit_tests.cpp"
+# 136 "/home/AlgoOS/cpp/tests/unit_tests.cpp"
                             ;
   decision = algoos::sandbox::classify(evidence, limits);
   expect(decision && decision->verdict == Verdict::RE && decision->reason == Reason::CRASH_SIGNAL,
@@ -115881,6 +122983,32 @@ void test_classify() {
              decision->reason == Reason::OLE_TRUNCATED, "output size over");
 
   expect(algoos::sandbox::name(Verdict::OLE) == "OLE", "verdict name");
+}
+
+void test_cancel_registry() {
+  algoos::worker::CancelRegistry registry;
+
+  expect(registry.attach("f", "f:01:1", 1, 0, 0), "cancel attach lower sequence");
+  expect(registry.attach("f", "f:03:1", 3, 0, 0), "cancel attach higher sequence");
+  expect(registry.active_count() == 2, "cancel registry tracks two active cases");
+
+  registry.cancel_submission("f", 2, "SHORT_CIRCUITED");
+  expect(!registry.cancelled("f", "f:01:1", 1), "short circuit keeps lower sequence");
+  expect(registry.cancelled("f", "f:03:1", 3), "short circuit cancels higher sequence");
+  expect(registry.active_count() == 1, "short circuit kills only higher sequence");
+  expect(registry.reason("f", "f:03:1", 3) == "SHORT_CIRCUITED", "short circuit reason");
+
+  registry.cancel_submission("f", std::nullopt, "USER_CANCELLED");
+  expect(registry.cancelled("f", "f:01:1", 1), "submission cancel covers lower sequence");
+  expect(registry.reason("f", "f:01:1", 1) == "USER_CANCELLED", "submission cancel reason");
+  expect(registry.active_count() == 0, "submission cancel kills every active case");
+
+  registry.attach("g", "g:02:1", 2, 0, 0);
+  registry.attach("g", "g:04:1", 4, 0, 0);
+  registry.cancel_submission("g", 4, "SHORT_CIRCUITED");
+  registry.cancel_submission("g", 2, "SHORT_CIRCUITED");
+  expect(registry.cancelled("g", "g:02:1", 2) == false, "narrowed boundary keeps seq 2");
+  expect(registry.cancelled("g", "g:04:1", 4), "narrowed boundary still cancels seq 4");
 }
 
 void test_sandbox() {
@@ -115923,9 +123051,9 @@ void test_sandbox() {
   const auto crashed = algoos::sandbox::run(failing);
   if (crashed.evidence.setup_failed) std::cerr << "crash case setup: " << crashed.setup_error << "\n";
   expect(crashed.evidence.wifsignaled && crashed.evidence.term_sig == 
-# 207 "/home/AlgoOS/cpp/tests/unit_tests.cpp" 3
+# 234 "/home/AlgoOS/cpp/tests/unit_tests.cpp" 3
                                                                      11
-# 207 "/home/AlgoOS/cpp/tests/unit_tests.cpp"
+# 234 "/home/AlgoOS/cpp/tests/unit_tests.cpp"
                                                                             ,
          "crash signal observed");
 
@@ -115951,6 +123079,7 @@ int main() {
     test_digest();
     test_json();
     test_compare();
+    test_cancel_registry();
     test_classify();
     test_sandbox();
     if (failures == 0) std::cout << "all unit tests passed\n";

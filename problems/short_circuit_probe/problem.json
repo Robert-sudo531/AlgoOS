@@ -1,0 +1,15 @@
+{
+  "problem_id": "short_circuit_probe",
+  "title": "有序短路探针",
+  "time_limit_ms": 4000,
+  "memory_limit_mib": 256,
+  "compare_mode": "common",
+  "tests": [
+    {"case_id": "01", "input": "tests/01.in", "output": "tests/01.out"},
+    {"case_id": "02", "input": "tests/02.in", "output": "tests/02.out"},
+    {"case_id": "03", "input": "tests/03.in", "output": "tests/03.out"},
+    {"case_id": "04", "input": "tests/04.in", "output": "tests/04.out"},
+    {"case_id": "05", "input": "tests/05.in", "output": "tests/05.out"},
+    {"case_id": "06", "input": "tests/06.in", "output": "tests/06.out"}
+  ]
+}

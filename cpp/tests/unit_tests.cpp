@@ -15,6 +15,7 @@
 #include "algoos/runner/comparator.hpp"
 #include "algoos/sandbox/classify.hpp"
 #include "algoos/sandbox/sandbox.hpp"
+#include "algoos/worker/cancel_registry.hpp"
 
 namespace {
 namespace fs = std::filesystem;
@@ -165,6 +166,32 @@ void test_classify() {
   expect(algoos::sandbox::name(Verdict::OLE) == "OLE", "verdict name");
 }
 
+void test_cancel_registry() {
+  algoos::worker::CancelRegistry registry;
+  // host_pid=0 is inert: we only exercise the registry state machine.
+  expect(registry.attach("f", "f:01:1", 1, 0, 0), "cancel attach lower sequence");
+  expect(registry.attach("f", "f:03:1", 3, 0, 0), "cancel attach higher sequence");
+  expect(registry.active_count() == 2, "cancel registry tracks two active cases");
+
+  registry.cancel_submission("f", 2, "SHORT_CIRCUITED");
+  expect(!registry.cancelled("f", "f:01:1", 1), "short circuit keeps lower sequence");
+  expect(registry.cancelled("f", "f:03:1", 3), "short circuit cancels higher sequence");
+  expect(registry.active_count() == 1, "short circuit kills only higher sequence");
+  expect(registry.reason("f", "f:03:1", 3) == "SHORT_CIRCUITED", "short circuit reason");
+
+  registry.cancel_submission("f", std::nullopt, "USER_CANCELLED");
+  expect(registry.cancelled("f", "f:01:1", 1), "submission cancel covers lower sequence");
+  expect(registry.reason("f", "f:01:1", 1) == "USER_CANCELLED", "submission cancel reason");
+  expect(registry.active_count() == 0, "submission cancel kills every active case");
+
+  registry.attach("g", "g:02:1", 2, 0, 0);
+  registry.attach("g", "g:04:1", 4, 0, 0);
+  registry.cancel_submission("g", 4, "SHORT_CIRCUITED");
+  registry.cancel_submission("g", 2, "SHORT_CIRCUITED");
+  expect(registry.cancelled("g", "g:02:1", 2) == false, "narrowed boundary keeps seq 2");
+  expect(registry.cancelled("g", "g:04:1", 4), "narrowed boundary still cancels seq 4");
+}
+
 void test_sandbox() {
   if (geteuid() != 0) {
     std::cout << "skip: sandbox test requires root\n";
@@ -229,6 +256,7 @@ int main() {
     test_digest();
     test_json();
     test_compare();
+    test_cancel_registry();
     test_classify();
     test_sandbox();
     if (failures == 0) std::cout << "all unit tests passed\n";

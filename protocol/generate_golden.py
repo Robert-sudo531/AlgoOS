@@ -59,7 +59,7 @@ def eval_task() -> dict:
 
 
 def eval_result() -> dict:
-    message = base("eval_result", "sub-0001:01:1:runner:result", "sub-0001")
+    message = base("eval_result", "sub-0001:01:1:runner:eval", "sub-0001")
     message.update({
         "stage": "eval", "status": "FINAL", "node_id": "eval-01", "source": "runner",
         "test_id": "01", "sequence": 1, "judge_id": "sub-0001:01:1", "verdict": "AC",

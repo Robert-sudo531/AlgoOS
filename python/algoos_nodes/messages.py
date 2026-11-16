@@ -22,7 +22,10 @@ def eval_result(task: dict, node_id: str, *, verdict: str, reason: str,
                 signal: int | None = None, wall_timeout: bool = False,
                 short_circuited: bool = False, stderr_tail: str = "",
                 detail: str = "", source: str = "runner") -> dict:
-    message = _base("eval_result", f"{task['judge_id']}:{source}:result",
+    # Keep the relay's eval result distinct from the special_result message
+    # (they share the same judge_id and would otherwise collide on the
+    # JetStream duplicate key inside the shared stream).
+    message = _base("eval_result", f"{task['judge_id']}:{source}:eval",
                     task["file_id"], task["problem_id"], task["attempt"])
     message.update({
         "stage": "eval", "status": "FINAL", "node_id": node_id, "source": source,

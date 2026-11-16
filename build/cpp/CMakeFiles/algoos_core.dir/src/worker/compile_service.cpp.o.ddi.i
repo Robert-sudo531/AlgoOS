@@ -74384,7 +74384,7 @@ struct CompileOutcome {
 class CompileService {
  public:
   struct Config {
-    std::string compiler{"g++"};
+    std::string compiler{"/usr/bin/g++"};
     std::string work_root{"/tmp/algoos-compile"};
     std::string platform{"linux-x86_64"};
   };
@@ -137335,11 +137335,11 @@ CompileOutcome CompileService::compile(const protocol::CompileSpec& spec) {
   fs::create_directories(spec.output_dir);
 
   std::vector<std::string> arguments = spec.flags;
+  arguments.emplace_back("-x");
+  arguments.emplace_back("c++");
   arguments.emplace_back(spec.source);
   arguments.emplace_back("-o");
   arguments.emplace_back(binary_path.string());
-  arguments.emplace_back("-x");
-  arguments.emplace_back("c++");
 
   const auto result = sandbox::run_bounded_process(
       spec.compiler.empty() ? config_.compiler : spec.compiler, arguments, directory.string(), "",

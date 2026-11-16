@@ -35,6 +35,7 @@ class Problem:
     tests: tuple[TestCase, ...]
     config_path: Path
     checker_source: Path | None = None
+    output_limit_bytes: int | None = None
 
     @property
     def wall_limit_ms(self) -> int:
@@ -88,6 +89,10 @@ def load_problem(path: Path | str) -> Problem:
         raise ProblemError("problem has no tests")
     if len({case.case_id for case in tests}) != len(tests):
         raise ProblemError("duplicate case_id")
+    output_limit = data.get("output_limit_bytes")
+    if output_limit is not None:
+        if type(output_limit) is not int or not 0 < output_limit <= 256 << 20:
+            raise ProblemError("output_limit_bytes must be an integer in (0, 256 MiB]")
     checker = None
     if judge_mode == "special":
         checker_path = data.get("checker")
@@ -102,6 +107,7 @@ def load_problem(path: Path | str) -> Problem:
         memory_limit_mib=int(data["memory_limit_mib"]),
         compare_mode=compare_mode, judge_mode=judge_mode, tests=tuple(tests),
         config_path=config_path, checker_source=checker,
+        output_limit_bytes=output_limit,
     )
 
 

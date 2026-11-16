@@ -7,6 +7,7 @@ import contextlib
 import shutil
 from pathlib import Path
 
+from algoos_control.broker import wait_for_message
 from algoos_control.config import NodeConfig, Settings
 from algoos_protocol import loads
 
@@ -73,7 +74,7 @@ class EvalAgent(NodeAgentBase):
             pass
 
     async def _run_special(self, task: dict) -> None:
-        if not task.get("ans_hash") or not task.get("checker_hash"):
+        if not task.get("answer_hash") or not task.get("checker_hash"):
             await self.publish(self.policy["transport"]["eval_result_subject"],
                                eval_result(task, self.node_id, verdict="SE",
                                            reason="SYSTEM_ERROR",
@@ -121,11 +122,12 @@ class EvalAgent(NodeAgentBase):
             reply_topic = self.policy["transport"]["special_result_subject_template"].format(
                 target_eval_node=self.node_id)
             message = special_task(
-                task, out_hash=out_hash, ans_hash=task["ans_hash"],
+                task, out_hash=out_hash, ans_hash=task["answer_hash"],
                 checker_hash=task["checker_hash"], input_hash=task.get("input_hash"),
                 reply_topic=reply_topic,
                 fallback_topic=self.policy["transport"]["fallback_subject"],
-                session_id=self.session, limits=task["limits"],
+                session_id=self.session,
+                limits=self.policy["special"]["checker_limits"],
                 enqueue_seq=task["enqueue_seq"],
                 dispatch_generation=task.get("dispatch_generation", 1))
             await self.publish(self.policy["transport"]["special_task_subject"], message)
@@ -164,22 +166,43 @@ class EvalAgent(NodeAgentBase):
             with contextlib.suppress(Exception):
                 await message.nak()
 
+    async def _consume_direct(self, subject: str, durable: str, handler) -> None:
+        """Pull control messages without consuming a runner slot or semaphore."""
+        subscription = await self.broker.pull(subject, durable, ack_wait=300)
+        while not self.stop.is_set():
+            message = await wait_for_message(subscription, 1.0)
+            if message is None:
+                continue
+            try:
+                await handler(message)
+            except Exception as error:  # keep the loop alive; redelivery is safe
+                print(f"[{self.node_id}] control message failed: {error}", flush=True)
+                with contextlib.suppress(Exception):
+                    await message.nak()
+
     async def run(self) -> None:
         await self.setup()
         self.install_signals()
-        assert self.broker.client is not None
-        await self.broker.client.subscribe(self.policy["transport"]["cancel_subject"],
-                                           cb=self.on_cancel)
-        await self.broker.client.subscribe(
-            self.policy["transport"]["special_result_subject_template"].format(
-                target_eval_node=self.node_id), cb=self.on_special_result)
+        transport = self.policy["transport"]
+        cancel_subject = transport["cancel_subject"]
+        special_subject = transport["special_result_subject_template"].format(
+            target_eval_node=self.node_id)
+        # Durable consumers make cancel broadcasts and special relays survive
+        # a short node/agent restart instead of silently dropping the message.
+        control_tasks = [
+            asyncio.create_task(self._consume_direct(
+                cancel_subject, f"cancel-{self.node_id}", self.on_cancel)),
+            asyncio.create_task(self._consume_direct(
+                special_subject, f"special-result-{self.node_id}", self.on_special_result)),
+        ]
         heartbeat = asyncio.create_task(self.heartbeat_loop())
-        subject = self.policy["transport"]["eval_task_subject_template"].format(
+        subject = transport["eval_task_subject_template"].format(
             target_node_id=self.node_id)
         try:
             await self._consume(subject, f"eval-{self.node_id}", self._handle)
         finally:
             self.stop.set()
-            heartbeat.cancel()
-            await asyncio.gather(heartbeat, return_exceptions=True)
+            for task in (*control_tasks, heartbeat):
+                task.cancel()
+            await asyncio.gather(*control_tasks, heartbeat, return_exceptions=True)
             await self.teardown()

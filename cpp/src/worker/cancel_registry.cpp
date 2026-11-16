@@ -3,6 +3,9 @@
 #include <signal.h>
 #include <unistd.h>
 
+#include <algorithm>
+#include <exception>
+
 namespace algoos::worker {
 namespace {
 
@@ -17,17 +20,44 @@ void kill_group(int64_t host_pid) {
   (void)kill(pid, SIGKILL);
 }
 
+std::optional<int64_t> key_sequence(const std::string& key) {
+  const auto separator = key.rfind('\x1f');
+  if (separator == std::string::npos || separator + 1 >= key.size()) return std::nullopt;
+  try {
+    std::size_t consumed = 0;
+    const auto value = std::stoll(key.substr(separator + 1), &consumed);
+    if (consumed != key.size() - separator - 1 || value <= 0) return std::nullopt;
+    return value;
+  } catch (const std::exception&) {
+    return std::nullopt;
+  }
+}
+
 }  // namespace
 
 void CancelRegistry::cancel_submission(const std::string& file_id,
                                        std::optional<int64_t> boundary, std::string reason) {
   std::lock_guard guard(mutex_);
   auto& state = submissions_[file_id];
-  state.boundary = boundary;
-  state.all = boundary.has_value() == false;
+  if (boundary) {
+    // A short circuit may only narrow the cancelled suffix.  A submission-wide
+    // cancel (all=true) stays in force even if a boundary event arrives later.
+    if (state.boundary)
+      state.boundary = std::min(*state.boundary, *boundary);
+    else
+      state.boundary = *boundary;
+  } else {
+    state.all = true;
+  }
   state.reason = std::move(reason);
   for (auto it = active_host_pids_.begin(); it != active_host_pids_.end();) {
-    if (it->first.rfind(file_id + "\x1f", 0) == 0) {
+    if (it->first.rfind(file_id + "\x1f", 0) != 0) {
+      ++it;
+      continue;
+    }
+    const auto sequence = key_sequence(it->first);
+    const bool kill = state.all || (sequence && sequence.value() > *state.boundary);
+    if (kill) {
       kill_group(it->second);
       it = active_host_pids_.erase(it);
     } else {

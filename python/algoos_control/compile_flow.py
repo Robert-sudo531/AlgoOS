@@ -74,6 +74,9 @@ def _materialize_cases(connection: psycopg.Connection, file_id: str, task: dict)
     plan = connection.execute(
         "SELECT config FROM problems WHERE problem_id=%s", (task["problem_id"],)).fetchone()[0]
     out_bytes = plan["out_bytes"]
+    # Special checkers may accept several valid outputs of different lengths;
+    # the problem author can set a wider semantic output budget.
+    author_limit = plan.get("output_limit_bytes")
     for sequence, case in enumerate(plan["tests"], 1):
         input_hash, answer_hash = plan["case_hashes"][case["case_id"]]
         judge_id = f"{file_id}:{case['case_id']}:1"
@@ -85,7 +88,7 @@ def _materialize_cases(connection: psycopg.Connection, file_id: str, task: dict)
                  "cpu_ms": plan["time_limit_ms"],
                  "wall_ms": plan["time_limit_ms"] + 1000,
                  "mem_bytes": plan["memory_limit_mib"] << 20,
-                 "out_bytes": int(out_bytes[case["case_id"]]),
+                 "out_bytes": int(author_limit or out_bytes[case["case_id"]]),
                  "input_hash": input_hash,
                  "answer_hash": answer_hash,
                  "checker_hash": plan.get("checker_hash"),

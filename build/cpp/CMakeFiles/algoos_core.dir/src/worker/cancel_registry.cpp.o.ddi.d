@@ -161,4 +161,12 @@ CMakeFiles/algoos_core.dir/src/worker/cancel_registry.cpp.o.ddi: \
  /usr/include/bits/getopt_core.h /usr/include/bits/unistd_ext.h \
  /usr/include/linux/close_range.h /usr/include/bits/ss_flags.h \
  /usr/include/bits/types/struct_sigstack.h /usr/include/bits/sigthread.h \
- /usr/include/bits/signal_ext.h
+ /usr/include/bits/signal_ext.h /usr/include/c++/16/algorithm \
+ /usr/include/c++/16/bits/stl_algo.h \
+ /usr/include/c++/16/bits/algorithmfwd.h \
+ /usr/include/c++/16/bits/stl_heap.h \
+ /usr/include/c++/16/bits/uniform_int_dist.h \
+ /usr/include/c++/16/bits/stl_tempbuf.h \
+ /usr/include/c++/16/bits/ranges_algo.h \
+ /usr/include/c++/16/pstl/glue_algorithm_defs.h \
+ /usr/include/c++/16/pstl/execution_defs.h

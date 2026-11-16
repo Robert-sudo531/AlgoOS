@@ -1,6 +1,6 @@
 {
   "ver": 1,
-  "msg_id": "sub-0001:01:1:runner:result",
+  "msg_id": "sub-0001:01:1:runner:eval",
   "type": "eval_result",
   "file_id": "sub-0001",
   "problem_id": "a_plus_b",

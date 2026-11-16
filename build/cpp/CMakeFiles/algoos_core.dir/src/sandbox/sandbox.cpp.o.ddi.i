@@ -150139,7 +150139,9 @@ RunResult run_common(const RunRequest& request, bool sandbox_user_program) {
       program_status = report.status;
       program_usage = report.usage;
       have_program = true;
-    } else if (report_kind == 0 && report_size >= static_cast<int>(sizeof(ChildError))) {
+    }
+  }
+  if (report_kind == 0 && report_size >= static_cast<int>(sizeof(ChildError))) {
       ChildError error{};
       std::memcpy(&error, report_bytes.data(), sizeof(error));
       evidence.setup_failed = true;
@@ -150152,60 +150154,59 @@ RunResult run_common(const RunRequest& request, bool sandbox_user_program) {
       };
       const int stage = error.stage >= 0 && error.stage < 31 ? error.stage : 0;
       result.setup_error = std::string(stages[stage]) + ": " + std::strerror(error.number);
-    }
   }
   if (!evidence.setup_failed) {
     evidence.wifexited = 
-# 520 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
+# 521 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
                         (((
-# 520 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
+# 521 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
                         program_status
-# 520 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
+# 521 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
                         ) & 0x7f) == 0)
-# 520 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
+# 521 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
                                                  ;
     evidence.exit_code = 
-# 521 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
+# 522 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
                         (((
-# 521 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
+# 522 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
                         program_status
-# 521 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
+# 522 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
                         ) & 0x7f) == 0) 
-# 521 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
+# 522 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
                                                   ? 
-# 521 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
+# 522 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
                                                     (((
-# 521 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
+# 522 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
                                                     program_status
-# 521 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
+# 522 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
                                                     ) & 0xff00) >> 8) 
-# 521 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
+# 522 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
                                                                                 : 0;
     evidence.wifsignaled = 
-# 522 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
+# 523 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
                           (((signed char) (((
-# 522 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
+# 523 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
                           program_status
-# 522 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
+# 523 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
                           ) & 0x7f) + 1) >> 1) > 0)
-# 522 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
+# 523 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
                                                      ;
     evidence.term_sig = 
-# 523 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
+# 524 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
                        (((signed char) (((
-# 523 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
+# 524 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
                        program_status
-# 523 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
+# 524 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
                        ) & 0x7f) + 1) >> 1) > 0) 
-# 523 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
+# 524 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
                                                    ? 
-# 523 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
+# 524 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
                                                      ((
-# 523 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
+# 524 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
                                                      program_status
-# 523 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
+# 524 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
                                                      ) & 0x7f) 
-# 523 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
+# 524 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
                                                                               : 0;
     evidence.cpu_ms = static_cast<int64_t>(program_usage.ru_utime.tv_sec +
                                            program_usage.ru_stime.tv_sec) * 1000 +
@@ -150274,56 +150275,56 @@ RunResult run_bounded_process(const std::string& executable, const std::vector<s
   const auto work = fs::absolute(work_dir);
   fs::create_directories(work);
   int output_fd = open(stdout_path.c_str(), 
-# 590 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
+# 591 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
                                            01 
-# 590 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
+# 591 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
                                                     | 
-# 590 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
+# 591 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
                                                       0100 
-# 590 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
+# 591 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
                                                               | 
-# 590 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
+# 591 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
                                                                 01000 
-# 590 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
+# 591 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
                                                                         | 
-# 590 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
+# 591 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
                                                                           02000000
-# 590 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
+# 591 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
                                                                                    , 0600);
   int error_fd = open(stderr_path.c_str(), 
-# 591 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
+# 592 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
                                           01 
-# 591 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
+# 592 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
                                                    | 
-# 591 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
+# 592 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
                                                      0100 
-# 591 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
+# 592 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
                                                              | 
-# 591 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
+# 592 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
                                                                01000 
-# 591 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
+# 592 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
                                                                        | 
-# 591 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
+# 592 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
                                                                          02000000
-# 591 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
+# 592 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
                                                                                   , 0600);
   int input_fd = stdin_path.empty() ? open("/dev/null", 
-# 592 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
+# 593 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
                                                        00 
-# 592 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
+# 593 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
                                                                 | 
-# 592 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
+# 593 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
                                                                   02000000
-# 592 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
+# 593 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
                                                                            )
                                      : open(stdin_path.c_str(), 
-# 593 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
+# 594 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
                                                                00 
-# 593 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
+# 594 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
                                                                         | 
-# 593 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
+# 594 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
                                                                           02000000
-# 593 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
+# 594 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
                                                                                    );
   if (output_fd < 0 || error_fd < 0 || input_fd < 0) {
     result.evidence.setup_failed = true;
@@ -150335,9 +150336,9 @@ RunResult run_bounded_process(const std::string& executable, const std::vector<s
   }
   int error_pipe[2];
   if (pipe2(error_pipe, 
-# 603 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
+# 604 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
                        02000000
-# 603 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
+# 604 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
                                 ) != 0) {
     result.evidence.setup_failed = true;
     result.setup_error = "pipe2 failed";
@@ -150357,31 +150358,31 @@ RunResult run_bounded_process(const std::string& executable, const std::vector<s
       false, false, false, 0, argv.data(),
   };
   void* stack = mmap(nullptr, kStackBytes, 
-# 621 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
+# 622 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
                                           0x1 
-# 621 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
+# 622 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
                                                     | 
-# 621 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
+# 622 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
                                                       0x2
-# 621 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
+# 622 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
                                                                 ,
                      
-# 622 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
+# 623 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
                     0x02 
-# 622 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
+# 623 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
                                 | 
-# 622 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
+# 623 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
                                   0x20 
-# 622 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
+# 623 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
                                                 | 
-# 622 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
+# 623 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
                                                   0x20000
-# 622 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
+# 623 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
                                                            , -1, 0);
   if (stack == 
-# 623 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
+# 624 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
               ((void *) -1)
-# 623 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
+# 624 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
                         ) {
     result.evidence.setup_failed = true;
     result.setup_error = "mmap stack failed";
@@ -150394,16 +150395,16 @@ RunResult run_bounded_process(const std::string& executable, const std::vector<s
   }
   const auto started = Clock::now();
   pid_t pid = clone(child_main, static_cast<char*>(stack) + kStackBytes, 
-# 634 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
+# 635 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
                                                                         17
-# 634 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
+# 635 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
                                                                                , &context);
   if (pid < 0) {
     result.evidence.setup_failed = true;
     result.setup_error = std::string("clone: ") + std::strerror(
-# 637 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
+# 638 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
                                                                (*__errno_location ())
-# 637 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
+# 638 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
                                                                     );
     munmap(stack, kStackBytes);
     close(output_fd);
@@ -150422,31 +150423,31 @@ RunResult run_bounded_process(const std::string& executable, const std::vector<s
   bool deadline_kill = false;
   for (;;) {
     pid_t waited = wait4(pid, &status, 
-# 654 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
+# 655 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
                                       1
-# 654 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
+# 655 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
                                              , &usage);
     if (waited == pid) break;
     if (waited < 0 && 
-# 656 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
+# 657 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
                      (*__errno_location ()) 
-# 656 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
+# 657 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
                            != 
-# 656 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
+# 657 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
                               4
-# 656 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
+# 657 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
                                    ) break;
     if (waited >= 0 && elapsed_ms(started) >= limits.wall_ms) {
       deadline_kill = true;
       kill_group(pid);
       while (wait4(pid, &status, 0, &usage) < 0 && 
-# 660 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
+# 661 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
                                                   (*__errno_location ()) 
-# 660 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
+# 661 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
                                                         == 
-# 660 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
+# 661 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
                                                            4
-# 660 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
+# 661 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
                                                                 ) {
       }
       break;
@@ -150457,77 +150458,77 @@ RunResult run_bounded_process(const std::string& executable, const std::vector<s
   evidence.started = true;
   evidence.wall_ms = elapsed_ms(started);
   evidence.wall_dog_fired = deadline_kill && 
-# 669 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
+# 670 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
                                             (((signed char) (((
-# 669 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
+# 670 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
                                             status
-# 669 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
+# 670 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
                                             ) & 0x7f) + 1) >> 1) > 0) 
-# 669 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
+# 670 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
                                                                 && 
-# 669 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
+# 670 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
                                                                    ((
-# 669 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
+# 670 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
                                                                    status
-# 669 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
+# 670 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
                                                                    ) & 0x7f) 
-# 669 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
+# 670 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
                                                                                     == 
-# 669 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
+# 670 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
                                                                                        9
-# 669 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
+# 670 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
                                                                                               ;
   evidence.wifexited = 
-# 670 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
+# 671 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
                       (((
-# 670 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
+# 671 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
                       status
-# 670 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
+# 671 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
                       ) & 0x7f) == 0)
-# 670 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
+# 671 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
                                        ;
   evidence.exit_code = 
-# 671 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
+# 672 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
                       (((
-# 671 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
+# 672 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
                       status
-# 671 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
+# 672 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
                       ) & 0x7f) == 0) 
-# 671 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
+# 672 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
                                         ? 
-# 671 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
+# 672 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
                                           (((
-# 671 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
+# 672 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
                                           status
-# 671 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
+# 672 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
                                           ) & 0xff00) >> 8) 
-# 671 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
+# 672 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
                                                               : 0;
   evidence.wifsignaled = 
-# 672 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
+# 673 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
                         (((signed char) (((
-# 672 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
+# 673 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
                         status
-# 672 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
+# 673 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
                         ) & 0x7f) + 1) >> 1) > 0)
-# 672 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
+# 673 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
                                            ;
   evidence.term_sig = 
-# 673 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
+# 674 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
                      (((signed char) (((
-# 673 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
+# 674 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
                      status
-# 673 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
+# 674 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
                      ) & 0x7f) + 1) >> 1) > 0) 
-# 673 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
+# 674 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
                                          ? 
-# 673 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
+# 674 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
                                            ((
-# 673 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
+# 674 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
                                            status
-# 673 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
+# 674 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
                                            ) & 0x7f) 
-# 673 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
+# 674 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
                                                             : 0;
   evidence.cpu_ms = static_cast<int64_t>(usage.ru_utime.tv_sec + usage.ru_stime.tv_sec) * 1000 +
                     (usage.ru_utime.tv_usec + usage.ru_stime.tv_usec) / 1000;
@@ -150537,13 +150538,13 @@ RunResult run_bounded_process(const std::string& executable, const std::vector<s
   do {
     got = read(error_pipe[0], &child_error, sizeof(child_error));
   } while (got < 0 && 
-# 681 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
+# 682 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
                      (*__errno_location ()) 
-# 681 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
+# 682 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
                            == 
-# 681 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
+# 682 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp" 3
                               4
-# 681 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
+# 682 "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
                                    );
   close(error_pipe[0]);
   munmap(stack, kStackBytes);

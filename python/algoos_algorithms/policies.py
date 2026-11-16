@@ -100,15 +100,13 @@ def pick_case(cases: Sequence[ReadyCase], strategy: Strategy, *, now_ms: float,
         node_load = min((node.load_score for node in nodes or () if node.alive and node.free_slots),
                         default=0.0)
         return min(cases, key=lambda case: (case.estimate_ms + node_load, case.order_key))
-    # cache_aware: prefer a case that already has a cached replica and is short.
+    # cache_aware: prefer a case whose bin/bundle already lives on a free node.
     def cache_rank(case: ReadyCase) -> tuple[float, tuple[int, int, int]]:
         cached = any(
-            node.alive and node.free_slots and any(
-                item in node.cached_hashes for item in (f"bundle:{case.file_id}",)
-            )
+            node.alive and node.free_slots and _is_cached(case, node)
             for node in nodes or ()
         )
-        penalty = 0.0 if (case.cached_on or cached) else TRANSFER_PENALTY_MS
+        penalty = 0.0 if cached else TRANSFER_PENALTY_MS
         return (case.estimate_ms + penalty, case.order_key)
 
     return min(cases, key=cache_rank)

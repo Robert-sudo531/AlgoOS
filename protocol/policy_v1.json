@@ -80,6 +80,19 @@
       "tmpfs_size_bytes": 268435456
     }
   },
+  "special": {
+    "checker_limits": {
+      "cpu_ms": 5000,
+      "wall_ms": 5000,
+      "mem_bytes": 536870912,
+      "out_bytes": 1048576
+    },
+    "contract": {
+      "exit_code_0": "AC",
+      "exit_code_1": "WA",
+      "other_exit_or_signal": "SE"
+    }
+  },
   "result": {
     "compile_identity_fields_null": ["test_id", "sequence", "judge_id"],
     "compile_success_required_fields": ["bin_hash", "test_bundle_hash", "compiler_profile", "enqueue_seq"],

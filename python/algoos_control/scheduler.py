@@ -43,13 +43,13 @@ def dispatch_once(database: Database, policy: dict, *, origin: str = "control") 
     with database.transaction() as connection:
         submissions = connection.execute(
             "SELECT file_id, problem_id, scheduling_strategy, evaluation_mode, "
-            "short_circuit_window FROM submissions "
+            "short_circuit_window, submitted_at FROM submissions "
             "WHERE status IN ('EVALUATING','PENDING_SPECIAL') ORDER BY submitted_at LIMIT 64 "
             "FOR UPDATE SKIP LOCKED").fetchall()
         nodes = _alive_nodes(connection)
         if not nodes:
             return 0
-        for file_id, problem_id, strategy, mode, window in submissions:
+        for file_id, problem_id, strategy, mode, window, submitted_at in submissions:
             result_row = connection.execute(
                 "SELECT result, task FROM compile_jobs WHERE file_id=%s", (file_id,)).fetchone()
             if not result_row or not result_row[0] or result_row[0].get("status") != "COMPILED":
@@ -81,7 +81,10 @@ def dispatch_once(database: Database, policy: dict, *, origin: str = "control") 
             if not ready:
                 continue
             remaining = ready
-            now_ms = time.monotonic() * 1000
+            # Use one absolute epoch clock for aging.  SQL timestamps are timezone
+            # aware, so this stays comparable across processes and restarts.
+            now_ms = time.time() * 1000
+            arrival_ms = submitted_at.timestamp() * 1000
             working_nodes = [
                 NodeState(node_id=node.node_id, slots=node.slots, running=node.running,
                           load_score=node.load_score, cached_hashes=node.cached_hashes)
@@ -93,7 +96,7 @@ def dispatch_once(database: Database, policy: dict, *, origin: str = "control") 
                         file_id=str(file_id), test_id=case[0], sequence=case[1],
                         enqueue_seq=int(compile_task["enqueue_seq"]), attempt=1,
                         estimate_ms=_estimate_ms({"limits": case[5]}),
-                        arrival_ms=0.0,
+                        arrival_ms=arrival_ms,
                         bin_hash=compile_result.get("bin_hash", ""),
                         bundle_hash=bundle_hash,
                     )

@@ -1,0 +1,15 @@
+{
+  "problem_id": "special_pair",
+  "title": "任意非负整数对（特判）",
+  "time_limit_ms": 3000,
+  "memory_limit_mib": 256,
+  "compare_mode": "special",
+  "judge_mode": "special",
+  "checker": "checker.cpp",
+  "output_limit_bytes": 65536,
+  "tests": [
+    {"case_id": "01", "input": "tests/01.in", "output": "tests/01.out"},
+    {"case_id": "02", "input": "tests/02.in", "output": "tests/02.out"},
+    {"case_id": "03", "input": "tests/03.in", "output": "tests/03.out"}
+  ]
+}

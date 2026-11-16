@@ -25,6 +25,7 @@ dev = [
     "pytest-asyncio>=1.2",
     "ruff>=0.14",
     "jsonschema>=4.25",
+    "moto[server]>=5.2.5",
 ]
 
 [tool.pytest.ini_options]
@@ -32,6 +33,10 @@ testpaths = ["python/tests"]
 pythonpath = ["python"]
 asyncio_mode = "auto"
 markers = ["integration: requires live Postgres/NATS/MinIO/Redis services"]
+
+[[tool.uv.index]]
+url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+default = true
 
 [tool.ruff]
 line-length = 120

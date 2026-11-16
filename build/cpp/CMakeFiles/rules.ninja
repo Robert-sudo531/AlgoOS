@@ -24,7 +24,7 @@ rule CXX_SCAN__algoos_core_RelWithDebInfo
 # Rule to generate ninja dyndep files for CXX.
 
 rule CXX_DYNDEP__algoos_core_RelWithDebInfo
-  command = /root/.local/share/uv/tools/cmake/lib/python3.12/site-packages/cmake/data/bin/cmake -E cmake_ninja_dyndep --tdi=CMakeFiles/algoos_core.dir/CXXDependInfo.json --lang=CXX --modmapfmt=gcc --dd=$out @$out.rsp
+  command = /home/AlgoOS/.venv/lib/python3.14/site-packages/cmake/data/bin/cmake -E cmake_ninja_dyndep --tdi=CMakeFiles/algoos_core.dir/CXXDependInfo.json --lang=CXX --modmapfmt=gcc --dd=$out @$out.rsp
   description = Generating CXX dyndep file $out
   rspfile = $out.rsp
   rspfile_content = $in
@@ -55,7 +55,7 @@ rule CXX_COMPILER__algoos_core_unscanned_RelWithDebInfo
 # Rule for linking CXX static library.
 
 rule CXX_STATIC_LIBRARY_LINKER__algoos_core_RelWithDebInfo
-  command = $PRE_LINK && /root/.local/share/uv/tools/cmake/lib/python3.12/site-packages/cmake/data/bin/cmake -E rm -f $TARGET_FILE && /usr/sbin/ar qc $TARGET_FILE $LINK_FLAGS $in && /usr/sbin/ranlib $TARGET_FILE && $POST_BUILD
+  command = $PRE_LINK && /home/AlgoOS/.venv/lib/python3.14/site-packages/cmake/data/bin/cmake -E rm -f $TARGET_FILE && /usr/sbin/ar qc $TARGET_FILE $LINK_FLAGS $in && /usr/sbin/ranlib $TARGET_FILE && $POST_BUILD
   description = Linking CXX static library $TARGET_FILE
   restat = $RESTAT
 
@@ -73,7 +73,7 @@ rule CXX_SCAN__algoos_eval_RelWithDebInfo
 # Rule to generate ninja dyndep files for CXX.
 
 rule CXX_DYNDEP__algoos_eval_RelWithDebInfo
-  command = /root/.local/share/uv/tools/cmake/lib/python3.12/site-packages/cmake/data/bin/cmake -E cmake_ninja_dyndep --tdi=CMakeFiles/algoos_eval.dir/CXXDependInfo.json --lang=CXX --modmapfmt=gcc --dd=$out @$out.rsp
+  command = /home/AlgoOS/.venv/lib/python3.14/site-packages/cmake/data/bin/cmake -E cmake_ninja_dyndep --tdi=CMakeFiles/algoos_eval.dir/CXXDependInfo.json --lang=CXX --modmapfmt=gcc --dd=$out @$out.rsp
   description = Generating CXX dyndep file $out
   rspfile = $out.rsp
   rspfile_content = $in
@@ -124,7 +124,7 @@ rule CXX_SCAN__algoos_compile_RelWithDebInfo
 # Rule to generate ninja dyndep files for CXX.
 
 rule CXX_DYNDEP__algoos_compile_RelWithDebInfo
-  command = /root/.local/share/uv/tools/cmake/lib/python3.12/site-packages/cmake/data/bin/cmake -E cmake_ninja_dyndep --tdi=CMakeFiles/algoos_compile.dir/CXXDependInfo.json --lang=CXX --modmapfmt=gcc --dd=$out @$out.rsp
+  command = /home/AlgoOS/.venv/lib/python3.14/site-packages/cmake/data/bin/cmake -E cmake_ninja_dyndep --tdi=CMakeFiles/algoos_compile.dir/CXXDependInfo.json --lang=CXX --modmapfmt=gcc --dd=$out @$out.rsp
   description = Generating CXX dyndep file $out
   rspfile = $out.rsp
   rspfile_content = $in
@@ -175,7 +175,7 @@ rule CXX_SCAN__algoos_special_RelWithDebInfo
 # Rule to generate ninja dyndep files for CXX.
 
 rule CXX_DYNDEP__algoos_special_RelWithDebInfo
-  command = /root/.local/share/uv/tools/cmake/lib/python3.12/site-packages/cmake/data/bin/cmake -E cmake_ninja_dyndep --tdi=CMakeFiles/algoos_special.dir/CXXDependInfo.json --lang=CXX --modmapfmt=gcc --dd=$out @$out.rsp
+  command = /home/AlgoOS/.venv/lib/python3.14/site-packages/cmake/data/bin/cmake -E cmake_ninja_dyndep --tdi=CMakeFiles/algoos_special.dir/CXXDependInfo.json --lang=CXX --modmapfmt=gcc --dd=$out @$out.rsp
   description = Generating CXX dyndep file $out
   rspfile = $out.rsp
   rspfile_content = $in
@@ -226,7 +226,7 @@ rule CXX_SCAN__algoos_unit_tests_RelWithDebInfo
 # Rule to generate ninja dyndep files for CXX.
 
 rule CXX_DYNDEP__algoos_unit_tests_RelWithDebInfo
-  command = /root/.local/share/uv/tools/cmake/lib/python3.12/site-packages/cmake/data/bin/cmake -E cmake_ninja_dyndep --tdi=CMakeFiles/algoos_unit_tests.dir/CXXDependInfo.json --lang=CXX --modmapfmt=gcc --dd=$out @$out.rsp
+  command = /home/AlgoOS/.venv/lib/python3.14/site-packages/cmake/data/bin/cmake -E cmake_ninja_dyndep --tdi=CMakeFiles/algoos_unit_tests.dir/CXXDependInfo.json --lang=CXX --modmapfmt=gcc --dd=$out @$out.rsp
   description = Generating CXX dyndep file $out
   rspfile = $out.rsp
   rspfile_content = $in
@@ -276,7 +276,7 @@ rule CUSTOM_COMMAND
 # Rule for re-running cmake.
 
 rule RERUN_CMAKE
-  command = /root/.local/share/uv/tools/cmake/lib/python3.12/site-packages/cmake/data/bin/cmake --regenerate-during-build -S/home/AlgoOS/cpp -B/home/AlgoOS/build/cpp
+  command = /home/AlgoOS/.venv/lib/python3.14/site-packages/cmake/data/bin/cmake --regenerate-during-build -S/home/AlgoOS/cpp -B/home/AlgoOS/build/cpp
   description = Re-running CMake...
   generator = 1
 

@@ -118589,6 +118589,7 @@ struct Options {
   bool use_cgroup{true};
   bool use_seccomp{true};
   bool use_namespaces{true};
+  bool readonly_root{true};
 };
 
 Options parse_options(int argc, char** argv) {
@@ -118606,6 +118607,7 @@ Options parse_options(int argc, char** argv) {
     else if (arg == "--no-cgroup") options.use_cgroup = false;
     else if (arg == "--no-seccomp") options.use_seccomp = false;
     else if (arg == "--no-namespaces") options.use_namespaces = false;
+    else if (arg == "--writable-root") options.readonly_root = false;
     else throw std::runtime_error("unknown option: " + arg);
   }
   return options;
@@ -118620,6 +118622,7 @@ int main(int argc, char** argv) {
     config.sandbox.use_cgroup = options.use_cgroup;
     config.sandbox.use_seccomp = options.use_seccomp;
     config.sandbox.use_namespaces = options.use_namespaces;
+    config.sandbox.readonly_root = options.readonly_root;
     algoos::worker::SpecialService service(config);
 
     auto run_handler = [&](Json request) {
@@ -118667,19 +118670,19 @@ int main(int argc, char** argv) {
     server.start();
     struct sigaction action {};
     action.
-# 106 "/home/AlgoOS/cpp/apps/algoos-special.cpp" 3
+# 109 "/home/AlgoOS/cpp/apps/algoos-special.cpp" 3
           __sigaction_handler.sa_handler 
-# 106 "/home/AlgoOS/cpp/apps/algoos-special.cpp"
+# 109 "/home/AlgoOS/cpp/apps/algoos-special.cpp"
                      = handle_signal;
     sigaction(
-# 107 "/home/AlgoOS/cpp/apps/algoos-special.cpp" 3
+# 110 "/home/AlgoOS/cpp/apps/algoos-special.cpp" 3
              2
-# 107 "/home/AlgoOS/cpp/apps/algoos-special.cpp"
+# 110 "/home/AlgoOS/cpp/apps/algoos-special.cpp"
                    , &action, nullptr);
     sigaction(
-# 108 "/home/AlgoOS/cpp/apps/algoos-special.cpp" 3
+# 111 "/home/AlgoOS/cpp/apps/algoos-special.cpp" 3
              15
-# 108 "/home/AlgoOS/cpp/apps/algoos-special.cpp"
+# 111 "/home/AlgoOS/cpp/apps/algoos-special.cpp"
                     , &action, nullptr);
     std::cout << "algoos-special ready socket=" << options.socket << '\n';
     while (!g_stop.load()) std::this_thread::sleep_for(std::chrono::milliseconds(100));

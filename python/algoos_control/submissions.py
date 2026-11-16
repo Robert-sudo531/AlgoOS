@@ -29,6 +29,7 @@ def upsert_problem(database: Database, imported: ImportedProblem) -> None:
         "compare_mode": problem.compare_mode,
         "judge_mode": problem.judge_mode,
         "checker_hash": imported.checker_hash,
+        "output_limit_bytes": problem.output_limit_bytes,
         "case_hashes": imported.case_hashes,
         "tests": [{"case_id": case.case_id, "input": case.input, "output": case.output}
                   for case in problem.tests],

@@ -72,13 +72,26 @@ RawOutcome EvalService::run_raw(const protocol::EvalTask& task, const EvalPaths&
     outcome.detail = run.setup_error;
     return outcome;
   }
-  try {
-    outcome.out_bytes = static_cast<int64_t>(fs::file_size(outcome.out_path));
-  } catch (const std::exception&) {
-    outcome.out_bytes = 0;
+  // Special/raw runs still enforce the semantic output limit on normalized
+  // bytes, not on the raw stream: a trailing newline must not turn a valid
+  // answer into OLE.  The raw file itself stays untouched for the checker.
+  bool truncated = false;
+  std::string read_error;
+  const int64_t fsize_cap =
+      std::min<int64_t>(256LL << 20, task.limits.out_bytes + config_.sandbox.fsize_slack_bytes);
+  const auto raw_bytes = runner::read_bounded(outcome.out_path, fsize_cap, truncated, read_error);
+  if (!raw_bytes) {
+    outcome.verdict = "SE";
+    outcome.reason = "SYSTEM_ERROR";
+    outcome.detail = read_error;
+    return outcome;
   }
+  const auto normalized = runner::normalize_common(*raw_bytes);
+  outcome.out_bytes = static_cast<int64_t>(normalized.size());
+  if (truncated) outcome.out_bytes = std::max<int64_t>(outcome.out_bytes, fsize_cap + 1);
+  outcome.evidence.out_size = outcome.out_bytes;
   if (run.evidence.cgroup_memory_peak) outcome.memory_source = "cgroup_peak";
-  if (auto decision = sandbox::classify(run.evidence, task.limits)) {
+  if (auto decision = sandbox::classify(outcome.evidence, task.limits)) {
     outcome.verdict = std::string(sandbox::name(decision->verdict));
     outcome.reason = std::string(sandbox::name(decision->reason));
     if (config_.merge_ole && decision->verdict == Verdict::OLE) {

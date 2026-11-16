@@ -26,6 +26,7 @@ struct Options {
   bool use_cgroup{true};
   bool use_seccomp{true};
   bool use_namespaces{true};
+  bool readonly_root{true};
 };
 
 Options parse_options(int argc, char** argv) {
@@ -43,6 +44,7 @@ Options parse_options(int argc, char** argv) {
     else if (arg == "--no-cgroup") options.use_cgroup = false;
     else if (arg == "--no-seccomp") options.use_seccomp = false;
     else if (arg == "--no-namespaces") options.use_namespaces = false;
+    else if (arg == "--writable-root") options.readonly_root = false;
     else throw std::runtime_error("unknown option: " + arg);
   }
   return options;
@@ -57,6 +59,7 @@ int main(int argc, char** argv) {
     config.sandbox.use_cgroup = options.use_cgroup;
     config.sandbox.use_seccomp = options.use_seccomp;
     config.sandbox.use_namespaces = options.use_namespaces;
+    config.sandbox.readonly_root = options.readonly_root;
     algoos::worker::SpecialService service(config);
 
     auto run_handler = [&](Json request) {

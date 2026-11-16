@@ -113917,7 +113917,7 @@ struct CompileOutcome {
 class CompileService {
  public:
   struct Config {
-    std::string compiler{"g++"};
+    std::string compiler{"/usr/bin/g++"};
     std::string work_root{"/tmp/algoos-compile"};
     std::string platform{"linux-x86_64"};
   };
@@ -118578,7 +118578,7 @@ void handle_signal(int) { g_stop.store(true); }
 struct Options {
   std::string socket{"/tmp/algoos-compile.sock"};
   std::string work_root{"/tmp/algoos-compile"};
-  std::string compiler{"g++"};
+  std::string compiler{"/usr/bin/g++"};
   std::string platform{"linux-x86_64"};
   int workers{2};
   int64_t queue_capacity{256};
@@ -118618,7 +118618,10 @@ int main(int argc, char** argv) {
         throw std::runtime_error("expected cmd=compile");
       auto spec = algoos::protocol::parse_compile_spec(
           algoos::protocol::object_field(request.get(), "spec"));
-      spec.compiler = spec.compiler.empty() ? options.compiler : spec.compiler;
+      if (spec.compiler != "g++" || spec.compiler_profile != "cpp_baseline_v1" ||
+          spec.flags != std::vector<std::string>{"-std=c++17", "-O2", "-pipe"})
+        throw std::runtime_error("unsupported compiler profile");
+      spec.compiler = options.compiler;
       if (spec.platform.empty()) spec.platform = options.platform;
       const auto outcome = service.compile(spec);
       Json response = Json::object();
@@ -118659,19 +118662,19 @@ int main(int argc, char** argv) {
     server.start();
     struct sigaction action {};
     action.
-# 104 "/home/AlgoOS/cpp/apps/algoos-compile.cpp" 3
+# 107 "/home/AlgoOS/cpp/apps/algoos-compile.cpp" 3
           __sigaction_handler.sa_handler 
-# 104 "/home/AlgoOS/cpp/apps/algoos-compile.cpp"
+# 107 "/home/AlgoOS/cpp/apps/algoos-compile.cpp"
                      = handle_signal;
     sigaction(
-# 105 "/home/AlgoOS/cpp/apps/algoos-compile.cpp" 3
+# 108 "/home/AlgoOS/cpp/apps/algoos-compile.cpp" 3
              2
-# 105 "/home/AlgoOS/cpp/apps/algoos-compile.cpp"
+# 108 "/home/AlgoOS/cpp/apps/algoos-compile.cpp"
                    , &action, nullptr);
     sigaction(
-# 106 "/home/AlgoOS/cpp/apps/algoos-compile.cpp" 3
+# 109 "/home/AlgoOS/cpp/apps/algoos-compile.cpp" 3
              15
-# 106 "/home/AlgoOS/cpp/apps/algoos-compile.cpp"
+# 109 "/home/AlgoOS/cpp/apps/algoos-compile.cpp"
                     , &action, nullptr);
     std::cout << "algoos-compile ready socket=" << options.socket
               << " compiler=" << service.compiler_version() << '\n';

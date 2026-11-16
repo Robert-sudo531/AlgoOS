@@ -243,4 +243,12 @@ CMakeFiles/algoos_unit_tests.dir/tests/unit_tests.cpp.o.ddi: \
  /home/AlgoOS/cpp/include/algoos/runner/comparator.hpp \
  /home/AlgoOS/cpp/include/algoos/sandbox/classify.hpp \
  /home/AlgoOS/cpp/include/algoos/sandbox/types.hpp \
- /home/AlgoOS/cpp/include/algoos/sandbox/sandbox.hpp
+ /home/AlgoOS/cpp/include/algoos/sandbox/sandbox.hpp \
+ /home/AlgoOS/cpp/include/algoos/worker/cancel_registry.hpp \
+ /usr/include/c++/16/map /usr/include/c++/16/bits/stl_tree.h \
+ /usr/include/c++/16/bits/stl_map.h \
+ /usr/include/c++/16/bits/stl_multimap.h /usr/include/c++/16/mutex \
+ /usr/include/c++/16/bits/std_mutex.h \
+ /usr/include/c++/16/bits/unique_lock.h /usr/include/c++/16/set \
+ /usr/include/c++/16/bits/stl_set.h \
+ /usr/include/c++/16/bits/stl_multiset.h

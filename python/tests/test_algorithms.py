@@ -39,16 +39,29 @@ def test_cache_aware_prefers_cached_node() -> None:
 
 
 def test_aging_prevents_starvation() -> None:
-    long_waiting = ReadyCase("long", "01", 1, 1, estimate_ms=5000, arrival_ms=0)
+    # Epoch-style arrivals: the long task has waited 60 s, the short one is new.
+    long_waiting = ReadyCase("long", "01", 1, 1, estimate_ms=5000, arrival_ms=1_000)
     short_new = ReadyCase("short", "01", 1, 100, estimate_ms=3000, arrival_ms=60_000)
     nodes = [NodeState("n1", slots=1)]
-    decision = assign([long_waiting, short_new], nodes, "aging_sjf", now_ms=60_000)
-    # After many waiting rounds the long task's effective estimate shrinks.
-    assert decision.case.file_id in {"long", "short"}
+    decision = assign([long_waiting, short_new], nodes, "aging_sjf", now_ms=61_000)
+    # After 40 aging rounds the long task's effective estimate shrinks below
+    # the short task and it must be chosen.
+    assert decision.case.file_id == "long"
     fresh = assign([ReadyCase("a", "01", 1, 1, estimate_ms=1000),
                     ReadyCase("b", "01", 1, 2, estimate_ms=2000)],
                    nodes, "aging_sjf", now_ms=0)
     assert fresh.case.file_id == "a"
+
+
+def test_cache_aware_case_selection_uses_content_hashes() -> None:
+    cached_hash = "sha256:" + "a" * 64
+    cold_hash = "sha256:" + "b" * 64
+    nodes = [NodeState("n1", slots=1, cached_hashes=(cached_hash,))]
+    cached = ReadyCase("cached", "01", 1, 2, estimate_ms=1800, bin_hash=cached_hash)
+    cold = ReadyCase("cold", "01", 1, 1, estimate_ms=1500, bin_hash=cold_hash)
+    assignment = assign([cold, cached], nodes, "cache_aware", now_ms=0)
+    assert assignment.case.file_id == "cached"
+    assert assignment.cache_hit
 
 
 def test_simulator_is_deterministic_and_reports_metrics() -> None:
