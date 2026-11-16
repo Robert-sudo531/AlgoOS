@@ -53,6 +53,7 @@ def compile_result(task: dict, node_id: str, *, status: str, verdict: str | None
         "stage": "compile", "status": status, "node_id": node_id, "source": "compiler",
         "test_id": None, "sequence": None, "judge_id": None,
         "problem_id": task["problem_id"], "test_bundle_hash": task["test_bundle_hash"],
+        "source_hash": task["source_hash"],
         "compiler_profile": task["compiler_profile"], "enqueue_seq": task["enqueue_seq"],
         "bin_hash": bin_hash, "build_key": build_key,
         "compiler_version": compiler_version, "verdict": verdict, "reason": reason,

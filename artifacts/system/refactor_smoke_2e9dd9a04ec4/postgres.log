@@ -1,0 +1,166 @@
+2026-11-16 15:01:39.369 CST [68982] LOG:  starting PostgreSQL 18.6 (Ubuntu 18.6-0ubuntu0.26.04.1) on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0, 64-bit
+2026-11-16 15:01:39.369 CST [68982] LOG:  listening on IPv4 address "127.0.0.1", port 54067
+2026-11-16 15:01:39.369 CST [68982] LOG:  listening on Unix socket "/tmp/algoos_n32_3yvrlijt/.s.PGSQL.54067"
+2026-11-16 15:01:39.372 CST [69009] LOG:  database system was shut down at 2026-11-16 15:01:39 CST
+2026-11-16 15:01:39.376 CST [68982] LOG:  database system is ready to accept connections
+2026-11-16 15:01:49.915 CST [69138] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:01:49.915 CST [69138] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:01:50.233 CST [69144] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:01:50.233 CST [69144] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:01:50.548 CST [69149] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:01:50.548 CST [69149] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:01:50.865 CST [69152] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:01:50.865 CST [69152] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:01:51.182 CST [69155] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:01:51.182 CST [69155] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:01:51.501 CST [69159] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:01:51.501 CST [69159] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:01:51.820 CST [69162] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:01:51.820 CST [69162] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:01:52.134 CST [69168] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:01:52.134 CST [69168] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:01:52.453 CST [69172] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:01:52.453 CST [69172] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:01:52.770 CST [69176] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:01:52.770 CST [69176] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:01:53.089 CST [69179] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:01:53.089 CST [69179] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:01:53.406 CST [69256] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:01:53.406 CST [69256] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:01:53.724 CST [69271] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:01:53.724 CST [69271] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:01:54.041 CST [69275] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:01:54.041 CST [69275] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:01:54.357 CST [69280] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:01:54.357 CST [69280] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:01:54.674 CST [69284] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:01:54.674 CST [69284] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:01:54.992 CST [69288] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:01:54.992 CST [69288] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:01:55.310 CST [69291] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:01:55.310 CST [69291] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:01:55.627 CST [69295] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:01:55.627 CST [69295] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:01:55.944 CST [69299] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:01:55.944 CST [69299] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:01:56.260 CST [69304] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:01:56.260 CST [69304] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:01:56.598 CST [69309] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:01:56.598 CST [69309] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:01:56.914 CST [69313] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:01:56.914 CST [69313] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:01:57.230 CST [69317] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:01:57.230 CST [69317] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:01:57.546 CST [69320] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:01:57.546 CST [69320] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:01:57.864 CST [69324] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:01:57.864 CST [69324] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:01:58.184 CST [69329] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:01:58.184 CST [69329] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:01:58.502 CST [69335] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:01:58.502 CST [69335] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:01:58.824 CST [69338] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:01:58.824 CST [69338] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:01:59.142 CST [69343] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:01:59.142 CST [69343] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:01:59.463 CST [69354] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:01:59.463 CST [69354] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:01:59.779 CST [69358] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:01:59.779 CST [69358] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:02:00.097 CST [69362] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:02:00.097 CST [69362] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:02:00.413 CST [69369] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:02:00.413 CST [69369] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:02:00.729 CST [69377] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:02:00.729 CST [69377] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:02:01.051 CST [69381] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:02:01.051 CST [69381] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:02:01.367 CST [69385] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:02:01.367 CST [69385] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:02:01.684 CST [69388] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:02:01.684 CST [69388] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:02:02.002 CST [69393] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:02:02.002 CST [69393] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:02:02.319 CST [69397] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:02:02.319 CST [69397] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:02:02.635 CST [69402] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:02:02.635 CST [69402] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:02:02.952 CST [69405] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:02:02.952 CST [69405] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:02:03.270 CST [69408] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:02:03.270 CST [69408] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:02:03.587 CST [69413] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:02:03.587 CST [69413] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:02:03.903 CST [69417] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:02:03.903 CST [69417] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:02:04.220 CST [69422] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:02:04.220 CST [69422] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:02:04.538 CST [69450] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:02:04.538 CST [69450] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:02:04.855 CST [69454] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:02:04.855 CST [69454] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:02:05.173 CST [69457] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:02:05.173 CST [69457] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:02:05.490 CST [69461] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:02:05.490 CST [69461] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:02:05.807 CST [69466] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:02:05.807 CST [69466] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:02:06.122 CST [69474] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:02:06.122 CST [69474] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:02:06.438 CST [69480] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:02:06.438 CST [69480] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:02:06.755 CST [69483] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:02:06.755 CST [69483] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:02:07.073 CST [69487] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:02:07.073 CST [69487] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:02:07.388 CST [69490] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:02:07.388 CST [69490] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:02:07.704 CST [69494] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:02:07.704 CST [69494] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:02:08.023 CST [69498] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:02:08.023 CST [69498] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:02:08.339 CST [69503] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:02:08.339 CST [69503] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:02:08.657 CST [69508] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:02:08.657 CST [69508] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:02:08.976 CST [69511] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:02:08.976 CST [69511] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:02:09.294 CST [69515] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:02:09.294 CST [69515] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:02:09.613 CST [69518] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:02:09.613 CST [69518] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:02:09.931 CST [69523] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:02:09.931 CST [69523] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:02:10.250 CST [69527] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:02:10.250 CST [69527] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:02:10.568 CST [69532] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:02:10.568 CST [69532] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:02:10.885 CST [69536] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:02:10.885 CST [69536] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:02:11.205 CST [69540] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:02:11.205 CST [69540] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:02:11.522 CST [69543] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:02:11.522 CST [69543] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:02:11.835 CST [69547] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:02:11.835 CST [69547] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:02:12.154 CST [69553] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:02:12.154 CST [69553] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:02:12.470 CST [69558] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:02:12.470 CST [69558] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:02:12.787 CST [69562] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:02:12.787 CST [69562] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:02:13.104 CST [69565] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:02:13.104 CST [69565] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:02:13.418 CST [69570] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:02:13.418 CST [69570] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:02:13.735 CST [69573] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:02:13.735 CST [69573] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:02:14.051 CST [69578] ERROR:  column "dispatch_generation" does not exist at character 64
+2026-11-16 15:02:14.051 CST [69578] STATEMENT:  SELECT test_id, sequence, judge_id, state, judge_mode, limits, dispatch_generation FROM submission_cases WHERE file_id=$1 ORDER BY sequence
+2026-11-16 15:02:16.754 CST [68982] LOG:  received fast shutdown request
+2026-11-16 15:02:16.754 CST [68982] LOG:  aborting any active transactions
+2026-11-16 15:02:16.757 CST [68982] LOG:  background worker "logical replication launcher" (PID 69012) exited with exit code 1
+2026-11-16 15:02:16.757 CST [69007] LOG:  shutting down
+2026-11-16 15:02:16.758 CST [69007] LOG:  checkpoint starting: shutdown immediate
+2026-11-16 15:02:16.761 CST [69007] LOG:  checkpoint complete: wrote 183 buffers (1.1%), wrote 3 SLRU buffers; 0 WAL file(s) added, 0 removed, 0 recycled; write=0.003 s, sync=0.001 s, total=0.004 s; sync files=117, longest=0.001 s, average=0.001 s; distance=1041 kB, estimate=1041 kB; lsn=0/186E8C0, redo lsn=0/186E8C0
+2026-11-16 15:02:16.770 CST [68982] LOG:  database system is shut down

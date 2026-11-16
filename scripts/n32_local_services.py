@@ -100,8 +100,10 @@ async def nats_version(url, token):
 
 
 @contextmanager
-def local_services(config, evidence, manifest):
+def local_services(config, evidence, manifest, *, s3_credentials=None, jetstream_file_bytes=64 << 20):
     postgres_password, minio_user, minio_password, nats_token = (secrets.token_hex(24) for _ in range(4))
+    if s3_credentials is not None:
+        s3_credentials.update(access_key=minio_user, secret_key=minio_password)
     pg_port, s3_port, console_port, nats_port = free_ports(4)
     pg = {"host": HOST, "port": pg_port, "dbname": "postgres", "user": "algoos_probe",
           "password": postgres_password, "connect_timeout": 2, "sslmode": "disable",
@@ -124,7 +126,8 @@ def local_services(config, evidence, manifest):
         nats_conf = directory / "nats.conf"
         nats_conf.write_text(json.dumps({"host": HOST, "port": nats_port, "authorization": {"token": nats_token},
                                         "jetstream": {"store_dir": str(directory / "jetstream"),
-                                                      "max_mem_store": 16 << 20, "max_file_store": 64 << 20}}),
+                                                      "max_mem_store": 16 << 20,
+                                                      "max_file_store": jetstream_file_bytes}}),
                              encoding="utf-8")
         timeout = config["startup_timeout_s"]
         try:

@@ -184,7 +184,10 @@ EvalOutcome EvalService::judge(const protocol::EvalTask& task, const EvalPaths& 
   if (truncated) outcome.out_bytes = std::max<int64_t>(outcome.out_bytes, fsize_cap + 1);
   if (run.evidence.cgroup_memory_peak) outcome.memory_source = "cgroup_peak";
 
-  if (auto decision = sandbox::classify(run.evidence, limits)) {
+  // The semantic limit is the normalized answer length. The file cap and
+  // its SIGXFSZ evidence still apply independently to the raw stream.
+  outcome.evidence.out_size = outcome.out_bytes;
+  if (auto decision = sandbox::classify(outcome.evidence, limits)) {
     outcome.verdict = std::string(sandbox::name(decision->verdict));
     outcome.reason = std::string(sandbox::name(decision->reason));
     if (config_.merge_ole && decision->verdict == Verdict::OLE) {

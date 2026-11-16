@@ -21,7 +21,7 @@ void handle_signal(int) { g_stop.store(true); }
 struct Options {
   std::string socket{"/tmp/algoos-compile.sock"};
   std::string work_root{"/tmp/algoos-compile"};
-  std::string compiler{"g++"};
+  std::string compiler{"/usr/bin/g++"};
   std::string platform{"linux-x86_64"};
   int workers{2};
   int64_t queue_capacity{256};
@@ -61,7 +61,10 @@ int main(int argc, char** argv) {
         throw std::runtime_error("expected cmd=compile");
       auto spec = algoos::protocol::parse_compile_spec(
           algoos::protocol::object_field(request.get(), "spec"));
-      spec.compiler = spec.compiler.empty() ? options.compiler : spec.compiler;
+      if (spec.compiler != "g++" || spec.compiler_profile != "cpp_baseline_v1" ||
+          spec.flags != std::vector<std::string>{"-std=c++17", "-O2", "-pipe"})
+        throw std::runtime_error("unsupported compiler profile");
+      spec.compiler = options.compiler;
       if (spec.platform.empty()) spec.platform = options.platform;
       const auto outcome = service.compile(spec);
       Json response = Json::object();

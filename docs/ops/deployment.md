@@ -537,3 +537,15 @@ work/n32_runtime/venv/bin/python -m tests.n34_eval_batch --lazy-gold --actor lhy
 ```
 
 成功后刷新页面。竞赛题区读取最近通过的 `n4_lazy_gold_*` 批次；「运行内置样例」按钮仍跑 A+B。页面的单点墙钟、CPU、峰值 RSS 和各节点完成点数各有独立口径，不能据此推断吞吐或提速。
+
+## 2026-11-16 新版分支：本机最小闭环复跑
+
+在已准备好依赖的本机，从项目根目录运行：
+
+```bash
+bash deploy/scripts/local_cluster.sh smoke --actor lhy
+```
+
+入口复用 `work/n32_runtime/` 的三项基础服务，另启动 Redis、两个 C++ 评测节点及新版控制面、代理与 API。首次准备需要锁文件的 Python 环境（`UV_PROJECT_ENVIRONMENT="$PWD/work/refactor-venv" uv sync --locked`）、C++ 构建（`cmake -S cpp -B work/refactor-native && cmake --build work/refactor-native`）以及 Redis（系统 `redis-server` 或用 `--redis-bin`、`--redis-lib` 指定本机已解包的程序和库）；三项基础服务可按 N3.2 说明准备。
+
+每次使用临时数据和回环端口，退出后停止进程；预期 `doctor`、迁移和题包导入通过，并依次得到 AC、CE、WA、RE、TLE、SE。证据在 `artifacts/system/refactor_smoke_<编号>/`。本入口只跑可信自带样例，非 root 本机模式不验收生产沙箱。它是无 Docker 的本机验收入口；Compose 启动、浏览器演示和跨机部署另行验收。

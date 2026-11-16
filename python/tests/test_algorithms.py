@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from algoos_algorithms import NodeState, ReadyCase, assign, compute_metrics, simulate, simulated_annealing
 from algoos_algorithms.placement import Bundle, Node
-from algoos_algorithms.simulator import CaseSpec, NodeSpec
+from algoos_algorithms.simulator import NodeSpec
 from algoos_algorithms.workload import generate
 
 

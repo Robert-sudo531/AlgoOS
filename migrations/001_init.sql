@@ -32,7 +32,7 @@ CREATE TABLE submissions (
     cancel_generation   integer NOT NULL DEFAULT 0,
     submitted_at        timestamptz NOT NULL DEFAULT now(),
     finalized_at        timestamptz,
-    CONSTRAINT unique_submission_source UNIQUE (file_id, source_hash) NOT VALID
+    CONSTRAINT unique_submission_source UNIQUE (file_id, source_hash)
 );
 CREATE INDEX submissions_status_idx ON submissions (status);
 CREATE INDEX submissions_submitted_idx ON submissions (submitted_at DESC);

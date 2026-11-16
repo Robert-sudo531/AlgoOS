@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # AlgoOS local five-role cluster: Postgres/Redis/MinIO/NATS + native workers + agents.
-# Usage: local_cluster.sh start|stop|status|logs|clean
+# Usage: local_cluster.sh start|stop|status|logs|clean|smoke
 set -euo pipefail
 ROOT=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../.." && pwd)
 WORK=${ALGOOS_WORK:-$ROOT/work/cluster}
@@ -151,10 +151,11 @@ status() {
 }
 
 case "${1:-start}" in
+  smoke) exec "${ALGOOS_PYTHON:-$ROOT/work/refactor-venv/bin/python}" -m scripts.refactor_smoke "${@:2}" ;;
   start) start ;;
   stop) stop ;;
   status) status ;;
   logs) tail -n 40 -f "$LOGS"/*.log ;;
   clean) stop; docker compose -f "$COMPOSE" down -v ;;
-  *) echo "usage: $0 start|stop|status|logs|clean" >&2; exit 2 ;;
+  *) echo "usage: $0 start|stop|status|logs|clean|smoke" >&2; exit 2 ;;
 esac

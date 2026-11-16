@@ -44,6 +44,8 @@ class LocalCache:
         if path.is_file():
             data = path.read_bytes()
             if digest_bytes(data) == digest:
+                if category in {"bin", "checker"} and not path.stat().st_mode & 0o100:
+                    path.chmod(0o700)
                 return path
             path.unlink()
         data = store.fetch_verified(CATEGORY_PREFIX[category], digest,
@@ -66,6 +68,8 @@ class LocalCache:
         try:
             with os.fdopen(descriptor, "wb") as stream:
                 stream.write(data)
+                if path.parent.name in {"bin", "checker"}:
+                    os.fchmod(stream.fileno(), 0o700)
             os.replace(temporary, path)
         finally:
             if os.path.exists(temporary):

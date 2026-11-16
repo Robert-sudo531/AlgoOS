@@ -1,0 +1,63 @@
+INFO:     Started server process [72755]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:40465 (Press CTRL+C to quit)
+INFO:     127.0.0.1:60784 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60784 - "GET /api/v1/submissions HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:60784 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60784 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60784 - "GET /static/app.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60784 - "GET /static/style.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60784 - "POST /api/v1/experiments/simulation HTTP/1.1" 201 Created
+INFO:     127.0.0.1:60784 - "GET /api/v1/experiments/1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60784 - "GET /api/v1/experiments HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60784 - "POST /api/v1/submissions HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:60784 - "GET /api/v1/submissions/37d8f3fe-260f-4660-b564-d0dda1cb8ebb HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60784 - "GET /api/v1/submissions/37d8f3fe-260f-4660-b564-d0dda1cb8ebb HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60784 - "GET /api/v1/submissions/37d8f3fe-260f-4660-b564-d0dda1cb8ebb HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60784 - "GET /api/v1/submissions/37d8f3fe-260f-4660-b564-d0dda1cb8ebb HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60784 - "GET /api/v1/submissions/37d8f3fe-260f-4660-b564-d0dda1cb8ebb HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60784 - "GET /api/v1/submissions/37d8f3fe-260f-4660-b564-d0dda1cb8ebb HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60784 - "POST /api/v1/submissions HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:60784 - "GET /api/v1/submissions/de725469-9cdb-4890-9026-2269428b211c HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60784 - "GET /api/v1/submissions/de725469-9cdb-4890-9026-2269428b211c HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60784 - "GET /api/v1/submissions/de725469-9cdb-4890-9026-2269428b211c HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60784 - "POST /api/v1/submissions HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:60784 - "GET /api/v1/submissions/8f8cff36-0472-4a93-92ba-954d10d9a5ac HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60784 - "GET /api/v1/submissions/8f8cff36-0472-4a93-92ba-954d10d9a5ac HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60784 - "GET /api/v1/submissions/8f8cff36-0472-4a93-92ba-954d10d9a5ac HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60784 - "GET /api/v1/submissions/8f8cff36-0472-4a93-92ba-954d10d9a5ac HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60784 - "GET /api/v1/submissions/8f8cff36-0472-4a93-92ba-954d10d9a5ac HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60784 - "GET /api/v1/submissions/8f8cff36-0472-4a93-92ba-954d10d9a5ac HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60784 - "POST /api/v1/submissions HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:60784 - "GET /api/v1/submissions/05989928-c7b0-4177-9907-00fbd5a4cae8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60784 - "GET /api/v1/submissions/05989928-c7b0-4177-9907-00fbd5a4cae8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60784 - "GET /api/v1/submissions/05989928-c7b0-4177-9907-00fbd5a4cae8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60784 - "GET /api/v1/submissions/05989928-c7b0-4177-9907-00fbd5a4cae8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60784 - "GET /api/v1/submissions/05989928-c7b0-4177-9907-00fbd5a4cae8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60784 - "GET /api/v1/submissions/05989928-c7b0-4177-9907-00fbd5a4cae8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60784 - "POST /api/v1/submissions HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:60784 - "GET /api/v1/submissions/fda4e5ba-be36-4dce-9ee4-7e5bb4629b8d HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60784 - "GET /api/v1/submissions/fda4e5ba-be36-4dce-9ee4-7e5bb4629b8d HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60784 - "GET /api/v1/submissions/fda4e5ba-be36-4dce-9ee4-7e5bb4629b8d HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60784 - "GET /api/v1/submissions/fda4e5ba-be36-4dce-9ee4-7e5bb4629b8d HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60784 - "GET /api/v1/submissions/fda4e5ba-be36-4dce-9ee4-7e5bb4629b8d HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60784 - "GET /api/v1/submissions/fda4e5ba-be36-4dce-9ee4-7e5bb4629b8d HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60784 - "GET /api/v1/submissions/fda4e5ba-be36-4dce-9ee4-7e5bb4629b8d HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60784 - "GET /api/v1/submissions/fda4e5ba-be36-4dce-9ee4-7e5bb4629b8d HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60784 - "GET /api/v1/submissions/fda4e5ba-be36-4dce-9ee4-7e5bb4629b8d HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60784 - "GET /api/v1/submissions/fda4e5ba-be36-4dce-9ee4-7e5bb4629b8d HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60784 - "GET /api/v1/submissions/fda4e5ba-be36-4dce-9ee4-7e5bb4629b8d HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60784 - "GET /api/v1/submissions/fda4e5ba-be36-4dce-9ee4-7e5bb4629b8d HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60784 - "GET /api/v1/submissions/fda4e5ba-be36-4dce-9ee4-7e5bb4629b8d HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60784 - "GET /api/v1/submissions/fda4e5ba-be36-4dce-9ee4-7e5bb4629b8d HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60784 - "GET /api/v1/submissions/fda4e5ba-be36-4dce-9ee4-7e5bb4629b8d HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60784 - "GET /api/v1/submissions/fda4e5ba-be36-4dce-9ee4-7e5bb4629b8d HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60784 - "POST /api/v1/submissions HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:60784 - "GET /api/v1/submissions/2bb60ddb-d636-4994-b9de-84cff392d13d HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60784 - "GET /api/v1/submissions/2bb60ddb-d636-4994-b9de-84cff392d13d HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60784 - "GET /api/v1/submissions/2bb60ddb-d636-4994-b9de-84cff392d13d HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [72755]

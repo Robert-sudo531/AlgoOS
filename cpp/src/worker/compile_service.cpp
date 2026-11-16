@@ -64,11 +64,11 @@ CompileOutcome CompileService::compile(const protocol::CompileSpec& spec) {
   fs::create_directories(spec.output_dir);
 
   std::vector<std::string> arguments = spec.flags;
+  arguments.emplace_back("-x");
+  arguments.emplace_back("c++");
   arguments.emplace_back(spec.source);
   arguments.emplace_back("-o");
   arguments.emplace_back(binary_path.string());
-  arguments.emplace_back("-x");
-  arguments.emplace_back("c++");
 
   const auto result = sandbox::run_bounded_process(
       spec.compiler.empty() ? config_.compiler : spec.compiler, arguments, directory.string(), "",

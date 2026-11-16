@@ -7,6 +7,7 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 
 from algoos_control.config import NodeConfig, Settings
+from algoos_control.storage import ObjectStoreError
 from algoos_protocol import loads
 
 from .common import NodeAgentBase
@@ -28,9 +29,18 @@ class CompileAgent(NodeAgentBase):
         if task["compiler_profile"] != "cpp_baseline_v1":
             raise ValueError("unsupported compiler profile")
         profile = self.policy["compiler_profiles"][task["compiler_profile"]]
-        source = await asyncio.to_thread(
-            self.store.fetch_verified, "source", task["source_hash"],
-            suffix=".cpp", cap=256 * 1024)
+        try:
+            source = await asyncio.to_thread(
+                self.store.fetch_verified, "source", task["source_hash"],
+                suffix=".cpp", cap=256 * 1024)
+        except ObjectStoreError as error:
+            # A verified size/hash failure is deterministic. Transport failures
+            # still propagate and leave the broker task eligible for retry.
+            message_out = compile_result(task, self.node_id, status="FINAL", verdict="SE",
+                                         reason="SYSTEM_ERROR", detail=str(error))
+            await self.publish(self.policy["transport"]["compile_result_subject"], message_out)
+            await message.ack()
+            return
         with TemporaryDirectory(prefix="compile-", dir=self.config.work_root) as directory:
             source_path = Path(directory) / "source.cpp"
             source_path.write_bytes(source)

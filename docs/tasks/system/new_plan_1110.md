@@ -356,3 +356,32 @@ lhy 的[崩溃复跑失败记录](../../../artifacts/system/n3_crash_signal_172d
 **N4.2 本机交接预演：AI 实测通过，待本人复跑。** 62 个文件组成验收源码包，在仓库外解包、重新构建并复用已准备的本机运行依赖。AC/WA/CE/SE 与两节点重投、去重均通过，导出判定对照表。[证据](../../../artifacts/system/n4_handoff_1647a0a8ba2a/manifest.json)。待系统负责人复跑和应用负责人独立复现；首次安装、跨机运行和各角色云发布包尚未验收。阶段汇报提纲已准备，N4.5 的实测数据分析未开始。
 
 **2026-11-15 收尾：**N4 本机交接预演本人已通过，[证据](../../../artifacts/system/n4_handoff_2c517278babf/manifest.json)。系统负责人已交付本机 Web 与 HTTP 演示入口；应用负责人按[清单](../../tasks/application/handoff_n1_n4.md)运行、复现和演示，开发与方案交回系统负责人。HTTP 已实测读取历史记录、启动内置双节点批次并查询新结果，[证据](../../../artifacts/system/n4_web_01853f0f5bab/manifest.json)。该入口仅服务本机和可信内置样例；常驻生产服务、任意源码提交、真实 OOM、云部署和性能实验仍待验收。
+
+## 2026-11-16 分布式重构后续清单（待执行）
+
+依据 [REFACTOR_STATUS.md](../../../REFACTOR_STATUS.md) §3–7，按下列顺序推进。实际检出分支为 `加班加点大赶工`，基线 `96d2162`；原说明里的分支名和未提交描述为历史状态。此前 N1–N4 的本机成果仍是对照基线；新重构的协议、执行内核、控制与节点代理、调度和 Web 已有代码，**新链路端到端未验收**。系统负责人开发与修复；应用负责人只负责按交接版本测试、复现和演示。
+
+| 顺序 | 待做任务与验收点 |
+| --- | --- |
+| 1. 本机基础服务 | 先解决 S3：用可用 MinIO 镜像/二进制，或本机用 `moto[server]`，与容器中的 PostgreSQL、Redis、NATS 一起跑通。修 `local_cluster.sh`，实测 PATH、工作目录、信号回收、启动/停止、各服务健康及对象读写和哈希校验。 |
+| 2. 数据库与题包 | 跑迁移、`uv run algoos doctor` 和 `uv run algoos import-problems`。验证真实 PostgreSQL 的事务、幂等、JSONB、UUID、行锁范围；审查事务内取消发布与 outbox 顺序。 |
+| 3. 最小端到端 | 先跑 A+B 的 AC：API 提交 → 数据库/outbox → JetStream → 编译代理/C++ → 上传产物 → 调度 → 评测代理/C++ → 聚合落库 → API 查询。再跑 CE/WA/RE/TLE/SE；补 API 鉴权、提交、查询、取消、实验和 OpenAPI 契约测试，明确限流目前为进程内；验证实验 JSONB 写入及 summary 类型。检查 Web 轮询、空状态、错误状态，并做浏览器验收和截图。 |
+| 4. 特判、取消和短路 | 增加 special problem 与 checker，验证 special-result relay、fallback、用户取消、短路窗口/边界、迟到结果和取消与短路并发，核对最终状态机。补 C++ 侧 special/cancel/fallback 全字段契约检查；核对 Redis 取消集、心跳与会话，JetStream 各类任务/结果路由；统一特判输出对象的路径、TTL 和清理策略。 |
+| 5. 两逻辑节点与恢复 | 验证 eval-01/eval-02 分发与实际并发、心跳过期、缓存命中与亲和、NATS 重投及 judge_id 去重；测试节点下线、任务迁移、取消传播延迟。修正调度计时：跨进程不共用 monotonic 值，用提交/派发时间记录真实等待，消除 aging 的 arrival_ms=0 占位。验证编译节点常驻及多节点运行。 |
+| 6. 集成回归与隔离验收 | 在 `python/tests/integration/` 用 pytest fixture 启停真实服务，覆盖 AC/WA/CE/RE/TLE/SE、取消、特判、fallback 和重复结果。对含 run_raw 的新版复跑 C++ 测试；独立验证编译墙钟、CPU、内存限制，以及目标环境的 cgroup OOM、MLE/OLE、seccomp 逐项拦截、只读根/tmpfs 和 namespace 行为；区分本机 root 冒烟、非 root/异宿主与生产验收。 |
+| 7. 部署资产 | 补 `deploy/systemd/`、`deploy/cloud-init/`、`deploy/inventory/`、`deploy/kvm/`，验证 KVM/QEMU 五 VM 与跨机运行。 |
+| 8. 调度与实验 | 补 `experiments/runner.py` 和 `experiments/analysis/`，用固定工作负载接入 FCFS、SJF、Aging-SJF、Earliest-Finish、Cache-aware、离散事件模拟和模拟退火放置；做真实集群与 DOMjudge 对照、故障与重复实验。导出 CSV/JSON、图表和环境证据，记录吞吐、等待、周转与尾延迟等指标。模拟结果标 `simulation`。 |
+| 9. 迁移和清理 | 新链路可用后，把旧 `judge/`、`scripts/`、`tests/`、`web/`、`test_pipeline.py`、`deploy/n32/` 迁入 `legacy/single_node/`，核对旧协议与过渡代码去留。清理 Git 中误入的 `build/` 产物，补 build、Python 缓存和 Ruff 缓存忽略规则；迁移前保留旧入口作对照。 |
+| 10. 更新文档 | 更新 README 和新架构、启动、API、部署、实验及证据说明；实际验证后再追加 `docs/records/progress.md`。 |
+| 11. 最终验收与合并 | 干净目录 CMake 构建/ctest、pytest、ruff、协议 golden/schema 生成与核对、端到端和故障注入全部通过；记录环境、版本、通过与缺口，在开发分支提交并发 PR，复核后并入 main。 |
+
+**首批只做 1–3：**先打通本机 S3、完成迁移，再实际跑出新版 A+B 的 AC。现有单测、模拟和旧本机证据不能替代新版集群、真实 OOM 或生产隔离验收。本轮只记计划，未执行上述任务。
+
+**2026-11-16 首批 1–3 进展：本机最小闭环 AI 实测通过，待本人复跑。** 使用已有本机 PostgreSQL、MinIO、NATS 加临时 Redis，`doctor`、迁移、A+B 重复导入、API 鉴权与 OpenAPI、静态资源、模拟实验 JSONB 读写通过。新版链路实跑 AC/CE/WA/RE/TLE/SE；AC 两点分别由两个本机节点完成，CE 和源码哈希异常 SE 均不派发。进程退出后已回收。[证据](../../../artifacts/system/refactor_smoke_9241f21d9fd6/manifest.json)。复跑：`bash deploy/scripts/local_cluster.sh smoke --actor lhy`。容器启动方式、Web 浏览器交互、生产隔离和跨机未验收；特判、取消和短路仍按第 4 项推进。
+
+**2026-11-16 本人验收：推进到 11 步中的第 3 步。** lhy 执行 `bash deploy/scripts/local_cluster.sh smoke --actor lhy`，退出 0；源码哈希一致。[证据](../../../artifacts/system/refactor_smoke_8d676e95b166/manifest.json)。
+
+- **第 1 步，本机基础服务通过：** PostgreSQL、Redis、NATS、MinIO 连通，`doctor` 通过，临时进程回收。Compose 未验收。
+- **第 2 步，迁移与导入通过：** 新库迁移、重复导入 A+B 和题包 JSONB 读回通过。锁范围、并发事务和取消发布顺序仍待专项验证。
+- **第 3 步，最小闭环通过：** 新版 API 查回 AC/CE/WA/RE/TLE/SE；AC 两点分属两个本机节点，编译 CE/SE 未派发。鉴权、OpenAPI 路径、静态资源、模拟实验 JSONB 读写通过。浏览器交互与完整 API 契约未全部验收，取消留到第 4 步。
+- **第 4–11 步：**本轮未验收。下次从第 4 步「特判、取消和有序短路」开始；两节点缓存/重投专项、生产隔离、真实 OOM 和跨机部署均保留待验收。

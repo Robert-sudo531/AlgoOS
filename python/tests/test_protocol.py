@@ -7,7 +7,6 @@ from pathlib import Path
 
 import jsonschema
 import pytest
-
 from algoos_protocol import ContractError, dumps, load_policy, loads, normalize
 
 ROOT = Path(__file__).resolve().parents[2]

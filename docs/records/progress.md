@@ -588,3 +588,14 @@
 ### 2026-11-15｜AI 实测｜USACO 竞赛题与演示指标
 - 从旧提交 `3414b3a` 恢复《The Lazy Cow》Gold 的 11 点本地题包，新写参考解；新版双节点实跑 AC 11/11，节点分布 6/5。[证据](../../artifacts/system/n4_lazy_gold_44dfabc7d51b/manifest.json)。
 - Web 新增竞赛题区和单点墙钟、CPU、峰值 RSS；竞赛题查询与 A+B 实跑回归均通过。[HTTP 证据](../../artifacts/system/n4_web_08e54b659516/manifest.json)。吞吐、排队和提速待对照实验。
+
+### 2026-11-16｜AI 实测｜重构首批：四项服务、迁移与新版 API
+- 改动：新增本机 smoke 入口；修复初始迁移语法、调度代次列、编译通知源码哈希、g++ 路径、缓存执行权限、启动错误归类与归一化输出长度。旧演示入口保留。
+- 验证：PostgreSQL/MinIO/NATS/Redis、doctor、迁移与重复导入通过；全新实例经新版 API 得 AC/CE/WA/RE/TLE/SE，AC 两点由两个本机节点完成，编译 CE/SE 无派发。鉴权、OpenAPI、静态资源、模拟实验 JSONB 往返通过；模拟数据非实测性能。CMake/ctest 通过、pytest 38 通过 1 跳过、ruff 通过。[证据](../../artifacts/system/refactor_smoke_9241f21d9fd6/manifest.json)。
+- 下一步：本人复跑首批；Compose、浏览器验收、特判/取消/短路、生产隔离与跨机仍待完成。
+
+### 2026-11-16｜lhy 复跑、AI 核对｜重构首批本机闭环通过
+- **第 1 步：**四项本机服务和 doctor 通过，进程回收；Compose 待验收。
+- **第 2 步：**新库迁移、A+B 重复导入及题包 JSONB 读回通过；锁与并发事务待专项检查。
+- **第 3 步：**六类 API 判定通过，AC 两点由两个本机节点完成，编译 CE/SE 无派发；浏览器交互与完整 API 契约待验收。脚本退出 0，源码哈希一致。[证据](../../artifacts/system/refactor_smoke_8d676e95b166/manifest.json)。
+- **停在第 3 步的本机最小闭环。** 第 4–11 步未在本轮验收；下一步是第 4 步，本轮未开始。

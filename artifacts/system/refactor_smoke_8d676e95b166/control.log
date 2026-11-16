@@ -1,0 +1,4 @@
+[control] migrations: []
+[control] problems ready: a_plus_b
+[control] connected to nats://127.0.0.1:39631
+[control] stopped

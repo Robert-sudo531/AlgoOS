@@ -58,9 +58,10 @@ def handle_compile_result(database: Database, policy: dict, payload: dict) -> bo
             _materialize_cases(connection, file_id, task)
         else:
             connection.execute(
-                "UPDATE submissions SET status='CE', verdict=%s, reason=%s, compile_log=%s, "
+                "UPDATE submissions SET status=%s, verdict=%s, reason=%s, compile_log=%s, "
                 "finalized_at=now() WHERE file_id=%s",
-                (result["verdict"], result["reason"], result["stderr_tail"] or result["detail"],
+                ("CE" if result["verdict"] == "CE" else "FINAL",
+                 result["verdict"], result["reason"], result["stderr_tail"] or result["detail"],
                  file_id))
     return True
 

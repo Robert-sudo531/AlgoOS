@@ -1,0 +1,20 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/media/robert/WindowsD/active/2026-27_autumn_courses/innovation_training/python/algoos_cli/main.py", line 271, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/media/robert/WindowsD/active/2026-27_autumn_courses/innovation_training/python/algoos_cli/main.py", line 267, in main
+    return args.func(args)
+           ~~~~~~~~~^^^^^^
+  File "/media/robert/WindowsD/active/2026-27_autumn_courses/innovation_training/python/algoos_cli/main.py", line 82, in command_import
+    database.migrate()
+    ~~~~~~~~~~~~~~~~^^
+  File "/media/robert/WindowsD/active/2026-27_autumn_courses/innovation_training/python/algoos_control/db.py", line 45, in migrate
+    connection.execute(path.read_text(encoding="utf-8"))
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/media/robert/WindowsD/active/2026-27_autumn_courses/innovation_training/work/refactor-venv/lib/python3.14/site-packages/psycopg/connection.py", line 304, in execute
+    raise ex.with_traceback(None)
+psycopg.errors.FeatureNotSupported: UNIQUE constraints cannot be marked NOT VALID
+LINE 35: ...ue_submission_source UNIQUE (file_id, source_hash) NOT VALID
+                                                               ^

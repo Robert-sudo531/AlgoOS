@@ -29,7 +29,7 @@ struct CompileOutcome {
 class CompileService {
  public:
   struct Config {
-    std::string compiler{"g++"};
+    std::string compiler{"/usr/bin/g++"};
     std::string work_root{"/tmp/algoos-compile"};
     std::string platform{"linux-x86_64"};
   };

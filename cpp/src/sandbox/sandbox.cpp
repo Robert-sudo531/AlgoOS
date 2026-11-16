@@ -501,7 +501,9 @@ RunResult run_common(const RunRequest& request, bool sandbox_user_program) {
       program_status = report.status;
       program_usage = report.usage;
       have_program = true;
-    } else if (report_kind == 0 && report_size >= static_cast<int>(sizeof(ChildError))) {
+    }
+  }
+  if (report_kind == 0 && report_size >= static_cast<int>(sizeof(ChildError))) {
       ChildError error{};
       std::memcpy(&error, report_bytes.data(), sizeof(error));
       evidence.setup_failed = true;
@@ -514,7 +516,6 @@ RunResult run_common(const RunRequest& request, bool sandbox_user_program) {
       };
       const int stage = error.stage >= 0 && error.stage < 31 ? error.stage : 0;
       result.setup_error = std::string(stages[stage]) + ": " + std::strerror(error.number);
-    }
   }
   if (!evidence.setup_failed) {
     evidence.wifexited = WIFEXITED(program_status);
