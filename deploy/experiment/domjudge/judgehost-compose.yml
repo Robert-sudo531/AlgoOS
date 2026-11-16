@@ -1,0 +1,19 @@
+name: domjudge-judgehost
+
+# 在每台 eval VM 上运行；DOMSERVER_BASEURL 指向 control 的内网地址。
+# 同一台 VM 上跑多个 judgehost 时，复制 service 并改 hostname / DAEMON_ID。
+services:
+  judgehost-0:
+    image: domjudge/judgehost:9.0.1
+    restart: unless-stopped
+    privileged: true
+    cgroup: host
+    hostname: ${JUDGEHOST_NAME:-judgedaemon-eval01}
+    environment:
+      CONTAINER_TIMEZONE: Asia/Shanghai
+      DOMSERVER_BASEURL: ${DOMSERVER_BASEURL:-http://192.168.122.100:12345/}
+      JUDGEDAEMON_USERNAME: judgehost
+      JUDGEDAEMON_PASSWORD: ${JUDGEDAEMON_PASSWORD}
+      DAEMON_ID: 0
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
