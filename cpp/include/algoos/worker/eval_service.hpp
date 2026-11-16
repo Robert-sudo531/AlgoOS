@@ -48,7 +48,6 @@ class EvalService {
   struct Config {
     std::string work_root{"/tmp/algoos-eval"};
     sandbox::SandboxConfig sandbox;
-    bool merge_ole{false};
   };
 
   EvalService(Config config, CancelRegistry& registry);

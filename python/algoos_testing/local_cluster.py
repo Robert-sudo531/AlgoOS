@@ -88,16 +88,36 @@ def _docker_stop(name: str) -> None:
     subprocess.run(["docker", "rm", "-f", name], capture_output=True, text=True)
 
 
+def _node_ids(role: str, count: int) -> tuple[str, ...]:
+    if count < 1:
+        raise ValueError(f"{role} node count must be positive")
+    return tuple(f"{role}-{index:02d}" for index in range(1, count + 1))
+
+
 class LocalCluster:
-    """A disposable, fully local cluster with two eval nodes and one special node."""
+    """A disposable local cluster with configurable compile/eval/special nodes.
+
+    Defaults are two nodes per worker role; set the corresponding constructor
+    argument or ``ALGOOS_*_NODES`` to exercise larger or smaller clusters.
+    """
 
     def __init__(self, *, problems: Iterable[str] = DEFAULT_PROBLEMS,
                  strategy: str = "fcfs", log_dir: Path | str | None = None,
-                 startup_timeout: float = 45.0, extra_env: dict[str, str] | None = None):
+                 startup_timeout: float = 45.0, extra_env: dict[str, str] | None = None,
+                 compile_nodes: int | None = None, eval_nodes: int | None = None,
+                 special_nodes: int | None = None):
         self.extra_env = dict(extra_env or {})
         self.problem_ids = tuple(problems)
         self.strategy = strategy
         self.startup_timeout = startup_timeout
+        self.compile_node_ids = _node_ids(
+            "compile", compile_nodes or int(os.environ.get("ALGOOS_COMPILE_NODES", "2")))
+        self.eval_node_ids = _node_ids(
+            "eval", eval_nodes or int(os.environ.get("ALGOOS_EVAL_NODES", "2")))
+        self.special_node_ids = _node_ids(
+            "special", special_nodes or int(os.environ.get("ALGOOS_SPECIAL_NODES", "2")))
+        self.node_ids = (self.compile_node_ids + self.eval_node_ids
+                         + self.special_node_ids)
         self.temp = TemporaryDirectory(prefix="algoos-e2e-")
         self.root = Path(self.temp.name)
         self.logs = Path(log_dir) if log_dir else self.root / "logs"
@@ -322,34 +342,37 @@ class LocalCluster:
         native.mkdir()
         common = ["--workers", "2"]
         disabled = ["--no-cgroup", "--no-namespaces", "--no-seccomp", "--writable-root"]
-        sock = native / "compile.sock"
-        self._spawn("compile-worker", [str(BUILD / "algoos-compile"), "--socket", str(sock),
-                                       "--work-root", str(native / "compile"), *common])
-        self._wait_socket(sock, "compile worker")
-        for node in ("eval-01", "eval-02"):
+        for node in self.compile_node_ids:
+            sock = native / f"{node}.sock"
+            self._spawn(f"{node}-worker", [str(BUILD / "algoos-compile"), "--socket", str(sock),
+                                           "--work-root", str(native / node), *common])
+            self._wait_socket(sock, f"{node} worker")
+        for node in self.eval_node_ids:
             sock = native / f"{node}.sock"
             self._spawn(f"{node}-worker", [str(BUILD / "algoos-eval"), "--socket", str(sock),
                                            "--node-id", node, "--work-root",
                                            str(native / node), *common, *disabled])
             self._wait_socket(sock, f"{node} worker")
-        sock = native / "special.sock"
-        self._spawn("special-worker", [str(BUILD / "algoos-special"), "--socket", str(sock),
-                                       "--work-root", str(native / "special"), *common,
-                                       *disabled])
-        self._wait_socket(sock, "special worker")
+        for node in self.special_node_ids:
+            sock = native / f"{node}.sock"
+            self._spawn(f"{node}-worker", [str(BUILD / "algoos-special"), "--socket", str(sock),
+                                           "--work-root", str(native / node), *common,
+                                           *disabled])
+            self._wait_socket(sock, f"{node} worker")
 
     def _start_agents(self) -> None:
         configs = self.root / "configs"
         configs.mkdir()
-        nodes = (("compile-01", "compile"), ("eval-01", "eval"), ("eval-02", "eval"),
-                 ("special-01", "special"))
+        nodes = (
+            *((node, "compile") for node in self.compile_node_ids),
+            *((node, "eval") for node in self.eval_node_ids),
+            *((node, "special") for node in self.special_node_ids),
+        )
         for node_id, role in nodes:
             config = configs / f"{node_id}.json"
             config.write_text(json.dumps({
                 "node_id": node_id, "role": role,
-                "native_socket": str(self.root / "native" /
-                                     ("compile.sock" if role == "compile" else
-                                      f"{node_id}.sock" if role != "special" else "special.sock")),
+                "native_socket": str(self.root / "native" / f"{node_id}.sock"),
                 "work_root": str(self.root / "work" / node_id),
                 "cache_root": str(self.root / "cache" / node_id),
                 "cache_max_bytes": 1 << 30, "max_parallel": 2,
@@ -371,18 +394,19 @@ class LocalCluster:
                     self.startup_timeout, "HTTP API")
 
     def _wait_for_cluster(self) -> None:
+        expected_eval = set(self.eval_node_ids)
+
         def heartbeats_ready() -> bool:
             with psycopg.connect(self.env["ALGOOS_DB_DSN"], connect_timeout=2) as connection:
                 rows = connection.execute(
                     "SELECT node_id FROM eval_nodes WHERE role='eval' AND status='ALIVE'"
                 ).fetchall()
-            return {row[0] for row in rows} == {"eval-01", "eval-02"}
+            return {row[0] for row in rows} == expected_eval
 
         _wait_until(heartbeats_ready, self.startup_timeout, "eval node heartbeats")
         _wait_until(lambda: all(
             self._redis.exists(f"algoos:heartbeat:{node}") for node in
-            ("eval-01", "eval-02", "special-01")), self.startup_timeout,
-            "Redis heartbeats")
+            self.node_ids), self.startup_timeout, "Redis heartbeats")
 
     # ------------------------------------------------------------------ teardown
     def stop(self) -> None:

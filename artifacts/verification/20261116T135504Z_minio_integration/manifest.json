@@ -1,0 +1,16 @@
+{
+  "status": "PASSED",
+  "exit_code": 0,
+  "command": "uv run pytest -q -m integration",
+  "finished_at": "2026-11-16T13:57:58.329696+00:00",
+  "worker_nodes": {
+    "compile": 2,
+    "eval": 2,
+    "special": 2
+  },
+  "s3_backend": "minio",
+  "minio_image": "cgr.dev/chainguard/minio@sha256:9158c67aa441627c366442e84656f689e16bec4809851ec64318561a365b69e4",
+  "minio_version": "RELEASE.2026-11-12T01-15-23Z",
+  "minio_license": "GNU AGPLv3 (Chainguard build)",
+  "scope": "local multi-process cluster with 2 compile/2 eval/2 special nodes and one MinIO container; not production, persistent, TLS or cross-machine validation"
+}

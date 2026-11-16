@@ -58,7 +58,7 @@ def main() -> int:
     try:
         cluster = LocalCluster(
             problems=PROBLEMS, strategy="cache_aware",
-            log_dir=evidence / "logs",
+            log_dir=evidence / "logs", compile_nodes=2, eval_nodes=2, special_nodes=2,
             extra_env={
                 "ALGOOS_STALE_SECONDS": "4",
                 "ALGOOS_REAPER_INTERVAL": "1",
@@ -71,6 +71,11 @@ def main() -> int:
             "postgres": cluster.query("SHOW server_version")[0][0],
             "s3_backend": cluster.s3_mode,
             "s3_image": cluster.s3_image or "moto",
+            "worker_nodes": {
+                "compile": len(cluster.compile_node_ids),
+                "eval": len(cluster.eval_node_ids),
+                "special": len(cluster.special_node_ids),
+            },
             "nodes": cluster.list_nodes(),
         }
 
@@ -129,7 +134,7 @@ def main() -> int:
         heartbeat_hashes = {
             node: json.loads(cluster.redis_client.get(f"algoos:heartbeat:{node}") or "{}")
             .get("cached_hashes", [])
-            for node in ("eval-01", "eval-02")
+            for node in cluster.eval_node_ids
         }
         require(all(heartbeat_hashes[node] for node in heartbeat_hashes),
                 f"node heartbeat has no cached hashes: {heartbeat_hashes}")
@@ -197,8 +202,8 @@ def main() -> int:
             "view": view, "duplicate_rows": duplicates,
         })
 
-        # 4. Dead-node reaper: kill the eval-01 agent and native worker, then verify the
-        #    stranded case is re-queued and executed on eval-02.
+        # 4. Dead-node reaper: kill one eval node's agent and native worker, then
+        #    verify the stranded case is re-queued on another live eval node.
         file_id = cluster.submit("a_plus_b", source("sleepy.cpp"),
                                  evaluation_mode="all_cases", strategy="fcfs")
 
@@ -212,7 +217,7 @@ def main() -> int:
         require(stuck is not None, f"no dispatched point to reap: {view}")
         stuck_test = stuck["test_id"]
         dead_node = stuck["node_id"]
-        live_node = "eval-02" if dead_node == "eval-01" else "eval-01"
+        live_node = next(node for node in cluster.eval_node_ids if node != dead_node)
         cluster.stop_process(f"{dead_node}-agent", force=True)
         cluster.stop_process(f"{dead_node}-worker", force=True)
         deadline = time.monotonic() + 60

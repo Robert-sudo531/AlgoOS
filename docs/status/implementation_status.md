@@ -12,14 +12,14 @@
 |---|---|---|
 | 协议 v1 | ✅ 本机通过 | 六类消息、严格 JSON、golden/非法 fixture、JSON Schema |
 | API / 控制面 | ✅ 本机通过 | 提交、查询、取消、节点、题目、实验、静态页面 |
-| 编译 / 评测 / 特判 | ✅ 本机通过 | 原生 C++ Worker + Python Agent；特判 `.out` + checker |
-| 判定 | ✅ 本机通过 | AC/CE/WA/RE/TLE/SE；OLE、CANCELLED、SE |
+| 编译 / 评测 / 特判 | ✅ 本机 2/2/2 通过 | 三种角色均为可扩展 Worker 池；特判 `.out` + checker |
+| 判定 | ✅ 本机通过 | AC/CE/WA/RE/TLE/WR/SE/CANCELLED；输出超限统一为 WR/OUTPUT_LIMIT |
 | 取消 / 有序短路 | ✅ 本机 E2E | 测试点收敛到 `CANCELLED`；短路边界按序号 |
 | 缓存 / 可靠性 | ✅ 本机 E2E | cache_hit、重复/冲突结果、Agent 重启、reaper、fallback |
 | 对象存储 | ✅ 本机 MinIO | 单容器、非生产持久化/TLS/集群验证 |
 | 沙箱 | ◐ 单测 | rlimit/namespace/cgroup/seccomp 已接入；真实 OOM/逐 syscall 未验证 |
 | 调度 / 实验 | ◐ 小规模 | 五种策略、模拟器、SA 放置；无正式重复矩阵 |
-| 部署资产 | ◐ 已备 | systemd/cloud-init/inventory/KVM；五 VM 未执行 |
+| 部署资产 | ◐ 已备 | systemd/cloud-init/inventory/KVM；参考多节点未执行 |
 | Web / API 契约 / CI | ❌ 未完成 | 页面存在，缺少浏览器验收、契约专项和 CI |
 | 最终提交 | ❌ 未做 | 工作区有未提交重构 |
 
@@ -30,11 +30,11 @@
 | C++ 核心测试 | 全部通过 | `./build/cpp/algoos-core-tests` |
 | Python 单元测试 | 39 passed, 1 skipped | `uv run pytest -q` |
 | 静态检查 | 通过 | `uv run ruff check python experiments scripts protocol` |
-| 集成测试 | 8 passed（真实 MinIO） | [manifest](../../artifacts/verification/20261116T123627Z_minio_integration/manifest.json) |
-| 特判 / 取消 / 短路 E2E | PASSED | [manifest](../../artifacts/verification/20261116T123748Z_special_flow/manifest.json) |
-| 缓存 / 重启 / 重派 / fallback E2E | PASSED | [manifest](../../artifacts/verification/20261116T123819Z_reliability_flow/manifest.json) |
+| 集成测试 | 9 passed（真实 MinIO） | [manifest](../../artifacts/verification/20261116T135504Z_minio_integration/manifest.json) |
+| 特判 / 取消 / 短路 E2E | PASSED | [manifest](../../artifacts/verification/20261116T135655Z_special_flow/manifest.json) |
+| 缓存 / 重启 / 重派 / fallback E2E | PASSED | [manifest](../../artifacts/verification/20261116T135725Z_reliability_flow/manifest.json) |
 | 本机基线 smoke | PASSED | [manifest](../../artifacts/verification/20261116T082019Z_baseline_smoke/manifest.json) |
-| 真实集群实验 | 6/6 判定一致 | [manifest](../../artifacts/experiments/20261116T122302Z_cluster_cache_aware/manifest.json) |
+| 真实集群实验 | 6/6 判定一致 | [manifest](../../artifacts/experiments/20261116T140112Z_cluster_cache_aware/manifest.json) |
 
 ## 3. 本机 S3 口径
 
@@ -59,7 +59,7 @@
 
 ## 5. 未完成 / 不能声称
 
-1. KVM 五 VM 未执行，`deploy/kvm/provision.sh` 只是部署资产。
+1. KVM 参考多节点未执行，`deploy/kvm/provision.sh` 只是部署资产。
 2. 生产沙箱未验证：真实 cgroup OOM、seccomp 逐 syscall、跨机 namespace/时钟。
 3. 本机 MinIO 是单容器，不是生产对象存储。
 4. 正式实验矩阵未做：需要至少 3 次重复、固定环境、p50/p95/方差和图表。

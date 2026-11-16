@@ -1,0 +1,53 @@
+INFO:     Started server process [143761]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:48147 (Press CTRL+C to quit)
+INFO:     127.0.0.1:46184 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46184 - "GET /api/v1/nodes HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46184 - "POST /api/v1/submissions HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:46184 - "POST /api/v1/submissions HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:46184 - "POST /api/v1/submissions HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:46184 - "POST /api/v1/submissions HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:46184 - "POST /api/v1/submissions HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:46184 - "POST /api/v1/submissions HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:46184 - "GET /api/v1/submissions/1d865e46-0dee-4a1b-ad88-d22efcd54b87 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46184 - "GET /api/v1/submissions/e62a1b84-3e27-445e-8ca5-cdb5b8f08176 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46184 - "GET /api/v1/submissions/5ff93ce9-9514-4ed6-a597-3de336605acc HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46184 - "GET /api/v1/submissions/7d979c99-59c5-4d50-890c-cde3f592973f HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46184 - "GET /api/v1/submissions/c3c348f6-9f90-4b93-9d48-1112a91041e2 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46184 - "GET /api/v1/submissions/4b4e5b2e-33ae-4e30-a9fc-e631d3eb6849 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46184 - "GET /api/v1/submissions/1d865e46-0dee-4a1b-ad88-d22efcd54b87 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46184 - "GET /api/v1/submissions/e62a1b84-3e27-445e-8ca5-cdb5b8f08176 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46184 - "GET /api/v1/submissions/7d979c99-59c5-4d50-890c-cde3f592973f HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46184 - "GET /api/v1/submissions/c3c348f6-9f90-4b93-9d48-1112a91041e2 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46184 - "GET /api/v1/submissions/4b4e5b2e-33ae-4e30-a9fc-e631d3eb6849 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46184 - "GET /api/v1/submissions/7d979c99-59c5-4d50-890c-cde3f592973f HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46184 - "GET /api/v1/submissions/c3c348f6-9f90-4b93-9d48-1112a91041e2 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46184 - "GET /api/v1/submissions/4b4e5b2e-33ae-4e30-a9fc-e631d3eb6849 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46184 - "GET /api/v1/submissions/7d979c99-59c5-4d50-890c-cde3f592973f HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46184 - "GET /api/v1/submissions/c3c348f6-9f90-4b93-9d48-1112a91041e2 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46184 - "GET /api/v1/submissions/4b4e5b2e-33ae-4e30-a9fc-e631d3eb6849 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46184 - "GET /api/v1/submissions/7d979c99-59c5-4d50-890c-cde3f592973f HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46184 - "GET /api/v1/submissions/c3c348f6-9f90-4b93-9d48-1112a91041e2 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46184 - "GET /api/v1/submissions/4b4e5b2e-33ae-4e30-a9fc-e631d3eb6849 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46184 - "GET /api/v1/submissions/c3c348f6-9f90-4b93-9d48-1112a91041e2 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46184 - "GET /api/v1/submissions/4b4e5b2e-33ae-4e30-a9fc-e631d3eb6849 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46184 - "GET /api/v1/submissions/c3c348f6-9f90-4b93-9d48-1112a91041e2 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46184 - "GET /api/v1/submissions/c3c348f6-9f90-4b93-9d48-1112a91041e2 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46184 - "GET /api/v1/submissions/c3c348f6-9f90-4b93-9d48-1112a91041e2 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46184 - "GET /api/v1/submissions/c3c348f6-9f90-4b93-9d48-1112a91041e2 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46184 - "GET /api/v1/submissions/c3c348f6-9f90-4b93-9d48-1112a91041e2 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46184 - "GET /api/v1/submissions/c3c348f6-9f90-4b93-9d48-1112a91041e2 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46184 - "GET /api/v1/submissions/c3c348f6-9f90-4b93-9d48-1112a91041e2 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46184 - "GET /api/v1/submissions/c3c348f6-9f90-4b93-9d48-1112a91041e2 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46184 - "GET /api/v1/submissions/c3c348f6-9f90-4b93-9d48-1112a91041e2 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46184 - "GET /api/v1/submissions/c3c348f6-9f90-4b93-9d48-1112a91041e2 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46184 - "GET /api/v1/submissions/c3c348f6-9f90-4b93-9d48-1112a91041e2 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46184 - "GET /api/v1/submissions/c3c348f6-9f90-4b93-9d48-1112a91041e2 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46184 - "GET /api/v1/submissions/c3c348f6-9f90-4b93-9d48-1112a91041e2 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46184 - "GET /api/v1/submissions/c3c348f6-9f90-4b93-9d48-1112a91041e2 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46184 - "GET /api/v1/submissions/c3c348f6-9f90-4b93-9d48-1112a91041e2 HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [143761]

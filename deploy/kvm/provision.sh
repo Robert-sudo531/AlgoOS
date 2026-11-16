@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
-# Provision the five AlgoOS reference VMs with libvirt + cloud-init.
+# Provision the AlgoOS reference VMs with libvirt + cloud-init.
+# The example below has 1 control + 2 compile + 2 eval + 2 special nodes;
+# role counts are not fixed by the scheduler or protocol.
 # NOT executed by the local test suite; requires /dev/kvm, libvirt, virt-install,
 # qemu-img and cloud-localds on the hypervisor.
 set -euo pipefail
@@ -32,8 +34,8 @@ if ! virsh net-info algoos >/dev/null 2>&1; then
   virsh net-start algoos
 fi
 
-hosts=(algoos-control algoos-compile algoos-eval-01 algoos-eval-02 algoos-special)
-macs=(52:54:00:12:34:10 52:54:00:12:34:11 52:54:00:12:34:21 52:54:00:12:34:22 52:54:00:12:34:31)
+hosts=(algoos-control algoos-compile-01 algoos-compile-02 algoos-eval-01 algoos-eval-02 algoos-special-01 algoos-special-02)
+macs=(52:54:00:12:34:10 52:54:00:12:34:11 52:54:00:12:34:12 52:54:00:12:34:21 52:54:00:12:34:22 52:54:00:12:34:31 52:54:00:12:34:32)
 for index in "${!hosts[@]}"; do
   name=${hosts[$index]}
   mac=${macs[$index]}

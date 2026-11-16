@@ -1,0 +1,6 @@
+[control] migrations: []
+[control] problems ready: a_plus_b, special_pair
+[control] connected to nats://127.0.0.1:45269
+[aggregator] conflicting duplicate ignored: 9b4fa680-2117-41e5-a9f4-52f023f09d2e:01:1
+[control] re-queued 1 stranded case(s)
+[control] stopped

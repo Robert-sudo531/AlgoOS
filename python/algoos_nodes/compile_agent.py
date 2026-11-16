@@ -88,8 +88,9 @@ class CompileAgent(NodeAgentBase):
         self.install_signals()
         heartbeat = asyncio.create_task(self.heartbeat_loop())
         try:
+            # Shared durable: any compile node can take any compile task.
             await self._consume(self.policy["transport"]["compile_task_subject"],
-                                f"compile-{self.node_id}", self._handle)
+                                "compile-workers", self._handle)
         finally:
             self.stop.set()
             heartbeat.cancel()

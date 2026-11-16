@@ -1,1 +1,0 @@
-algoos-eval ready node=eval-02 socket=/tmp/algoos-e2e-uat1lsdc/native/eval-02.sock workers=2

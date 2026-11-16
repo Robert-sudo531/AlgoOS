@@ -316,7 +316,7 @@ sequenceDiagram
     E->>CLS: classify(Evidence)
     CLS-->>E: verdict/reason 或 NEED_COMPARE
 
-    alt 资源类 verdict（TLE/MLE/RE/OLE）
+    alt 资源类 verdict（TLE/MLE/RE/WR）
         E->>Q2: 结果事件(verdict, reason, cpu, mem)
         E->>Q5: 发 cancel-topic（非 AC）
     else 一般测评
@@ -507,7 +507,7 @@ classDiagram
         TLE
         MLE
         RE
-        OLE
+        WR
         CE
         SE
         CANCELLED
@@ -516,7 +516,7 @@ classDiagram
     class Reason {
         <<enumeration>>
         NONE
-        OLE_TRUNCATED
+        OUTPUT_LIMIT
         WALL_TIMEOUT
         CPU_TIMEOUT
         OOM_KILL
@@ -612,7 +612,7 @@ flowchart TD
     Classify -->|"exit!=0"| RE2["RE / reason=NONZERO_EXIT"]
     Classify -->|"memory.peak/ru_maxrss 超"| MLE2["MLE / reason=MEM_PEAK_OVER"]
     Classify -->|"cpu 超"| TLE3["TLE / reason=CPU_TIMEOUT"]
-    Classify -->|"out 超"| OLE["OLE / reason=OLE_TRUNCATED"]
+    Classify -->|"out 超"| WR["WR / reason=OUTPUT_LIMIT"]
     Classify -->|"NEED_COMPARE"| Mode{"judge_mode?"}
 
     Mode -->|"normal"| Memcmp["memcmp → AC / WA"]
@@ -626,7 +626,7 @@ flowchart TD
     TLE3 --> Emit
     RE --> Emit
     RE2 --> Emit
-    OLE --> Emit
+    WR --> Emit
     Memcmp --> Emit
 
     Emit --> NonAC{"verdict != AC?"}
@@ -838,23 +838,12 @@ GET /api/v1/submissions/{file_id}
 
 `source` 取值：`runner` / `special` / `fallback`。
 
-**OLE 合并模式示例**（竞赛配置）：
+**输出超限示例**：
 
 ```json
 {
-  "verdict": "WA",
-  "reason": "OLE_TRUNCATED",
-  "out_bytes": 67108865,
-  "detail": "output exceeded limit 67108864"
-}
-```
-
-**OLE 独立模式示例**（教学配置）：
-
-```json
-{
-  "verdict": "OLE",
-  "reason": "OLE_TRUNCATED",
+  "verdict": "WR",
+  "reason": "OUTPUT_LIMIT",
   "out_bytes": 67108865,
   "detail": "output exceeded limit 67108864"
 }
@@ -927,7 +916,7 @@ GET /api/v1/submissions/{file_id}
 }
 ```
 
-`reason` 取值：`WA` / `TLE` / `MLE` / `RE` / `OLE` / `SPECIAL_WA`。
+`reason` 取值：`WA` / `TLE` / `MLE` / `RE` / `WR` / `SPECIAL_WA`。
 
 ---
 
@@ -977,7 +966,7 @@ CREATE TABLE submissions (
   bin_hash       CHAR(64),
   status         ENUM('QUEUED','COMPILING','COMPILED','EVALUATING',
                       'PENDING_SPECIAL','SHORT_CIRCUITED','FINAL','CE') NOT NULL,
-  verdict        ENUM('AC','WA','TLE','MLE','RE','OLE','CE','SE','CANCELLED') ,
+  verdict        ENUM('AC','WA','TLE','MLE','RE','WR','CE','SE','CANCELLED') ,
   reason         VARCHAR(32),
   compile_log    TEXT,
   submitted_at   DATETIME(3) NOT NULL,
@@ -992,7 +981,7 @@ CREATE TABLE test_results (
   test_id     VARCHAR(32) NOT NULL,
   judge_id    VARCHAR(128) NOT NULL,
   attempt     INT NOT NULL DEFAULT 1,
-  verdict     ENUM('AC','WA','TLE','MLE','RE','OLE','CANCELLED') NOT NULL,
+  verdict     ENUM('AC','WA','TLE','MLE','RE','WR','CANCELLED') NOT NULL,
   reason      VARCHAR(32),
   cpu_ms      INT,
   mem_kb      INT,
@@ -1035,7 +1024,7 @@ struct Evidence {
 };
 
 struct JudgeVerdict {
-    Verdict verdict;   // AC/WA/TLE/MLE/RE/OLE/...
+    Verdict verdict;   // AC/WA/TLE/MLE/RE/WR/...
     Reason  reason;    // NONE/OOM_KILL/...
     bool    need_compare;
 };
@@ -1054,7 +1043,7 @@ JudgeVerdict classify(const Evidence& e);
 6. memory_peak > lim.mem_bytes           → MLE / MEM_PEAK_OVER
 7. ru_maxrss > lim.mem_bytes             → MLE / MEM_PEAK_OVER
 8. cpu_ms > lim.cpu_ms                   → TLE / CPU_TIMEOUT
-9. out_size > lim.out_bytes              → OLE / OLE_TRUNCATED
+9. out_size > lim.out_bytes              → WR / OUTPUT_LIMIT
 10. 否则                                  → NEED_COMPARE
 ```
 
@@ -1071,11 +1060,11 @@ JudgeVerdict classify(const Evidence& e);
 | 调度解耦 | 6 个 topic 各司其职 | fan-out 由队列承担 |
 | 沙箱 | cgroup + namespace + seccomp + rlimit + fs + capability | 五层齐全，计时用 `wait4` rusage 不受影响 |
 | MLE | cgroup `memory.max` + `swap.max=0` OOM kill | 到点必杀，与 TLE 对称 |
-| 判定统一 | `classify(evidence)` 单一函数 | TLE/MLE/RE/OLE 一条路径 |
-| OLE | 独立判定 + `verdict + reason` 两级 | 对外可配合并为 WA |
+| 判定统一 | `classify(evidence)` 单一函数 | TLE/MLE/RE/WR 一条路径 |
+| WR | 输出超限固定判定 + `reason=OUTPUT_LIMIT` | 与 WA 内容不匹配分离 |
 | 短路 | `cancel-topic` + `CancelRegistry` | 非 AC 即广播，新任务不 fork |
 | 特判回传 | `reply_to` + `special-result-topic` + Relay | 评测机收口，短路决策内聚 |
 | 兜底 | `SpecialReplyRouter` 查心跳 → `fallback-topic` | 评测机下线不丢结果 |
 | 结果聚合 | 独立 `ResultAggregator` | 按 `file_id` 归并，写回 MetaDB |
 
-**一句话**：所有资源类判定在评测机 `classify()` 统一收口，特判结果经 `special-result-topic` 回到发起评测机的 `SpecialResultRelay`，短路通过 `cancel-topic` 全局广播；沙箱五层齐全，cgroup 让 MLE 与 TLE 对称“到点必杀”；OLE 独立判定但对外可用 `verdict + reason` 两级配置合并。
+**一句话**：所有资源类判定在评测机 `classify()` 统一收口，特判结果经 `special-result-topic` 回到发起评测机的 `SpecialResultRelay`，短路通过 `cancel-topic` 全局广播；沙箱五层齐全，cgroup 让 MLE 与 TLE 对称“到点必杀”；输出超限固定为 `WR/OUTPUT_LIMIT`，答案不匹配为 `WA/ANSWER_MISMATCH`。

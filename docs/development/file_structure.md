@@ -47,8 +47,8 @@ AlgoOS/
 │   ├── compose/                    PostgreSQL/Redis/NATS/MinIO
 │   ├── systemd/                    API/控制面/Worker/Agent 单元
 │   ├── cloud-init/                 VM cloud-init
-│   ├── inventory/                  五角色节点清单
-│   ├── kvm/                        五 VM 定义与 provision
+│   ├── inventory/                  多角色节点清单
+│   ├── kvm/                        多节点 VM 定义与 provision
 │   └── scripts/                    集群启停、健康检查、节点安装
 ├── experiments/
 │   ├── runner/                     真实本机集群固定轨迹实验
@@ -110,14 +110,24 @@ AlgoOS/
 - 命名避免：`server.cpp`、`utils.cpp`、`misc.cpp`。当前 Unix Socket 服务端为
   `socket_server.cpp`。
 
-### 2.4 Shell
+### 2.4 节点与服务
+
+- Worker 节点 ID：`<role>-NN`，例如 `compile-01`、`eval-03`、`special-02`；
+  `compile`/`eval`/`special` 都是可扩展池，不设固定台数。
+- systemd 模板：`algoos-compile-worker@<node>.service`、`algoos-eval-worker@<node>.service`、
+  `algoos-special-worker@<node>.service`，Agent 单元同理。
+- 本机 `local_cluster.sh` 用 `ALGOOS_COMPILE_NODES`、`ALGOOS_EVAL_NODES`、
+  `ALGOOS_SPECIAL_NODES` 控制数量；默认 2/2/2。
+- 评测节点必须能被调度器通过心跳发现；编译/特判节点通过共享 durable 消费任务。
+
+### 2.5 Shell
 
 - 动作脚本：`verb_object.sh`，例如 `check_health.sh`、`install_node.sh`、
   `reset_local_cluster.sh`。
 - `deploy/scripts/local_cluster.sh` 是集群启停的唯一操作入口（`start|stop|status|logs|clean`），
   作为多动作入口保留名词命名，属于本规范唯一例外。
 
-### 2.5 文档
+### 2.6 文档
 
 - 文件名：小写 `snake_case.md`；`README.md` 是通用例外。
 - 分区：
@@ -132,7 +142,7 @@ AlgoOS/
 - 文档标题（一级标题）写清“本文是什么”，不使用 `n1/n2/stage`、`TODO`、`杂项` 作为标题。
 - 归档文档保留原文，但链接统一指向新路径；已删除的旧代码链接改成纯文本说明。
 
-### 2.6 证据与实验
+### 2.7 证据与实验
 
 - 目录：`YYYYMMDDTHHMMSSZ_<scope>`，UTC 时间；scope 用小写 `snake_case`。
 - 验收证据：`artifacts/verification/<timestamp>_<flow>/`，必须含 `manifest.json`。
@@ -142,14 +152,14 @@ AlgoOS/
   `refactor_step4_<hash>` 直接留在 `artifacts/system/`。
 - 当前保留的证据：
   - `artifacts/verification/20261116T082019Z_baseline_smoke/`
-  - `artifacts/verification/20261116T123748Z_special_flow/`
-  - `artifacts/verification/20261116T123819Z_reliability_flow/`
-  - `artifacts/verification/20261116T123627Z_minio_integration/`
-  - `artifacts/experiments/20261116T122321Z_placement_sa/`
-  - `artifacts/experiments/20261116T122321Z_simulation_mixed/`
-  - `artifacts/experiments/20261116T122302Z_cluster_cache_aware/`
+  - `artifacts/verification/20261116T135655Z_special_flow/`
+  - `artifacts/verification/20261116T135725Z_reliability_flow/`
+  - `artifacts/verification/20261116T135504Z_minio_integration/`
+  - `artifacts/experiments/20261116T140131Z_placement_sa/`
+  - `artifacts/experiments/20261116T140131Z_simulation_mixed/`
+  - `artifacts/experiments/20261116T140112Z_cluster_cache_aware/`
 
-### 2.7 题目与样例
+### 2.8 题目与样例
 
 - 题目目录：`problems/<problem_id>/`，`problem_id` 小写 `snake_case`。
 - 测试点：`tests/NN.in`、`tests/NN.out`，编号从 01 开始；不再混用 `1.in` 与 `01.in`。
@@ -171,5 +181,5 @@ AlgoOS/
 2. 是构建/部署资产？放 `deploy/` 对应子目录。
 3. 是验证场景？放 `scripts/verify_<flow>.py`；可重复测试放 `python/tests/`。
 4. 是实验？放 `experiments/<kind>/`，输出放 `artifacts/experiments/`。
-5. 是文档？按第 2.5 节分区；历史内容进 `docs/archive/`。
+5. 是文档？按第 2.6 节分区；历史内容进 `docs/archive/`。
 6. 是证据？放 `artifacts/verification/` 或 `artifacts/experiments/`，必须带 manifest。

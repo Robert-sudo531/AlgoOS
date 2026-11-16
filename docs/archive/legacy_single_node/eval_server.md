@@ -1,3 +1,5 @@
+> **历史文档**：本文描述当时状态，节点数量、目录和判定口径可能已变化；当前入口见 [docs/README.md](../../README.md)。
+
 # eval_server.cpp 工作原理
 
 本文说明 judge/native/eval_server.cpp 的运行模型、协议、资源限制、判定流程，以及对应的 UML。部署与操作步骤见 [部署文档](deployment.md)，协议速查见 judge/native/README.md。
@@ -187,7 +189,7 @@ SE（协议/文件/exec/setrlimit 失败）
  → trim 后严格相等（AC / WA）
 ```
 
-`OLE` 不再单独存在，所有输出超限场景归入 `WA`。
+输出超限统一为 `WR/OUTPUT_LIMIT`，不再使用独立输出超限 verdict。
 
 ## 9. UML
 

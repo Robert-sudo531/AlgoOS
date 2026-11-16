@@ -1,7 +1,7 @@
 #cloud-config
 # AlgoOS node bootstrap. Replace REPO_URL and secrets before use.
 # The hostname selects the role in deploy/scripts/install_node.sh:
-#   algoos-control / algoos-compile / algoos-eval-01 / algoos-eval-02 / algoos-special
+#   algoos-control / algoos-compile-NN / algoos-eval-NN / algoos-special-NN
 hostname: __HOSTNAME__
 manage_etc_hosts: true
 users:

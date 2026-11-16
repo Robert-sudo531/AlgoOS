@@ -57,12 +57,18 @@ def main() -> int:
     started = time.monotonic()
     cluster: LocalCluster | None = None
     try:
-        cluster = LocalCluster(problems=PROBLEMS, strategy="fcfs", log_dir=evidence / "logs")
+        cluster = LocalCluster(problems=PROBLEMS, strategy="fcfs", log_dir=evidence / "logs",
+                               compile_nodes=2, eval_nodes=2, special_nodes=2)
         cluster.start()
         manifest["service_versions"] = {
             "postgres": cluster.query("SHOW server_version")[0][0],
             "s3_backend": cluster.s3_mode,
             "s3_image": cluster.s3_image or "moto",
+            "worker_nodes": {
+                "compile": len(cluster.compile_node_ids),
+                "eval": len(cluster.eval_node_ids),
+                "special": len(cluster.special_node_ids),
+            },
             "nodes": cluster.list_nodes(),
         }
 

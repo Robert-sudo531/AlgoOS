@@ -1,7 +1,7 @@
 [Unit]
-Description=AlgoOS special queue agent
-After=algoos-special-worker.service
-Requires=algoos-special-worker.service
+Description=AlgoOS special queue agent for %i
+After=algoos-special-worker@%i.service
+Requires=algoos-special-worker@%i.service
 
 [Service]
 # Native worker creates a 0600 Unix socket; keep the agent UID aligned.
@@ -10,7 +10,7 @@ User=root
 Group=root
 WorkingDirectory=/opt/algoos
 EnvironmentFile=-/etc/algoos/algoos.env
-ExecStart=/opt/algoos/.venv/bin/algoos special-agent --config /etc/algoos/nodes/special-01.json
+ExecStart=/opt/algoos/.venv/bin/algoos special-agent --config /etc/algoos/nodes/%i.json
 Restart=on-failure
 RestartSec=2
 

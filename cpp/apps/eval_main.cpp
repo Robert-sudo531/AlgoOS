@@ -31,7 +31,6 @@ struct Options {
   bool use_seccomp{true};
   bool use_namespaces{true};
   bool readonly_root{true};
-  bool merge_ole{false};
   std::string cgroup_root{"/sys/fs/cgroup"};
 };
 
@@ -53,7 +52,6 @@ Options parse_options(int argc, char** argv) {
     else if (arg == "--no-seccomp") options.use_seccomp = false;
     else if (arg == "--no-namespaces") options.use_namespaces = false;
     else if (arg == "--writable-root") options.readonly_root = false;
-    else if (arg == "--merge-ole") options.merge_ole = true;
     else throw std::runtime_error("unknown option: " + arg);
   }
   return options;
@@ -67,7 +65,6 @@ int main(int argc, char** argv) {
     algoos::worker::CancelRegistry registry;
     algoos::worker::EvalService::Config config;
     config.work_root = options.work_root;
-    config.merge_ole = options.merge_ole;
     config.sandbox.use_cgroup = options.use_cgroup;
     config.sandbox.use_seccomp = options.use_seccomp;
     config.sandbox.use_namespaces = options.use_namespaces;

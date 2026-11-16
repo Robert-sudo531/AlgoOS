@@ -1,3 +1,5 @@
+> **历史文档**：本文描述当时状态，节点数量、目录和判定口径可能已变化；当前入口见 [docs/README.md](../../README.md)。
+
 > **历史文档（2026-11-16 注）**：新的 v1 分布式消息契约以 [protocol/policy_v1.json](../../../protocol/policy_v1.json) 与 [protocol/schemas/](../../../protocol/schemas) 为准；本文保留单机阶段的字段与验收历史。
 
 # AlgoOS 第一二阶段共同约定
@@ -35,7 +37,7 @@
 
 ### common 比较
 
-CRLF/CR → LF；去掉每行末尾空格/制表符；去掉文件末尾空行；然后严格相等。trim 后实际输出超过 `out_bytes` 归入 `WA`（OLE 不再单独存在）。
+CRLF/CR → LF；去掉每行末尾空格/制表符；去掉文件末尾空行；然后严格相等。trim 后实际输出超过 `out_bytes` 归入 `WA`（WR 不再单独存在）。
 
 ### 提交与结果
 
@@ -214,7 +216,7 @@ result/result.tsv
 | 评测时限 | 每点独立使用题目 CPU 时限；首轮 `wall_ms=cpu_ms`，沿用基线，二者分别记录 |
 | 内存 | 配置由 MiB 转字节；RSS、地址空间和 cgroup 内存口径分别注明，不凭分配失败或 SIGKILL 猜 MLE |
 | common 比较 | 统一换行，去行末空格/制表符和文件末尾空行，保留行内空白；长度按归一化后的 UTF-8 字节计算 |
-| 输出限制 | 语义上限沿用归一化答案字节数；文件安全上限为 `min(256 MiB, out_bytes + 4096)`；超限为 `WA/OUTPUT_LIMIT`，首轮不单列 OLE |
+| 输出限制 | 语义上限沿用归一化答案字节数；文件安全上限为 `min(256 MiB, out_bytes + 4096)`；超限为 `WA/OUTPUT_LIMIT`，首轮不单列 WR |
 | 运行与汇总 | 普通题、全部测试点运行；就绪测试点按 `(enqueue_seq, sequence, attempt)` 选择，编译未完成的提交不占评测槽；汇总按配置顺序而非完成先后 |
 
 程序输出与答案按原始字节做上述归一化，不做有损解码；JSON 消息固定使用 UTF-8。配置名 `cpp_baseline_v1` 的参数冻结，今后改变参数需使用新配置名并回归验证。

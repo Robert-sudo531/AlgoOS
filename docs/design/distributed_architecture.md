@@ -9,24 +9,34 @@
 |---|---|---|---|
 | API 网关 | `algoos-api` | 提交、查询、取消、节点、题目、实验、静态页面 | `python/algoos_api/app.py` |
 | 控制面 | `algoos-control` | outbox 发布、编译结果入库、调度、聚合、fallback、心跳/失联扫描 | `python/algoos_control/control_service.py` |
-| 编译 Worker | `algoos-compile` + `compile-agent` | 固定 profile 编译、上传 bin、发布编译结果 | `cpp/apps/compile_main.cpp`、`python/algoos_nodes/compile_agent.py` |
-| 评测 Worker | `algoos-eval` + `eval-agent` | 缓存下载、沙箱执行、判定、短路取消、特判上传、Relay | `cpp/apps/eval_main.cpp`、`python/algoos_nodes/eval_agent.py` |
-| 特判 Worker | `algoos-special` + `special-agent` | 下载 `.out`/answer/checker，运行出题者 checker，按存活回传或 fallback | `cpp/apps/special_main.cpp`、`python/algoos_nodes/special_agent.py` |
+| 编译 Worker 池 | `algoos-compile` + `compile-agent`，1..N 节点 | 固定 profile 编译、上传 bin、发布编译结果；共享 durable `compile-workers` | `cpp/apps/compile_main.cpp`、`python/algoos_nodes/compile_agent.py` |
+| 评测 Worker 池 | `algoos-eval` + `eval-agent`，1..N 节点 | 缓存下载、沙箱执行、判定、短路取消、特判上传、Relay；按心跳动态调度 | `cpp/apps/eval_main.cpp`、`python/algoos_nodes/eval_agent.py` |
+| 特判 Worker 池 | `algoos-special` + `special-agent`，1..N 节点 | 下载 `.out`/answer/checker，运行出题者 checker，按存活回传或 fallback；共享 durable `special-workers` | `cpp/apps/special_main.cpp`、`python/algoos_nodes/special_agent.py` |
 | 基础设施 | PostgreSQL / Redis / NATS JetStream / MinIO（本机已用 Chainguard 构建的 AGPLv3 镜像验证；moto 仅回退） | 元数据、心跳与取消快路径、消息、对象 | `deploy/compose/` |
 
 C++ 侧只负责**执行、判定、沙箱**；NATS/MinIO/Redis 的 I/O 与队列生命周期由 Python
 Agent 承担。这是当前实现的明确边界：高频执行路径在 C++，队列编排在 Python。总案中
 “C++ 直接消费 NATS”未作为本阶段的验收项，不能在报告中写成已完成。
 
+### 1.1 Worker 池规模
+
+`compile`、`eval`、`special` 三种角色都是**可水平扩展的池**，不是固定 1/2 台：
+
+- 编译：所有 compile-agent 共享 durable `compile-workers`，同一 `compile_task` 只被一个节点消费；
+- 评测：节点 ID 为 `eval-NN`；调度器从 `eval_nodes` 心跳表读取全部存活节点，按 `eval.task.<node>` 派发；
+- 特判：所有 special-agent 共享 durable `special-workers`，结果按 `reply_to.eval_node_id` 回到发起评测机；
+- 本机脚本默认 2/2/2，`ALGOOS_COMPILE_NODES`、`ALGOOS_EVAL_NODES`、`ALGOOS_SPECIAL_NODES` 可改；
+- KVM/inventory 中的节点数量只是参考拓扑，不是协议或调度上限。
+
 ## 2. 消息与主题
 
 | 消息 | subject | 生产者 → 消费者 |
 |---|---|---|
-| `compile_task` | `algoos.compile.task` | 控制面 → 编译 Worker |
+| `compile_task` | `algoos.compile.task` | 控制面 → 编译 Worker 池（共享队列） |
 | `eval_result`（compile 阶段） | `algoos.compile.result` | 编译 Worker → 控制面 |
 | `eval_task` | `algoos.eval.task.<node>` | 调度器 → 指定评测 Worker |
 | `eval_result`（eval 阶段） | `algoos.eval.result` | 评测 Worker/Relay/fallback → 聚合器 |
-| `special_task` | `algoos.special.task` | 评测 Worker → 特判 Worker |
+| `special_task` | `algoos.special.task` | 评测 Worker → 特判 Worker 池（共享队列） |
 | `special_result` | `algoos.special.result.<eval_node>` | 特判 Worker → 发起评测机的 Relay |
 | `cancel` | `algoos.cancel` | 聚合器/API → 全部评测 Agent |
 | `fallback` | `algoos.fallback` | 特判 Router → 控制面 |
@@ -75,7 +85,7 @@ SE → OOM_KILL → WALL_TIMEOUT → CPU_TIMEOUT → OUTPUT_SIGNAL
 → OUTPUT_SIZE_OVER → COMPARE
 ```
 
-`OLE` 默认以 `OLE/OLE_TRUNCATED` 输出；策略可合并为 `WA/OUTPUT_LIMIT`。单独 SIGKILL
+`WR` 固定以 `WR/OUTPUT_LIMIT` 输出，不再提供独立/合并模式。单独 SIGKILL
 不当作 CPU 超限；MLE 必须有 cgroup 峰值或可比内存证据。
 
 ## 5. 调度与实验
@@ -108,6 +118,6 @@ SE → OOM_KILL → WALL_TIMEOUT → CPU_TIMEOUT → OUTPUT_SIGNAL
 - 上游 `minio/minio` 镜像在本环境被 registry 拒绝，`dl.min.io` 社区二进制返回 410，
   `aistor` 二进制无 license 会拒绝所有 S3 操作；因此本机固定使用下述 digest：
   `cgr.dev/chainguard/minio@sha256:9158c67a...`。moto 只作为无法拉取该镜像时的回退。
-- 五 VM 部署资产已提供，未在本机执行。
+- 多节点 VM 部署资产已提供，未在本机执行。
 - 实验默认 1 次；正式对照至少 3 次，报告方差/分位数。
 - 旧单机链路已从仓库删除（Git 历史可查），新构建/测试/文档不再依赖。

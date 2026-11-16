@@ -1,6 +1,6 @@
 # AlgoOS 集群部署
 
-本文覆盖**本机多进程**、**systemd/VM** 与 **KVM 五 VM** 三种部署方式。所有命令从
+本文覆盖**本机多进程**、**systemd/VM** 与 **KVM 参考多节点** 三种部署方式。所有命令从
 仓库根目录执行，Python 使用 `uv`。
 
 ## 1. 本机多进程（当前已验证）
@@ -55,30 +55,36 @@ sudo systemctl daemon-reload
 
 按角色启用：
 
-| 节点 | 命令 |
+| 节点 | 命令示例 |
 |---|---|
 | 控制 | `systemctl enable --now algoos-api algoos-control` |
-| 编译 | `systemctl enable --now algoos-compile-worker algoos-compile-agent` |
-| 评测 | `systemctl enable --now algoos-eval-worker@eval-01 algoos-eval-agent@eval-01` |
-| 特判 | `systemctl enable --now algoos-special-worker algoos-special-agent` |
+| 编译池 | `systemctl enable --now algoos-compile-worker@compile-01 algoos-compile-agent@compile-01` |
+| 评测池 | `systemctl enable --now algoos-eval-worker@eval-01 algoos-eval-agent@eval-01` |
+| 特判池 | `systemctl enable --now algoos-special-worker@special-01 algoos-special-agent@special-01` |
+
+`compile-NN`、`eval-NN`、`special-NN` 都是模板单元；把 `%i` 换成节点 ID 即可增加节点。
+`install_node.sh` 会根据主机名自动选择 ID，编译/特判 Agent 与 Native Worker 使用同 UID
+（Native Socket 为 `0600`）。
 
 节点 Agent 配置在 `/etc/algoos/nodes/<node>.json`，示例：
-`deploy/scripts/install_node.sh` 会按 hostname 生成。原生评测 Worker 需要 root/cgroup
-权限；Python Agent 建议普通用户 `algoos`。
+`deploy/scripts/install_node.sh` 会按 hostname 生成。原生评测/特判 Worker 需要
+root/cgroup 权限；对应 Agent 也按 root 运行，因为它们要连接 `0600` 的 Native Socket。
+编译 Agent 与编译 Worker 使用普通用户 `algoos` 即可。
 
-## 3. cloud-init / KVM 五 VM
+## 3. cloud-init / KVM 参考多节点
 
 - 通用 cloud-init：`deploy/cloud-init/user-data.yaml`（替换凭据与仓库 URL）
 - 角色清单：`deploy/inventory/nodes.example.yaml`
-- 五 VM 脚本：`deploy/kvm/provision.sh` + `deploy/kvm/network.xml`
+- 多节点参考脚本：`deploy/kvm/provision.sh` + `deploy/kvm/network.xml`
 
 ```bash
 export ALGOOS_REPO_URL=... ALGOOS_SSH_PUBLIC_KEY=... ALGOOS_DB_DSN=... ...
 bash deploy/kvm/provision.sh
 ```
 
-拓扑与资源要求见 [deploy/kvm/README.md](../../deploy/kvm/README.md)。**当前未在本机执行
-五 VM**；该脚本是部署资产，不是已完成的云端验收。
+参考拓扑为 1 control + 2 compile + 2 eval + 2 special；节点数量可继续扩展。
+资源要求见 [deploy/kvm/README.md](../../deploy/kvm/README.md)。**当前未在本机执行
+多 VM**；该脚本是部署资产，不是已完成的云端验收。
 
 ## 4. 健康检查
 

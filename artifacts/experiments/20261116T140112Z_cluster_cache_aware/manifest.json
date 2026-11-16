@@ -1,0 +1,526 @@
+{
+  "run_id": "20261116T140112Z_cluster_cache_aware",
+  "data_source": "cluster",
+  "actor": "restructure2",
+  "strategy": "cache_aware",
+  "profile": {
+    "name": "cluster_mixed",
+    "kind": "cluster",
+    "profile": "mixed",
+    "strategy": "cache_aware",
+    "count": 20,
+    "arrival_gap_ms": 150,
+    "repeat": 1,
+    "problems": [
+      "a_plus_b",
+      "lazy_gold"
+    ],
+    "sources": [
+      {
+        "problem_id": "a_plus_b",
+        "file": "a_plus_b.cpp",
+        "expected": "AC"
+      },
+      {
+        "problem_id": "a_plus_b",
+        "file": "wrong_answer.cpp",
+        "expected": "WA"
+      },
+      {
+        "problem_id": "a_plus_b",
+        "file": "compile_error.cpp",
+        "expected": "CE"
+      },
+      {
+        "problem_id": "a_plus_b",
+        "file": "runtime_error.cpp",
+        "expected": "RE"
+      },
+      {
+        "problem_id": "a_plus_b",
+        "file": "time_limit.cpp",
+        "expected": "TLE"
+      },
+      {
+        "problem_id": "a_plus_b",
+        "file": "output_limit.cpp",
+        "expected": "WR"
+      },
+      {
+        "problem_id": "lazy_gold",
+        "file": "lazy_gold.cpp",
+        "expected": "AC"
+      }
+    ]
+  },
+  "workload": null,
+  "git_commit": "da2ad20b0117acc792f4fb6fb198f392885db503",
+  "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.44",
+  "python": "3.14.10",
+  "started_at": "2026-11-16T14:01:31.093140+00:00",
+  "duration_s": 18.98,
+  "record_count": 6,
+  "verdict_counts": {
+    "AC": 1,
+    "WA": 1,
+    "CE": 1,
+    "RE": 1,
+    "TLE": 1,
+    "WR": 1
+  },
+  "correctness": {
+    "matched": 6,
+    "expected": 6,
+    "rate": 1.0
+  },
+  "metrics": {
+    "count": 6,
+    "avg_wait_ms": 645.650333334071,
+    "p50_wait_ms": 626.801000000909,
+    "p95_wait_ms": 755.0879999995232,
+    "p99_wait_ms": 755.0879999995232,
+    "max_wait_ms": 755.0879999995232,
+    "avg_turnaround_ms": 1209.925166666818,
+    "makespan_ms": 3540.5519999992102,
+    "throughput_per_second": 1.6946510035727023,
+    "cache_hit_rate": 0.0,
+    "fairness_jain": 0.6990838522452328,
+    "starvation_count": 0
+  },
+  "raw_views": [
+    {
+      "index": 0,
+      "file_id": "1d865e46-0dee-4a1b-ad88-d22efcd54b87",
+      "problem_id": "a_plus_b",
+      "fixture": "a_plus_b.cpp",
+      "expected": "AC",
+      "arrival_ms": 10574323.501119,
+      "start_ms": 10575078.589274,
+      "finish_ms": 10575290.667628,
+      "view": {
+        "ver": 1,
+        "file_id": "1d865e46-0dee-4a1b-ad88-d22efcd54b87",
+        "problem_id": "a_plus_b",
+        "user_id": "api-user",
+        "language": "cpp17",
+        "source_hash": "sha256:54306d07a3d65375822f39408810826d8737dde3eb9d68b6964a06e9cb67150e",
+        "status": "FINAL",
+        "verdict": "AC",
+        "reason": "NONE",
+        "compile_log": "",
+        "submitted_at": "2026-11-16T14:01:18.453133+00:00",
+        "finalized_at": "2026-11-16T14:01:19.351913+00:00",
+        "evaluation_mode": "all_cases",
+        "short_circuit_window": 4,
+        "cancel_reason": null,
+        "per_test": [
+          {
+            "test_id": "01",
+            "sequence": 1,
+            "node_id": "eval-01",
+            "state": "DONE",
+            "judge_mode": "normal",
+            "verdict": "AC",
+            "reason": "NONE",
+            "cpu_ms": 2,
+            "wall_ms": 5,
+            "mem_bytes": 130531328,
+            "memory_source": "rss_peak",
+            "out_bytes": 1,
+            "source": "runner",
+            "short_circuited": false,
+            "cache_hit": false,
+            "limits": {
+              "cpu_ms": 1000,
+              "wall_ms": 2000,
+              "mem_bytes": 268435456,
+              "out_bytes": 1,
+              "input_hash": "sha256:f251ddc12234e0da8d3b778bd0f7463fb477f16f47757f5617dc8b4ff4d4f14a",
+              "answer_hash": "sha256:1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+              "checker_hash": null
+            }
+          },
+          {
+            "test_id": "02",
+            "sequence": 2,
+            "node_id": "eval-02",
+            "state": "DONE",
+            "judge_mode": "normal",
+            "verdict": "AC",
+            "reason": "NONE",
+            "cpu_ms": 2,
+            "wall_ms": 3,
+            "mem_bytes": 104435712,
+            "memory_source": "rss_peak",
+            "out_bytes": 2,
+            "source": "runner",
+            "short_circuited": false,
+            "cache_hit": false,
+            "limits": {
+              "cpu_ms": 1000,
+              "wall_ms": 2000,
+              "mem_bytes": 268435456,
+              "out_bytes": 2,
+              "input_hash": "sha256:e8b85870ce1971fb92ad8183f96e437663d939839d9625ff0bf2065954ead068",
+              "answer_hash": "sha256:0b2f06dddfa807ee574a78468d3a05904873b97f44377eb93481e091c257b800",
+              "checker_hash": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "index": 1,
+      "file_id": "e62a1b84-3e27-445e-8ca5-cdb5b8f08176",
+      "problem_id": "a_plus_b",
+      "fixture": "wrong_answer.cpp",
+      "expected": "WA",
+      "arrival_ms": 10574465.64365,
+      "start_ms": 10575100.603745999,
+      "finish_ms": 10575313.507094001,
+      "view": {
+        "ver": 1,
+        "file_id": "e62a1b84-3e27-445e-8ca5-cdb5b8f08176",
+        "problem_id": "a_plus_b",
+        "user_id": "api-user",
+        "language": "cpp17",
+        "source_hash": "sha256:f512ca51b518658720b8be2f4942cca69c4582ecd34417a19be35b54d590016d",
+        "status": "FINAL",
+        "verdict": "WA",
+        "reason": "ANSWER_MISMATCH",
+        "compile_log": "",
+        "submitted_at": "2026-11-16T14:01:18.599587+00:00",
+        "finalized_at": "2026-11-16T14:01:19.386825+00:00",
+        "evaluation_mode": "all_cases",
+        "short_circuit_window": 4,
+        "cancel_reason": null,
+        "per_test": [
+          {
+            "test_id": "01",
+            "sequence": 1,
+            "node_id": "eval-01",
+            "state": "DONE",
+            "judge_mode": "normal",
+            "verdict": "WA",
+            "reason": "ANSWER_MISMATCH",
+            "cpu_ms": 3,
+            "wall_ms": 5,
+            "mem_bytes": 135491584,
+            "memory_source": "rss_peak",
+            "out_bytes": 1,
+            "source": "runner",
+            "short_circuited": false,
+            "cache_hit": false,
+            "limits": {
+              "cpu_ms": 1000,
+              "wall_ms": 2000,
+              "mem_bytes": 268435456,
+              "out_bytes": 1,
+              "input_hash": "sha256:f251ddc12234e0da8d3b778bd0f7463fb477f16f47757f5617dc8b4ff4d4f14a",
+              "answer_hash": "sha256:1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+              "checker_hash": null
+            }
+          },
+          {
+            "test_id": "02",
+            "sequence": 2,
+            "node_id": "eval-02",
+            "state": "DONE",
+            "judge_mode": "normal",
+            "verdict": "WA",
+            "reason": "ANSWER_MISMATCH",
+            "cpu_ms": 1,
+            "wall_ms": 2,
+            "mem_bytes": 68435968,
+            "memory_source": "rss_peak",
+            "out_bytes": 2,
+            "source": "runner",
+            "short_circuited": false,
+            "cache_hit": false,
+            "limits": {
+              "cpu_ms": 1000,
+              "wall_ms": 2000,
+              "mem_bytes": 268435456,
+              "out_bytes": 2,
+              "input_hash": "sha256:e8b85870ce1971fb92ad8183f96e437663d939839d9625ff0bf2065954ead068",
+              "answer_hash": "sha256:0b2f06dddfa807ee574a78468d3a05904873b97f44377eb93481e091c257b800",
+              "checker_hash": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "index": 2,
+      "file_id": "5ff93ce9-9514-4ed6-a597-3de336605acc",
+      "problem_id": "a_plus_b",
+      "fixture": "compile_error.cpp",
+      "expected": "CE",
+      "arrival_ms": 10574597.573619999,
+      "start_ms": null,
+      "finish_ms": 10575122.527533,
+      "view": {
+        "ver": 1,
+        "file_id": "5ff93ce9-9514-4ed6-a597-3de336605acc",
+        "problem_id": "a_plus_b",
+        "user_id": "api-user",
+        "language": "cpp17",
+        "source_hash": "sha256:28ce881107e6e8be5602e765170a116f4809a5474a9f075a26afc3ff1d6f03a1",
+        "status": "CE",
+        "verdict": "CE",
+        "reason": "COMPILE_ERROR",
+        "compile_log": "/tmp/algoos-e2e-z83h832l/work/compile-01/compile-vm4iclqi/source.cpp: In function ‘int main()’:\n/tmp/algoos-e2e-z83h832l/work/compile-01/compile-vm4iclqi/source.cpp:2:13: error: expected ‘;’ before ‘}’ token\n    2 |     return 0  // 故意缺少分号，用于验证编译错误 CE。\n      |             ^\n      |             ;\n    3 | }\n      | ~            \n",
+        "submitted_at": "2026-11-16T14:01:18.743573+00:00",
+        "finalized_at": "2026-11-16T14:01:19.108819+00:00",
+        "evaluation_mode": "all_cases",
+        "short_circuit_window": 4,
+        "cancel_reason": null,
+        "per_test": []
+      }
+    },
+    {
+      "index": 3,
+      "file_id": "7d979c99-59c5-4d50-890c-cde3f592973f",
+      "problem_id": "a_plus_b",
+      "fixture": "runtime_error.cpp",
+      "expected": "RE",
+      "arrival_ms": 10574744.381000001,
+      "start_ms": 10575329.657495,
+      "finish_ms": 10575801.111355,
+      "view": {
+        "ver": 1,
+        "file_id": "7d979c99-59c5-4d50-890c-cde3f592973f",
+        "problem_id": "a_plus_b",
+        "user_id": "api-user",
+        "language": "cpp17",
+        "source_hash": "sha256:5783381b4343358b57d163239b18187d4da0d4884ff4f232718205641f939bf8",
+        "status": "FINAL",
+        "verdict": "RE",
+        "reason": "NONZERO_EXIT",
+        "compile_log": "",
+        "submitted_at": "2026-11-16T14:01:18.890941+00:00",
+        "finalized_at": "2026-11-16T14:01:19.849778+00:00",
+        "evaluation_mode": "all_cases",
+        "short_circuit_window": 4,
+        "cancel_reason": null,
+        "per_test": [
+          {
+            "test_id": "01",
+            "sequence": 1,
+            "node_id": "eval-01",
+            "state": "DONE",
+            "judge_mode": "normal",
+            "verdict": "RE",
+            "reason": "NONZERO_EXIT",
+            "cpu_ms": 2,
+            "wall_ms": 5,
+            "mem_bytes": 68579328,
+            "memory_source": "rss_peak",
+            "out_bytes": 1,
+            "source": "runner",
+            "short_circuited": false,
+            "cache_hit": false,
+            "limits": {
+              "cpu_ms": 1000,
+              "wall_ms": 2000,
+              "mem_bytes": 268435456,
+              "out_bytes": 1,
+              "input_hash": "sha256:f251ddc12234e0da8d3b778bd0f7463fb477f16f47757f5617dc8b4ff4d4f14a",
+              "answer_hash": "sha256:1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+              "checker_hash": null
+            }
+          },
+          {
+            "test_id": "02",
+            "sequence": 2,
+            "node_id": "eval-02",
+            "state": "DONE",
+            "judge_mode": "normal",
+            "verdict": "RE",
+            "reason": "NONZERO_EXIT",
+            "cpu_ms": 2,
+            "wall_ms": 5,
+            "mem_bytes": 68448256,
+            "memory_source": "rss_peak",
+            "out_bytes": 2,
+            "source": "runner",
+            "short_circuited": false,
+            "cache_hit": false,
+            "limits": {
+              "cpu_ms": 1000,
+              "wall_ms": 2000,
+              "mem_bytes": 268435456,
+              "out_bytes": 2,
+              "input_hash": "sha256:e8b85870ce1971fb92ad8183f96e437663d939839d9625ff0bf2065954ead068",
+              "answer_hash": "sha256:0b2f06dddfa807ee574a78468d3a05904873b97f44377eb93481e091c257b800",
+              "checker_hash": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "index": 4,
+      "file_id": "c3c348f6-9f90-4b93-9d48-1112a91041e2",
+      "problem_id": "a_plus_b",
+      "fixture": "time_limit.cpp",
+      "expected": "TLE",
+      "arrival_ms": 10574918.477881,
+      "start_ms": 10575665.300818,
+      "finish_ms": 10577864.053351,
+      "view": {
+        "ver": 1,
+        "file_id": "c3c348f6-9f90-4b93-9d48-1112a91041e2",
+        "problem_id": "a_plus_b",
+        "user_id": "api-user",
+        "language": "cpp17",
+        "source_hash": "sha256:ab269b8539c54c96ef96b24dfc0b3c56ef117780a3697d0ee803147639bb77d9",
+        "status": "FINAL",
+        "verdict": "TLE",
+        "reason": "WALL_TIMEOUT",
+        "compile_log": "",
+        "submitted_at": "2026-11-16T14:01:19.054012+00:00",
+        "finalized_at": "2026-11-16T14:01:21.981462+00:00",
+        "evaluation_mode": "all_cases",
+        "short_circuit_window": 4,
+        "cancel_reason": null,
+        "per_test": [
+          {
+            "test_id": "01",
+            "sequence": 1,
+            "node_id": "eval-01",
+            "state": "DONE",
+            "judge_mode": "normal",
+            "verdict": "TLE",
+            "reason": "WALL_TIMEOUT",
+            "cpu_ms": 2,
+            "wall_ms": 2000,
+            "mem_bytes": 96313344,
+            "memory_source": "rss_peak",
+            "out_bytes": 1,
+            "source": "runner",
+            "short_circuited": false,
+            "cache_hit": false,
+            "limits": {
+              "cpu_ms": 1000,
+              "wall_ms": 2000,
+              "mem_bytes": 268435456,
+              "out_bytes": 1,
+              "input_hash": "sha256:f251ddc12234e0da8d3b778bd0f7463fb477f16f47757f5617dc8b4ff4d4f14a",
+              "answer_hash": "sha256:1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+              "checker_hash": null
+            }
+          },
+          {
+            "test_id": "02",
+            "sequence": 2,
+            "node_id": "eval-02",
+            "state": "DONE",
+            "judge_mode": "normal",
+            "verdict": "TLE",
+            "reason": "WALL_TIMEOUT",
+            "cpu_ms": 2,
+            "wall_ms": 2000,
+            "mem_bytes": 91602944,
+            "memory_source": "rss_peak",
+            "out_bytes": 2,
+            "source": "runner",
+            "short_circuited": false,
+            "cache_hit": false,
+            "limits": {
+              "cpu_ms": 1000,
+              "wall_ms": 2000,
+              "mem_bytes": 268435456,
+              "out_bytes": 2,
+              "input_hash": "sha256:e8b85870ce1971fb92ad8183f96e437663d939839d9625ff0bf2065954ead068",
+              "answer_hash": "sha256:0b2f06dddfa807ee574a78468d3a05904873b97f44377eb93481e091c257b800",
+              "checker_hash": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "index": 5,
+      "file_id": "4b4e5b2e-33ae-4e30-a9fc-e631d3eb6849",
+      "problem_id": "a_plus_b",
+      "fixture": "output_limit.cpp",
+      "expected": "WR",
+      "arrival_ms": 10575057.769047,
+      "start_ms": 10575684.569749001,
+      "finish_ms": 10575975.030743001,
+      "view": {
+        "ver": 1,
+        "file_id": "4b4e5b2e-33ae-4e30-a9fc-e631d3eb6849",
+        "problem_id": "a_plus_b",
+        "user_id": "api-user",
+        "language": "cpp17",
+        "source_hash": "sha256:93c8e4d5fc911d7d62d02d7af24f36986aa1b46e317d568090311cdb1e2b390d",
+        "status": "FINAL",
+        "verdict": "WR",
+        "reason": "OUTPUT_LIMIT",
+        "compile_log": "",
+        "submitted_at": "2026-11-16T14:01:19.196298+00:00",
+        "finalized_at": "2026-11-16T14:01:19.986436+00:00",
+        "evaluation_mode": "all_cases",
+        "short_circuit_window": 4,
+        "cancel_reason": null,
+        "per_test": [
+          {
+            "test_id": "01",
+            "sequence": 1,
+            "node_id": "eval-01",
+            "state": "DONE",
+            "judge_mode": "normal",
+            "verdict": "WR",
+            "reason": "OUTPUT_LIMIT",
+            "cpu_ms": 2,
+            "wall_ms": 5,
+            "mem_bytes": 135684096,
+            "memory_source": "rss_peak",
+            "out_bytes": 7,
+            "source": "runner",
+            "short_circuited": false,
+            "cache_hit": false,
+            "limits": {
+              "cpu_ms": 1000,
+              "wall_ms": 2000,
+              "mem_bytes": 268435456,
+              "out_bytes": 1,
+              "input_hash": "sha256:f251ddc12234e0da8d3b778bd0f7463fb477f16f47757f5617dc8b4ff4d4f14a",
+              "answer_hash": "sha256:1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+              "checker_hash": null
+            }
+          },
+          {
+            "test_id": "02",
+            "sequence": 2,
+            "node_id": "eval-02",
+            "state": "DONE",
+            "judge_mode": "normal",
+            "verdict": "WR",
+            "reason": "OUTPUT_LIMIT",
+            "cpu_ms": 11,
+            "wall_ms": 13,
+            "mem_bytes": 135569408,
+            "memory_source": "rss_peak",
+            "out_bytes": 4098,
+            "source": "runner",
+            "short_circuited": false,
+            "cache_hit": false,
+            "limits": {
+              "cpu_ms": 1000,
+              "wall_ms": 2000,
+              "mem_bytes": 268435456,
+              "out_bytes": 2,
+              "input_hash": "sha256:e8b85870ce1971fb92ad8183f96e437663d939839d9625ff0bf2065954ead068",
+              "answer_hash": "sha256:0b2f06dddfa807ee574a78468d3a05904873b97f44377eb93481e091c257b800",
+              "checker_hash": null
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "note": "Local multi-process cluster; not a cross-machine or production result."
+}

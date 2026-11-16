@@ -60,7 +60,7 @@ test_pipeline.py
 - `compare_mode` 只有 `common` / `special`；`special` 本期只保留枚举，返回 `SE`。
 - `common`：统一换行，去行末空格/制表符和末尾空行后严格相等。
 - 墙钟时限等于 `time_limit_ms`。
-- 每个测试点 `out_bytes` 由标准答案 trim 后字节数派生；输出超限归入 `WA`。
+- 每个测试点 `out_bytes` 由标准答案 trim 后字节数派生；输出超限归入 `WR`。
 - 不使用 score；ACM 聚合：全部测试点 AC 才 AC，否则按顺序取第一个非 AC。
 
 ### 2.2 题目与实测结果

@@ -1,3 +1,5 @@
+> **历史文档**：本文描述当时状态，节点数量、目录和判定口径可能已变化；当前入口见 [docs/README.md](../../README.md)。
+
 > **历史文档（2026-11-16 注）**：本图描述旧单机 Python 主控 + C++ EvalServer。当前分布式组件、消息与沙箱见 [分布式架构](../../design/distributed_architecture.md)。
 
 1. 部署图
@@ -199,7 +201,7 @@ classDiagram
         TLE
         MLE
         RE
-        OLE
+        WR
         CE
         SE
     }
@@ -250,7 +252,7 @@ flowchart TD
 
     ResChk -->|"cpu_time > limit"| TLE3["TLE"]
     ResChk -->|"ru_maxrss > mem_limit"| MLE["MLE"]
-    ResChk -->|"out_size > out_limit"| OLE["OLE"]
+    ResChk -->|"out_size > out_limit"| WR["WR"]
     ResChk -->|"全部正常"| Cmp["Comparator.compare(out, ans, mode)"]
     Cmp --> CmpOK{"匹配?"}
     CmpOK -->|是| AC["AC"]
@@ -262,12 +264,12 @@ flowchart TD
     RE1 --> Pack
     RE2 --> Pack
     MLE --> Pack
-    OLE --> Pack
+    WR --> Pack
     AC --> Pack
     WA --> Pack
     SE --> Pack
     Pack["打包 JudgeResult<br/>fileID / testID / verdict<br/>cpu_ms / mem_kb / signal<br/>stderr_tail"] --> Ret([返回 EvalServer])
-判定优先级：SE → 被信号杀死(TLE/RE) → 非零退出(RE) → CPU超(TLE) → 内存超(MLE) → 输出超(OLE) → 比对(AC/WA)。先排除异常再谈答案比对。
+判定优先级：SE → 被信号杀死(TLE/RE) → 非零退出(RE) → CPU超(TLE) → 内存超(MLE) → 输出超(WR) → 比对(AC/WA)。先排除异常再谈答案比对。
 
 6. 状态机图：提交级 Verdict
 一次提交在聚合层的状态流转。
@@ -282,14 +284,14 @@ stateDiagram-v2
     Judging --> TLE: 存在 TLE 且无更高优先级
     Judging --> MLE: 存在 MLE
     Judging --> RE: 存在 RE
-    Judging --> OLE: 存在 OLE
+    Judging --> WR: 存在 WR
     Judging --> SE: 存在 SE
     AC --> [*]
     WA --> [*]
     TLE --> [*]
     MLE --> [*]
     RE --> [*]
-    OLE --> [*]
+    WR --> [*]
     SE --> [*]
     CE --> [*]
 聚合规则可按需调整：常见是 首个非 AC 即最终 verdict，或按严重度排序取最高。

@@ -9,14 +9,15 @@
 
 分布式主链路已经在本机多进程环境跑通：
 
-- API → 控制面 → 编译 Worker → 调度器 → 评测 Worker → 聚合器；
-- 特判 Worker（评测机上传 `.out`，特判机下载并运行出题者 checker）；
-- AC / CE / WA / RE / TLE / SE、用户取消、有序短路；
+- API → 控制面 → 编译 Worker 池 → 调度器 → 评测 Worker 池 → 聚合器；
+- 特判 Worker 池（评测机上传 `.out`，特判机下载并运行出题者 checker）；
+- AC / CE / WA / RE / TLE / WR / SE、用户取消、有序短路；
 - 缓存命中、重复/冲突结果幂等、Agent 重启重投、失联节点重派、特判 fallback；
+- 本机默认 2 个编译、2 个评测、2 个特判节点，数量可由环境变量调整；
 - PostgreSQL、Redis、NATS JetStream、真实 MinIO 容器；
 - 调度策略、离线模拟、模拟退火放置和实验运行器。
 
-**未完成**：KVM 五 VM 实际部署、生产沙箱（真实 cgroup OOM、seccomp 逐 syscall）、
+**未完成**：KVM 参考多节点实际部署、生产沙箱（真实 cgroup OOM、seccomp 逐 syscall）、
 跨机网络/时钟、正式重复实验矩阵、Web 浏览器验收、CI、最终 commit/push。
 
 ## 2. 目录入口
@@ -75,15 +76,15 @@ uv run pytest -q -m integration
 
 | 内容 | 证据 |
 |---|---|
-| 本机基线 smoke（六种判定、双节点） | [20261116T082019Z_baseline_smoke](../../artifacts/verification/20261116T082019Z_baseline_smoke/manifest.json) |
-| 特判 / 取消 / 有序短路 | [20261116T123748Z_special_flow](../../artifacts/verification/20261116T123748Z_special_flow/manifest.json) |
-| 缓存 / 重复结果 / 重启 / 重派 / fallback | [20261116T123819Z_reliability_flow](../../artifacts/verification/20261116T123819Z_reliability_flow/manifest.json) |
-| 8 条集成测试（真实 MinIO） | [20261116T123627Z_minio_integration](../../artifacts/verification/20261116T123627Z_minio_integration/manifest.json) |
-| 本机真实集群实验（6 条轨迹） | [20261116T122302Z_cluster_cache_aware](../../artifacts/experiments/20261116T122302Z_cluster_cache_aware/manifest.json) |
+| 本机基线 smoke（主要判定、双节点） | [20261116T082019Z_baseline_smoke](../../artifacts/verification/20261116T082019Z_baseline_smoke/manifest.json) |
+| 特判 / 取消 / 有序短路 | [20261116T135655Z_special_flow](../../artifacts/verification/20261116T135655Z_special_flow/manifest.json) |
+| 缓存 / 重复结果 / 重启 / 重派 / fallback | [20261116T135725Z_reliability_flow](../../artifacts/verification/20261116T135725Z_reliability_flow/manifest.json) |
+| 9 条集成测试（真实 MinIO） | [20261116T135504Z_minio_integration](../../artifacts/verification/20261116T135504Z_minio_integration/manifest.json) |
+| 本机真实集群实验（6 条轨迹） | [20261116T140112Z_cluster_cache_aware](../../artifacts/experiments/20261116T140112Z_cluster_cache_aware/manifest.json) |
 
 ## 5. 仍然不能声称
 
-1. KVM 五 VM 已部署：只有 `deploy/kvm/` 资产，未在本机执行。
+1. KVM 参考多节点未部署：只有 `deploy/kvm/` 资产，未在本机执行。
 2. 生产级隔离：本机脚本默认关闭 cgroup/namespace/seccomp；C++ 单测只覆盖部分沙箱行为。
 3. 真实 cgroup OOM、seccomp 逐 syscall、跨机网络/时钟已验证：均未做。
 4. 生产 MinIO 集群：本机是单容器、非持久化/非 TLS 验证。

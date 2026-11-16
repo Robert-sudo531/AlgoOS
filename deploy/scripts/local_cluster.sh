@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
-# AlgoOS local five-role cluster: Postgres/Redis/NATS + MinIO + native workers + agents.
+# AlgoOS local multi-role cluster: Postgres/Redis/NATS + MinIO + native workers + agents.
+# Role counts default to two each and are configurable:
+#   ALGOOS_COMPILE_NODES=2 ALGOOS_EVAL_NODES=3 ALGOOS_SPECIAL_NODES=2 ...
 # ALGOOS_S3_MODE=minio (default) uses the pinned MinIO image; moto is a fallback
 # for environments where that image cannot be pulled.
 # Usage: local_cluster.sh start|stop|status|logs|clean
@@ -30,6 +32,25 @@ if [[ ${ALGOOS_FULL_SANDBOX:-0} == 1 ]]; then
 fi
 
 log() { printf '[local_cluster] %s\n' "$*"; }
+
+COMPILE_COUNT=${ALGOOS_COMPILE_NODES:-2}
+EVAL_COUNT=${ALGOOS_EVAL_NODES:-2}
+SPECIAL_COUNT=${ALGOOS_SPECIAL_NODES:-2}
+for count in "$COMPILE_COUNT" "$EVAL_COUNT" "$SPECIAL_COUNT"; do
+  if ! [[ $count =~ ^[1-9][0-9]*$ ]]; then
+    log "node counts must be positive integers"; exit 2
+  fi
+done
+node_ids() {
+  local role=$1 count=$2 index
+  for ((index = 1; index <= count; index++)); do
+    printf '%s-%02d\n' "$role" "$index"
+  done
+}
+mapfile -t COMPILE_NODES < <(node_ids compile "$COMPILE_COUNT")
+mapfile -t EVAL_NODES < <(node_ids eval "$EVAL_COUNT")
+mapfile -t SPECIAL_NODES < <(node_ids special "$SPECIAL_COUNT")
+ALL_NODES=("${COMPILE_NODES[@]}" "${EVAL_NODES[@]}" "${SPECIAL_NODES[@]}")
 
 wait_port() {
   local host=$1 port=$2 label=$3
@@ -63,27 +84,25 @@ stop_one() {
 
 write_configs() {
   mkdir -p "$CONFIG"
-  python3 - "$CONFIG" "$RUN" <<'PY'
-import json, sys
+  NODE_COUNTS="$COMPILE_COUNT $EVAL_COUNT $SPECIAL_COUNT" python3 - "$CONFIG" "$RUN" <<'PY'
+import json, os, sys
 from pathlib import Path
 root = Path(sys.argv[1])
 run_dir = sys.argv[2]
-configs = {
-    "compile-01": dict(node_id="compile-01", role="compile", native_socket="compile.sock",
-                       max_parallel=2),
-    "eval-01": dict(node_id="eval-01", role="eval", native_socket="eval-01.sock",
-                    max_parallel=2),
-    "eval-02": dict(node_id="eval-02", role="eval", native_socket="eval-02.sock",
-                    max_parallel=2),
-    "special-01": dict(node_id="special-01", role="special", native_socket="special-01.sock",
-                       max_parallel=2),
-}
-for name, config in configs.items():
-    config["native_socket"] = f"{run_dir}/{config['native_socket']}"
-    config["work_root"] = f"/tmp/algoos/{name}-agent"
-    config["cache_root"] = f"/tmp/algoos-cache/{name}"
-    config["cache_max_bytes"] = 2 << 30
-    (root / f"{name}.json").write_text(json.dumps(config, indent=2) + "\n")
+counts = [int(value) for value in os.environ["NODE_COUNTS"].split()]
+for role, count in zip(("compile", "eval", "special"), counts, strict=True):
+    for index in range(1, count + 1):
+        name = f"{role}-{index:02d}"
+        config = {
+            "node_id": name,
+            "role": role,
+            "native_socket": f"{run_dir}/{name}.sock",
+            "work_root": f"/tmp/algoos/{name}-agent",
+            "cache_root": f"/tmp/algoos-cache/{name}",
+            "cache_max_bytes": 2 << 30,
+            "max_parallel": 2,
+        }
+        (root / f"{name}.json").write_text(json.dumps(config, indent=2) + "\n")
 PY
 }
 
@@ -121,24 +140,37 @@ start() {
   fi
   check_binary
   write_configs
-  start_bg compile-worker "$BIN/algoos-compile" --socket "$RUN/compile.sock" \
-    --work-root /tmp/algoos/compile-01 --workers 2
-  for node in eval-01 eval-02; do
+  for node in "${COMPILE_NODES[@]}"; do
+    start_bg "$node-worker" "$BIN/algoos-compile" --socket "$RUN/$node.sock" \
+      --work-root "/tmp/algoos/$node" --workers 2
+  done
+  for node in "${EVAL_NODES[@]}"; do
     start_bg "$node-worker" "$BIN/algoos-eval" --socket "$RUN/$node.sock" --node-id "$node" \
       --work-root "/tmp/algoos/$node" --workers 2 $SANDBOX_FLAGS
   done
-  start_bg special-worker "$BIN/algoos-special" --socket "$RUN/special-01.sock" \
-    --work-root /tmp/algoos/special-01 --workers 2 $SANDBOX_FLAGS
+  for node in "${SPECIAL_NODES[@]}"; do
+    start_bg "$node-worker" "$BIN/algoos-special" --socket "$RUN/$node.sock" \
+      --work-root "/tmp/algoos/$node" --workers 2 $SANDBOX_FLAGS
+  done
   for _ in $(seq 1 50); do
-    [[ -S $RUN/compile.sock && -S $RUN/eval-01.sock && -S $RUN/eval-02.sock && -S $RUN/special-01.sock ]] && break
+    ready=1
+    for node in "${ALL_NODES[@]}"; do
+      [[ -S "$RUN/$node.sock" ]] || ready=0
+    done
+    [[ $ready == 1 ]] && break
     sleep 0.2
   done
   # Work roots must exist and be writable by the agents' native workers.
   mkdir -p /tmp/algoos /tmp/algoos-cache
-  start_bg compile-agent uv run algoos compile-agent --config "$CONFIG/compile-01.json"
-  start_bg eval-01 uv run algoos eval-agent --config "$CONFIG/eval-01.json"
-  start_bg eval-02 uv run algoos eval-agent --config "$CONFIG/eval-02.json"
-  start_bg special-01 uv run algoos special-agent --config "$CONFIG/special-01.json"
+  for node in "${COMPILE_NODES[@]}"; do
+    start_bg "$node" uv run algoos compile-agent --config "$CONFIG/$node.json"
+  done
+  for node in "${EVAL_NODES[@]}"; do
+    start_bg "$node" uv run algoos eval-agent --config "$CONFIG/$node.json"
+  done
+  for node in "${SPECIAL_NODES[@]}"; do
+    start_bg "$node" uv run algoos special-agent --config "$CONFIG/$node.json"
+  done
   start_bg control uv run algoos control
   sleep 2
   start_bg api uv run algoos api --host 127.0.0.1 --port 8080
@@ -150,8 +182,10 @@ start() {
 }
 
 stop() {
-  for name in api control special-01 eval-02 eval-01 compile-agent \
-              special-worker eval-02-worker eval-01-worker compile-worker moto; do
+  local pid_file name
+  for pid_file in "$WORK"/*.pid; do
+    [[ -e $pid_file ]] || continue
+    name=$(basename "$pid_file" .pid)
     stop_one "$name"
   done
   docker compose -f "$COMPOSE" --env-file "$ROOT/deploy/compose/.env" stop || true
@@ -159,13 +193,14 @@ stop() {
 }
 
 status() {
-  for name in compile-worker eval-01-worker eval-02-worker special-worker \
-              compile-agent eval-01 eval-02 special-01 control api; do
-    local pid_file="$WORK/$name.pid"
-    if [[ -f $pid_file ]] && kill -0 "$(cat "$pid_file")" 2>/dev/null; then
-      printf '%-16s running (pid %s)\n' "$name" "$(cat "$pid_file")"
+  local pid_file name
+  for pid_file in "$WORK"/*.pid; do
+    [[ -e $pid_file ]] || continue
+    name=$(basename "$pid_file" .pid)
+    if kill -0 "$(cat "$pid_file")" 2>/dev/null; then
+      printf '%-18s running (pid %s)\n' "$name" "$(cat "$pid_file")"
     else
-      printf '%-16s stopped\n' "$name"
+      printf '%-18s stopped\n' "$name"
     fi
   done
   curl -fsS http://127.0.0.1:8080/healthz 2>/dev/null && echo || true

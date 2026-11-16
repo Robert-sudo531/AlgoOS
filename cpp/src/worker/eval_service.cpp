@@ -74,7 +74,7 @@ RawOutcome EvalService::run_raw(const protocol::EvalTask& task, const EvalPaths&
   }
   // Special/raw runs still enforce the semantic output limit on normalized
   // bytes, not on the raw stream: a trailing newline must not turn a valid
-  // answer into OLE.  The raw file itself stays untouched for the checker.
+  // answer into WR.  The raw file itself stays untouched for the checker.
   bool truncated = false;
   std::string read_error;
   const int64_t fsize_cap =
@@ -94,10 +94,6 @@ RawOutcome EvalService::run_raw(const protocol::EvalTask& task, const EvalPaths&
   if (auto decision = sandbox::classify(outcome.evidence, task.limits)) {
     outcome.verdict = std::string(sandbox::name(decision->verdict));
     outcome.reason = std::string(sandbox::name(decision->reason));
-    if (config_.merge_ole && decision->verdict == Verdict::OLE) {
-      outcome.verdict = "WA";
-      outcome.reason = "OUTPUT_LIMIT";
-    }
     return outcome;
   }
   outcome.comparable = true;
@@ -203,15 +199,11 @@ EvalOutcome EvalService::judge(const protocol::EvalTask& task, const EvalPaths& 
   if (auto decision = sandbox::classify(outcome.evidence, limits)) {
     outcome.verdict = std::string(sandbox::name(decision->verdict));
     outcome.reason = std::string(sandbox::name(decision->reason));
-    if (config_.merge_ole && decision->verdict == Verdict::OLE) {
-      outcome.verdict = "WA";
-      outcome.reason = "OUTPUT_LIMIT";
-    }
   } else {
     const auto compare = runner::compare_common(actual, expected, limits.out_bytes);
     if (compare.over_limit) {
-      outcome.verdict = config_.merge_ole ? "WA" : "OLE";
-      outcome.reason = config_.merge_ole ? "OUTPUT_LIMIT" : "OLE_TRUNCATED";
+      outcome.verdict = "WR";
+      outcome.reason = "OUTPUT_LIMIT";
       outcome.detail = compare.detail;
       outcome.out_bytes = compare.actual_bytes;
     } else if (compare.matches) {

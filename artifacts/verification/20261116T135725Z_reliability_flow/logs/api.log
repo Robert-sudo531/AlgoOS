@@ -1,0 +1,70 @@
+INFO:     Started server process [141217]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:46349 (Press CTRL+C to quit)
+INFO:     127.0.0.1:47298 - "GET /healthz HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47298 - "GET /api/v1/nodes HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47298 - "GET /api/v1/nodes HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47298 - "POST /api/v1/submissions HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:47298 - "GET /api/v1/submissions/9b4fa680-2117-41e5-a9f4-52f023f09d2e HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47298 - "GET /api/v1/submissions/9b4fa680-2117-41e5-a9f4-52f023f09d2e HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47298 - "GET /api/v1/submissions/9b4fa680-2117-41e5-a9f4-52f023f09d2e HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47298 - "GET /api/v1/submissions/9b4fa680-2117-41e5-a9f4-52f023f09d2e HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47298 - "GET /api/v1/submissions/9b4fa680-2117-41e5-a9f4-52f023f09d2e HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47298 - "GET /api/v1/submissions/9b4fa680-2117-41e5-a9f4-52f023f09d2e HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47298 - "GET /api/v1/submissions/9b4fa680-2117-41e5-a9f4-52f023f09d2e HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47298 - "GET /api/v1/submissions/9b4fa680-2117-41e5-a9f4-52f023f09d2e HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47298 - "GET /api/v1/submissions/9b4fa680-2117-41e5-a9f4-52f023f09d2e HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47298 - "POST /api/v1/submissions HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:47298 - "GET /api/v1/submissions/b886de97-6239-4553-87dd-3848c73c6d0e HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47298 - "GET /api/v1/submissions/b886de97-6239-4553-87dd-3848c73c6d0e HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47298 - "GET /api/v1/submissions/b886de97-6239-4553-87dd-3848c73c6d0e HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47298 - "GET /api/v1/submissions/b886de97-6239-4553-87dd-3848c73c6d0e HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47298 - "GET /api/v1/submissions/b886de97-6239-4553-87dd-3848c73c6d0e HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47298 - "GET /api/v1/submissions/b886de97-6239-4553-87dd-3848c73c6d0e HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47298 - "GET /api/v1/submissions/b886de97-6239-4553-87dd-3848c73c6d0e HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47298 - "GET /api/v1/submissions/9b4fa680-2117-41e5-a9f4-52f023f09d2e HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47298 - "GET /api/v1/submissions/9b4fa680-2117-41e5-a9f4-52f023f09d2e HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47298 - "POST /api/v1/submissions HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:47298 - "GET /api/v1/submissions/862706cd-a690-4cb9-bf17-0673c02501db HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47298 - "GET /api/v1/submissions/862706cd-a690-4cb9-bf17-0673c02501db HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47298 - "GET /api/v1/submissions/862706cd-a690-4cb9-bf17-0673c02501db HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47298 - "GET /api/v1/submissions/862706cd-a690-4cb9-bf17-0673c02501db HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47298 - "GET /api/v1/submissions/862706cd-a690-4cb9-bf17-0673c02501db HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47298 - "GET /api/v1/submissions/862706cd-a690-4cb9-bf17-0673c02501db HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47298 - "GET /api/v1/submissions/862706cd-a690-4cb9-bf17-0673c02501db HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47298 - "GET /api/v1/submissions/862706cd-a690-4cb9-bf17-0673c02501db HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47298 - "GET /api/v1/submissions/862706cd-a690-4cb9-bf17-0673c02501db HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47298 - "GET /api/v1/submissions/862706cd-a690-4cb9-bf17-0673c02501db HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47298 - "GET /api/v1/submissions/862706cd-a690-4cb9-bf17-0673c02501db HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47298 - "GET /api/v1/submissions/862706cd-a690-4cb9-bf17-0673c02501db HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47298 - "GET /api/v1/submissions/862706cd-a690-4cb9-bf17-0673c02501db HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47298 - "GET /api/v1/submissions/862706cd-a690-4cb9-bf17-0673c02501db HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47298 - "GET /api/v1/submissions/862706cd-a690-4cb9-bf17-0673c02501db HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47298 - "GET /api/v1/submissions/862706cd-a690-4cb9-bf17-0673c02501db HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47298 - "GET /api/v1/submissions/862706cd-a690-4cb9-bf17-0673c02501db HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47298 - "GET /api/v1/submissions/862706cd-a690-4cb9-bf17-0673c02501db HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47298 - "GET /api/v1/submissions/862706cd-a690-4cb9-bf17-0673c02501db HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47298 - "GET /api/v1/submissions/862706cd-a690-4cb9-bf17-0673c02501db HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47298 - "GET /api/v1/submissions/862706cd-a690-4cb9-bf17-0673c02501db HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47298 - "GET /api/v1/submissions/862706cd-a690-4cb9-bf17-0673c02501db HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47298 - "GET /api/v1/submissions/862706cd-a690-4cb9-bf17-0673c02501db HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47298 - "GET /api/v1/submissions/862706cd-a690-4cb9-bf17-0673c02501db HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47298 - "POST /api/v1/submissions HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:47298 - "GET /api/v1/submissions/b8dfd0ec-b545-422a-b7ba-13d94bffe58f HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47298 - "GET /api/v1/submissions/b8dfd0ec-b545-422a-b7ba-13d94bffe58f HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47298 - "GET /api/v1/submissions/b8dfd0ec-b545-422a-b7ba-13d94bffe58f HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47298 - "GET /api/v1/submissions/b8dfd0ec-b545-422a-b7ba-13d94bffe58f HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47298 - "GET /api/v1/submissions/b8dfd0ec-b545-422a-b7ba-13d94bffe58f HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47298 - "GET /api/v1/submissions/b8dfd0ec-b545-422a-b7ba-13d94bffe58f HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47298 - "GET /api/v1/submissions/b8dfd0ec-b545-422a-b7ba-13d94bffe58f HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47298 - "GET /api/v1/submissions/b8dfd0ec-b545-422a-b7ba-13d94bffe58f HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47766 - "GET /api/v1/submissions/b8dfd0ec-b545-422a-b7ba-13d94bffe58f HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47766 - "GET /api/v1/submissions/b8dfd0ec-b545-422a-b7ba-13d94bffe58f HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47766 - "GET /api/v1/submissions/f74eb360-a2f0-4a52-981a-5269dce041de HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47766 - "GET /api/v1/submissions/f74eb360-a2f0-4a52-981a-5269dce041de HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47766 - "GET /api/v1/submissions/f74eb360-a2f0-4a52-981a-5269dce041de HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [141217]

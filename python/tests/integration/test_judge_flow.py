@@ -21,6 +21,7 @@ def source(name: str) -> str:
         ("wrong_answer.cpp", "WA"),
         ("runtime_error.cpp", "RE"),
         ("time_limit.cpp", "TLE"),
+        ("output_limit.cpp", "WR"),
     ],
 )
 def test_judge_flow(tmp_path: Path, example: str, expected: str) -> None:

@@ -4,10 +4,12 @@ set -euo pipefail
 ROOT=${ALGOOS_ROOT:-/opt/algoos}
 HOST=$(hostname -s)
 case "$HOST" in
-  algoos-control) ROLE=control ;;
-  algoos-compile) ROLE=compile ;;
-  algoos-eval-01|algoos-eval-02) ROLE=eval; NODE=${HOST#algoos-} ;;
-  algoos-special) ROLE=special ;;
+  algoos-control) NODE_KIND=control ;;
+  algoos-compile) NODE_KIND=compile; NODE=compile-01 ;;
+  algoos-compile-*) NODE_KIND=compile; NODE=${HOST#algoos-} ;;
+  algoos-eval-*) NODE_KIND=eval; NODE=${HOST#algoos-} ;;
+  algoos-special) NODE_KIND=special; NODE=special-01 ;;
+  algoos-special-*) NODE_KIND=special; NODE=${HOST#algoos-} ;;
   *) echo "unknown AlgoOS hostname: $HOST" >&2; exit 2 ;;
 esac
 
@@ -35,13 +37,14 @@ JSON
   fi
 }
 
-case "$ROLE" in
+case "$NODE_KIND" in
   control)
     systemctl enable --now algoos-api.service algoos-control.service
     ;;
   compile)
-    ensure_node_config compile-01 compile /run/algoos/compile.sock
-    systemctl enable --now algoos-compile-worker.service algoos-compile-agent.service
+    ensure_node_config "$NODE" compile "/run/algoos/${NODE}.sock"
+    systemctl enable --now "algoos-compile-worker@${NODE}.service" \
+                         "algoos-compile-agent@${NODE}.service"
     ;;
   eval)
     ensure_node_config "$NODE" eval "/run/algoos/${NODE}.sock"
@@ -49,8 +52,9 @@ case "$ROLE" in
                          "algoos-eval-agent@${NODE}.service"
     ;;
   special)
-    ensure_node_config special-01 special /run/algoos/special.sock
-    systemctl enable --now algoos-special-worker.service algoos-special-agent.service
+    ensure_node_config "$NODE" special "/run/algoos/${NODE}.sock"
+    systemctl enable --now "algoos-special-worker@${NODE}.service" \
+                         "algoos-special-agent@${NODE}.service"
     ;;
 esac
-echo "AlgoOS ${ROLE} node installed on ${HOST}"
+echo "AlgoOS ${NODE_KIND} node installed on ${HOST}"

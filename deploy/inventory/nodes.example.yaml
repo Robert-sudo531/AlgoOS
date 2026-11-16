@@ -1,10 +1,11 @@
-# AlgoOS 5-role reference inventory. Addresses are examples only.
+# AlgoOS reference inventory: 2 compile + 2 eval + 2 special + control.
+# Role counts are examples, not limits; add/remove nodes and keep IDs unique.
 version: 1
 network:
   control: 192.168.123.10
-  compile: 192.168.123.11
+  compile: [192.168.123.11, 192.168.123.12]
   eval: [192.168.123.21, 192.168.123.22]
-  special: 192.168.123.31
+  special: [192.168.123.31, 192.168.123.32]
 nodes:
   - node_id: control-01
     role: control
@@ -13,7 +14,11 @@ nodes:
   - node_id: compile-01
     role: compile
     host: 192.168.123.11
-    services: [algoos-compile-worker, algoos-compile-agent]
+    services: [algoos-compile-worker@compile-01, algoos-compile-agent@compile-01]
+  - node_id: compile-02
+    role: compile
+    host: 192.168.123.12
+    services: [algoos-compile-worker@compile-02, algoos-compile-agent@compile-02]
   - node_id: eval-01
     role: eval
     host: 192.168.123.21
@@ -25,7 +30,11 @@ nodes:
   - node_id: special-01
     role: special
     host: 192.168.123.31
-    services: [algoos-special-worker, algoos-special-agent]
+    services: [algoos-special-worker@special-01, algoos-special-agent@special-01]
+  - node_id: special-02
+    role: special
+    host: 192.168.123.32
+    services: [algoos-special-worker@special-02, algoos-special-agent@special-02]
 infrastructure:
   postgres: 192.168.123.10:5432
   redis: 192.168.123.10:6379

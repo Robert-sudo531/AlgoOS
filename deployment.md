@@ -4,7 +4,7 @@
 [本机单机多进程](#1-本机单机多进程推荐先做)；它不需要改主机名、systemd 或防火墙。
 
 > **验证边界**：本机模式会启动真实 PostgreSQL、Redis、NATS、MinIO 容器和原生 C++
-> Worker，但默认关闭 cgroup/namespace/seccomp。它不是生产隔离验证。KVM 五 VM 与
+> Worker，但默认关闭 cgroup/namespace/seccomp。它不是生产隔离验证。KVM 参考多节点与
 > 跨机实验目前只有部署资产，未在本仓库环境中执行。
 
 ## 0. 选择部署方式
@@ -13,7 +13,7 @@
 |---|---|---|---|
 | 本机多进程 | 开发、演示、集成测试 | 是 | 已实测 |
 | systemd 多机 | 真实多节点试部署 | 控制面/基础设施可用 Docker，Worker 节点不需要 | 资产已备，未在本机执行多机 |
-| KVM 五 VM | 课程/生产拓扑演练 | 取决于基础设施 | 未执行；见 [deploy/kvm/README.md](deploy/kvm/README.md) |
+| KVM 参考多节点 | 课程/生产拓扑演练 | 取决于基础设施 | 未执行；见 [deploy/kvm/README.md](deploy/kvm/README.md) |
 
 ---
 
@@ -98,9 +98,17 @@ deploy/scripts/local_cluster.sh start
 
 1. `docker compose up -d postgres redis nats minio`；
 2. 启动 `algoos-compile/eval/special` 原生 Worker；
-3. 启动 compile/eval×2/special 的 Python Agent；
+3. 启动 compile/eval/special 的 Python Agent；
 4. 启动控制面和 API；
 5. 在 `http://127.0.0.1:8080/` 提供 Web 页面。
+
+默认每种 Worker 启动 2 个节点（`compile-01/02`、`eval-01/02`、`special-01/02`）。
+数量可调，不是固定拓扑：
+
+```bash
+ALGOOS_COMPILE_NODES=3 ALGOOS_EVAL_NODES=4 ALGOOS_SPECIAL_NODES=2 \
+  deploy/scripts/local_cluster.sh start
+```
 
 首次启动需要拉取镜像，可能较慢。查看状态和日志：
 
@@ -120,7 +128,7 @@ uv run algoos nodes
 预期：
 
 - `doctor` 四项全部通过：PostgreSQL、object-store、NATS、Redis；
-- `nodes` 至少看到 `compile-01`、`eval-01`、`eval-02`、`special-01`，状态 `ALIVE`；
+- `nodes` 至少看到默认的 2 个 compile、2 个 eval、2 个 special，状态 `ALIVE`；节点数量按上面的环境变量变化；
 - API `http://127.0.0.1:8080/healthz` 返回 200。
 
 ### 1.6 导入题目并提交
@@ -150,9 +158,9 @@ done
 echo "$out"
 ```
 
-预期 `status=FINAL`、`verdict=AC`，两个测试点分别落在 `eval-01`/`eval-02`。
+预期 `status=FINAL`、`verdict=AC`，测试点由存活的 eval 节点处理（默认两台时通常落在 `eval-01`/`eval-02`）。
 
-### 1.7 自测六种判定
+### 1.7 自测主要判定
 
 题目都用 `a_plus_b`，替换 `--file` 即可：
 
@@ -164,9 +172,11 @@ echo "$out"
 | `examples/runtime_error.cpp` | `FINAL RE` |
 | `examples/time_limit.cpp` | `FINAL TLE` |
 | `examples/crash_signal.cpp` | `FINAL RE`（崩溃信号） |
-| `examples/output_limit.cpp` | `OLE` 或按策略合并为 WA |
+| `examples/output_limit.cpp` | `WR`（输出超限） |
 | `examples/memory_limit.cpp` | `MLE` 或 `RE`（取决于本机是否启用 cgroup） |
 | `examples/special_checker_timeout.cpp` | `SE`（配合 `special_pair`，checker 超时） |
+
+`WR` 表示输出超限（`reason=OUTPUT_LIMIT`），`WA` 表示内容不匹配（`ANSWER_MISMATCH`）；两者不再合并。
 
 批量自测：
 
@@ -230,15 +240,20 @@ deploy/scripts/reset_local_cluster.sh
 
 ## 2. systemd 多机部署（进阶）
 
-本节是给真实多机试部署的步骤，不是已经完成的多机验收。五台机器建议：
+本节是给真实多机试部署的步骤，不是已经完成的多机验收。多台机器建议：
 
 | 主机名 | 角色 | 进程 |
 |---|---|---|
 | `algoos-control` | 控制/API | `algoos-api`、`algoos-control` |
-| `algoos-compile` | 编译 | `algoos-compile` + compile-agent |
-| `algoos-eval-01` | 评测 | `algoos-eval` + eval-agent |
-| `algoos-eval-02` | 评测 | `algoos-eval` + eval-agent |
-| `algoos-special` | 特判 | `algoos-special` + special-agent |
+| `algoos-compile-01` | 编译池 | `algoos-compile-worker@compile-01` + agent |
+| `algoos-compile-02` | 编译池 | `algoos-compile-worker@compile-02` + agent |
+| `algoos-eval-01` | 评测池 | `algoos-eval-worker@eval-01` + agent |
+| `algoos-eval-02` | 评测池 | `algoos-eval-worker@eval-02` + agent |
+| `algoos-special-01` | 特判池 | `algoos-special-worker@special-01` + agent |
+| `algoos-special-02` | 特判池 | `algoos-special-worker@special-02` + agent |
+
+三种角色都可以继续加节点；这个 7 节点表只是参考拓扑，不是上限。评测调度按心跳表
+发现 `eval-NN`，编译/特判通过共享 durable 在池内分配任务。
 
 ### 2.1 基础设施
 
@@ -281,7 +296,7 @@ sudo -u algoos env PATH="/opt/algoos/.venv/bin:$PATH" \
 如果评测/特判节点要启用完整 cgroup/namespace/seccomp，需要 root 权限和 cgroup v2；
 `algoos-eval-worker@.service` 已按 root 运行。
 
-`algoos-eval-agent@.service` 和 `algoos-special-agent.service` 也按 root 运行：原生 Worker
+`algoos-eval-agent@.service` 和 `algoos-special-agent@.service` 也按 root 运行：原生 Worker
 创建的 Unix Socket 权限是 `0600`，Agent 必须和 Worker 同 UID 才能连接。不要把这两个
 Agent 改成非 root，除非同时修改 Native Worker 的 socket 权限模型。
 
@@ -324,14 +339,13 @@ sudo -u algoos bash -c '
 
 ### 2.4 安装并启动节点
 
-`deploy/scripts/install_node.sh` 按主机名识别角色，假设主机名严格为：
+`deploy/scripts/install_node.sh` 按主机名识别角色，支持编号节点：
 
 ```text
 algoos-control
-algoos-compile
-algoos-eval-01
-algoos-eval-02
-algoos-special
+algoos-compile-01   algoos-compile-02   ...
+algoos-eval-01      algoos-eval-02      ...
+algoos-special-01   algoos-special-02   ...
 ```
 
 在每台节点以 root 执行：
@@ -372,15 +386,16 @@ uv run algoos submit --problem a_plus_b --file examples/a_plus_b.cpp
 
 如果节点显示 `ALIVE` 但提交一直排队，依次检查：
 
-1. Worker 的 Unix Socket 是否存在（`/run/algoos/*.sock`）；
-2. NATS subject 是否有消费者（`algoos.eval.task.eval-01` 等）；
+1. Worker 的 Unix Socket 是否存在（`/run/algoos/<node>.sock`）；
+2. NATS subject 是否有消费者（`algoos.compile.task`、`algoos.special.task`、
+   `algoos.eval.task.eval-NN` 等）；
 3. 各节点时间是否同步；
 4. S3/DB/Redis 地址是否从该节点可达；
 5. cgroup 权限是否阻止了 Worker 启动。
 
 ---
 
-## 3. KVM / cloud-init 五 VM
+## 3. KVM / cloud-init 多节点参考
 
 相关资产：
 
@@ -402,7 +417,9 @@ export ALGOOS_API_TOKEN=...
 bash deploy/kvm/provision.sh
 ```
 
-要求宿主机已安装并启用 libvirt/KVM、能访问 Ubuntu cloud image。**本仓库没有在真实
+要求宿主机已安装并启用 libvirt/KVM、能访问 Ubuntu cloud image。示例拓扑包含
+1 个 control、2 个 compile、2 个 eval、2 个 special；节点数量不是协议上限，可按
+`deploy/kvm/provision.sh` 的 hosts/macs 数组和 network.xml 扩展。**本仓库没有在真实
 KVM 上执行过该脚本**；请把它当作部署模板，并按 [集群部署](docs/operations/cluster_deployment.md)
 核对每个节点。
 
@@ -448,6 +465,6 @@ find work artifacts -name '*.zip' -delete   # 只清理运行/证据目录中的
 
 不能写成：
 
-> 已通过生产沙箱、KVM 五 VM、跨机网络/时钟或生产 MinIO 集群验收。
+> 已通过生产沙箱、KVM 参考多节点、跨机网络/时钟或生产 MinIO 集群验收。
 
 当前证据和未完成项见 [实现状态](docs/status/implementation_status.md)。

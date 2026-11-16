@@ -108,7 +108,7 @@ C++ Compile  C++ Eval Worker × N  C++ Special Worker × N  Python/C++ Aggregato
 
 ## 2. 破坏性重构后的目标目录
 
-完成迁移后，根目录应只保留一个分布式主线；旧单机链路作为可运行基线移入 `legacy/`，不再作为生产入口。
+完成迁移后，根目录只保留一个分布式主线；旧单机链路已删除，需要追溯时使用 Git 历史，不保留可执行副本。
 
 ```text
 AlgoOS/
@@ -163,16 +163,17 @@ AlgoOS/
 │   ├── analysis/           # 指标、置信区间、绘图
 │   └── reports/            # 自动生成的表和图，不提交原始大输出
 ├── artifacts/
-│   ├── system/             # 单机/集成证据
-│   ├── cluster/            # 集群部署与故障证据
+│   ├── verification/       # 当前本机验收证据
 │   └── experiments/        # 每次实验的原始 CSV、环境清单、摘要
-├── legacy/
-│   └── single_node/        # 当前 judge/ 与 test_pipeline.py 的冻结基线
 └── docs/
+    ├── requirements/
     ├── design/
-    ├── ops/
-    ├── project/
-    ├── specs/
+    ├── operations/
+    ├── status/
+    ├── development/
+    ├── records/
+    ├── reports/
+    └── archive/
     └── tasks/
 ```
 
@@ -180,12 +181,12 @@ AlgoOS/
 
 | 当前资产 | 目标位置/处理 | 删除前验收 |
 |---|---|---|
-| `judge/native/eval_server.cpp` | 拆入 `cpp/src/runner/`，保留 `legacy/single_node/` 冻结副本 | 新 Runner 在相同题包的 verdict 全一致 |
+| `judge/native/eval_server.cpp` | 逻辑拆入 `cpp/src/runner/`；旧实现直接删除，Git 历史保留 | 新 Runner 在相同题包的 verdict 全一致 |
 | `judge/pipeline.py` | 拆为 Gateway、Compile Worker、Aggregator 的职责 | API→队列→Worker→DB 集成通过 |
 | `judge/problem.py` | Python 题目包校验器；发布时生成 bundle manifest | 问题包 schema 和打包测试通过 |
-| `test_pipeline.py` | 迁移期只读基线，最终移至 `legacy/single_node/` | 新 `algoos_cli replay` 覆盖其功能 |
+| `test_pipeline.py` | 迁移期只读基线，完成后删除 | 新 CLI/集成测试覆盖其功能 |
 | `submissions/`、`result/` | 删除运行时语义，改用 MinIO + PostgreSQL；只保留 `.gitkeep` 前不应作为证据 | 端到端对象上传、查询和清理通过 |
-| 旧 Makefile | 仅 legacy 使用；主线统一 CMake | CMake Debug/Release/ASan 三套构建通过 |
+| 旧 Makefile | 已删除；主线统一 CMake | CMake Debug/Release/ASan 三套构建通过 |
 
 不要在迁移中复制两套业务判定逻辑。`classify(Evidence)`、题包解析规则和 `common` 比对规则必须各只有一个生产实现。
 
@@ -228,7 +229,7 @@ AlgoOS/
 | 包 | 内容 | 交付证据 |
 |---|---|---|
 | P0 协议冻结 | schema、枚举、golden message、版本策略 | Python/C++ 往返解析和 schema 测试 |
-| P1 Runner 重构 | 旧单机服务拆为 Runner + compare + classify | AC/WA/CE/RE/TLE/MLE/OLE 的回归证据 |
+| P1 Runner 重构 | 旧单机服务拆为 Runner + compare + classify | AC/WA/CE/RE/TLE/MLE/WR 的回归证据 |
 | P2 控制面 | API、DB migration、MinIO source 上传、compile task | `POST` 返回 202，DB 有 QUEUED，NATS 有消息 |
 | P3 编译集群 | 远程编译、日志、bin 内容寻址、CE 事件 | 成功/CE/编译超时三组测试 |
 | P4 评测集群 | 多 Worker、缓存、normal compare、result event | 两节点分发及结果聚合 |
@@ -272,13 +273,13 @@ Eval Worker 消费任务后的固定流程：
 
 `Evidence` 至少包含 `wait4` 退出状态、退出码、信号、CPU 时间、`ru_maxrss`、墙钟看门狗、cgroup `memory.events.oom_kill`、`memory.peak`、输出字节数和 limits。资源判定优先级严格按 `next_step.md`：OOM → wall timeout → SIGXCPU → 崩溃信号 → 非零退出 → 内存峰值 → CPU 超限 → 输出超限 → 比较输出。
 
-`Verdict` 与 `Reason` 分离：例如教学模式可返回 `OLE/OLE_TRUNCATED`，竞赛兼容模式可向外映射为 `WA/OLE_TRUNCATED`，但原始 reason 必须保留。
+`Verdict` 与 `Reason` 分离：输出超限统一为 `WR/OUTPUT_LIMIT`，答案不匹配为 `WA/ANSWER_MISMATCH`，不再保留独立的输出超限 verdict。
 
 ### 4.3 沙箱分层
 
 | 层 | 首版实现 | 验证点 |
 |---|---|---|
-| 进程与资源 | `fork/exec`、进程组、`RLIMIT_CPU/AS/FSIZE/CORE`、`wait4` | TLE/MLE/RE/OLE 基线 |
+| 进程与资源 | `fork/exec`、进程组、`RLIMIT_CPU/AS/FSIZE/CORE`、`wait4` | TLE/MLE/RE/WR 基线 |
 | cgroup v2 | `memory.max`、`memory.swap.max=0`、`pids.max`、`cpu.max`、`memory.peak` | OOM kill 与内存峰值 |
 | 文件系统 | 私有 workdir、只读 bin/tests、受限 tmpfs、清理器 | 无写入宿主、输出限额 |
 | namespace | PID、mount、network、UTS、IPC | 被测程序不能访问网络/宿主进程 |
@@ -439,17 +440,19 @@ SA 配置必须写入 profile：初温、终温、降温率、最大迭代、mov
 
 ### 7.1 最小完整拓扑
 
-主机为 24 核时，建议保留至少 4 个物理核心给宿主机，采用五台 VM。该拓扑覆盖 `next_step.md` 的全部角色，同时总 vCPU 不超过 14。
+主机为 24 核时，建议保留至少 4 个物理核心给宿主机，示例采用 1 控制 + 2 编译 + 2 评测 + 2 特判的 VM 拓扑；角色数量可按负载扩展，不应把示例台数当成协议上限。
 
 | VM | 规格建议 | 服务 | 说明 |
 |---|---:|---|---|
 | `algoos-control` | 2 vCPU / 6 GiB | API、PostgreSQL、Redis、NATS、MinIO、Aggregator、Fallback | 首版单点控制面 |
-| `algoos-compile-01` | 2 vCPU / 4 GiB | Compile Worker | 编译与评测资源隔离 |
-| `algoos-eval-01` | 4 vCPU / 6 GiB | Eval Worker、Relay、缓存 | 评测节点 1 |
-| `algoos-eval-02` | 4 vCPU / 6 GiB | Eval Worker、Relay、缓存 | 评测节点 2 |
-| `algoos-special-01` | 2 vCPU / 4 GiB | Special Worker | 特判隔离；无特判负载时保持空闲 |
+| `algoos-compile-01` | 2 vCPU / 4 GiB | Compile Worker | 编译池节点 1 |
+| `algoos-compile-02` | 2 vCPU / 4 GiB | Compile Worker | 编译池节点 2 |
+| `algoos-eval-01` | 4 vCPU / 6 GiB | Eval Worker、Relay、缓存 | 评测池节点 1 |
+| `algoos-eval-02` | 4 vCPU / 6 GiB | Eval Worker、Relay、缓存 | 评测池节点 2 |
+| `algoos-special-01` | 2 vCPU / 4 GiB | Special Worker | 特判池节点 1 |
+| `algoos-special-02` | 2 vCPU / 4 GiB | Special Worker | 特判池节点 2 |
 
-后续扩容仅复制 `eval-*` 或 `compile-*` 镜像并登记 node_id。所有评测节点必须是相同 OS、内核、GCC、评测镜像和 cgroup 配置；不同硬件不混合计算性能结论。
+后续扩容仅复制 `eval-*`、`compile-*` 或 `special-*` 镜像并登记 node_id。所有评测节点必须是相同 OS、内核、GCC、评测镜像和 cgroup 配置；不同硬件不混合计算性能结论。
 
 ### 7.2 虚拟网络、存储与安全
 
@@ -478,10 +481,10 @@ ReadWritePaths=/var/lib/algoos /run/algoos
 
 ### 7.4 部署顺序与验收
 
-1. 创建并快照五台同版本 VM，记录镜像 hash、内核、GCC、CPU pinning、内存与磁盘配置。
+1. 创建并快照一组同版本 VM（示例拓扑为 5 台），记录镜像 hash、内核、GCC、CPU pinning、内存与磁盘配置。
 2. control VM 启动基础服务，创建 bucket、stream、数据库迁移和最小权限账号。
 3. 每个 Worker 安装同一 release，`--health`、NATS 连接、缓存目录权限和 cgroup 委派检查通过。
-4. 单 Worker 执行 AC/WA/CE/RE/TLE/MLE/OLE；核验 DB、MinIO 和结果事件一致。
+4. 单 Worker 执行 AC/WA/CE/RE/TLE/MLE/WR；核验 DB、MinIO 和结果事件一致。
 5. 两 Eval Worker 并发回放，确认任务跨节点分布且 verdict 与单机基线一致。
 6. 启用取消、特判、节点 kill、fallback，保存可重放事件日志。
 7. 创建“实验前快照”；每轮实验恢复快照、导入固定 trace、运行、归档、清理。
@@ -499,7 +502,7 @@ ReadWritePaths=/var/lib/algoos /run/algoos
 | 契约 | Python/C++ 的 golden JSON | 同一 payload 序列化/反序列化等价 |
 | 集成 | NATS+Postgres+MinIO+一个 Worker | 重投、ACK 失败、对象缺失、CE |
 | 集群 | 多 VM | 同时提交、乱序回传、节点失联、特判回退 |
-| 回归 | 现有题目与异常提交 | verdict 与 legacy 基线一致 |
+| 回归 | 现有题目与异常提交 | verdict 与旧基线一致 |
 | 性能 | 固定 trace 回放 | 指标完整、环境可复现 |
 
 ### 8.2 构建规范
@@ -530,7 +533,7 @@ ReadWritePaths=/var/lib/algoos /run/algoos
 | 组 | 内容 | 作用 |
 |---|---|---|
 | Micro | 短/中/长/重尾服务时间 | 测试队列策略的基本差异 |
-| Correctness | AC/WA/CE/RE/TLE/MLE/OLE | 验证分布式结果口径 |
+| Correctness | AC/WA/CE/RE/TLE/MLE/WR | 验证分布式结果口径 |
 | Burst | 10、50、100、500 份集中到达 | 检验吞吐与尾延迟 |
 | Cache | 同题重复、题目交替、大测试包 | 检验缓存亲和和预热 |
 | Failure | eval/special 节点中途下线、重复投递 | 检验幂等、回退与恢复 |
@@ -569,7 +572,7 @@ Jain 公平性：`(sum wait)^2 / (n * sum(wait^2))`；同时报告最大等待�
 | 阶段 | 产物 | 完成判据 |
 |---|---|---|
 | A：冻结契约 | schema、DB 草图、状态机、目录迁移 PR | 全组确认字段和术语，禁止各写一套协议 |
-| B：Runner 基线 | C++ Runner/classify + legacy 一致性 | 全部已有正常/异常样例一致 |
+| B：Runner 基线 | C++ Runner/classify + 旧基线一致性 | 全部已有正常/异常样例一致 |
 | C：控制面与编译 | API/DB/MinIO/NATS/Compile Worker | 可远程产生 CE 或 bin hash |
 | D：多节点评测 | 两 Eval Worker、缓存、聚合 | 跨 VM 结果正确回流 |
 | E：取消与特判 | ordered short circuit、Relay、Fallback | 乱序、下线、特判案例通过 |
@@ -595,9 +598,9 @@ Jain 公平性：`(sum wait)^2 / (n * sum(wait^2))`；同时报告最大等待�
 最终展示和报告至少包含：
 
 1. 能从源码构建的 Python 控制面与 C++ Worker；
-2. 五 VM 的脱敏部署清单、初始化脚本和健康检查；
+2. 多节点 VM 的脱敏部署清单、初始化脚本和健康检查；
 3. 单机基线与分布式 verdict 一致性证据；
-4. AC/WA/CE/RE/TLE/MLE/OLE、取消、重复投递、节点下线、特判/回退的测试记录；
+4. AC/WA/CE/RE/TLE/MLE/WR、取消、重复投递、节点下线、特判/回退的测试记录；
 5. 可公开的 workload、profile、seed、环境 hash 和原始实验 CSV；
 6. AlgoOS 与 DOMjudge 的等价对比表；
 7. 在线贪心堆策略和离线预放置/SA 的参数、图表及结论边界；

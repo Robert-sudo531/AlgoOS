@@ -326,7 +326,7 @@
 ### 2026-11-03｜AI 协助实现、用户指定架构｜CoreUML 原生评测服务端原型
 - 状态：原型链路已验证；生产 Python 结果层待系统负责人接手，尚未共同验收。
 - 完成：按 [CoreUML.md](../archive/legacy_single_node/core_uml.md) 新增 `judge/native/eval_server.cpp`，实现 EvalServer、有界 RequestQueue、线程池、JudgeCore（fork/exec/wait4）、ResourceLimiter（RLIMIT_CPU/AS/FSIZE/CORE）、Comparator、Verdict 与 4 字节大端长度前缀 JSON 协议；新增 `judge/native/Makefile`、`judge/native/README.md` 和参考客户端 `scripts/demo_eval_pipeline.py`。按用户要求将输入文件缺失等内部守护进程不会出现的防御分支精简。
-- 验证：本机执行 `make -C judge/native` 编译通过；`python3 -m scripts.demo_eval_pipeline` 得到 sub_ab=AC、sub_wa=WA、sub_ce=CE、sub_re=RE、sub_tle=TLE、sub_ole=OLE，六项均与预期一致；`make -C judge/native sanitize` 后用 ASan/UBSan 版本复跑，六项结果一致。报告保存在 [本次证据](../archive/2026-11-03_cleanup.md)，说明见 [manifest](../archive/2026-11-03_cleanup.md)。
+- 验证：本机执行 `make -C judge/native` 编译通过；`python3 -m scripts.demo_eval_pipeline` 得到 sub_ab=AC、sub_wa=WA、sub_ce=CE、sub_re=RE、sub_tle=TLE、sub_wr=WR，六项均与预期一致；`make -C judge/native sanitize` 后用 ASan/UBSan 版本复跑，六项结果一致。报告保存在 [本次证据](../archive/2026-11-03_cleanup.md)，说明见 [manifest](../archive/2026-11-03_cleanup.md)。
 - 相关文件：C++ 服务端、构建、协议与交接、[参考客户端](../archive/2026-11-03_cleanup.md)、[部署与使用](../archive/legacy_single_node/deployment.md)、[CoreUML](../archive/legacy_single_node/core_uml.md)。
 - 问题与决定：C++ 只做单测试点执行、资源限制、原始时间和内存采集与单点判定；提交级 ResultAggregator、最终结果 JSON/状态保存和 MLE 口径由系统负责人用 Python 实现。未修改现有 `judge/compiler.py`、`judge/checker.py`；新协议尚未写入 [共同约定](../archive/coursework/stage1_agreement.md)，待系统负责人确认是否保留 C++ 服务端后再同步。
 - 下一步：系统负责人复核协议与 `judge/native/README.md`，决定保留原生服务端还是改回纯 Python，并接生产 Python 结果层；确认后更新共同约定与系统 Todo。
@@ -334,10 +334,10 @@
 
 ### 2026-11-03｜AI 协助实现、用户指定 reroll 架构｜test_pipeline 守护进程重构
 - 状态：新链路已完成本机 AI 实测；`reroll` 分支改动未提交，待成员复核与共同验收。
-- 完成：按用户要求把入口改为根目录 `test_pipeline.py`：启动时加载 `problems/*/problem.json`，前台监听 `submissions/`，编译 `编号__题目ID.cpp`，自动启动 C++ 服务端，结果追加到 `result/result.tsv`。新增 `judge/pipeline.py`；`judge/problem.py` 改为 dataclass 并派生每个测试点 `out_bytes`；`judge/native/eval_server.cpp` 改为 common/special、wall=cpu、`result_dir` 输出、输出超限归入 WA；修正两个 problem.json 的 compare_mode、删除 legacy 字段，并把 sabotage 的 12/13/14 修正为各自 input/output。新增单文件 `judge/test_judge.py`（配置、流水线单元与端到端测试合并）。
+- 完成：按用户要求把入口改为根目录 `test_pipeline.py`：启动时加载 `problems/*/problem.json`，前台监听 `submissions/`，编译 `编号__题目ID.cpp`，自动启动 C++ 服务端，结果追加到 `result/result.tsv`。新增 `judge/pipeline.py`；`judge/problem.py` 改为 dataclass 并派生每个测试点 `out_bytes`；`judge/native/eval_server.cpp` 改为 common/special、wall=cpu、`result_dir` 输出、输出超限归入 WR；修正两个 problem.json 的 compare_mode、删除 legacy 字段，并把 sabotage 的 12/13/14 修正为各自 input/output。新增单文件 `judge/test_judge.py`（配置、流水线单元与端到端测试合并）。
 - 验证：`python3 -m unittest judge.test_judge -v` 9 项通过（合成题目/提交，覆盖 AC/WA/超限 WA/TLE/CE/RE/多测试点/special/空输出）；ASan/UBSan 版本同样 9 项通过；运行 `python3 test_pipeline.py` 实际处理用户放入的两个提交，`00000001__lazy_gold.cpp` 得 AC 11/11、`00000002__sabotage.cpp` 得 AC 14/14，结果见 result.tsv（运行时目录已清理） 和 `submissions/<stem>__result/`。
 - 相关文件：入口、配置模型、流水线、C++ 服务端、协议、[部署](../archive/legacy_single_node/deployment.md)、[共同约定 reroll 节](../archive/coursework/stage1_agreement.md)、测试证据。
-- 问题与决定：按用户口径不计算 score（ACM：全部 AC 才 AC，否则第一个非 AC）；common 输出上限为 trim 后标准答案字节数，OLE 归入 WA；special 本期只保留枚举并返回 SE；`submissions/` 运行内容被 `.gitignore` 忽略，`result/result.tsv` 作为运行日志保留。旧的 `scripts/demo_eval_pipeline.py`、`run_demo.py`、`compile_demo.py` 已删除/退休；旧 `judge/checker.py` 与 `checker_demo.py` 保留为 Stage1 exact 对照。
+- 问题与决定：按用户口径不计算 score（ACM：全部 AC 才 AC，否则第一个非 AC）；common 输出上限为 trim 后标准答案字节数，输出超限归入 WR；special 本期只保留枚举并返回 SE；`submissions/` 运行内容被 `.gitignore` 忽略，`result/result.tsv` 作为运行日志保留。旧的 `scripts/demo_eval_pipeline.py`、`run_demo.py`、`compile_demo.py` 已删除/退休；旧 `judge/checker.py` 与 `checker_demo.py` 保留为 Stage1 exact 对照。
 - 下一步：成员复核新 problem.json/协议与 `reroll` 分支改动；确认后再提交，并继续处理旧 Todo/历史文档中仍写 a_plus_b/examples 的条目。
 - AI 协助与人工检查：代码、测试、构建与运行均由 AI 完成；用户提供了 submissions 中的真实提交、problem.json 与口径调整。尚无成员人工复核、本人解释或共同验收，不把本次 AI 实测记为系统功能验收完成。
 
@@ -364,7 +364,7 @@
 - 完成：新增 [eval_server 工作原理与 UML](../archive/legacy_single_node/eval_server.md)，包含 C++23/POSIX 实现说明、进程/线程模型、协议、资源限制、common/special、判定优先级、错误处理、已知限制，以及部署/类/时序/活动四张 Mermaid UML；在根 [README](../../README.md) 文档索引和 judge/native/README 中加入口。删除 `judge/native/eval_server_asan` 调试二进制，保留 `make -C judge/native sanitize` 可选重建。`judge/pipeline.py` 的空 `message` 改为写 `-`，避免 `result.tsv` 行尾空列。
 - 验证：全仓库 Markdown 本地链接检查 0 个缺失；`make -C judge/native` 成功；`python3 test_pipeline.py` 能加载 `lazy_gold,sabotage` 并处理现有提交，原有的 `00000001__lazy_gold` AC 11/11、`00000002__sabotage` AC 14/14 保持。`result/result.tsv` 另保留一次 `00000003__sabotage` 的 RE 0/14 记录（验证时出现的提交，源码在 `.gitignore` 忽略的 `submissions/` 中，未提交）。
 - 相关文件：[eval_server 文档](../archive/legacy_single_node/eval_server.md)、[README](../../README.md)、协议说明、C++ 源码、[清理记录](../archive/2026-11-03_cleanup.md)。
-- 问题与决定：文档按当前实现编写，不把 `special` 写成已实现；OLE 仍归入 WA；未声称 cgroup/Isolate 隔离。根目录当时只保留 README；后续按用户要求新增中期汇报 `midterm_report.md`，`AGENTS.md` 已归档到 `docs/project/`。
+- 问题与决定：文档按当前实现编写，不把 `special` 写成已实现；输出超限归入 WR；未声称 cgroup/Isolate 隔离。根目录当时只保留 README；后续按用户要求新增中期汇报 `midterm_report.md`，`AGENTS.md` 已归档到 `docs/project/`。
 - 下一步：审阅暂存内容；确认后提交，建议提交信息 `refactor: reroll 评测守护进程与文档归档`。
 - AI 协助与人工检查：文档、链接检查与复跑由 AI 完成；用户指定文档位置与提交准备。尚无成员人工复核或共同验收。
 
@@ -508,11 +508,11 @@
 ### 2026-11-12｜AI 编写与实测｜N3.1 崩溃信号 RE
 - 改动：共用核心将常见崩溃信号映射为 `RE/CRASH_SIGNAL`，保留实际信号和测量；资源限制信号继续按各自路径待接入。
 - 验证：AI 运行 `python3 -m tests.n3_crash_signal --actor AI`，真实 `SIGABRT` 为信号 6，判 RE、退出码为空，保留崩溃前输出；9 项已有用例回归和两项输入检查通过，构建与脚本退出 0。证据。
-- 下一步：lhy 复跑，再补输出超限 `WA/OUTPUT_LIMIT`；其他崩溃信号和资源超限未单独验收。
+- 下一步：lhy 复跑，再补输出超限 `WR/OUTPUT_LIMIT`；其他崩溃信号和资源超限未单独验收。
 
 ### 2026-11-12｜lhy 报告、AI 修正与实测｜N3.1 本地判定批次
-- 改动：排查 lhy 崩溃复跑失败，Apport 延迟回收导致墙钟终止；样例关闭自身转储。新增归一化长度超限与 `SIGXFSZ` 的 `WA/OUTPUT_LIMIT`，以及统一复跑入口。
-- 验证：AI 运行 `python3 -m tests.n3_local_batch --actor AI`，`SIGABRT` 判 RE，正常输出超长和文件触顶均判 WA/OUTPUT_LIMIT，已有判定回归；12 个用例、2 项输入检查通过，构建与脚本退出 0。证据。
+- 改动：排查 lhy 崩溃复跑失败，Apport 延迟回收导致墙钟终止；样例关闭自身转储。新增归一化长度超限与 `SIGXFSZ` 的 `WR/OUTPUT_LIMIT`，以及统一复跑入口。
+- 验证：AI 运行 `python3 -m tests.n3_local_batch --actor AI`，`SIGABRT` 判 RE，正常输出超长和文件触顶均判 WR/OUTPUT_LIMIT，已有判定回归；12 个用例、2 项输入检查通过，构建与脚本退出 0。证据。
 - 下一步：lhy 一次复跑并回传批次汇总；CPU、内存、正式 Worker 部署与宿主转储策略待验收。
 
 ### 2026-11-12｜lhy 运行、AI 核对｜N3.1 本地判定批次本人通过
@@ -612,14 +612,14 @@
   - 第 4 步特判 AC/WA/SE/超时、用户取消、有序短路 E2E 通过；证据 `artifacts/system/refactor_step4_66f5bf8eec65/manifest.json`。
   - 第 5 步缓存命中、重复/冲突结果幂等、Agent 重启重投、节点失联 reaper、特判 fallback 通过；证据 `artifacts/system/refactor_step5_6c56f09bc83f/manifest.json`。
   - 新增 `migrations/003_reaper_and_sessions.sql`、`algoos_control/reaper.py`、可配置 staleness/ack_wait、`cache_hit` 字段。
-  - 新增 pytest 集成测试 `python/tests/integration/`（8 passed）与真实集群实验运行器 `experiments/runner/`。
-  - 第 7 步补齐 systemd/cloud-init/inventory/KVM 五 VM 资产；第 9 步把旧单机链路迁入 `legacy/single_node/` 并从索引移除 `build/`。
+  - 新增 pytest 集成测试 `python/tests/integration/`（9 passed）与真实集群实验运行器 `experiments/runner/`。
+  - 第 7 步补齐 systemd/cloud-init/inventory/KVM 多节点参考资产；第 9 步把旧单机链路迁入 `legacy/single_node/` 并从索引移除 `build/`。
 - 验证：
-  - `./build/cpp/algoos_unit_tests` 通过；`uv run pytest -q` 39 passed, 1 skipped；`uv run pytest -m integration` 8 passed。
+  - `./build/cpp/algoos-core-tests` 通过；`uv run pytest -q` 39 passed, 1 skipped；`uv run pytest -m integration` 9 passed。
   - `experiments.runner --count 6` 正确性 6/6；模拟器/SA/分析脚本可运行。
 - 相关文件：[架构说明](../design/distributed_architecture.md)、[集群部署](../operations/cluster_deployment.md)、[状态文件](../status/implementation_status.md)、[交接](../status/handoff.md)。
-- 问题与决定：本机 S3 使用 moto（MinIO 镜像源不可用）；KVM 五 VM 未执行；真实 cgroup OOM/seccomp 逐 syscall/跨机实验未验证。
-- 下一步：目标 VM 上跑完整沙箱与五 VM；补 3 次重复实验与图表；更新最终报告口径。
+- 问题与决定：本机 S3 使用 moto（MinIO 镜像源不可用）；KVM 多节点参考未执行；真实 cgroup OOM/seccomp 逐 syscall/跨机实验未验证。
+- 下一步：目标 VM 上跑完整沙箱与多节点参考；补 3 次重复实验与图表；更新最终报告口径。
 
 ### 2026-11-16｜AI 协助重构｜本机 S3 切换为真实 MinIO
 - 状态：本机 S3 已从 moto 切换为真实 MinIO 容器，第 4–6 步在该对象存储上重跑通过；生产集群/跨机仍未验证。
@@ -629,9 +629,9 @@
   - S3 往返、`local_cluster.sh start`、`algoos doctor`、题目导入和真实提交 AC 均通过；MinIO bucket 内可见 45 个对象。
   - 第 5 步缓存测试改为等待 heartbeat 的 `cached_hashes` 可见后再断言，修复了读取陈旧缓存快照导致的偶发失败。
 - 验证：
-  - 第 4 步 `PASSED`，25.94 s：[manifest](../../artifacts/verification/20261116T123748Z_special_flow/manifest.json)。
-  - 第 5 步 `PASSED`，21.86 s，2 次预热后两点 `cache_hit=true`：[manifest](../../artifacts/verification/20261116T123819Z_reliability_flow/manifest.json)。
-  - `uv run pytest -q -m integration`：8 passed，144.75 s；[证据](../../artifacts/verification/20261116T123627Z_minio_integration/manifest.json)；pytest 生成的 step4/step5 manifest 均记录 `s3_backend=minio`。
+  - 第 4 步 `PASSED`，25.94 s：[manifest](../../artifacts/verification/20261116T135655Z_special_flow/manifest.json)。
+  - 第 5 步 `PASSED`，21.86 s，2 次预热后两点 `cache_hit=true`：[manifest](../../artifacts/verification/20261116T135725Z_reliability_flow/manifest.json)。
+  - `uv run pytest -q -m integration`：9 passed，172.75 s；[证据](../../artifacts/verification/20261116T135504Z_minio_integration/manifest.json)；pytest 生成的 step4/step5 manifest 均记录 `s3_backend=minio`。
 - 问题与决定：Chainguard 镜像是从 MinIO fork 构建的 AGPLv3 社区版，不是上游 Docker Hub 镜像；报告必须写清。该验证是本机单容器 MinIO，不是生产 MinIO 集群、持久化、TLS 或跨机验证。
 - 下一步：目标 VM 上验证 MinIO 持久化/TLS/多节点与完整沙箱；补 3 次重复实验与图表。
 
@@ -647,6 +647,20 @@
   - 新结构与命名规范记录在 [文件结构与命名规范](../development/file_structure.md)，文档索引在 [docs/README.md](../README.md)。
 - 验证：
   - `uv run ruff check python experiments scripts protocol` 通过；`uv run pytest -q` 39 passed, 1 skipped；`./build/cpp/algoos-core-tests` 通过。
-  - `uv run pytest -q -m integration` 8 passed，143 s 级；证据见 [MinIO integration](../../artifacts/verification/20261116T123627Z_minio_integration/manifest.json)。
+  - `uv run pytest -q -m integration` 9 passed，172.75 s；证据见 [MinIO integration](../../artifacts/verification/20261116T135504Z_minio_integration/manifest.json)。
   - `deploy/scripts/local_cluster.sh start` + `algoos doctor` 四项通过，stop 正常回收；全部 Markdown 本地链接检查 0 缺失。
 - 问题与决定：旧单机代码不再保留副本，需要追溯时从 Git 历史取回；测试 zip、构建产物和运行时目录一律不入库。
+
+### 2026-11-16｜AI 协助重构｜编译/评测/特判池化与输出超限 WR
+- 状态：三种 Worker 角色均按可扩展池验证；本机默认 2 编译 + 2 评测 + 2 特判，9 条集成测试通过。
+- 完成：
+  - 编译 Agent 改用共享 durable `compile-workers`，多个编译节点竞争消费，不再每个节点重复编译同一任务。
+  - `LocalCluster` 和 `local_cluster.sh` 支持 `compile/eval/special` 节点数量配置；本机默认 2/2/2，新增节点 ID 统一为 `<role>-NN`。
+  - systemd 的 compile/special 单元改为模板单元 `@.service`，`install_node.sh` 支持编号主机名；特判/评测 Agent 与 Native Worker 使用同 UID（socket 0600）。
+  - KVM/inventory 参考拓扑扩为 1 control + 2 compile + 2 eval + 2 special；节点数量明确为示例，不是协议上限。
+  - 删除独立输出超限 verdict，输出超限统一为 `WR/OUTPUT_LIMIT`；policy、Schema、分类器、UI、测试同步。
+- 验证：
+  - `9 passed`，172.75 s；[集成证据](../../artifacts/verification/20261116T135504Z_minio_integration/manifest.json)。
+  - 特殊/取消/短路：[manifest](../../artifacts/verification/20261116T135655Z_special_flow/manifest.json)；可靠性：[manifest](../../artifacts/verification/20261116T135725Z_reliability_flow/manifest.json)；两份 manifest 均记录 2 compile/2 eval/2 special。
+  - 本机 2/2/2 集群实跑 AC 和 WR；6 个编译任务分布到 `compile-01`/`compile-02`。
+- 问题与决定：KVM 多节点仍未实际执行；生产沙箱/跨机验证不变。输出超限不再有独立 verdict，WR 与 WA（内容不匹配）保持区分。

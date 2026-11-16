@@ -27,6 +27,7 @@ DEFAULT_SOURCES = [
     {"problem_id": "a_plus_b", "file": "compile_error.cpp", "expected": "CE"},
     {"problem_id": "a_plus_b", "file": "runtime_error.cpp", "expected": "RE"},
     {"problem_id": "a_plus_b", "file": "time_limit.cpp", "expected": "TLE"},
+    {"problem_id": "a_plus_b", "file": "output_limit.cpp", "expected": "WR"},
     {"problem_id": "lazy_gold", "file": "lazy_gold.cpp", "expected": "AC"},
 ]
 

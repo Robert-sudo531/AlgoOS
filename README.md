@@ -6,7 +6,7 @@
 
 - API 网关、提交/查询/取消/节点/实验接口；
 - PostgreSQL 元数据、MinIO/S3 内容寻址、NATS JetStream 六类消息、Redis 心跳与取消快路径；
-- 编译 Worker、评测 Worker、特判 Worker（C++ 执行内核 + Python 队列 Agent）；
+- 编译 / 评测 / 特判 Worker 池（C++ 执行内核 + Python 队列 Agent，节点数可配置）；
 - 统一 `classify()`、cgroup v2 / namespace / seccomp / rlimit / 只读根沙箱适配；
 - 有序短路、取消广播、特判回传与 fallback、失联节点重派、本地缓存；
 - FCFS / SJF / Aging-SJF / Earliest-Finish / Cache-aware 调度，离散事件模拟与模拟退火放置；
@@ -14,7 +14,7 @@
 
 > 详细部署与自测步骤见 [deployment.md](deployment.md)。
 >
-> **验证边界**：本机已完成真实多进程集群验收；KVM 五 VM 资产已提供但
+> **验证边界**：本机已完成真实多进程集群验收；KVM 参考多节点资产已提供但
 > **未在本机执行**；生产隔离、真实 cgroup OOM、seccomp 逐 syscall、跨机性能实验仍待目标 VM 验证。
 > 不要把本机多进程结果写成跨机或云端结论。
 
@@ -22,11 +22,11 @@
 
 | 阶段 | 状态 | 证据 |
 |---|---|---|
-| 本机服务、迁移/题包、六种判定 | ✅ 本机通过 | [baseline smoke](artifacts/verification/20261116T082019Z_baseline_smoke/manifest.json) |
-| 特判 AC/WA/SE/超时、用户取消、有序短路 | ✅ 本机通过 | [special flow](artifacts/verification/20261116T123748Z_special_flow/manifest.json) |
-| 缓存、重复结果、Agent 重启、节点失联重派、特判 fallback | ✅ 本机通过 | [reliability flow](artifacts/verification/20261116T123819Z_reliability_flow/manifest.json) |
-| 真实 MinIO + 8 条集成测试 | ✅ 本机通过 | [integration](artifacts/verification/20261116T123627Z_minio_integration/manifest.json) |
-| systemd / cloud-init / inventory / KVM 五 VM | ◐ 资产已备，未执行 VM | [deploy/](deploy) |
+| 本机服务、迁移/题包、主要判定 | ✅ 本机通过 | [baseline smoke](artifacts/verification/20261116T082019Z_baseline_smoke/manifest.json) |
+| 特判 AC/WA/SE/超时、用户取消、有序短路 | ✅ 本机通过 | [special flow](artifacts/verification/20261116T135655Z_special_flow/manifest.json) |
+| 缓存、重复结果、Agent 重启、节点失联重派、特判 fallback | ✅ 本机通过 | [reliability flow](artifacts/verification/20261116T135725Z_reliability_flow/manifest.json) |
+| 真实 MinIO + 9 条集成测试 | ✅ 本机通过 | [integration](artifacts/verification/20261116T135504Z_minio_integration/manifest.json) |
+| systemd / cloud-init / inventory / KVM 参考多节点 | ◐ 资产已备，未执行 VM | [deploy/](deploy) |
 | 真实集群实验、模拟器、SA 放置 | ◐ 小规模可跑 | [experiments/](experiments) |
 | 生产隔离、跨机、完整实验矩阵 | ❌ 待目标 VM | [实现状态](docs/status/implementation_status.md) |
 
@@ -42,9 +42,12 @@ flowchart LR
     API --> S3[(MinIO/S3)]
     API --> OB[outbox]
     OB --> MQ[(NATS JetStream)]
-    MQ --> C[编译 Worker]
-    C --> S3
-    C --> MQ
+    MQ --> C1[编译 Worker compile-01]
+    MQ --> C2[编译 Worker compile-02]
+    C1 --> S3
+    C2 --> S3
+    C1 --> MQ
+    C2 --> MQ
     MQ --> S[调度器]
     S --> MQ
     MQ --> E1[评测 Worker eval-01]
@@ -53,15 +56,20 @@ flowchart LR
     E2 --> S3
     E1 --> MQ
     E2 --> MQ
-    MQ --> SP[特判 Worker]
-    SP --> S3
-    SP --> MQ
+    MQ --> SP1[特判 Worker special-01]
+    MQ --> SP2[特判 Worker special-02]
+    SP1 --> S3
+    SP2 --> S3
+    SP1 --> MQ
+    SP2 --> MQ
     MQ --> AG[聚合器]
     AG --> PG
     E1 --> R[(Redis)]
     E2 --> R
     SP --> R
 ```
+
+图中 2/2/2 只是本机默认示例，三种 Worker 都可由部署扩成任意数量的池。
 
 一次提交：API 写 `submissions + outbox` → 编译 Worker 消费 `compile.task` → 上传 bin →
 调度器按策略与缓存亲和派发 `eval.task.<node>` → 评测 Worker 运行并回传 `eval.result` →
@@ -164,9 +172,9 @@ uv run python -m experiments.analysis.report artifacts/experiments/<run>
 - 本机/单机多进程：[deploy/scripts/local_cluster.sh](deploy/scripts/local_cluster.sh)
 - systemd：[deploy/systemd/](deploy/systemd)，环境变量模板 [deploy/env.example](deploy/env.example)
 - cloud-init / inventory：[deploy/cloud-init/](deploy/cloud-init)、[deploy/inventory/](deploy/inventory)
-- KVM 五 VM：[deploy/kvm/README.md](deploy/kvm/README.md)
+- KVM 参考多节点：[deploy/kvm/README.md](deploy/kvm/README.md)
 
-KVM 五 VM 拓扑与控制面/编译/两个评测/特判角色对应总案 P8；当前未在本机执行，
+KVM 参考多节点拓扑覆盖控制面、编译池、评测池与特判池；当前未在本机执行，
 汇报时必须区分“本机多进程”和“KVM/云端”。
 
 ## 文档索引

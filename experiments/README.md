@@ -33,4 +33,4 @@ uv run python -m experiments.analysis.report artifacts/experiments/<run>
 - 实验必须固定硬件、编译参数、随机种子、题包与提交轨迹；`manifest.json` 记录数据来源、策略与平台。
 - 输出目录统一为 `artifacts/experiments/<UTC>_<kind>_<strategy>/`；每个目录必须有 `manifest.json`。
 - 当前运行器只跑 1 次；正式报告需要至少 3 次重复并汇总分位数/方差，重复调度尚未实现。
-- 单机多进程验证不等于 KVM 五 VM 或云端验证。
+- 单机多进程验证不等于 KVM 多节点或云端验证。

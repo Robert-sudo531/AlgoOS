@@ -1,0 +1,806 @@
+{
+  "executed_by": "pytest",
+  "scope": "local trusted fixtures; real MinIO S3; special checker contract exercised; no production sandbox validation",
+  "cases": [
+    {
+      "case": "special_checker_exit_0",
+      "expected": "AC",
+      "view": {
+        "ver": 1,
+        "file_id": "624afb94-a714-4bfb-bf9d-e70523c96e85",
+        "problem_id": "special_pair",
+        "user_id": "api-user",
+        "language": "cpp17",
+        "source_hash": "sha256:410487081bae95abbcac7aea1efdf06d08a9e1bdc552ea7ab06c01bb62917670",
+        "status": "FINAL",
+        "verdict": "AC",
+        "reason": "NONE",
+        "compile_log": "",
+        "submitted_at": "2026-11-16T13:57:02.647068+00:00",
+        "finalized_at": "2026-11-16T13:57:03.750158+00:00",
+        "evaluation_mode": "all_cases",
+        "short_circuit_window": 4,
+        "cancel_reason": null,
+        "per_test": [
+          {
+            "test_id": "01",
+            "sequence": 1,
+            "node_id": "eval-01",
+            "state": "DONE",
+            "judge_mode": "special",
+            "verdict": "AC",
+            "reason": "NONE",
+            "cpu_ms": 1,
+            "wall_ms": 2,
+            "mem_bytes": null,
+            "memory_source": null,
+            "out_bytes": null,
+            "source": "special",
+            "short_circuited": false,
+            "cache_hit": false,
+            "limits": {
+              "cpu_ms": 3000,
+              "wall_ms": 4000,
+              "mem_bytes": 268435456,
+              "out_bytes": 65536,
+              "input_hash": "sha256:f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
+              "answer_hash": "sha256:d7c007a0cb9cc72ddef24e95126661302d3b901e6b20ab068f20e6b6da3f58de",
+              "checker_hash": "sha256:e679d2d141bfb39b3f62bafaaeff604a0fd86688db5357ca80f03bf6e580d8b3"
+            }
+          },
+          {
+            "test_id": "02",
+            "sequence": 2,
+            "node_id": "eval-02",
+            "state": "DONE",
+            "judge_mode": "special",
+            "verdict": "AC",
+            "reason": "NONE",
+            "cpu_ms": 1,
+            "wall_ms": 2,
+            "mem_bytes": null,
+            "memory_source": null,
+            "out_bytes": null,
+            "source": "special",
+            "short_circuited": false,
+            "cache_hit": false,
+            "limits": {
+              "cpu_ms": 3000,
+              "wall_ms": 4000,
+              "mem_bytes": 268435456,
+              "out_bytes": 65536,
+              "input_hash": "sha256:8bd5a23c3aef1243c78bac155b39b9d57a43d8c49665ccf6f42acf2992a94afa",
+              "answer_hash": "sha256:36f0cd76c1b2c4ecfb4275ae3d5acb4e6ba3c627a27ffecb6fb18a127af454d2",
+              "checker_hash": "sha256:e679d2d141bfb39b3f62bafaaeff604a0fd86688db5357ca80f03bf6e580d8b3"
+            }
+          },
+          {
+            "test_id": "03",
+            "sequence": 3,
+            "node_id": "eval-01",
+            "state": "DONE",
+            "judge_mode": "special",
+            "verdict": "AC",
+            "reason": "NONE",
+            "cpu_ms": 1,
+            "wall_ms": 2,
+            "mem_bytes": null,
+            "memory_source": null,
+            "out_bytes": null,
+            "source": "special",
+            "short_circuited": false,
+            "cache_hit": false,
+            "limits": {
+              "cpu_ms": 3000,
+              "wall_ms": 4000,
+              "mem_bytes": 268435456,
+              "out_bytes": 65536,
+              "input_hash": "sha256:9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+              "answer_hash": "sha256:0ccdb5a77ba5bf7687f2565a8ed97dfb9c1af45503c496fb646312239fab5101",
+              "checker_hash": "sha256:e679d2d141bfb39b3f62bafaaeff604a0fd86688db5357ca80f03bf6e580d8b3"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "case": "special_checker_exit_1",
+      "expected": "WA",
+      "view": {
+        "ver": 1,
+        "file_id": "ba2338b0-bf62-4771-921e-403abfc7214e",
+        "problem_id": "special_pair",
+        "user_id": "api-user",
+        "language": "cpp17",
+        "source_hash": "sha256:0ad1d55f7ee3db66fc84814dd49c91af515e56f1c71ac488407ad0d3c51ef3bf",
+        "status": "FINAL",
+        "verdict": "WA",
+        "reason": "SPECIAL_WA",
+        "compile_log": "",
+        "submitted_at": "2026-11-16T13:57:03.959919+00:00",
+        "finalized_at": "2026-11-16T13:57:04.648780+00:00",
+        "evaluation_mode": "ordered_short_circuit",
+        "short_circuit_window": 4,
+        "cancel_reason": "SHORT_CIRCUITED",
+        "per_test": [
+          {
+            "test_id": "01",
+            "sequence": 1,
+            "node_id": "eval-01",
+            "state": "DONE",
+            "judge_mode": "special",
+            "verdict": "WA",
+            "reason": "SPECIAL_WA",
+            "cpu_ms": 1,
+            "wall_ms": 2,
+            "mem_bytes": null,
+            "memory_source": null,
+            "out_bytes": null,
+            "source": "special",
+            "short_circuited": false,
+            "cache_hit": false,
+            "limits": {
+              "cpu_ms": 3000,
+              "wall_ms": 4000,
+              "mem_bytes": 268435456,
+              "out_bytes": 65536,
+              "input_hash": "sha256:f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
+              "answer_hash": "sha256:d7c007a0cb9cc72ddef24e95126661302d3b901e6b20ab068f20e6b6da3f58de",
+              "checker_hash": "sha256:e679d2d141bfb39b3f62bafaaeff604a0fd86688db5357ca80f03bf6e580d8b3"
+            }
+          },
+          {
+            "test_id": "02",
+            "sequence": 2,
+            "node_id": "eval-02",
+            "state": "DONE",
+            "judge_mode": "special",
+            "verdict": "WA",
+            "reason": "SPECIAL_WA",
+            "cpu_ms": 1,
+            "wall_ms": 2,
+            "mem_bytes": null,
+            "memory_source": null,
+            "out_bytes": null,
+            "source": "special",
+            "short_circuited": false,
+            "cache_hit": false,
+            "limits": {
+              "cpu_ms": 3000,
+              "wall_ms": 4000,
+              "mem_bytes": 268435456,
+              "out_bytes": 65536,
+              "input_hash": "sha256:8bd5a23c3aef1243c78bac155b39b9d57a43d8c49665ccf6f42acf2992a94afa",
+              "answer_hash": "sha256:36f0cd76c1b2c4ecfb4275ae3d5acb4e6ba3c627a27ffecb6fb18a127af454d2",
+              "checker_hash": "sha256:e679d2d141bfb39b3f62bafaaeff604a0fd86688db5357ca80f03bf6e580d8b3"
+            }
+          },
+          {
+            "test_id": "03",
+            "sequence": 3,
+            "node_id": "eval-01",
+            "state": "DONE",
+            "judge_mode": "special",
+            "verdict": "WA",
+            "reason": "SPECIAL_WA",
+            "cpu_ms": 1,
+            "wall_ms": 2,
+            "mem_bytes": null,
+            "memory_source": null,
+            "out_bytes": null,
+            "source": "special",
+            "short_circuited": false,
+            "cache_hit": false,
+            "limits": {
+              "cpu_ms": 3000,
+              "wall_ms": 4000,
+              "mem_bytes": 268435456,
+              "out_bytes": 65536,
+              "input_hash": "sha256:9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+              "answer_hash": "sha256:0ccdb5a77ba5bf7687f2565a8ed97dfb9c1af45503c496fb646312239fab5101",
+              "checker_hash": "sha256:e679d2d141bfb39b3f62bafaaeff604a0fd86688db5357ca80f03bf6e580d8b3"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "case": "special_checker_exit_2",
+      "expected": "SE",
+      "view": {
+        "ver": 1,
+        "file_id": "aa92c64c-f87d-491a-a696-65c947e69f8c",
+        "problem_id": "special_pair",
+        "user_id": "api-user",
+        "language": "cpp17",
+        "source_hash": "sha256:ef828ce9512d86db71795e5ab76b01678d080638185ef226230a307e32f98c4b",
+        "status": "FINAL",
+        "verdict": "SE",
+        "reason": "SYSTEM_ERROR",
+        "compile_log": "",
+        "submitted_at": "2026-11-16T13:57:04.732951+00:00",
+        "finalized_at": "2026-11-16T13:57:05.688222+00:00",
+        "evaluation_mode": "all_cases",
+        "short_circuit_window": 4,
+        "cancel_reason": null,
+        "per_test": [
+          {
+            "test_id": "01",
+            "sequence": 1,
+            "node_id": "eval-01",
+            "state": "DONE",
+            "judge_mode": "special",
+            "verdict": "SE",
+            "reason": "SYSTEM_ERROR",
+            "cpu_ms": 1,
+            "wall_ms": 2,
+            "mem_bytes": null,
+            "memory_source": null,
+            "out_bytes": null,
+            "source": "special",
+            "short_circuited": false,
+            "cache_hit": false,
+            "limits": {
+              "cpu_ms": 3000,
+              "wall_ms": 4000,
+              "mem_bytes": 268435456,
+              "out_bytes": 65536,
+              "input_hash": "sha256:f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
+              "answer_hash": "sha256:d7c007a0cb9cc72ddef24e95126661302d3b901e6b20ab068f20e6b6da3f58de",
+              "checker_hash": "sha256:e679d2d141bfb39b3f62bafaaeff604a0fd86688db5357ca80f03bf6e580d8b3"
+            }
+          },
+          {
+            "test_id": "02",
+            "sequence": 2,
+            "node_id": "eval-02",
+            "state": "DONE",
+            "judge_mode": "special",
+            "verdict": "SE",
+            "reason": "SYSTEM_ERROR",
+            "cpu_ms": 1,
+            "wall_ms": 2,
+            "mem_bytes": null,
+            "memory_source": null,
+            "out_bytes": null,
+            "source": "special",
+            "short_circuited": false,
+            "cache_hit": false,
+            "limits": {
+              "cpu_ms": 3000,
+              "wall_ms": 4000,
+              "mem_bytes": 268435456,
+              "out_bytes": 65536,
+              "input_hash": "sha256:8bd5a23c3aef1243c78bac155b39b9d57a43d8c49665ccf6f42acf2992a94afa",
+              "answer_hash": "sha256:36f0cd76c1b2c4ecfb4275ae3d5acb4e6ba3c627a27ffecb6fb18a127af454d2",
+              "checker_hash": "sha256:e679d2d141bfb39b3f62bafaaeff604a0fd86688db5357ca80f03bf6e580d8b3"
+            }
+          },
+          {
+            "test_id": "03",
+            "sequence": 3,
+            "node_id": "eval-01",
+            "state": "DONE",
+            "judge_mode": "special",
+            "verdict": "SE",
+            "reason": "SYSTEM_ERROR",
+            "cpu_ms": 1,
+            "wall_ms": 2,
+            "mem_bytes": null,
+            "memory_source": null,
+            "out_bytes": null,
+            "source": "special",
+            "short_circuited": false,
+            "cache_hit": false,
+            "limits": {
+              "cpu_ms": 3000,
+              "wall_ms": 4000,
+              "mem_bytes": 268435456,
+              "out_bytes": 65536,
+              "input_hash": "sha256:9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+              "answer_hash": "sha256:0ccdb5a77ba5bf7687f2565a8ed97dfb9c1af45503c496fb646312239fab5101",
+              "checker_hash": "sha256:e679d2d141bfb39b3f62bafaaeff604a0fd86688db5357ca80f03bf6e580d8b3"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "case": "special_checker_timeout",
+      "expected": "SE",
+      "view": {
+        "ver": 1,
+        "file_id": "69a0fa53-d32a-486b-a481-8833d0840ec1",
+        "problem_id": "special_pair",
+        "user_id": "api-user",
+        "language": "cpp17",
+        "source_hash": "sha256:845ef3cc83b341c3fe50499fc8877a2ca28ba05d98eeaec600c610923907f618",
+        "status": "FINAL",
+        "verdict": "SE",
+        "reason": "SYSTEM_ERROR",
+        "compile_log": "",
+        "submitted_at": "2026-11-16T13:57:05.859397+00:00",
+        "finalized_at": "2026-11-16T13:57:11.927036+00:00",
+        "evaluation_mode": "all_cases",
+        "short_circuit_window": 4,
+        "cancel_reason": null,
+        "per_test": [
+          {
+            "test_id": "01",
+            "sequence": 1,
+            "node_id": "eval-01",
+            "state": "DONE",
+            "judge_mode": "special",
+            "verdict": "SE",
+            "reason": "SYSTEM_ERROR",
+            "cpu_ms": 1,
+            "wall_ms": 5002,
+            "mem_bytes": null,
+            "memory_source": null,
+            "out_bytes": null,
+            "source": "special",
+            "short_circuited": false,
+            "cache_hit": false,
+            "limits": {
+              "cpu_ms": 3000,
+              "wall_ms": 4000,
+              "mem_bytes": 268435456,
+              "out_bytes": 65536,
+              "input_hash": "sha256:f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
+              "answer_hash": "sha256:d7c007a0cb9cc72ddef24e95126661302d3b901e6b20ab068f20e6b6da3f58de",
+              "checker_hash": "sha256:e679d2d141bfb39b3f62bafaaeff604a0fd86688db5357ca80f03bf6e580d8b3"
+            }
+          },
+          {
+            "test_id": "02",
+            "sequence": 2,
+            "node_id": "eval-02",
+            "state": "DONE",
+            "judge_mode": "special",
+            "verdict": "SE",
+            "reason": "SYSTEM_ERROR",
+            "cpu_ms": 1,
+            "wall_ms": 5002,
+            "mem_bytes": null,
+            "memory_source": null,
+            "out_bytes": null,
+            "source": "special",
+            "short_circuited": false,
+            "cache_hit": false,
+            "limits": {
+              "cpu_ms": 3000,
+              "wall_ms": 4000,
+              "mem_bytes": 268435456,
+              "out_bytes": 65536,
+              "input_hash": "sha256:8bd5a23c3aef1243c78bac155b39b9d57a43d8c49665ccf6f42acf2992a94afa",
+              "answer_hash": "sha256:36f0cd76c1b2c4ecfb4275ae3d5acb4e6ba3c627a27ffecb6fb18a127af454d2",
+              "checker_hash": "sha256:e679d2d141bfb39b3f62bafaaeff604a0fd86688db5357ca80f03bf6e580d8b3"
+            }
+          },
+          {
+            "test_id": "03",
+            "sequence": 3,
+            "node_id": "eval-01",
+            "state": "DONE",
+            "judge_mode": "special",
+            "verdict": "SE",
+            "reason": "SYSTEM_ERROR",
+            "cpu_ms": 1,
+            "wall_ms": 5000,
+            "mem_bytes": null,
+            "memory_source": null,
+            "out_bytes": null,
+            "source": "special",
+            "short_circuited": false,
+            "cache_hit": false,
+            "limits": {
+              "cpu_ms": 3000,
+              "wall_ms": 4000,
+              "mem_bytes": 268435456,
+              "out_bytes": 65536,
+              "input_hash": "sha256:9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+              "answer_hash": "sha256:0ccdb5a77ba5bf7687f2565a8ed97dfb9c1af45503c496fb646312239fab5101",
+              "checker_hash": "sha256:e679d2d141bfb39b3f62bafaaeff604a0fd86688db5357ca80f03bf6e580d8b3"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "case": "user_cancel",
+      "expected": "CANCELLED",
+      "cancel_response": {
+        "ver": 1,
+        "file_id": "1b1194d1-206e-4d0d-97a0-90942339d56c",
+        "status": "CANCELLED",
+        "cancel_generation": 1
+      },
+      "view": {
+        "ver": 1,
+        "file_id": "1b1194d1-206e-4d0d-97a0-90942339d56c",
+        "problem_id": "a_plus_b",
+        "user_id": "api-user",
+        "language": "cpp17",
+        "source_hash": "sha256:eecb9c65cbd47837ea707ddae15193694a46c02384e3441d2bed36aed28f7dbb",
+        "status": "CANCELLED",
+        "verdict": "CANCELLED",
+        "reason": "USER_CANCELLED",
+        "compile_log": "",
+        "submitted_at": "2026-11-16T13:57:12.064297+00:00",
+        "finalized_at": "2026-11-16T13:57:13.200741+00:00",
+        "evaluation_mode": "all_cases",
+        "short_circuit_window": 4,
+        "cancel_reason": "USER_CANCELLED",
+        "per_test": [
+          {
+            "test_id": "01",
+            "sequence": 1,
+            "node_id": "eval-01",
+            "state": "CANCELLED",
+            "judge_mode": "normal",
+            "verdict": "CANCELLED",
+            "reason": "USER_CANCELLED",
+            "cpu_ms": 2,
+            "wall_ms": 72,
+            "mem_bytes": 68628480,
+            "memory_source": "rss_peak",
+            "out_bytes": 0,
+            "source": "runner",
+            "short_circuited": false,
+            "cache_hit": false,
+            "limits": {
+              "cpu_ms": 1000,
+              "wall_ms": 2000,
+              "mem_bytes": 268435456,
+              "out_bytes": 1,
+              "input_hash": "sha256:f251ddc12234e0da8d3b778bd0f7463fb477f16f47757f5617dc8b4ff4d4f14a",
+              "answer_hash": "sha256:1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+              "checker_hash": null
+            }
+          },
+          {
+            "test_id": "02",
+            "sequence": 2,
+            "node_id": "eval-02",
+            "state": "CANCELLED",
+            "judge_mode": "normal",
+            "verdict": "CANCELLED",
+            "reason": "USER_CANCELLED",
+            "cpu_ms": 2,
+            "wall_ms": 49,
+            "mem_bytes": 68472832,
+            "memory_source": "rss_peak",
+            "out_bytes": 0,
+            "source": "runner",
+            "short_circuited": false,
+            "cache_hit": false,
+            "limits": {
+              "cpu_ms": 1000,
+              "wall_ms": 2000,
+              "mem_bytes": 268435456,
+              "out_bytes": 2,
+              "input_hash": "sha256:e8b85870ce1971fb92ad8183f96e437663d939839d9625ff0bf2065954ead068",
+              "answer_hash": "sha256:0b2f06dddfa807ee574a78468d3a05904873b97f44377eb93481e091c257b800",
+              "checker_hash": null
+            }
+          }
+        ]
+      },
+      "cancel_events": [
+        [
+          "USER_CANCELLED",
+          "submission",
+          1
+        ]
+      ]
+    },
+    {
+      "case": "ordered_short_circuit",
+      "expected": "WA",
+      "view": {
+        "ver": 1,
+        "file_id": "b07e9eb7-af9d-4cc3-83d8-72af17aa6b72",
+        "problem_id": "short_circuit_probe",
+        "user_id": "api-user",
+        "language": "cpp17",
+        "source_hash": "sha256:4e02e4330d62438c4b01ec7ec785395e28b323aee806bd1218826d6698fb5349",
+        "status": "FINAL",
+        "verdict": "WA",
+        "reason": "ANSWER_MISMATCH",
+        "compile_log": "",
+        "submitted_at": "2026-11-16T13:57:13.460134+00:00",
+        "finalized_at": "2026-11-16T13:57:17.071028+00:00",
+        "evaluation_mode": "ordered_short_circuit",
+        "short_circuit_window": 4,
+        "cancel_reason": "SHORT_CIRCUITED",
+        "per_test": [
+          {
+            "test_id": "01",
+            "sequence": 1,
+            "node_id": "eval-01",
+            "state": "DONE",
+            "judge_mode": "normal",
+            "verdict": "AC",
+            "reason": "NONE",
+            "cpu_ms": 3,
+            "wall_ms": 2505,
+            "mem_bytes": 123027456,
+            "memory_source": "rss_peak",
+            "out_bytes": 2,
+            "source": "runner",
+            "short_circuited": false,
+            "cache_hit": false,
+            "limits": {
+              "cpu_ms": 4000,
+              "wall_ms": 5000,
+              "mem_bytes": 268435456,
+              "out_bytes": 2,
+              "input_hash": "sha256:4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+              "answer_hash": "sha256:084c799cd551dd1d8d5c5f9a5d593b2e931f5e36122ee5c793c1d08a19839cc0",
+              "checker_hash": null
+            }
+          },
+          {
+            "test_id": "02",
+            "sequence": 2,
+            "node_id": "eval-02",
+            "state": "DONE",
+            "judge_mode": "normal",
+            "verdict": "WA",
+            "reason": "ANSWER_MISMATCH",
+            "cpu_ms": 2,
+            "wall_ms": 5,
+            "mem_bytes": 126918656,
+            "memory_source": "rss_peak",
+            "out_bytes": 1,
+            "source": "runner",
+            "short_circuited": false,
+            "cache_hit": false,
+            "limits": {
+              "cpu_ms": 4000,
+              "wall_ms": 5000,
+              "mem_bytes": 268435456,
+              "out_bytes": 2,
+              "input_hash": "sha256:53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+              "answer_hash": "sha256:084c799cd551dd1d8d5c5f9a5d593b2e931f5e36122ee5c793c1d08a19839cc0",
+              "checker_hash": null
+            }
+          },
+          {
+            "test_id": "03",
+            "sequence": 3,
+            "node_id": "eval-01",
+            "state": "CANCELLED",
+            "judge_mode": "normal",
+            "verdict": "CANCELLED",
+            "reason": "SHORT_CIRCUITED",
+            "cpu_ms": 3,
+            "wall_ms": 87,
+            "mem_bytes": 135745536,
+            "memory_source": "rss_peak",
+            "out_bytes": 0,
+            "source": "runner",
+            "short_circuited": true,
+            "cache_hit": false,
+            "limits": {
+              "cpu_ms": 4000,
+              "wall_ms": 5000,
+              "mem_bytes": 268435456,
+              "out_bytes": 2,
+              "input_hash": "sha256:1121cfccd5913f0a63fec40a6ffd44ea64f9dc135c66634ba001d10bcf4302a2",
+              "answer_hash": "sha256:084c799cd551dd1d8d5c5f9a5d593b2e931f5e36122ee5c793c1d08a19839cc0",
+              "checker_hash": null
+            }
+          },
+          {
+            "test_id": "04",
+            "sequence": 4,
+            "node_id": "eval-02",
+            "state": "CANCELLED",
+            "judge_mode": "normal",
+            "verdict": "CANCELLED",
+            "reason": "SHORT_CIRCUITED",
+            "cpu_ms": 2,
+            "wall_ms": 69,
+            "mem_bytes": 68472832,
+            "memory_source": "rss_peak",
+            "out_bytes": 0,
+            "source": "runner",
+            "short_circuited": true,
+            "cache_hit": false,
+            "limits": {
+              "cpu_ms": 4000,
+              "wall_ms": 5000,
+              "mem_bytes": 268435456,
+              "out_bytes": 2,
+              "input_hash": "sha256:7de1555df0c2700329e815b93b32c571c3ea54dc967b89e81ab73b9972b72d1d",
+              "answer_hash": "sha256:084c799cd551dd1d8d5c5f9a5d593b2e931f5e36122ee5c793c1d08a19839cc0",
+              "checker_hash": null
+            }
+          },
+          {
+            "test_id": "05",
+            "sequence": 5,
+            "node_id": null,
+            "state": "CANCELLED",
+            "judge_mode": "normal",
+            "verdict": "CANCELLED",
+            "reason": "SHORT_CIRCUITED",
+            "cpu_ms": null,
+            "wall_ms": null,
+            "mem_bytes": null,
+            "memory_source": null,
+            "out_bytes": null,
+            "source": null,
+            "short_circuited": false,
+            "cache_hit": false,
+            "limits": {
+              "cpu_ms": 4000,
+              "wall_ms": 5000,
+              "mem_bytes": 268435456,
+              "out_bytes": 2,
+              "input_hash": "sha256:f0b5c2c2211c8d67ed15e75e656c7862d086e9245420892a7de62cd9ec582a06",
+              "answer_hash": "sha256:084c799cd551dd1d8d5c5f9a5d593b2e931f5e36122ee5c793c1d08a19839cc0",
+              "checker_hash": null
+            }
+          },
+          {
+            "test_id": "06",
+            "sequence": 6,
+            "node_id": null,
+            "state": "CANCELLED",
+            "judge_mode": "normal",
+            "verdict": "CANCELLED",
+            "reason": "SHORT_CIRCUITED",
+            "cpu_ms": null,
+            "wall_ms": null,
+            "mem_bytes": null,
+            "memory_source": null,
+            "out_bytes": null,
+            "source": null,
+            "short_circuited": false,
+            "cache_hit": false,
+            "limits": {
+              "cpu_ms": 4000,
+              "wall_ms": 5000,
+              "mem_bytes": 268435456,
+              "out_bytes": 2,
+              "input_hash": "sha256:06e9d52c1720fca412803e3b07c4b228ff113e303f4c7ab94665319d832bbfb7",
+              "answer_hash": "sha256:084c799cd551dd1d8d5c5f9a5d593b2e931f5e36122ee5c793c1d08a19839cc0",
+              "checker_hash": null
+            }
+          }
+        ]
+      },
+      "cancel_events": [
+        [
+          "SHORT_CIRCUITED",
+          2,
+          "submission"
+        ]
+      ],
+      "eval_results": [
+        [
+          1,
+          "AC",
+          "NONE"
+        ],
+        [
+          2,
+          "WA",
+          "ANSWER_MISMATCH"
+        ],
+        [
+          3,
+          "CANCELLED",
+          "SHORT_CIRCUITED"
+        ],
+        [
+          4,
+          "CANCELLED",
+          "SHORT_CIRCUITED"
+        ]
+      ]
+    }
+  ],
+  "status": "PASSED",
+  "exit_code": 0,
+  "service_versions": {
+    "postgres": "17.12",
+    "s3_backend": "minio",
+    "s3_image": "cgr.dev/chainguard/minio@sha256:9158c67aa441627c366442e84656f689e16bec4809851ec64318561a365b69e4",
+    "worker_nodes": {
+      "compile": 2,
+      "eval": 2,
+      "special": 2
+    },
+    "nodes": [
+      {
+        "node_id": "compile-01",
+        "role": "compile",
+        "version": "1.0.0",
+        "slots_total": 2,
+        "slots_used": 0,
+        "load_score": 0.0,
+        "status": "ALIVE",
+        "cached_hashes": 0,
+        "last_heartbeat": "2026-11-16T13:57:02.224506+00:00"
+      },
+      {
+        "node_id": "compile-02",
+        "role": "compile",
+        "version": "1.0.0",
+        "slots_total": 2,
+        "slots_used": 0,
+        "load_score": 0.0,
+        "status": "ALIVE",
+        "cached_hashes": 0,
+        "last_heartbeat": "2026-11-16T13:57:02.253087+00:00"
+      },
+      {
+        "node_id": "eval-01",
+        "role": "eval",
+        "version": "1.0.0",
+        "slots_total": 2,
+        "slots_used": 0,
+        "load_score": 0.0,
+        "status": "ALIVE",
+        "cached_hashes": 0,
+        "last_heartbeat": "2026-11-16T13:57:02.270676+00:00"
+      },
+      {
+        "node_id": "eval-02",
+        "role": "eval",
+        "version": "1.0.0",
+        "slots_total": 2,
+        "slots_used": 0,
+        "load_score": 0.0,
+        "status": "ALIVE",
+        "cached_hashes": 0,
+        "last_heartbeat": "2026-11-16T13:57:02.243907+00:00"
+      },
+      {
+        "node_id": "special-01",
+        "role": "special",
+        "version": "1.0.0",
+        "slots_total": 2,
+        "slots_used": 0,
+        "load_score": 0.0,
+        "status": "ALIVE",
+        "cached_hashes": 0,
+        "last_heartbeat": "2026-11-16T13:57:02.261293+00:00"
+      },
+      {
+        "node_id": "special-02",
+        "role": "special",
+        "version": "1.0.0",
+        "slots_total": 2,
+        "slots_used": 0,
+        "load_score": 0.0,
+        "status": "ALIVE",
+        "cached_hashes": 0,
+        "last_heartbeat": "2026-11-16T13:57:02.235065+00:00"
+      }
+    ]
+  },
+  "duration_s": 21.6,
+  "example_sha256": {
+    "a_plus_b.cpp": "54306d07a3d65375822f39408810826d8737dde3eb9d68b6964a06e9cb67150e",
+    "compile_error.cpp": "28ce881107e6e8be5602e765170a116f4809a5474a9f075a26afc3ff1d6f03a1",
+    "cpu_limit.cpp": "1998efcc39e42daf3745c61ab54dc46abb1089f7478e73418f36700ca12ec596",
+    "crash_signal.cpp": "d6e655b1ec6b180bf6603b4cef8d9bc45ac8e8c72bd1c0ada936402cfe7ade73",
+    "lazy_gold.cpp": "093efc12ba8ef074e5fe87a0c2d4bc9322297becdf6519362fc3d5eb5dcfd825",
+    "memory_limit.cpp": "37ff8ed5b27855e0eb64d43b4661b1e9a5f932eb86846a38904e09b327061835",
+    "output_limit.cpp": "93c8e4d5fc911d7d62d02d7af24f36986aa1b46e317d568090311cdb1e2b390d",
+    "return_125.cpp": "d6c7c1aa7c1cbeb7beeaddd4cb1a399313deb44894b1af77236944050cd0ef7f",
+    "runtime_error.cpp": "5783381b4343358b57d163239b18187d4da0d4884ff4f232718205641f939bf8",
+    "short_circuit_probe.cpp": "4e02e4330d62438c4b01ec7ec785395e28b323aee806bd1218826d6698fb5349",
+    "sleepy.cpp": "eecb9c65cbd47837ea707ddae15193694a46c02384e3441d2bed36aed28f7dbb",
+    "special_checker_error.cpp": "ef828ce9512d86db71795e5ab76b01678d080638185ef226230a307e32f98c4b",
+    "special_checker_timeout.cpp": "845ef3cc83b341c3fe50499fc8877a2ca28ba05d98eeaec600c610923907f618",
+    "special_correct.cpp": "410487081bae95abbcac7aea1efdf06d08a9e1bdc552ea7ab06c01bb62917670",
+    "special_wrong.cpp": "0ad1d55f7ee3db66fc84814dd49c91af515e56f1c71ac488407ad0d3c51ef3bf",
+    "time_limit.cpp": "ab269b8539c54c96ef96b24dfc0b3c56ef117780a3697d0ee803147639bb77d9",
+    "wrong_answer.cpp": "f512ca51b518658720b8be2f4942cca69c4582ecd34417a19be35b54d590016d"
+  }
+}

@@ -20,7 +20,7 @@ struct CompareResult {
 };
 
 /// Read at most ``cap`` bytes.  ``truncated`` is set when the file is larger,
-/// which lets the caller report OLE without loading the whole file.
+/// which lets the caller report WR/output-limit without loading the whole file.
 [[nodiscard]] std::optional<std::string> read_bounded(const std::string& path, int64_t cap,
                                                       bool& truncated, std::string& error);
 

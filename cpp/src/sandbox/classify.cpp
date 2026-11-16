@@ -13,7 +13,7 @@ std::string_view name(Verdict verdict) {
     case Verdict::TLE: return "TLE";
     case Verdict::MLE: return "MLE";
     case Verdict::RE: return "RE";
-    case Verdict::OLE: return "OLE";
+    case Verdict::WR: return "WR";
     case Verdict::CE: return "CE";
     case Verdict::SE: return "SE";
     case Verdict::CANCELLED: return "CANCELLED";
@@ -27,7 +27,6 @@ std::string_view name(Reason reason) {
     case Reason::NONE: return "NONE";
     case Reason::ANSWER_MISMATCH: return "ANSWER_MISMATCH";
     case Reason::OUTPUT_LIMIT: return "OUTPUT_LIMIT";
-    case Reason::OLE_TRUNCATED: return "OLE_TRUNCATED";
     case Reason::WALL_TIMEOUT: return "WALL_TIMEOUT";
     case Reason::CPU_TIMEOUT: return "CPU_TIMEOUT";
     case Reason::OOM_KILL: return "OOM_KILL";
@@ -49,7 +48,7 @@ std::string_view name(Reason reason) {
 bool parse_verdict(std::string_view text, Verdict& out) {
   static const std::map<std::string_view, Verdict> table = {
       {"AC", Verdict::AC},         {"WA", Verdict::WA},       {"TLE", Verdict::TLE},
-      {"MLE", Verdict::MLE},       {"RE", Verdict::RE},       {"OLE", Verdict::OLE},
+      {"MLE", Verdict::MLE},       {"RE", Verdict::RE},       {"WR", Verdict::WR},
       {"CE", Verdict::CE},         {"SE", Verdict::SE},       {"CANCELLED", Verdict::CANCELLED},
   };
   auto it = table.find(text);
@@ -63,7 +62,6 @@ bool parse_reason(std::string_view text, Reason& out) {
       {"NONE", Reason::NONE},
       {"ANSWER_MISMATCH", Reason::ANSWER_MISMATCH},
       {"OUTPUT_LIMIT", Reason::OUTPUT_LIMIT},
-      {"OLE_TRUNCATED", Reason::OLE_TRUNCATED},
       {"WALL_TIMEOUT", Reason::WALL_TIMEOUT},
       {"CPU_TIMEOUT", Reason::CPU_TIMEOUT},
       {"OOM_KILL", Reason::OOM_KILL},
@@ -122,7 +120,7 @@ std::optional<Decision> classify(const Evidence& evidence, const Limits& limits)
     return Decision{Verdict::TLE, Reason::CPU_TIMEOUT};
   }
   if (evidence.wifsignaled && evidence.term_sig == SIGXFSZ) {
-    return Decision{Verdict::OLE, Reason::OLE_TRUNCATED};
+    return Decision{Verdict::WR, Reason::OUTPUT_LIMIT};
   }
   if (evidence.wifsignaled && crash_signal(evidence.term_sig)) {
     return Decision{Verdict::RE, Reason::CRASH_SIGNAL};
@@ -135,7 +133,7 @@ std::optional<Decision> classify(const Evidence& evidence, const Limits& limits)
     return Decision{Verdict::MLE, Reason::MEM_PEAK_OVER};
   }
   if (evidence.cpu_ms > limits.cpu_ms) return Decision{Verdict::TLE, Reason::CPU_TIMEOUT};
-  if (evidence.out_size > limits.out_bytes) return Decision{Verdict::OLE, Reason::OLE_TRUNCATED};
+  if (evidence.out_size > limits.out_bytes) return Decision{Verdict::WR, Reason::OUTPUT_LIMIT};
   return std::nullopt;
 }
 

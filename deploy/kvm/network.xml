@@ -7,10 +7,12 @@
     <dhcp>
       <range start='192.168.123.100' end='192.168.123.199'/>
       <host mac='52:54:00:12:34:10' name='algoos-control' ip='192.168.123.10'/>
-      <host mac='52:54:00:12:34:11' name='algoos-compile' ip='192.168.123.11'/>
+      <host mac='52:54:00:12:34:11' name='algoos-compile-01' ip='192.168.123.11'/>
+      <host mac='52:54:00:12:34:12' name='algoos-compile-02' ip='192.168.123.12'/>
       <host mac='52:54:00:12:34:21' name='algoos-eval-01' ip='192.168.123.21'/>
       <host mac='52:54:00:12:34:22' name='algoos-eval-02' ip='192.168.123.22'/>
-      <host mac='52:54:00:12:34:31' name='algoos-special' ip='192.168.123.31'/>
+      <host mac='52:54:00:12:34:31' name='algoos-special-01' ip='192.168.123.31'/>
+      <host mac='52:54:00:12:34:32' name='algoos-special-02' ip='192.168.123.32'/>
     </dhcp>
   </ip>
 </network>

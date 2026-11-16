@@ -25,6 +25,7 @@
   "signal": 0,
   "wall_timeout": false,
   "short_circuited": false,
+  "cache_hit": false,
   "stderr_tail": "",
   "detail": ""
 }

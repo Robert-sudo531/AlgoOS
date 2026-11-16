@@ -155,10 +155,10 @@ void test_classify() {
   evidence = base_evidence();
   evidence.out_size = limits.out_bytes + 1;
   decision = algoos::sandbox::classify(evidence, limits);
-  expect(decision && decision->verdict == Verdict::OLE &&
-             decision->reason == Reason::OLE_TRUNCATED, "output size over");
+  expect(decision && decision->verdict == Verdict::WR &&
+             decision->reason == Reason::OUTPUT_LIMIT, "output size over");
 
-  expect(algoos::sandbox::name(Verdict::OLE) == "OLE", "verdict name");
+  expect(algoos::sandbox::name(Verdict::WR) == "WR", "verdict name");
 }
 
 void test_cancel_registry() {

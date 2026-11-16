@@ -8,12 +8,11 @@
 
 namespace algoos::sandbox {
 
-enum class Verdict { AC, WA, TLE, MLE, RE, OLE, CE, SE, CANCELLED, NONE };
+enum class Verdict { AC, WA, TLE, MLE, RE, WR, CE, SE, CANCELLED, NONE };
 enum class Reason {
   NONE,
   ANSWER_MISMATCH,
   OUTPUT_LIMIT,
-  OLE_TRUNCATED,
   WALL_TIMEOUT,
   CPU_TIMEOUT,
   OOM_KILL,

@@ -12,16 +12,29 @@
     "fallback"
   ],
   "modes": {
-    "judge_mode": ["normal", "special"],
-    "compare_mode": ["common", "special"],
-    "evaluation_mode": ["all_cases", "ordered_short_circuit"]
+    "judge_mode": [
+      "normal",
+      "special"
+    ],
+    "compare_mode": [
+      "common",
+      "special"
+    ],
+    "evaluation_mode": [
+      "all_cases",
+      "ordered_short_circuit"
+    ]
   },
   "worker_cpp_standard": "c++23",
   "compiler_profiles": {
     "cpp_baseline_v1": {
       "language": "cpp17",
       "compiler": "g++",
-      "flags": ["-std=c++17", "-O2", "-pipe"],
+      "flags": [
+        "-std=c++17",
+        "-O2",
+        "-pipe"
+      ],
       "limits": {
         "cpu_ms": 10000,
         "wall_ms": 30000,
@@ -58,7 +71,12 @@
     "compile_log_prefix": "logs/compile",
     "content_hash_algorithm": "sha256",
     "wire_prefix": "sha256:",
-    "build_key_fields": ["source_hash", "compiler_profile", "compiler_version", "target_platform"]
+    "build_key_fields": [
+      "source_hash",
+      "compiler_profile",
+      "compiler_version",
+      "target_platform"
+    ]
   },
   "runtime": {
     "wall_limit_rule": "cpu_ms_plus_wall_slack",
@@ -67,18 +85,22 @@
     "output_limit_mode": "verdict",
     "fsize_slack_bytes": 4096,
     "fsize_max_bytes": 268435456,
-    "ole_verdict": "OLE",
-    "ole_reason": "OLE_TRUNCATED",
-    "olean_merge_verdict": "WA",
-    "olean_merge_reason": "OUTPUT_LIMIT",
     "sandbox": {
       "cgroup_root": "/sys/fs/cgroup",
       "use_cgroup": true,
       "use_user_namespace": false,
-      "namespaces": ["mount", "pid", "net", "uts", "ipc"],
+      "namespaces": [
+        "mount",
+        "pid",
+        "net",
+        "uts",
+        "ipc"
+      ],
       "seccomp": true,
       "tmpfs_size_bytes": 268435456
-    }
+    },
+    "output_limit_verdict": "WR",
+    "output_limit_reason": "OUTPUT_LIMIT"
   },
   "special": {
     "checker_limits": {
@@ -94,29 +116,88 @@
     }
   },
   "result": {
-    "compile_identity_fields_null": ["test_id", "sequence", "judge_id"],
-    "compile_success_required_fields": ["bin_hash", "test_bundle_hash", "compiler_profile", "enqueue_seq"],
-    "memory_sources": ["rss_peak", "cgroup_peak"],
-    "statuses": ["COMPILED", "FINAL"],
+    "compile_identity_fields_null": [
+      "test_id",
+      "sequence",
+      "judge_id"
+    ],
+    "compile_success_required_fields": [
+      "bin_hash",
+      "test_bundle_hash",
+      "compiler_profile",
+      "enqueue_seq"
+    ],
+    "memory_sources": [
+      "rss_peak",
+      "cgroup_peak"
+    ],
+    "statuses": [
+      "COMPILED",
+      "FINAL"
+    ],
     "default_status": "FINAL",
     "sources_by_stage": {
-      "compile": ["compiler"],
-      "eval": ["runner", "special", "fallback"]
+      "compile": [
+        "compiler"
+      ],
+      "eval": [
+        "runner",
+        "special",
+        "fallback"
+      ]
     },
     "final_verdicts_by_stage": {
-      "compile": ["CE", "SE"],
-      "eval": ["AC", "WA", "TLE", "MLE", "RE", "OLE", "SE", "CANCELLED"]
+      "compile": [
+        "CE",
+        "SE"
+      ],
+      "eval": [
+        "AC",
+        "CANCELLED",
+        "MLE",
+        "RE",
+        "SE",
+        "TLE",
+        "WA",
+        "WR"
+      ]
     },
     "reason_by_verdict": {
-      "AC": ["NONE"],
-      "WA": ["ANSWER_MISMATCH", "OUTPUT_LIMIT", "SPECIAL_WA"],
-      "TLE": ["WALL_TIMEOUT", "CPU_TIMEOUT"],
-      "MLE": ["OOM_KILL", "MEM_PEAK_OVER"],
-      "RE": ["CRASH_SIGNAL", "NONZERO_EXIT"],
-      "OLE": ["OLE_TRUNCATED"],
-      "CE": ["COMPILE_ERROR", "COMPILE_TIMEOUT", "COMPILE_LIMIT"],
-      "SE": ["SYSTEM_ERROR"],
-      "CANCELLED": ["SHORT_CIRCUITED", "USER_CANCELLED"]
+      "AC": [
+        "NONE"
+      ],
+      "CANCELLED": [
+        "SHORT_CIRCUITED",
+        "USER_CANCELLED"
+      ],
+      "CE": [
+        "COMPILE_ERROR",
+        "COMPILE_TIMEOUT",
+        "COMPILE_LIMIT"
+      ],
+      "MLE": [
+        "OOM_KILL",
+        "MEM_PEAK_OVER"
+      ],
+      "RE": [
+        "CRASH_SIGNAL",
+        "NONZERO_EXIT"
+      ],
+      "SE": [
+        "SYSTEM_ERROR"
+      ],
+      "TLE": [
+        "WALL_TIMEOUT",
+        "CPU_TIMEOUT"
+      ],
+      "WA": [
+        "ANSWER_MISMATCH",
+        "OUTPUT_LIMIT",
+        "SPECIAL_WA"
+      ],
+      "WR": [
+        "OUTPUT_LIMIT"
+      ]
     },
     "classification_priority": [
       "SYSTEM_ERROR",
@@ -146,9 +227,19 @@
   },
   "scheduling": {
     "unit": "test_case",
-    "strategies": ["fcfs", "sjf", "aging_sjf", "earliest_finish", "cache_aware"],
+    "strategies": [
+      "fcfs",
+      "sjf",
+      "aging_sjf",
+      "earliest_finish",
+      "cache_aware"
+    ],
     "default_strategy": "cache_aware",
-    "ready_queue_order": ["enqueue_seq", "sequence", "attempt"],
+    "ready_queue_order": [
+      "enqueue_seq",
+      "sequence",
+      "attempt"
+    ],
     "aging_factor": 1.25,
     "estimated_service_default_ms": 1500,
     "per_case_estimate_ms": 250

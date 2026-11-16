@@ -1,0 +1,9 @@
+{
+  "run_id": "20261116T140131Z_placement_sa",
+  "data_source": "simulation",
+  "kind": "replica_placement",
+  "seed": 42,
+  "iterations": 20000,
+  "cost": 172.8962241308869,
+  "note": "Simulated annealing over a synthetic transfer matrix; not a cluster measurement."
+}

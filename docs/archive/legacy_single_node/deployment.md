@@ -1,4 +1,6 @@
-> **历史文档（2026-11-16 注）**：这里记录旧单机 `reroll` 链路与 N4 接手说明。新的分布式集群部署、systemd、cloud-init 与 KVM 五 VM 见 [集群部署](../../operations/cluster_deployment.md)；新架构见 [分布式架构](../../design/distributed_architecture.md)。
+> **历史文档**：本文描述当时状态，节点数量、目录和判定口径可能已变化；当前入口见 [docs/README.md](../../README.md)。
+
+> **历史文档（2026-11-16 注）**：这里记录旧单机 `reroll` 链路与 N4 接手说明。新的分布式集群部署、systemd、cloud-init 与 KVM 多节点参考见 [集群部署](../../operations/cluster_deployment.md)；新架构见 [分布式架构](../../design/distributed_architecture.md)。
 
 # AlgoOS 评测守护进程：部署与使用（reroll）
 
@@ -248,7 +250,7 @@ timestamp	source_file	problem_id	submission_id	verdict	passed	total	cases	elapse
 | verdict | 含义 |
 | --- | --- |
 | `AC` | 所有测试点通过 |
-| `WA` | 答案不一致，或输出超限（OLE 归入 WA） |
+| `WA` | 答案不一致；输出超限单独为 `WR` |
 | `TLE` | wall/CPU 超时 |
 | `MLE` | 内存超限 |
 | `RE` | 非零退出或崩溃信号 |

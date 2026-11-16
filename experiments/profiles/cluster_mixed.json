@@ -6,13 +6,45 @@
   "count": 20,
   "arrival_gap_ms": 150,
   "repeat": 1,
-  "problems": ["a_plus_b", "lazy_gold"],
+  "problems": [
+    "a_plus_b",
+    "lazy_gold"
+  ],
   "sources": [
-    {"problem_id": "a_plus_b", "file": "a_plus_b.cpp", "expected": "AC"},
-    {"problem_id": "a_plus_b", "file": "wrong_answer.cpp", "expected": "WA"},
-    {"problem_id": "a_plus_b", "file": "compile_error.cpp", "expected": "CE"},
-    {"problem_id": "a_plus_b", "file": "runtime_error.cpp", "expected": "RE"},
-    {"problem_id": "a_plus_b", "file": "time_limit.cpp", "expected": "TLE"},
-    {"problem_id": "lazy_gold", "file": "lazy_gold.cpp", "expected": "AC"}
+    {
+      "problem_id": "a_plus_b",
+      "file": "a_plus_b.cpp",
+      "expected": "AC"
+    },
+    {
+      "problem_id": "a_plus_b",
+      "file": "wrong_answer.cpp",
+      "expected": "WA"
+    },
+    {
+      "problem_id": "a_plus_b",
+      "file": "compile_error.cpp",
+      "expected": "CE"
+    },
+    {
+      "problem_id": "a_plus_b",
+      "file": "runtime_error.cpp",
+      "expected": "RE"
+    },
+    {
+      "problem_id": "a_plus_b",
+      "file": "time_limit.cpp",
+      "expected": "TLE"
+    },
+    {
+      "problem_id": "a_plus_b",
+      "file": "output_limit.cpp",
+      "expected": "WR"
+    },
+    {
+      "problem_id": "lazy_gold",
+      "file": "lazy_gold.cpp",
+      "expected": "AC"
+    }
   ]
 }

@@ -1,5 +1,5 @@
 [Unit]
-Description=AlgoOS native compile worker
+Description=AlgoOS native compile worker for %i
 After=network-online.target
 Wants=network-online.target
 
@@ -10,7 +10,7 @@ Group=algoos
 RuntimeDirectory=algoos
 WorkingDirectory=/opt/algoos
 EnvironmentFile=-/etc/algoos/algoos.env
-ExecStart=/opt/algoos/build/cpp/algoos-compile --socket /run/algoos/compile.sock --work-root /var/lib/algoos/compile --workers 2
+ExecStart=/opt/algoos/build/cpp/algoos-compile --socket /run/algoos/%i.sock --work-root /var/lib/algoos/compile/%i --workers 2
 Restart=on-failure
 RestartSec=2
 

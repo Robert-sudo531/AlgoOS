@@ -1,5 +1,5 @@
 [Unit]
-Description=AlgoOS native special-judge worker
+Description=AlgoOS native special-judge worker for %i
 After=network-online.target
 Wants=network-online.target
 
@@ -10,7 +10,7 @@ Group=root
 RuntimeDirectory=algoos
 WorkingDirectory=/opt/algoos
 EnvironmentFile=-/etc/algoos/algoos.env
-ExecStart=/opt/algoos/build/cpp/algoos-special --socket /run/algoos/special.sock --work-root /var/lib/algoos/special --workers 2
+ExecStart=/opt/algoos/build/cpp/algoos-special --socket /run/algoos/%i.sock --work-root /var/lib/algoos/special/%i --workers 2
 Restart=on-failure
 RestartSec=2
 

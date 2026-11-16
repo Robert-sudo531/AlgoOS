@@ -7,7 +7,6 @@
         "NONE",
         "ANSWER_MISMATCH",
         "OUTPUT_LIMIT",
-        "OLE_TRUNCATED",
         "WALL_TIMEOUT",
         "CPU_TIMEOUT",
         "OOM_KILL",

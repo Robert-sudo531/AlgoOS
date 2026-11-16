@@ -1,3 +1,5 @@
+> **历史文档**：本文描述当时状态，节点数量、目录和判定口径可能已变化；当前入口见 [docs/README.md](../../../../README.md)。
+
 > **进度提示（2026-11-16 注）**：当前重构进度、已验证范围与未完成项以 REFACTOR_STATUS.md 第 8–9 节和 HANDOFF.md 顶部更新为准。
 
 此文件用于系统负责人和AI商讨后续工作方案，背景：11月初三人商量之后，整个项目的方案需要做出较大改动。
@@ -370,7 +372,7 @@ lhy 的崩溃复跑失败记录保留。Apport 日志确认原样例先收到信
 | 3. 最小端到端 | 先跑 A+B 的 AC：API 提交 → 数据库/outbox → JetStream → 编译代理/C++ → 上传产物 → 调度 → 评测代理/C++ → 聚合落库 → API 查询。再跑 CE/WA/RE/TLE/SE；补 API 鉴权、提交、查询、取消、实验和 OpenAPI 契约测试，明确限流目前为进程内；验证实验 JSONB 写入及 summary 类型。检查 Web 轮询、空状态、错误状态，并做浏览器验收和截图。 |
 | 4. 特判、取消和短路 | 增加 special problem 与 checker，验证 special-result relay、fallback、用户取消、短路窗口/边界、迟到结果和取消与短路并发，核对最终状态机。补 C++ 侧 special/cancel/fallback 全字段契约检查；核对 Redis 取消集、心跳与会话，JetStream 各类任务/结果路由；统一特判输出对象的路径、TTL 和清理策略。 |
 | 5. 两逻辑节点与恢复 | 验证 eval-01/eval-02 分发与实际并发、心跳过期、缓存命中与亲和、NATS 重投及 judge_id 去重；测试节点下线、任务迁移、取消传播延迟。修正调度计时：跨进程不共用 monotonic 值，用提交/派发时间记录真实等待，消除 aging 的 arrival_ms=0 占位。验证编译节点常驻及多节点运行。 |
-| 6. 集成回归与隔离验收 | 在 `python/tests/integration/` 用 pytest fixture 启停真实服务，覆盖 AC/WA/CE/RE/TLE/SE、取消、特判、fallback 和重复结果。对含 run_raw 的新版复跑 C++ 测试；独立验证编译墙钟、CPU、内存限制，以及目标环境的 cgroup OOM、MLE/OLE、seccomp 逐项拦截、只读根/tmpfs 和 namespace 行为；区分本机 root 冒烟、非 root/异宿主与生产验收。 |
+| 6. 集成回归与隔离验收 | 在 `python/tests/integration/` 用 pytest fixture 启停真实服务，覆盖 AC/WA/CE/RE/TLE/SE、取消、特判、fallback 和重复结果。对含 run_raw 的新版复跑 C++ 测试；独立验证编译墙钟、CPU、内存限制，以及目标环境的 cgroup OOM、MLE/WR、seccomp 逐项拦截、只读根/tmpfs 和 namespace 行为；区分本机 root 冒烟、非 root/异宿主与生产验收。 |
 | 7. 部署资产 | 补 `deploy/systemd/`、`deploy/cloud-init/`、`deploy/inventory/`、`deploy/kvm/`，验证 KVM/QEMU 五 VM 与跨机运行。 |
 | 8. 调度与实验 | 补 `experiments/runner.py` 和 `experiments/analysis/`，用固定工作负载接入 FCFS、SJF、Aging-SJF、Earliest-Finish、Cache-aware、离散事件模拟和模拟退火放置；做真实集群与 DOMjudge 对照、故障与重复实验。导出 CSV/JSON、图表和环境证据，记录吞吐、等待、周转与尾延迟等指标。模拟结果标 `simulation`。 |
 | 9. 迁移和清理 | 新链路可用后，把旧 `judge/`、`scripts/`、`tests/`、`web/`、`test_pipeline.py`、`deploy/n32/` 迁入 `legacy/single_node/`，核对旧协议与过渡代码去留。清理 Git 中误入的 `build/` 产物，补 build、Python 缓存和 Ruff 缓存忽略规则；迁移前保留旧入口作对照。 |
