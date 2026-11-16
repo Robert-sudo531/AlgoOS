@@ -1,6 +1,6 @@
 # eval_server.cpp 工作原理
 
-本文说明 [judge/native/eval_server.cpp](../../judge/native/eval_server.cpp) 的运行模型、协议、资源限制、判定流程，以及对应的 UML。部署与操作步骤见 [部署文档](../ops/deployment.md)，协议速查见 [judge/native/README.md](../../judge/native/README.md)。
+本文说明 judge/native/eval_server.cpp 的运行模型、协议、资源限制、判定流程，以及对应的 UML。部署与操作步骤见 [部署文档](deployment.md)，协议速查见 judge/native/README.md。
 
 ## 1. 定位与边界
 

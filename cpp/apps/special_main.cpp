@@ -10,7 +10,7 @@
 
 #include "algoos/protocol/json.hpp"
 #include "algoos/protocol/messages.hpp"
-#include "algoos/worker/server.hpp"
+#include "algoos/worker/socket_server.hpp"
 #include "algoos/worker/special_service.hpp"
 
 namespace {

@@ -246,6 +246,7 @@ class EvalResult(MessageBase):
     signal: int | None = None
     wall_timeout: bool = False
     short_circuited: bool = False
+    cache_hit: bool = False
     stderr_tail: str = ""
     detail: str = ""
 

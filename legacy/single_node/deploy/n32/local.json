@@ -1,8 +1,0 @@
-{
-  "postgres_bin": "work/n32_runtime/toolroot/usr/lib/postgresql/18/bin",
-  "postgres_share": "work/n32_runtime/toolroot/usr/share/postgresql/18",
-  "postgres_lib": "work/n32_runtime/toolroot/usr/lib/x86_64-linux-gnu",
-  "nats_server": "work/n32_runtime/toolroot/usr/sbin/nats-server",
-  "minio": "work/n32_runtime/bin/minio",
-  "startup_timeout_s": 30
-}

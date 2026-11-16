@@ -13,7 +13,7 @@
 #include "algoos/protocol/messages.hpp"
 #include "algoos/worker/cancel_registry.hpp"
 #include "algoos/worker/eval_service.hpp"
-#include "algoos/worker/server.hpp"
+#include "algoos/worker/socket_server.hpp"
 
 namespace {
 using algoos::protocol::Json;

@@ -1,0 +1,22 @@
+{
+  "name": "sa_placement",
+  "kind": "placement",
+  "bundles": [
+    {"bundle_id": "a_plus_b", "demand": 40, "size_bytes": 1048576},
+    {"bundle_id": "special_pair", "demand": 25, "size_bytes": 2097152},
+    {"bundle_id": "lazy_gold", "demand": 35, "size_bytes": 4194304}
+  ],
+  "nodes": [
+    {"node_id": "eval-01", "capacity": 60},
+    {"node_id": "eval-02", "capacity": 60},
+    {"node_id": "eval-03", "capacity": 60}
+  ],
+  "transfer": {
+    "eval-01:eval-02": 3, "eval-02:eval-01": 3,
+    "eval-01:eval-03": 8, "eval-03:eval-01": 8,
+    "eval-02:eval-03": 6, "eval-03:eval-02": 6
+  },
+  "replicas": 2,
+  "iterations": 20000,
+  "seed": 42
+}

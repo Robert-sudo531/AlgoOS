@@ -1,0 +1,22 @@
+[Unit]
+Description=AlgoOS HTTP gateway
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=algoos
+Group=algoos
+WorkingDirectory=/opt/algoos
+EnvironmentFile=-/etc/algoos/algoos.env
+ExecStart=/opt/algoos/.venv/bin/algoos api --host 0.0.0.0 --port 8080
+Restart=on-failure
+RestartSec=2
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/algoos /var/cache/algoos
+
+[Install]
+WantedBy=multi-user.target

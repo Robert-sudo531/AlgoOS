@@ -1,0 +1,58 @@
+#cloud-config
+# AlgoOS node bootstrap. Replace REPO_URL and secrets before use.
+# The hostname selects the role in deploy/scripts/install_node.sh:
+#   algoos-control / algoos-compile / algoos-eval-01 / algoos-eval-02 / algoos-special
+hostname: __HOSTNAME__
+manage_etc_hosts: true
+users:
+  - name: algoos
+    groups: [sudo, docker]
+    shell: /bin/bash
+    sudo: ["ALL=(ALL) NOPASSWD:ALL"]
+    ssh_authorized_keys:
+      - __SSH_PUBLIC_KEY__
+package_update: true
+packages:
+  - ca-certificates
+  - curl
+  - git
+  - build-essential
+  - g++
+  - cmake
+  - ninja-build
+  - pkg-config
+  - libjson-c-dev
+  - libseccomp-dev
+  - libcap-dev
+  - postgresql-client
+  - redis-tools
+  - docker.io
+  - docker-compose-v2
+write_files:
+  - path: /etc/algoos/algoos.env
+    permissions: "0640"
+    owner: root:algoos
+    content: |
+      ALGOOS_DB_DSN=__DB_DSN__
+      ALGOOS_NATS_URL=__NATS_URL__
+      ALGOOS_NATS_TOKEN=__NATS_TOKEN__
+      ALGOOS_S3_ENDPOINT=__S3_ENDPOINT__
+      ALGOOS_S3_ACCESS_KEY=__S3_ACCESS_KEY__
+      ALGOOS_S3_SECRET_KEY=__S3_SECRET_KEY__
+      ALGOOS_S3_BUCKET=algoos
+      ALGOOS_REDIS_URL=__REDIS_URL__
+      ALGOOS_API_TOKEN=__API_TOKEN__
+      ALGOOS_SCHEDULING_STRATEGY=cache_aware
+      ALGOOS_STALE_SECONDS=15
+      ALGOOS_REAPER_INTERVAL=2
+      ALGOOS_EVAL_ACK_WAIT=60
+      ALGOOS_CONTROL_ACK_WAIT=60
+runcmd:
+  - [systemctl, enable, --now, docker]
+  - [su, -, algoos, -c, "curl -LsSf https://astral.sh/uv/install.sh | sh"]
+  - [su, -, algoos, -c, "git clone __REPO_URL__ /opt/algoos"]
+  - [su, -, algoos, -c, "cd /opt/algoos && ~/.local/bin/uv sync --frozen"]
+  - [su, -, algoos, -c, "cd /opt/algoos && cmake -S cpp -B build/cpp -G Ninja -DCMAKE_BUILD_TYPE=RelWithDebInfo && cmake --build build/cpp --parallel 4"]
+  - [bash, /opt/algoos/deploy/scripts/install_node.sh]
+  - [bash, /opt/algoos/deploy/scripts/check_health.sh]
+final_message: "AlgoOS cloud-init finished for __HOSTNAME__"

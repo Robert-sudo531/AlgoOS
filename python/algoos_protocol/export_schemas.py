@@ -1,4 +1,4 @@
-"""Export JSON Schema files from the Pydantic v1 message models.
+"""Export JSON Schema files from the Pydantic v2 message models.
 
 Run ``python -m algoos_protocol.export_schemas`` from ``python/`` to refresh
 ``protocol/schemas``.  The schemas are derived artifacts; the models are the

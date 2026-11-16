@@ -7,7 +7,7 @@ from algoos_protocol import normalize, utc_now
 from psycopg.types.json import Jsonb
 
 from .db import Database
-from .state import recompute_status
+from .submission_state import recompute_status
 from .submissions import publish_cancel
 
 
@@ -16,6 +16,16 @@ def _existing_cancel_boundary(connection: psycopg.Connection, file_id: str) -> i
         "SELECT MIN(sequence_boundary) FROM cancel_events WHERE file_id=%s "
         "AND reason='SHORT_CIRCUITED'", (file_id,)).fetchone()
     return row[0] if row else None
+
+
+IGNORED_DUPLICATE_FIELDS = {"msg_id", "emitted_at"}
+
+
+def _equivalent(left: dict, right: dict) -> bool:
+    return {key: value for key, value in left.items()
+            if key not in IGNORED_DUPLICATE_FIELDS} == {
+        key: value for key, value in right.items()
+        if key not in IGNORED_DUPLICATE_FIELDS}
 
 
 def handle_eval_result(database: Database, policy: dict, payload: dict) -> bool:
@@ -38,10 +48,14 @@ def handle_eval_result(database: Database, policy: dict, payload: dict) -> bool:
         prior = connection.execute(
             "SELECT result FROM eval_results WHERE judge_id=%s", (judge_id,)).fetchone()
         if prior is not None:
-            if prior[0] != result:
-                raise ValueError(f"conflicting duplicate eval result: {judge_id}")
-            connection.execute("INSERT INTO processed_messages(msg_id,consumer) "
-                               "VALUES (%s,'eval')", (result["msg_id"],))
+            if not _equivalent(prior[0], result):
+                # A late/duplicate result that disagrees with the committed one
+                # must not poison the durable consumer.  Keep the first result,
+                # record the message as processed, and surface the conflict.
+                print(f"[aggregator] conflicting duplicate ignored: {judge_id}", flush=True)
+            connection.execute(
+                "INSERT INTO processed_messages(msg_id,consumer) VALUES (%s,'eval') "
+                "ON CONFLICT (msg_id) DO NOTHING", (result["msg_id"],))
             return False
         sequence, judge_mode, _state = case
         if result["sequence"] != sequence:

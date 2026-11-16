@@ -1,0 +1,13 @@
+{
+  "name": "cluster_short",
+  "kind": "cluster",
+  "profile": "short",
+  "strategy": "sjf",
+  "count": 24,
+  "arrival_gap_ms": 80,
+  "repeat": 1,
+  "problems": ["a_plus_b"],
+  "sources": [
+    {"problem_id": "a_plus_b", "file": "a_plus_b.cpp", "expected": "AC"}
+  ]
+}

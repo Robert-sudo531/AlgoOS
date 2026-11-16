@@ -1,0 +1,4 @@
+bundle_id,replicas,cost
+a_plus_b,"eval-01,eval-02",172.8962241308869
+special_pair,"eval-01,eval-02",172.8962241308869
+lazy_gold,"eval-01,eval-02",172.8962241308869

@@ -5,16 +5,60 @@
   "memory_limit_mib": 256,
   "compare_mode": "common",
   "tests": [
-    {"case_id": "1",  "input": "tests/1.in",  "output": "tests/1.out"},
-    {"case_id": "2",  "input": "tests/2.in",  "output": "tests/2.out"},
-    {"case_id": "3",  "input": "tests/3.in",  "output": "tests/3.out"},
-    {"case_id": "4",  "input": "tests/4.in",  "output": "tests/4.out"},
-    {"case_id": "5",  "input": "tests/5.in",  "output": "tests/5.out"},
-    {"case_id": "6",  "input": "tests/6.in",  "output": "tests/6.out"},
-    {"case_id": "7",  "input": "tests/7.in",  "output": "tests/7.out"},
-    {"case_id": "8",  "input": "tests/8.in",  "output": "tests/8.out"},
-    {"case_id": "9",  "input": "tests/9.in",  "output": "tests/9.out"},
-    {"case_id": "10", "input": "tests/10.in", "output": "tests/10.out"},
-    {"case_id": "11", "input": "tests/11.in", "output": "tests/11.out"}
+    {
+      "case_id": "01",
+      "input": "tests/01.in",
+      "output": "tests/01.out"
+    },
+    {
+      "case_id": "02",
+      "input": "tests/02.in",
+      "output": "tests/02.out"
+    },
+    {
+      "case_id": "03",
+      "input": "tests/03.in",
+      "output": "tests/03.out"
+    },
+    {
+      "case_id": "04",
+      "input": "tests/04.in",
+      "output": "tests/04.out"
+    },
+    {
+      "case_id": "05",
+      "input": "tests/05.in",
+      "output": "tests/05.out"
+    },
+    {
+      "case_id": "06",
+      "input": "tests/06.in",
+      "output": "tests/06.out"
+    },
+    {
+      "case_id": "07",
+      "input": "tests/07.in",
+      "output": "tests/07.out"
+    },
+    {
+      "case_id": "08",
+      "input": "tests/08.in",
+      "output": "tests/08.out"
+    },
+    {
+      "case_id": "09",
+      "input": "tests/09.in",
+      "output": "tests/09.out"
+    },
+    {
+      "case_id": "10",
+      "input": "tests/10.in",
+      "output": "tests/10.out"
+    },
+    {
+      "case_id": "11",
+      "input": "tests/11.in",
+      "output": "tests/11.out"
+    }
   ]
 }

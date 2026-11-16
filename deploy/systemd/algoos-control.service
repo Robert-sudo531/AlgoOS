@@ -1,0 +1,24 @@
+[Unit]
+Description=AlgoOS control plane (outbox, scheduler, aggregator, reaper)
+After=network-online.target postgresql.service redis.service nats.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=algoos
+Group=algoos
+WorkingDirectory=/opt/algoos
+EnvironmentFile=-/etc/algoos/algoos.env
+ExecStart=/opt/algoos/.venv/bin/algoos control
+Restart=on-failure
+RestartSec=2
+KillSignal=SIGTERM
+TimeoutStopSec=30
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/algoos /var/cache/algoos
+
+[Install]
+WantedBy=multi-user.target

@@ -52,7 +52,7 @@ class Problem:
         raise ProblemError(f"unknown test id: {case_id}")
 
     def derived_out_bytes(self, case: TestCase) -> int:
-        from .text import normalize_common
+        from .normalization import normalize_common
 
         answer = (self.config_path.parent / case.output).read_bytes()
         return len(normalize_common(answer))
@@ -90,9 +90,9 @@ def load_problem(path: Path | str) -> Problem:
     if len({case.case_id for case in tests}) != len(tests):
         raise ProblemError("duplicate case_id")
     output_limit = data.get("output_limit_bytes")
-    if output_limit is not None:
-        if type(output_limit) is not int or not 0 < output_limit <= 256 << 20:
-            raise ProblemError("output_limit_bytes must be an integer in (0, 256 MiB]")
+    if output_limit is not None and (
+            type(output_limit) is not int or not 0 < output_limit <= 256 << 20):
+        raise ProblemError("output_limit_bytes must be an integer in (0, 256 MiB]")
     checker = None
     if judge_mode == "special":
         checker_path = data.get("checker")

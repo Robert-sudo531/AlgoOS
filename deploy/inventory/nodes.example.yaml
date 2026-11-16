@@ -1,0 +1,33 @@
+# AlgoOS 5-role reference inventory. Addresses are examples only.
+version: 1
+network:
+  control: 192.168.123.10
+  compile: 192.168.123.11
+  eval: [192.168.123.21, 192.168.123.22]
+  special: 192.168.123.31
+nodes:
+  - node_id: control-01
+    role: control
+    host: 192.168.123.10
+    services: [algoos-api, algoos-control]
+  - node_id: compile-01
+    role: compile
+    host: 192.168.123.11
+    services: [algoos-compile-worker, algoos-compile-agent]
+  - node_id: eval-01
+    role: eval
+    host: 192.168.123.21
+    services: [algoos-eval-worker@eval-01, algoos-eval-agent@eval-01]
+  - node_id: eval-02
+    role: eval
+    host: 192.168.123.22
+    services: [algoos-eval-worker@eval-02, algoos-eval-agent@eval-02]
+  - node_id: special-01
+    role: special
+    host: 192.168.123.31
+    services: [algoos-special-worker, algoos-special-agent]
+infrastructure:
+  postgres: 192.168.123.10:5432
+  redis: 192.168.123.10:6379
+  nats: 192.168.123.10:4222
+  s3: 192.168.123.10:9000

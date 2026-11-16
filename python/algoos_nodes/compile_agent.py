@@ -10,7 +10,7 @@ from algoos_control.config import NodeConfig, Settings
 from algoos_control.storage import ObjectStoreError
 from algoos_protocol import loads
 
-from .common import NodeAgentBase
+from .agent_base import NodeAgentBase
 from .messages import compile_result
 
 MAX_BINARY_BYTES = 16 << 20

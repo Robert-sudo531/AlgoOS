@@ -18,6 +18,7 @@ from .db import Database
 from .heartbeat import mark_stale, record_heartbeat
 from .outbox import publish_pending
 from .problem import import_problem, load_problem
+from .reaper import reap_once
 from .scheduler import dispatch_once
 from .storage import ObjectStore
 from .submissions import upsert_problem
@@ -113,7 +114,8 @@ class ControlService:
     async def _dispatch_loop(self) -> None:
         while not self.stop.is_set():
             try:
-                await asyncio.to_thread(dispatch_once, self.db, self.policy)
+                await asyncio.to_thread(dispatch_once, self.db, self.policy,
+                                        alive_seconds=self.settings.stale_seconds)
             except Exception as error:
                 print(f"[control] dispatch error: {error}", flush=True)
             await asyncio.sleep(0.3)
@@ -121,10 +123,14 @@ class ControlService:
     async def _stale_loop(self) -> None:
         while not self.stop.is_set():
             try:
-                await asyncio.to_thread(mark_stale, self.db)
+                await asyncio.to_thread(mark_stale, self.db, self.settings.stale_seconds)
+                reaped = await asyncio.to_thread(
+                    reap_once, self.db, stale_seconds=self.settings.stale_seconds)
+                if reaped:
+                    print(f"[control] re-queued {reaped} stranded case(s)", flush=True)
             except Exception as error:
-                print(f"[control] stale monitor error: {error}", flush=True)
-            await asyncio.sleep(5.0)
+                print(f"[control] stale/reaper error: {error}", flush=True)
+            await asyncio.sleep(self.settings.reaper_interval)
 
     async def run(self) -> None:
         self.db.wait_ready()

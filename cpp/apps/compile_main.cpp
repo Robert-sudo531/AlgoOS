@@ -11,7 +11,7 @@
 #include "algoos/protocol/json.hpp"
 #include "algoos/protocol/messages.hpp"
 #include "algoos/worker/compile_service.hpp"
-#include "algoos/worker/server.hpp"
+#include "algoos/worker/socket_server.hpp"
 
 namespace {
 using algoos::protocol::Json;

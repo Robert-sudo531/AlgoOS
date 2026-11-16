@@ -237,6 +237,11 @@
       "title": "Short Circuited",
       "type": "boolean"
     },
+    "cache_hit": {
+      "default": false,
+      "title": "Cache Hit",
+      "type": "boolean"
+    },
     "stderr_tail": {
       "default": "",
       "title": "Stderr Tail",

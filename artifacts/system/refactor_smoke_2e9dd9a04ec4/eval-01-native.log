@@ -1,1 +1,0 @@
-algoos-eval ready node=eval-01 socket=/tmp/algoos_refactor_kboc80vx/eval-01/worker.sock workers=4

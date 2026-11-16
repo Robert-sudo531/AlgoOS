@@ -1,0 +1,4 @@
+[control] migrations: []
+[control] problems ready: a_plus_b, short_circuit_probe, special_pair
+[control] connected to nats://127.0.0.1:47857
+[control] stopped

@@ -1,0 +1,16 @@
+<network>
+  <name>algoos</name>
+  <uuid>6f1d7a2e-6f8b-4f2b-9d0e-6d9b3b6c8a11</uuid>
+  <forward mode='nat'/>
+  <bridge name='virbr-algoos' stp='on' delay='0'/>
+  <ip address='192.168.123.1' netmask='255.255.255.0'>
+    <dhcp>
+      <range start='192.168.123.100' end='192.168.123.199'/>
+      <host mac='52:54:00:12:34:10' name='algoos-control' ip='192.168.123.10'/>
+      <host mac='52:54:00:12:34:11' name='algoos-compile' ip='192.168.123.11'/>
+      <host mac='52:54:00:12:34:21' name='algoos-eval-01' ip='192.168.123.21'/>
+      <host mac='52:54:00:12:34:22' name='algoos-eval-02' ip='192.168.123.22'/>
+      <host mac='52:54:00:12:34:31' name='algoos-special' ip='192.168.123.31'/>
+    </dhcp>
+  </ip>
+</network>

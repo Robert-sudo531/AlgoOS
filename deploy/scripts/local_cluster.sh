@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
-# AlgoOS local five-role cluster: Postgres/Redis/MinIO/NATS + native workers + agents.
-# Usage: local_cluster.sh start|stop|status|logs|clean|smoke
+# AlgoOS local five-role cluster: Postgres/Redis/NATS + MinIO + native workers + agents.
+# ALGOOS_S3_MODE=minio (default) uses the pinned MinIO image; moto is a fallback
+# for environments where that image cannot be pulled.
+# Usage: local_cluster.sh start|stop|status|logs|clean
 set -euo pipefail
 ROOT=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../.." && pwd)
 WORK=${ALGOOS_WORK:-$ROOT/work/cluster}
@@ -10,7 +12,7 @@ CONFIG=$WORK/config
 COMPOSE=$ROOT/deploy/compose/docker-compose.yml
 BIN=$ROOT/build/cpp
 cd "$ROOT"
-export PATH="$HOME/.local/bin:$PATH"
+export PATH="$ROOT/.venv/bin:$HOME/.local/bin:$PATH"
 export ALGOOS_DB_DSN=${ALGOOS_DB_DSN:-postgresql://algoos:algoos@127.0.0.1:5432/algoos}
 export ALGOOS_NATS_URL=${ALGOOS_NATS_URL:-nats://127.0.0.1:4222}
 export ALGOOS_S3_ENDPOINT=${ALGOOS_S3_ENDPOINT:-http://127.0.0.1:9000}
@@ -18,9 +20,13 @@ export ALGOOS_S3_ACCESS_KEY=${ALGOOS_S3_ACCESS_KEY:-algoos}
 export ALGOOS_S3_SECRET_KEY=${ALGOOS_S3_SECRET_KEY:-algoos-secret}
 export ALGOOS_REDIS_URL=${ALGOOS_REDIS_URL:-redis://127.0.0.1:6379/0}
 export ALGOOS_API_URL=${ALGOOS_API_URL:-http://127.0.0.1:8080}
-SANDBOX_FLAGS=""
-if [[ $(id -u) != 0 ]]; then
-  SANDBOX_FLAGS="--no-cgroup --no-namespaces --no-seccomp --writable-root"
+# Local development defaults to the portable rlimit path.  Set
+# ALGOOS_FULL_SANDBOX=1 on a privileged Linux host/VM to exercise cgroup,
+# namespace and seccomp.  Full isolation is validated separately by the C++
+# sandbox unit tests and must be revalidated on the target VM.
+SANDBOX_FLAGS="--no-cgroup --no-namespaces --no-seccomp --writable-root"
+if [[ ${ALGOOS_FULL_SANDBOX:-0} == 1 ]]; then
+  SANDBOX_FLAGS=""
 fi
 
 log() { printf '[local_cluster] %s\n' "$*"; }
@@ -93,11 +99,26 @@ start() {
   mkdir -p "$LOGS" "$RUN" "$CONFIG"
   chmod 755 "$RUN" || true
   log "starting infrastructure"
-  docker compose -f "$COMPOSE" up -d
+  docker compose -f "$COMPOSE" --env-file "$ROOT/deploy/compose/.env" up -d postgres redis nats
   wait_port 127.0.0.1 5432 PostgreSQL
   wait_port 127.0.0.1 6379 Redis
   wait_port 127.0.0.1 4222 NATS
-  wait_port 127.0.0.1 9000 MinIO
+  if [[ ${ALGOOS_S3_MODE:-minio} == moto ]]; then
+    # Fallback only: moto is an S3-compatible mock, not a MinIO validation.
+    start_bg moto uv run moto_server -H 127.0.0.1 -p 9000
+    wait_port 127.0.0.1 9000 "moto S3"
+  else
+    docker compose -f "$COMPOSE" --env-file "$ROOT/deploy/compose/.env" up -d minio
+    for _ in $(seq 1 120); do
+      if curl -fsS http://127.0.0.1:9000/minio/health/live >/dev/null 2>&1; then
+        log "MinIO ready"
+        break
+      fi
+      sleep 0.5
+    done
+    curl -fsS http://127.0.0.1:9000/minio/health/live >/dev/null || {
+      log "MinIO did not become healthy; docker compose logs minio"; exit 1; }
+  fi
   check_binary
   write_configs
   start_bg compile-worker "$BIN/algoos-compile" --socket "$RUN/compile.sock" \
@@ -130,10 +151,10 @@ start() {
 
 stop() {
   for name in api control special-01 eval-02 eval-01 compile-agent \
-              special-worker eval-02-worker eval-01-worker compile-worker; do
+              special-worker eval-02-worker eval-01-worker compile-worker moto; do
     stop_one "$name"
   done
-  docker compose -f "$COMPOSE" stop || true
+  docker compose -f "$COMPOSE" --env-file "$ROOT/deploy/compose/.env" stop || true
   log "cluster stopped (volumes kept)"
 }
 
@@ -151,11 +172,10 @@ status() {
 }
 
 case "${1:-start}" in
-  smoke) exec "${ALGOOS_PYTHON:-$ROOT/work/refactor-venv/bin/python}" -m scripts.refactor_smoke "${@:2}" ;;
   start) start ;;
   stop) stop ;;
   status) status ;;
   logs) tail -n 40 -f "$LOGS"/*.log ;;
-  clean) stop; docker compose -f "$COMPOSE" down -v ;;
-  *) echo "usage: $0 start|stop|status|logs|clean|smoke" >&2; exit 2 ;;
+  clean) stop; docker compose -f "$COMPOSE" --env-file "$ROOT/deploy/compose/.env" down -v ;;
+  *) echo "usage: $0 start|stop|status|logs|clean" >&2; exit 2 ;;
 esac

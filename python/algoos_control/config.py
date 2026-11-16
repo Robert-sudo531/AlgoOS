@@ -41,6 +41,14 @@ class Settings:
     control_node_id: str = field(default_factory=lambda: _env(
         "ALGOOS_CONTROL_NODE_ID", "control-01"))
     ensure_stream: bool = field(default_factory=lambda: _env("ALGOOS_ENSURE_STREAM", "1") == "1")
+    stale_seconds: float = field(default_factory=lambda: float(
+        _env("ALGOOS_STALE_SECONDS", "15")))
+    reaper_interval: float = field(default_factory=lambda: float(
+        _env("ALGOOS_REAPER_INTERVAL", "2")))
+    eval_ack_wait: int = field(default_factory=lambda: int(
+        _env("ALGOOS_EVAL_ACK_WAIT", "60")))
+    control_ack_wait: int = field(default_factory=lambda: int(
+        _env("ALGOOS_CONTROL_ACK_WAIT", "60")))
 
 
 @dataclass(frozen=True)

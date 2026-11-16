@@ -1,4 +1,4 @@
-"""common comparison normalization (mirrors cpp/src/runner/comparator.cpp).
+"""Output normalization shared with the C++ comparator (cpp/src/runner/comparator.cpp).
 
 The C++ worker owns final comparison; Python only derives the semantic output
 limit from the standard answer at import time.  Keep the two implementations

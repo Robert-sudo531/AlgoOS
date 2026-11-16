@@ -1,0 +1,17 @@
+[Unit]
+Description=AlgoOS compile queue agent
+After=algoos-compile-worker.service
+Requires=algoos-compile-worker.service
+
+[Service]
+Type=simple
+User=algoos
+Group=algoos
+WorkingDirectory=/opt/algoos
+EnvironmentFile=-/etc/algoos/algoos.env
+ExecStart=/opt/algoos/.venv/bin/algoos compile-agent --config /etc/algoos/nodes/compile-01.json
+Restart=on-failure
+RestartSec=2
+
+[Install]
+WantedBy=multi-user.target

@@ -1,5 +1,0 @@
-﻿fixture,submission_id,compile_status,eval_tasks,final_verdict
-a_plus_b.cpp,cd1c56c1-7502-41ff-b672-b2bf381dde84,COMPILED,2,AC
-wrong_answer.cpp,013d9996-651d-472d-924b-48c797a948ab,COMPILED,2,WA
-compile_error.cpp,7b055c9f-b8cc-4073-bfeb-d1070e2e29c4,CE,0,CE
-a_plus_b.cpp,f4cd7c37-1776-4595-a519-96ab8f3e5a5e,SE,0,SE

@@ -1,0 +1,18 @@
+[Unit]
+Description=AlgoOS native special-judge worker
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=root
+Group=root
+RuntimeDirectory=algoos
+WorkingDirectory=/opt/algoos
+EnvironmentFile=-/etc/algoos/algoos.env
+ExecStart=/opt/algoos/build/cpp/algoos-special --socket /run/algoos/special.sock --work-root /var/lib/algoos/special --workers 2
+Restart=on-failure
+RestartSec=2
+
+[Install]
+WantedBy=multi-user.target

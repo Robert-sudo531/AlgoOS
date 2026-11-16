@@ -21,7 +21,8 @@ def eval_result(task: dict, node_id: str, *, verdict: str, reason: str,
                 out_bytes: int | None = None, exit_code: int | None = None,
                 signal: int | None = None, wall_timeout: bool = False,
                 short_circuited: bool = False, stderr_tail: str = "",
-                detail: str = "", source: str = "runner") -> dict:
+                detail: str = "", source: str = "runner",
+                cache_hit: bool = False) -> dict:
     # Keep the relay's eval result distinct from the special_result message
     # (they share the same judge_id and would otherwise collide on the
     # JetStream duplicate key inside the shared stream).
@@ -34,8 +35,8 @@ def eval_result(task: dict, node_id: str, *, verdict: str, reason: str,
         "cpu_ms": cpu_ms, "wall_ms": wall_ms, "mem_bytes": mem_bytes,
         "memory_source": memory_source, "out_bytes": out_bytes,
         "exit_code": exit_code, "signal": signal, "wall_timeout": wall_timeout,
-        "short_circuited": short_circuited, "stderr_tail": stderr_tail,
-        "detail": detail,
+        "short_circuited": short_circuited, "cache_hit": cache_hit,
+        "stderr_tail": stderr_tail, "detail": detail,
     })
     return message
 

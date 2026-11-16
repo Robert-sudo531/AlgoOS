@@ -1,5 +1,7 @@
 # 2026-11-04 阶段汇报 PPT 制作建议
 
+> 历史材料（对应旧单机原型）；当前状态见 [实现状态](../status/implementation_status.md)。
+
 建议 **3 页、约 3 分钟**，每页两三句话，加一张图或结果截图。依据当前 `main`（`742a296`）整理；若只做 2 页，可合并前两页。
 
 ## 第 1 页：当前进展——单机评测原型
@@ -8,7 +10,7 @@
 
 > 已形成 Python 主控与 C++ 评测服务协作的单机原型。Python 负责题目加载、编译和结果汇总，C++ 负责程序执行、资源限制和输出比较。
 
-**配图：**参考 [eval_server 工作原理](docs/design/eval_server.md) 第 9.1 节“部署/组件图”，截图或简化重画。可保留下面四个模块，并标注“当前单机架构”：
+**配图：**参考 [eval_server 工作原理](../archive/legacy_single_node/eval_server.md) 第 9.1 节“部署/组件图”，截图或简化重画。可保留下面四个模块，并标注“当前单机架构”：
 
 ```text
 提交与题目 → Python 编译 → C++ 执行与比较 → Python 汇总并记录结果
@@ -29,10 +31,10 @@
 
 **配图与取材：**
 
-- [结果快照 result.tsv](artifacts/system/20261103_reroll_tests_ai/result.tsv)：截取一轮两题的结果，保留题目、判定、通过数和总数即可。
-- [测试日志 unittest.txt](artifacts/system/20261103_reroll_tests_ai/unittest.txt)：截取 `Ran 9 tests`、`OK` 及 AC/WA/TLE/CE/RE 等结果；也可整理成短表。
+- 结果快照 result.tsv：截取一轮两题的结果，保留题目、判定、通过数和总数即可。
+- 测试日志 unittest.txt：截取 `Ran 9 tests`、`OK` 及 AC/WA/TLE/CE/RE 等结果；也可整理成短表。
 
-**页面小字：**“来源：2026-11-03 AI 实测记录；成员复核待完成。”来源与验证范围见 [manifest.json](artifacts/system/20261103_reroll_tests_ai/manifest.json)。
+**页面小字：**“来源：2026-11-03 AI 实测记录；成员复核待完成。”来源与验证范围见 manifest.json。
 
 **讲述重点：**已有正确提交和部分异常路径的验证记录，尚需补足复现材料并由成员复核。9 项测试与 25 个题目测试点是两种统计，不相加。
 
@@ -59,4 +61,4 @@
 - `midterm_report.md` 中的 sabotage“RE 0/14”未出现在该结果快照中；展示 RE 时使用合成测试日志中的记录。
 - 当前分布式部署、优化实验、特判和完整隔离均未完成；MLE 尚未单独验证。PPT 中区分已有结果与后续计划。
 
-需要解释操作时查 [部署与使用](docs/ops/deployment.md)；需要说明开发过程和贡献时查 [开发记录](docs/records/progress.md)。先做三页，再留约 10 分钟演练。
+需要解释操作时查 [部署与使用](../archive/legacy_single_node/deployment.md)；需要说明开发过程和贡献时查 [开发记录](../records/progress.md)。先做三页，再留约 10 分钟演练。

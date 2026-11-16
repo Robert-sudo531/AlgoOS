@@ -1,4 +1,4 @@
-#include "algoos/worker/server.hpp"
+#include "algoos/worker/socket_server.hpp"
 
 #include <arpa/inet.h>
 #include <sys/socket.h>

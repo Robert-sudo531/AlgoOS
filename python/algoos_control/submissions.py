@@ -18,7 +18,7 @@ SUPPORTED_PROBLEMS_ERROR = "unknown problem_id"
 
 
 def upsert_problem(database: Database, imported: ImportedProblem) -> None:
-    from .text import normalize_common
+    from .normalization import normalize_common
 
     problem = imported.problem
     config = {
@@ -161,7 +161,8 @@ def lookup(database: Database, file_id: UUID) -> dict | None:
     for case in cases:
         payload = result_map.get(case[0], {})
         per_test.append({
-            "test_id": case[0], "sequence": case[1], "node_id": payload.get("node_id"),
+            "test_id": case[0], "sequence": case[1],
+            "node_id": payload.get("node_id") or case[2],
             "state": case[3], "judge_mode": case[6],
             "verdict": case[4] or payload.get("verdict"),
             "reason": case[5] or payload.get("reason"),
@@ -169,6 +170,7 @@ def lookup(database: Database, file_id: UUID) -> dict | None:
             "mem_bytes": payload.get("mem_bytes"), "memory_source": payload.get("memory_source"),
             "out_bytes": payload.get("out_bytes"), "source": payload.get("source"),
             "short_circuited": payload.get("short_circuited", False),
+            "cache_hit": payload.get("cache_hit", False),
             "limits": case[7],
         })
     return {

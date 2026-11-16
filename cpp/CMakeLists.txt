@@ -32,7 +32,7 @@ add_library(algoos_core STATIC
   src/sandbox/sandbox.cpp
   src/sandbox/classify.cpp
   src/runner/comparator.cpp
-  src/worker/server.cpp
+  src/worker/socket_server.cpp
   src/worker/cancel_registry.cpp
   src/worker/compile_service.cpp
   src/worker/eval_service.cpp
@@ -42,16 +42,21 @@ target_include_directories(algoos_core PUBLIC include ${JSONC_INCLUDE_DIRS} ${SE
 target_link_directories(algoos_core PUBLIC ${JSONC_LIBRARY_DIRS} ${SECCOMP_LIBRARY_DIRS})
 target_link_libraries(algoos_core PUBLIC ${JSONC_LIBRARIES} ${SECCOMP_LIBRARIES} Threads::Threads)
 
-foreach(app algoos-eval algoos-compile algoos-special)
-  string(REPLACE "-" "_" app_target ${app})
-  add_executable(${app_target} apps/${app}.cpp)
-  target_link_libraries(${app_target} PRIVATE algoos_core)
-  set_target_properties(${app_target} PROPERTIES OUTPUT_NAME ${app})
+# Source files are snake_case; shipped executables are kebab-case.
+add_executable(algoos_compile apps/compile_main.cpp)
+add_executable(algoos_eval apps/eval_main.cpp)
+add_executable(algoos_special apps/special_main.cpp)
+set_target_properties(algoos_compile PROPERTIES OUTPUT_NAME algoos-compile)
+set_target_properties(algoos_eval PROPERTIES OUTPUT_NAME algoos-eval)
+set_target_properties(algoos_special PROPERTIES OUTPUT_NAME algoos-special)
+foreach(target algoos_compile algoos_eval algoos_special)
+  target_link_libraries(${target} PRIVATE algoos_core)
 endforeach()
 
 if(ALGOOS_BUILD_TESTS)
   enable_testing()
-  add_executable(algoos_unit_tests tests/unit_tests.cpp)
-  target_link_libraries(algoos_unit_tests PRIVATE algoos_core)
-  add_test(NAME algoos_unit COMMAND algoos_unit_tests)
+  add_executable(algoos_core_tests tests/core_tests.cpp)
+  set_target_properties(algoos_core_tests PROPERTIES OUTPUT_NAME algoos-core-tests)
+  target_link_libraries(algoos_core_tests PRIVATE algoos_core)
+  add_test(NAME algoos_core COMMAND algoos-core-tests)
 endif()

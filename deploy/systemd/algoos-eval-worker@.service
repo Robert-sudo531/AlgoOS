@@ -1,0 +1,19 @@
+[Unit]
+Description=AlgoOS native eval worker for %i
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=root
+Group=root
+RuntimeDirectory=algoos
+WorkingDirectory=/opt/algoos
+EnvironmentFile=-/etc/algoos/algoos.env
+ExecStart=/opt/algoos/build/cpp/algoos-eval --socket /run/algoos/%i.sock --node-id %i --work-root /var/lib/algoos/eval/%i --workers 2 --cgroup-root /sys/fs/cgroup
+Restart=on-failure
+RestartSec=2
+KillMode=control-group
+
+[Install]
+WantedBy=multi-user.target

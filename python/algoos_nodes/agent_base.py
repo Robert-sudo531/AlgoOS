@@ -16,7 +16,7 @@ from algoos_control.config import NodeConfig, Settings, load_policy
 from algoos_control.storage import ObjectStore
 
 from algoos_nodes.cache import LocalCache
-from algoos_nodes.ipc import NativeClient, NodeHealth
+from algoos_nodes.native_client import NativeClient, NodeHealth
 
 HEARTBEAT_INTERVAL_S = 2.0
 HEARTBEAT_TTL_S = 6
@@ -156,8 +156,10 @@ class NodeAgentBase:
     async def run(self) -> None:  # pragma: no cover - abstract
         raise NotImplementedError
 
-    async def _consume(self, subject: str, durable: str, handler) -> None:
-        subscription = await self.broker.pull(subject, durable, ack_wait=300)
+    async def _consume(self, subject: str, durable: str, handler,
+                       ack_wait: int | None = None) -> None:
+        subscription = await self.broker.pull(
+            subject, durable, ack_wait=ack_wait or self.settings.eval_ack_wait)
         while not self.stop.is_set():
             from algoos_control.broker import wait_for_message
 

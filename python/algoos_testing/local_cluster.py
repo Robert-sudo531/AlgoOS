@@ -1,21 +1,27 @@
 """Ephemeral local AlgoOS cluster used by integration tests and scenario scripts.
 
-The harness starts real PostgreSQL, Redis and NATS containers (Docker), a
-S3-compatible moto server, the native C++ workers and the Python agents,
-control plane and HTTP API.  It deliberately lives outside the release
-packages: integration tests must exercise the same binaries that production
-uses, not mocks.
+The harness starts real PostgreSQL, Redis, NATS and MinIO containers (Docker),
+the native C++ workers and the Python agents, control plane and HTTP API.  It
+deliberately lives outside the release packages: integration tests must
+exercise the same binaries that production uses, not mocks.
+
+MinIO is the default object store.  ``ALGOOS_TEST_S3=moto`` switches to the
+moto server (installed by the dev extras) for environments where the MinIO
+image cannot be pulled; evidence produced with moto must not be described as a
+MinIO validation.
 
 Prerequisites:
   * Docker daemon reachable by the current user
   * ``build/cpp/algoos-{compile,eval,special}`` built
-  * Python dev extras installed (``moto[server]``)
+  * Python dev extras installed (``moto[server]`` is only needed for the
+    moto fallback)
 """
 
 from __future__ import annotations
 
 import asyncio
 import contextlib
+import hashlib
 import json
 import os
 import shutil
@@ -59,9 +65,15 @@ def _wait_until(predicate: Callable[[], bool], timeout: float, label: str) -> No
     raise TimeoutError(f"{label} did not become ready within {timeout:.0f}s{detail}")
 
 
+MINIO_IMAGE = ("cgr.dev/chainguard/minio@sha256:"
+               "9158c67aa441627c366442e84656f689e16bec4809851ec64318561a365b69e4")
+
+
 def _docker_run(name: str, image: str, ports: dict[int, int], args: Iterable[str] = (),
-                env: dict[str, str] | None = None) -> None:
+                env: dict[str, str] | None = None, user: str | None = None) -> None:
     command = ["docker", "run", "-d", "--rm", "--name", name]
+    if user is not None:
+        command += ["--user", user]
     for key, value in (env or {}).items():
         command += ["-e", f"{key}={value}"]
     for host_port, container_port in ports.items():
@@ -76,12 +88,13 @@ def _docker_stop(name: str) -> None:
     subprocess.run(["docker", "rm", "-f", name], capture_output=True, text=True)
 
 
-class Cluster:
+class LocalCluster:
     """A disposable, fully local cluster with two eval nodes and one special node."""
 
     def __init__(self, *, problems: Iterable[str] = DEFAULT_PROBLEMS,
                  strategy: str = "fcfs", log_dir: Path | str | None = None,
-                 startup_timeout: float = 45.0):
+                 startup_timeout: float = 45.0, extra_env: dict[str, str] | None = None):
+        self.extra_env = dict(extra_env or {})
         self.problem_ids = tuple(problems)
         self.strategy = strategy
         self.startup_timeout = startup_timeout
@@ -99,13 +112,17 @@ class Cluster:
         self.redis_port = 0
         self.nats_port = 0
         self.s3_port = 0
+        self.s3_mode = os.environ.get("ALGOOS_TEST_S3", "minio").strip().lower()
+        self.s3_image = ""
+        self.s3_access_key = "test"
+        self.s3_secret_key = "test"
         self.api_port = 0
         self.bucket = f"algoos-test-{uuid.uuid4().hex[:10]}"
         self.api_token = uuid.uuid4().hex
         self.env: dict[str, str] = {}
 
     # ------------------------------------------------------------------ setup
-    def __enter__(self) -> Cluster:
+    def __enter__(self) -> LocalCluster:
         self.start()
         return self
 
@@ -147,15 +164,21 @@ class Cluster:
         self.pg_name = f"algoos-e2e-pg-{suffix}"
         self.redis_name = f"algoos-e2e-redis-{suffix}"
         self.nats_name = f"algoos-e2e-nats-{suffix}"
-        _docker_run(self.pg_name, "docker.m.daocloud.io/library/postgres:17-alpine",
-                    {self.pg_port: 5432},
+        # Local mirror images verified in the project environment.  Override
+        # with ALGOOS_*_IMAGE when a different registry is reachable.
+        pg_image = os.environ.get("ALGOOS_PG_IMAGE",
+                                  "docker.m.daocloud.io/library/postgres:17-alpine")
+        redis_image = os.environ.get("ALGOOS_REDIS_IMAGE",
+                                     "docker.m.daocloud.io/library/redis:7.4-alpine")
+        nats_image = os.environ.get("ALGOOS_NATS_IMAGE",
+                                    "docker.m.daocloud.io/library/nats:2.10-alpine")
+        _docker_run(self.pg_name, pg_image, {self.pg_port: 5432},
                     env={"POSTGRES_USER": "algoos", "POSTGRES_PASSWORD": "algoos",
                          "POSTGRES_DB": "algoos"})
-        _docker_run(self.redis_name, "docker.m.daocloud.io/library/redis:7.4-alpine",
-                    {self.redis_port: 6379}, args=["redis-server", "--save", "",
-                                                   "--appendonly", "no"])
-        _docker_run(self.nats_name, "docker.m.daocloud.io/library/nats:2.11-alpine",
-                    {self.nats_port: 4222}, args=["-js", "-sd", "/data"])
+        _docker_run(self.redis_name, redis_image, {self.redis_port: 6379},
+                    args=["redis-server", "--save", "", "--appendonly", "no"])
+        _docker_run(self.nats_name, nats_image, {self.nats_port: 4222},
+                    args=["-js", "-sd", "/data"])
         self.container_names = [self.pg_name, self.redis_name, self.nats_name]
 
         def pg_ready() -> bool:
@@ -169,13 +192,33 @@ class Cluster:
         _wait_until(lambda: bool(self._redis.ping()), self.startup_timeout, "Redis")
         _wait_until(lambda: self._nats_ready(), self.startup_timeout, "NATS")
 
-        from moto.server import ThreadedMotoServer
+        if self.s3_mode == "minio":
+            self.s3_image = os.environ.get("ALGOOS_MINIO_IMAGE", MINIO_IMAGE)
+            self.s3_access_key = "algoos"
+            self.s3_secret_key = "algoos-secret"
+            s3_name = f"algoos-e2e-minio-{suffix}"
+            _docker_run(
+                s3_name, self.s3_image, {self.s3_port: 9000},
+                args=["server", "/data", "--address", ":9000",
+                      "--console-address", ":9001"],
+                env={"MINIO_ROOT_USER": self.s3_access_key,
+                     "MINIO_ROOT_PASSWORD": self.s3_secret_key,
+                     "MINIO_BROWSER": "off"},
+            )
+            self.container_names.append(s3_name)
+            _wait_until(self._s3_ready, self.startup_timeout,
+                        f"S3 (MinIO {self.s3_image})")
+        elif self.s3_mode == "moto":
+            from moto.server import ThreadedMotoServer
 
-        self._moto = ThreadedMotoServer(ip_address="127.0.0.1", port=self.s3_port,
-                                        verbose=False)
-        self._moto.start()
-        time.sleep(0.3)
-        _wait_until(self._s3_ready, self.startup_timeout, "S3 (moto)")
+            self._moto = ThreadedMotoServer(ip_address="127.0.0.1", port=self.s3_port,
+                                            verbose=False)
+            self._moto.start()
+            time.sleep(0.3)
+            _wait_until(self._s3_ready, self.startup_timeout, "S3 (moto)")
+        else:
+            raise RuntimeError(
+                f"unknown ALGOOS_TEST_S3={self.s3_mode!r}; use 'minio' or 'moto'")
 
     def _nats_ready(self) -> bool:
         async def probe() -> bool:
@@ -194,7 +237,8 @@ class Cluster:
         from botocore.config import Config
 
         client = boto3.client("s3", endpoint_url=f"http://127.0.0.1:{self.s3_port}",
-                              aws_access_key_id="test", aws_secret_access_key="test",
+                              aws_access_key_id=self.s3_access_key,
+                              aws_secret_access_key=self.s3_secret_key,
                               region_name="us-east-1",
                               config=Config(connect_timeout=1, read_timeout=1, proxies={},
                                             retries={"total_max_attempts": 1},
@@ -219,8 +263,8 @@ class Cluster:
             "PYTHONPATH": str(ROOT / "python"),
             "ALGOOS_DB_DSN": f"postgresql://algoos:algoos@127.0.0.1:{self.pg_port}/algoos",
             "ALGOOS_S3_ENDPOINT": f"http://127.0.0.1:{self.s3_port}",
-            "ALGOOS_S3_ACCESS_KEY": "test",
-            "ALGOOS_S3_SECRET_KEY": "test",
+            "ALGOOS_S3_ACCESS_KEY": self.s3_access_key,
+            "ALGOOS_S3_SECRET_KEY": self.s3_secret_key,
             "ALGOOS_S3_BUCKET": self.bucket,
             "ALGOOS_NATS_URL": f"nats://127.0.0.1:{self.nats_port}",
             "ALGOOS_REDIS_URL": f"redis://127.0.0.1:{self.redis_port}/0",
@@ -228,6 +272,7 @@ class Cluster:
             "ALGOOS_SCHEDULING_STRATEGY": self.strategy,
             "ALGOOS_PROBLEMS_DIR": str(self.root / "problems"),
         }
+        self.env.update(self.extra_env)
 
     def _prepare_problems(self) -> None:
         directory = self.root / "problems"
@@ -341,7 +386,7 @@ class Cluster:
 
     # ------------------------------------------------------------------ teardown
     def stop(self) -> None:
-        for name, process in list(self.processes.items()):
+        for _name, process in list(self.processes.items()):
             if process.poll() is None:
                 with contextlib.suppress(ProcessLookupError):
                     os.killpg(process.pid, signal.SIGTERM)
@@ -398,8 +443,6 @@ class Cluster:
 
     def wait_for(self, file_id: str, predicate: Callable[[dict], bool], *,
                  timeout: float = 60.0, label: str = "submission") -> dict:
-        deadline = time.monotonic() + timeout
-
         def poll() -> bool:
             for name, process in self.processes.items():
                 if process.poll() is not None:
@@ -414,6 +457,21 @@ class Cluster:
             file_id,
             lambda view: view["status"] in {"FINAL", "CE", "CANCELLED"},
             timeout=timeout, label="terminal submission",
+        )
+
+    def wait_cases_terminal(self, file_id: str, *, timeout: float = 60.0) -> dict:
+        """Wait for the submission and every materialised test point to converge.
+
+        A user cancel currently finalises the submission immediately while the
+        in-flight case results arrive asynchronously; scenario scripts must wait
+        for both layers before asserting per-test verdicts.
+        """
+        return self.wait_for(
+            file_id,
+            lambda view: view["status"] in {"FINAL", "CE", "CANCELLED"}
+            and all(point["state"] in {"DONE", "CANCELLED"}
+                    for point in view["per_test"]),
+            timeout=timeout, label="terminal submission and cases",
         )
 
     def cancel(self, file_id: str) -> dict:
@@ -445,18 +503,46 @@ class Cluster:
         with psycopg.connect(self.env["ALGOOS_DB_DSN"], connect_timeout=2) as connection:
             return connection.execute(sql, params).fetchall()
 
-    def stop_process(self, name: str) -> None:
+    def execute(self, sql: str, params: tuple = ()) -> None:
+        with psycopg.connect(self.env["ALGOOS_DB_DSN"], connect_timeout=2) as connection:
+            connection.execute(sql, params)
+
+    def put_object(self, key: str, data: bytes) -> str:
+        import boto3
+        from botocore.config import Config
+
+        client = boto3.client(
+            "s3", endpoint_url=self.env["ALGOOS_S3_ENDPOINT"],
+            aws_access_key_id=self.env["ALGOOS_S3_ACCESS_KEY"],
+            aws_secret_access_key=self.env["ALGOOS_S3_SECRET_KEY"],
+            region_name="us-east-1",
+            config=Config(connect_timeout=2, read_timeout=5, proxies={},
+                          retries={"total_max_attempts": 1},
+                          s3={"addressing_style": "path"}))
+        try:
+            client.put_object(Bucket=self.bucket, Key=key, Body=data)
+        finally:
+            client.close()
+        return "sha256:" + hashlib.sha256(data).hexdigest()
+
+    def stop_process(self, name: str, *, force: bool = False) -> None:
         process = self.processes.pop(name)
         if process.poll() is None:
             with contextlib.suppress(ProcessLookupError):
-                os.killpg(process.pid, signal.SIGTERM)
-            process.wait(timeout=5)
+                os.killpg(process.pid, signal.SIGKILL if force else signal.SIGTERM)
+            try:
+                process.wait(timeout=5 if not force else 2)
+            except subprocess.TimeoutExpired:
+                with contextlib.suppress(ProcessLookupError):
+                    os.killpg(process.pid, signal.SIGKILL)
+                process.wait(timeout=5)
 
     def start_process(self, name: str, command: list[str]) -> None:
         self._spawn(name, command)
 
     def restart_agent(self, node_id: str, role: str) -> None:
-        self.stop_process(f"{node_id}-agent")
+        if f"{node_id}-agent" in self.processes:
+            self.stop_process(f"{node_id}-agent")
         config = self.node_configs[node_id]
         self._spawn(f"{node_id}-agent", [sys.executable, "-m", "algoos_cli.main",
                                          f"{role}-agent", "--config", str(config)])

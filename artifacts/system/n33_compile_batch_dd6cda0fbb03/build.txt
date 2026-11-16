@@ -1,3 +1,0 @@
-make: Entering directory '/media/robert/WindowsD/active/2026-27_autumn_courses/innovation_training/judge/native'
-g++ -std=c++23 -O2 -pipe -Wall -Wextra -Wpedantic -pthread compile_local.cpp -o "/media/robert/WindowsD/active/2026-27_autumn_courses/innovation_training/work/n33_compile_batch_dd6cda0fbb03/compile-local"
-make: Leaving directory '/media/robert/WindowsD/active/2026-27_autumn_courses/innovation_training/judge/native'

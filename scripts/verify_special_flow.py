@@ -1,7 +1,8 @@
-"""Step 4 end-to-end evidence: special judge, cancel, ordered short circuit.
+"""Verify special-judge, cancel and ordered-short-circuit flows end to end.
 
-Runs a real local cluster (Docker PostgreSQL/Redis/NATS + moto S3 + native
-workers + Python agents) and writes ``artifacts/system/refactor_step4_<id>/``.
+Runs a real local cluster (Docker PostgreSQL/Redis/NATS + MinIO S3 + native
+workers + Python agents) and writes
+``artifacts/verification/<UTC timestamp>_special_flow/``.
 Trusted fixtures only; production isolation is explicitly out of scope.
 """
 
@@ -11,10 +12,10 @@ import argparse
 import hashlib
 import json
 import time
-from pathlib import Path
+from datetime import UTC, datetime
 from uuid import uuid4
 
-from algoos_testing.cluster import ROOT, Cluster
+from algoos_testing.local_cluster import ROOT, LocalCluster
 
 PROBLEMS = ("a_plus_b", "special_pair", "short_circuit_probe")
 
@@ -28,7 +29,7 @@ def source(name: str) -> str:
     return (ROOT / "examples" / name).read_text(encoding="utf-8")
 
 
-def submit_and_wait(cluster: Cluster, problem_id: str, example: str, *,
+def submit_and_wait(cluster: LocalCluster, problem_id: str, example: str, *,
                     evaluation_mode: str | None = None, strategy: str | None = None,
                     timeout: float = 90.0) -> dict:
     file_id = cluster.submit(problem_id, source(example),
@@ -40,23 +41,28 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--actor", default="AI")
     args = parser.parse_args()
-    evidence = ROOT / "artifacts" / "system" / f"refactor_step4_{uuid4().hex[:12]}"
+    run_id = datetime.now(UTC).strftime("%Y%m%dT%H%M%SZ") + "_special_flow"
+    evidence = ROOT / "artifacts" / "verification" / run_id
+    if evidence.exists():
+        evidence = evidence.with_name(f"{run_id}_{uuid4().hex[:6]}")
     evidence.mkdir(parents=True)
     manifest: dict = {
         "executed_by": args.actor,
-        "scope": "local trusted fixtures; special checker contract exercised; "
-                 "no production sandbox validation",
+        "scope": "local trusted fixtures; real MinIO S3; special checker "
+                 "contract exercised; no production sandbox validation",
         "cases": [],
         "status": "FAILED",
         "exit_code": 1,
     }
     started = time.monotonic()
-    cluster: Cluster | None = None
+    cluster: LocalCluster | None = None
     try:
-        cluster = Cluster(problems=PROBLEMS, strategy="fcfs", log_dir=evidence / "logs")
+        cluster = LocalCluster(problems=PROBLEMS, strategy="fcfs", log_dir=evidence / "logs")
         cluster.start()
         manifest["service_versions"] = {
             "postgres": cluster.query("SHOW server_version")[0][0],
+            "s3_backend": cluster.s3_mode,
+            "s3_image": cluster.s3_image or "moto",
             "nodes": cluster.list_nodes(),
         }
 
@@ -113,7 +119,7 @@ def main() -> int:
         before = cluster.view(file_id)
         require(before["status"] == "EVALUATING", f"unexpected pre-cancel state: {before}")
         response = cluster.cancel(file_id)
-        view = cluster.wait_terminal(file_id, timeout=30)
+        view = cluster.wait_cases_terminal(file_id, timeout=30)
         require(view["status"] == "CANCELLED" and view["verdict"] == "CANCELLED",
                 f"user cancel failed: {view}")
         require(view["reason"] == "USER_CANCELLED",
@@ -132,7 +138,7 @@ def main() -> int:
         # 6. Ordered short circuit: failure at sequence 2 must not kill sequence 1.
         file_id = cluster.submit("short_circuit_probe", source("short_circuit_probe.cpp"),
                                  evaluation_mode="ordered_short_circuit", strategy="fcfs")
-        view = cluster.wait_terminal(file_id, timeout=60)
+        view = cluster.wait_cases_terminal(file_id, timeout=60)
         points = {point["sequence"]: point for point in view["per_test"]}
         require(view["status"] == "FINAL" and view["verdict"] == "WA",
                 f"short circuit final state: {view}")
@@ -160,10 +166,10 @@ def main() -> int:
         manifest["duration_s"] = round(time.monotonic() - started, 2)
         manifest.update(status="PASSED", exit_code=0)
         cluster.dump_logs(evidence / "logs")
-        for name, path in sorted((ROOT / "examples").glob("*.cpp")):
-            manifest.setdefault("example_sha256", {})[name] = hashlib.sha256(
+        for path in sorted((ROOT / "examples").glob("*.cpp")):
+            manifest.setdefault("example_sha256", {})[path.name] = hashlib.sha256(
                 path.read_bytes()).hexdigest()
-        print(f"[通过] 第 4 步端到端：特判 AC/WA/SE/超时、用户取消、有序短路")
+        print("[通过] 特判流程: AC/WA/SE/超时、用户取消、有序短路")
     except Exception as error:
         manifest["error"] = str(error)
         print(f"[失败] {error}", flush=True)
@@ -174,7 +180,7 @@ def main() -> int:
             cluster.stop()
     (evidence / "manifest.json").write_text(
         json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    print(f"运行证据：{evidence.relative_to(ROOT)}")
+    print(f"运行证据: {evidence.relative_to(ROOT)}")
     return int(manifest["exit_code"])
 
 

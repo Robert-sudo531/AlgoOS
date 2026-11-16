@@ -2,14 +2,10 @@
 
 from __future__ import annotations
 
-from datetime import timedelta
-
 from algoos_protocol.models import Heartbeat
 from psycopg.types.json import Jsonb
 
 from .db import Database
-
-STALE_AFTER = timedelta(seconds=15)
 
 
 def record_heartbeat(database: Database, payload: dict) -> None:
@@ -27,9 +23,10 @@ def record_heartbeat(database: Database, payload: dict) -> None:
              Jsonb(heartbeat.cached_hashes)))
 
 
-def mark_stale(database: Database) -> int:
+def mark_stale(database: Database, stale_seconds: float = 15.0) -> int:
     with database.transaction() as connection:
         rows = connection.execute(
             "UPDATE eval_nodes SET status='DEAD' WHERE status='ALIVE' "
-            "AND last_heartbeat < now() - %s RETURNING node_id", (STALE_AFTER,)).fetchall()
+            "AND last_heartbeat < now() - make_interval(secs => %s) RETURNING node_id",
+            (stale_seconds,)).fetchall()
     return len(rows)

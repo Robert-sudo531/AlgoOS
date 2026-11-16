@@ -1,0 +1,4 @@
+[control] migrations: []
+[control] problems ready: a_plus_b, lazy_gold
+[control] connected to nats://127.0.0.1:47409
+[control] stopped

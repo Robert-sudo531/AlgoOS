@@ -21,6 +21,8 @@ algoos = "algoos_cli.main:main"
 
 [dependency-groups]
 dev = [
+    "cmake>=3.28",
+    "ninja>=1.11",
     "pytest>=8.4",
     "pytest-asyncio>=1.2",
     "ruff>=0.14",
@@ -31,6 +33,7 @@ dev = [
 [tool.pytest.ini_options]
 testpaths = ["python/tests"]
 pythonpath = ["python"]
+addopts = "-m 'not integration'"  # run integration explicitly with: pytest -m integration
 asyncio_mode = "auto"
 markers = ["integration: requires live Postgres/NATS/MinIO/Redis services"]
 
@@ -41,7 +44,7 @@ default = true
 [tool.ruff]
 line-length = 120
 target-version = "py313"
-extend-exclude = ["legacy", "protocol/golden"]
+extend-exclude = ["protocol/golden"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B", "SIM", "RUF"]
@@ -59,4 +62,5 @@ packages = [
   "python/algoos_nodes",
   "python/algoos_api",
   "python/algoos_cli",
+  "python/algoos_testing",
 ]

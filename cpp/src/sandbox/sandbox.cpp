@@ -438,10 +438,12 @@ RunResult run_common(const RunRequest& request, bool sandbox_user_program) {
 
   bool cgroup_attached = false;
   if (cgroup.active) cgroup_attached = attach_to_cgroup(cgroup, pid, warnings);
+  if (request.on_start) request.on_start(pid);
 
   int status = 0;
   rusage usage{};
   bool deadline_kill = false;
+  bool cancel_kill = false;
   for (;;) {
     pid_t waited = wait4(pid, &status, WNOHANG, &usage);
     if (waited == pid) break;
@@ -451,6 +453,17 @@ RunResult run_common(const RunRequest& request, bool sandbox_user_program) {
         kill_group(pid);
         while (wait4(pid, &status, 0, &usage) < 0 && errno == EINTR) {
         }
+      }
+      break;
+    }
+    if (request.cancelled && request.cancelled()) {
+      // A cancel may arrive after the child has started; kill the whole
+      // process group and collect its status so the case can converge to
+      // CANCELLED instead of waiting for the wall deadline.
+      cancel_kill = true;
+      kill_cgroup(cgroup);
+      kill_group(pid);
+      while (wait4(pid, &status, 0, &usage) < 0 && errno == EINTR) {
       }
       break;
     }
@@ -487,6 +500,7 @@ RunResult run_common(const RunRequest& request, bool sandbox_user_program) {
   evidence.started = true;
   evidence.wall_ms = wall_ms;
   evidence.wall_dog_fired = deadline_kill && WIFSIGNALED(status) && WTERMSIG(status) == SIGKILL;
+  evidence.cancelled = cancel_kill;
 
   // With a PID namespace the cloned process is an init helper; its report
   // carries the real program status and rusage.  Without it, the clone child

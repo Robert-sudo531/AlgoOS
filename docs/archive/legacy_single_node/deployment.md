@@ -1,6 +1,8 @@
+> **历史文档（2026-11-16 注）**：这里记录旧单机 `reroll` 链路与 N4 接手说明。新的分布式集群部署、systemd、cloud-init 与 KVM 五 VM 见 [集群部署](../../operations/cluster_deployment.md)；新架构见 [分布式架构](../../design/distributed_architecture.md)。
+
 # AlgoOS 评测守护进程：部署与使用（reroll）
 
-当前入口是根目录的 [test_pipeline.py](../../test_pipeline.py)：
+当前入口是根目录的 test_pipeline.py：
 
 ```bash
 python3 test_pipeline.py
@@ -40,7 +42,7 @@ result/result.tsv               每个提交一行
 
 ## 2. 环境与构建
 
-当前开发机（见 [docs/env_system.txt](env_system.txt)）：Linux/WSL2、g++ 16.2.1、GNU Make、Python 3.14.7、json-c。
+当前开发机（见 [docs/env_system.txt](environment_record.txt)）：Linux/WSL2、g++ 16.2.1、GNU Make、Python 3.14.7、json-c。
 
 ```bash
 cd /home/AlgoOS
@@ -336,19 +338,19 @@ g++ -std=c++17 -O2 -pipe -o /tmp/test submissions/xxx__yyy.cpp
 - 生产版状态保存、Web 接口、用户提交管理仍由系统负责人维护；当前 `test_pipeline.py` 是本地前台原型。
 - special checker、cgroup/Isolate、鉴权、TLS、跨重启队列未实现。
 - `submissions/` 是运行时目录，不提交；`result/result.tsv` 作为运行日志保留。
-- 修改 `problem.json` 字段或 verdict 规则时，同步 [docs/stage1_agreement.md](../specs/stage1_agreement.md) 与相关调用方。
+- 修改 `problem.json` 字段或 verdict 规则时，同步 [docs/stage1_agreement.md](../coursework/stage1_agreement.md) 与相关调用方。
 
 ## 相关文件
 
-- [test_pipeline.py](../../test_pipeline.py)
-- [judge/problem.py](../../judge/problem.py)
-- [judge/pipeline.py](../../judge/pipeline.py)
-- [judge/native/eval_server.cpp](../../judge/native/eval_server.cpp)
-- [judge/native/README.md](../../judge/native/README.md)
-- [problems/lazy_gold/problem.json](../../problems/lazy_gold/problem.json)
-- [problems/sabotage/problem.json](../../problems/sabotage/problem.json)
-- [docs/stage1_agreement.md](../specs/stage1_agreement.md)
-- [progress.md](../records/progress.md)
+- test_pipeline.py
+- judge/problem.py
+- judge/pipeline.py
+- judge/native/eval_server.cpp
+- judge/native/README.md
+- [problems/lazy_gold/problem.json](../../../problems/lazy_gold/problem.json)
+- problems/sabotage/problem.json
+- [docs/stage1_agreement.md](../coursework/stage1_agreement.md)
+- [progress.md](../../records/progress.md)
 
 ## 2026-11-10 补充：N1.1 最小正常评测
 
@@ -365,7 +367,7 @@ pkg-config --modversion json-c
 python3 -m tests.n1_ac --actor lhy
 ```
 
-入口自动构建现有 C++ 服务，把 [正确 A+B 源码](../../examples/a_plus_b.cpp) 复制到独立提交目录，通过现有 `Pipeline` 处理 [最小题包](../../problems/a_plus_b/problem.json)，验证后退出。`--actor` 填实际执行人。
+入口自动构建现有 C++ 服务，把 [正确 A+B 源码](../../../examples/a_plus_b.cpp) 复制到独立提交目录，通过现有 `Pipeline` 处理 [最小题包](../../../problems/a_plus_b/problem.json)，验证后退出。`--actor` 填实际执行人。
 
 - 预期：两组实际输出分别为 `3\n`、`-5\n`，显示 `N1.1 正常提交验证通过：AC 2/2`，脚本退出码为 0。
 - 临时构建与运行文件：`work/n1_ac_<编号>/`；结果与日志：`artifacts/system/n1_ac_<编号>/`。每次运行创建新目录，结束时打印证据位置。
@@ -380,7 +382,7 @@ python3 -m tests.n1_ac --actor lhy
 python3 -m tests.n1_wa --actor lhy
 ```
 
-[错误样例](../../examples/wrong_answer.cpp) 故意输出 `b - a`，沿用原题包和标准答案。预期两组实际输出为 `1\n`、`11\n`，程序退出码均为 0、输出未超限，汇总为 WA、0/2 通过。
+[错误样例](../../../examples/wrong_answer.cpp) 故意输出 `b - a`，沿用原题包和标准答案。预期两组实际输出为 `1\n`、`11\n`，程序退出码均为 0、输出未超限，汇总为 WA、0/2 通过。
 
 验证脚本退出码 0 表示“正确识别了 WA”。每次在 `artifacts/system/n1_wa_<编号>/` 保留独立记录，`responses.json` 是真实单点响应；正常 AC 样例与历史记录均保留。
 
@@ -392,7 +394,7 @@ python3 -m tests.n1_wa --actor lhy
 python3 -m tests.n1_ce --actor lhy
 ```
 
-[错误源码](../../examples/compile_error.cpp) 的 `return 0` 故意缺少分号。入口调用真实编译和提交处理流程，不启动原生评测服务；若编译失败后仍调用测试点评测，检查会报错。
+[错误源码](../../../examples/compile_error.cpp) 的 `return 0` 故意缺少分号。入口调用真实编译和提交处理流程，不启动原生评测服务；若编译失败后仍调用测试点评测，检查会报错。
 
 预期看到编译诊断、`编译成功：False`、`是否调用测试点评测：False` 和 `N1.3 编译错误验证通过：CE，未运行测试点`。验证脚本退出 0 表示 CE 检查通过，错误源码本身编译失败。独立证据保存在 `artifacts/system/n1_ce_<编号>/`，`compile.txt` 为完整编译诊断。
 
@@ -404,7 +406,7 @@ python3 -m tests.n1_ce --actor lhy
 python3 -m tests.n1_re --actor lhy
 ```
 
-[样例](../../examples/runtime_error.cpp) 正常计算 A+B、写入错误提示后执行 `return 7`。预期两组输出仍为 `3\n`、`-5\n`，程序退出码均为 7，汇总 RE 0/2，最后显示 `N1.4 运行错误验证通过`。
+[样例](../../../examples/runtime_error.cpp) 正常计算 A+B、写入错误提示后执行 `return 7`。预期两组输出仍为 `3\n`、`-5\n`，程序退出码均为 7，汇总 RE 0/2，最后显示 `N1.4 运行错误验证通过`。
 
 验证脚本退出 0 表示按预期识别了 RE。证据保存在独立的 `artifacts/system/n1_re_<编号>/`，包含实际输出和真实单点响应。本次只验证主动非零退出，崩溃信号未单独验证。
 
@@ -416,7 +418,7 @@ python3 -m tests.n1_re --actor lhy
 python3 -m tests.n1_tle --actor lhy
 ```
 
-[样例](../../examples/time_limit.cpp) 先输出并刷新 A+B，再休眠 3 秒；现有题包的墙钟限制为 1000 毫秒。预期两点均 TLE、`墙钟超时=True`、终止信号为 9，保留超时前的 `3\n`、`-5\n`，汇总 TLE 0/2。
+[样例](../../../examples/time_limit.cpp) 先输出并刷新 A+B，再休眠 3 秒；现有题包的墙钟限制为 1000 毫秒。预期两点均 TLE、`墙钟超时=True`、终止信号为 9，保留超时前的 `3\n`、`-5\n`，汇总 TLE 0/2。
 
 验证脚本退出 0 表示检查通过；原生响应中的退出码 -1 表示被信号终止。独立证据在 `artifacts/system/n1_tle_<编号>/`。本步骤只验证实际经过时间保护，未单独验证 CPU 超限或子孙进程清理。
 
@@ -429,7 +431,7 @@ python3 -m tests.n2_contract --actor lhy
 echo $?
 ```
 
-[入口](../../tests/n2_contract.py) 自动编译独立的 C++ 消息检查程序，核对 23 组合法消息的双向往返，以及 58 组错误输入的双端拒绝。预期显示“N2.4 Python/C++ 契约验证通过”，退出码 0；无需修改样例。
+入口 自动编译独立的 C++ 消息检查程序，核对 23 组合法消息的双向往返，以及 58 组错误输入的双端拒绝。预期显示“N2.4 Python/C++ 契约验证通过”，退出码 0；无需修改样例。
 
 构建放在 `work/n2_contract_<编号>/`，独立证据放在 `artifacts/system/n2_contract_<编号>/`：`manifest.json` 记录执行人、源码哈希和结果；`build.txt`、`verify.txt` 保存日志；`checks.json` 保存实际输入及每项检查结果。本步使用合成消息，不启动评测服务或队列。
 
@@ -442,7 +444,7 @@ python3 -m tests.n3_ac_adapter --actor lhy
 echo $?
 ```
 
-[入口](../../tests/n3_ac_adapter.py) 自动构建原 C++ 服务、编译并运行正确 A+B，再将真实响应转换成 v1 结果。预期两点显示 `AC/NONE`，实际输出分别为 `3\n`、`-5\n`，最后显示“N3.1 第一步验证通过”，退出 0。
+入口 自动构建原 C++ 服务、编译并运行正确 A+B，再将真实响应转换成 v1 结果。预期两点显示 `AC/NONE`，实际输出分别为 `3\n`、`-5\n`，最后显示“N3.1 第一步验证通过”，退出 0。
 
 运行使用本机 TCP；临时文件在 `work/n3_ac_adapter_<编号>/`，证据在 `artifacts/system/n3_ac_adapter_<编号>/`。重点看 `responses.json`（原生响应）和 `v1_results.json`（新格式）：内存从 KiB 换成字节，`wall_ms=null` 表示未采集；其他日志沿用原结构。本步只适配 AC，尚未接收分布式任务或连接队列。
 
@@ -455,7 +457,7 @@ python3 -m tests.n3_wa_adapter --actor lhy
 echo $?
 ```
 
-[入口](../../tests/n3_wa_adapter.py) 复用已有减法样例和 C++ 服务。预期两点显示 `WA/ANSWER_MISMATCH`、退出码 0、输出未超限；实际为 `1\n`、`11\n`，预期为 `3\n`、`-5\n`。最后显示“N3.1 WA 内容错误适配验证通过”，验证脚本退出 0 表示按预期识别了错误答案。
+入口 复用已有减法样例和 C++ 服务。预期两点显示 `WA/ANSWER_MISMATCH`、退出码 0、输出未超限；实际为 `1\n`、`11\n`，预期为 `3\n`、`-5\n`。最后显示“N3.1 WA 内容错误适配验证通过”，验证脚本退出 0 表示按预期识别了错误答案。
 
 临时文件和独立证据分别位于 `work/n3_wa_adapter_<编号>/`、`artifacts/system/n3_wa_adapter_<编号>/`。原生响应、新格式仍看 `responses.json`、`v1_results.json`；`guards.json` 单独记录 5 项合成防误用检查，不代表原生输出超限已实测。当前入口只适配 common 内容错误，其他 WA 原因后续接入。
 
@@ -468,23 +470,23 @@ python3 -m tests.n3_local_core --actor lhy
 echo $?
 ```
 
-[验证入口](../../tests/n3_local_core.py) 构建 `eval-local` 目标，编译原有 A+B 正确/错误样例，各跑两个测试点。预期正确样例为 `AC/NONE`，错误样例为 `WA/ANSWER_MISMATCH`，最后显示“N3.1 C++ 本地核心验证通过：AC 2/2，WA 0/2”，退出 0。
+验证入口 构建 `eval-local` 目标，编译原有 A+B 正确/错误样例，各跑两个测试点。预期正确样例为 `AC/NONE`，错误样例为 `WA/ANSWER_MISMATCH`，最后显示“N3.1 C++ 本地核心验证通过：AC 2/2，WA 0/2”，退出 0。
 
 临时产物在 `work/n3_local_core_<编号>/`，证据在 `artifacts/system/n3_local_core_<编号>/`，`cases.json` 保存任务、实际输出与 v1 结果。入口从标准输入读任务，本机文件由测试脚本传入，不启动 TCP 服务。本步验证正常退出的 AC/WA；异常结果、下载和内容校验、正式 Worker 发布包仍待后续。
 
 ## 2026-11-12 补充：N3.1 墙钟超时 TLE
 
-在项目根目录运行 `python3 -m tests.n3_wall_timeout --actor lhy`。[验证入口](../../tests/n3_wall_timeout.py) 构建本地核心，回归 AC/WA/RE/SE，再用原休眠样例执行两个测试点。预期两点均为 `TLE/WALL_TIMEOUT`、信号 9，保留超时前输出；末尾显示“墙钟超时验证通过”，脚本退出 0。
+在项目根目录运行 `python3 -m tests.n3_wall_timeout --actor lhy`。验证入口 构建本地核心，回归 AC/WA/RE/SE，再用原休眠样例执行两个测试点。预期两点均为 `TLE/WALL_TIMEOUT`、信号 9，保留超时前输出；末尾显示“墙钟超时验证通过”，脚本退出 0。
 
 证据在 `artifacts/system/n3_wall_timeout_<编号>/`，`cases.json` 包含超时结果、实际耗时和输出。本步验证 1000 ms 墙钟时限，CPU 超限另行验证。
 
 ## 2026-11-12 补充：N3.1 崩溃信号 RE
 
-在项目根目录运行 `python3 -m tests.n3_crash_signal --actor lhy`。[入口](../../tests/n3_crash_signal.py) 回归已有判定，并实测 `SIGABRT`。预期为 `RE/CRASH_SIGNAL`、信号 6、退出码为空、墙钟未超时，保留崩溃前输出；最后显示“崩溃信号验证通过”，脚本退出 0。结果见 `artifacts/system/n3_crash_signal_<编号>/cases.json`。
+在项目根目录运行 `python3 -m tests.n3_crash_signal --actor lhy`。入口 回归已有判定，并实测 `SIGABRT`。预期为 `RE/CRASH_SIGNAL`、信号 6、退出码为空、墙钟未超时，保留崩溃前输出；最后显示“崩溃信号验证通过”，脚本退出 0。结果见 `artifacts/system/n3_crash_signal_<编号>/cases.json`。
 
 ## 2026-11-12 补充：N3.1 本地判定批次
 
-在项目根目录运行 `python3 -m tests.n3_local_batch --actor lhy`。[入口](../../tests/n3_local_batch.py) 一次构建核心，汇总 AC/WA、RE/SE、墙钟超时、崩溃及两种输出超限。末尾报告 12 个用例、2 项输入检查通过，退出 0；证据目录中的 `manifest.json` 保存各组日志，`cases.json` 保存实际结果。可用这条命令集中复跑，旧单项入口保留。
+在项目根目录运行 `python3 -m tests.n3_local_batch --actor lhy`。入口 一次构建核心，汇总 AC/WA、RE/SE、墙钟超时、崩溃及两种输出超限。末尾报告 12 个用例、2 项输入检查通过，退出 0；证据目录中的 `manifest.json` 保存各组日志，`cases.json` 保存实际结果。可用这条命令集中复跑，旧单项入口保留。
 
 ## 2026-11-12 补充：N3.1 资源判定批次
 
@@ -504,7 +506,7 @@ echo $?
 bash scripts/setup_n32.sh && work/n32_runtime/venv/bin/python -m tests.n32_services --actor lhy
 ```
 
-依赖齐备时第一段直接返回。新 Ubuntu 26.04 x86_64 环境首次需从已配置的 Ubuntu 软件源、MinIO 官方仓库、Go 模块代理与 PyPI 下载和构建；网络中断后可重新运行，复用已完成步骤。MinIO 按 [官方发布标签](https://github.com/minio/minio/releases/tag/RELEASE.2025-10-15T17-29-55Z)构建。其他本机安装可通过 `--config` 传入与 [local.json](../../deploy/n32/local.json) 同结构的二进制路径配置。
+依赖齐备时第一段直接返回。新 Ubuntu 26.04 x86_64 环境首次需从已配置的 Ubuntu 软件源、MinIO 官方仓库、Go 模块代理与 PyPI 下载和构建；网络中断后可重新运行，复用已完成步骤。MinIO 按 [官方发布标签](https://github.com/minio/minio/releases/tag/RELEASE.2025-10-15T17-29-55Z)构建。其他本机安装可通过 `--config` 传入与 local.json 同结构的二进制路径配置。
 
 探针仅使用回环地址与临时数据目录，自行启动和停止服务。预期末尾显示“N3.2 基础服务联通验证通过”；`artifacts/system/n32_services_<编号>/` 保存脱敏日志、v1 任务和提交回执。这只验收本机服务协作，尚未接正式编译或评测 Worker。
 
@@ -524,7 +526,7 @@ bash scripts/setup_n32.sh && python3 -m tests.n4_handoff --actor 本人姓名
 
 ### 本机 Web 演示（2026-11-15）
 
-在 N4 复跑后，从项目根目录运行 `python3 -m scripts.demo_web`，打开 `http://127.0.0.1:8765/`；端口冲突可加 `--port 8766`。默认读取最近通过的本机交接记录；也可用 `--evidence <manifest.json>` 指定一次已通过的交接或评测批次。应用负责人只需运行和演示，见[接手清单](../tasks/application/handoff_n1_n4.md)。
+在 N4 复跑后，从项目根目录运行 `python3 -m scripts.demo_web`，打开 `http://127.0.0.1:8765/`；端口冲突可加 `--port 8766`。默认读取最近通过的本机交接记录；也可用 `--evidence <manifest.json>` 指定一次已通过的交接或评测批次。应用负责人只需运行和演示，见接手清单。
 
 - 默认显示真实记录回放，可按提交编号查询结果；AC/WA 各显示两个节点，CE/SE 无评测点。
 - 「运行内置样例」会实际重跑本机双节点批次，成功后更新证据号和结果；它只运行仓库内置样例。预录演示时建议先跑一次。

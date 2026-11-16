@@ -34,7 +34,7 @@ def command_api(args: argparse.Namespace) -> int:
 
 
 def command_control(args: argparse.Namespace) -> int:
-    from algoos_control.service import ControlService
+    from algoos_control.control_service import ControlService
 
     asyncio.run(ControlService().run())
     return 0

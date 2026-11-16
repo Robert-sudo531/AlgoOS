@@ -11,7 +11,7 @@ from algoos_control.broker import wait_for_message
 from algoos_control.config import NodeConfig, Settings
 from algoos_protocol import loads
 
-from .common import NodeAgentBase
+from .agent_base import NodeAgentBase
 from .messages import cancelled_result, eval_result, special_task
 
 MAX_BIN_BYTES = 16 << 20
@@ -44,25 +44,29 @@ class EvalAgent(NodeAgentBase):
             await self._run_normal(task)
         await message.ack()
 
-    async def _paths(self, task: dict) -> dict[str, str]:
+    async def _paths(self, task: dict) -> tuple[dict[str, str], bool]:
+        cached = self.cache.has("bin", task["bin_hash"]) and self.cache.has(
+            "input", task.get("input_hash") or "")
         binary = await asyncio.to_thread(self.cache.fetch, self.store, "bin",
                                          task["bin_hash"], MAX_BIN_BYTES)
         input_file = await asyncio.to_thread(self.cache.fetch, self.store, "input",
                                              task.get("input_hash"), MAX_CASE_BYTES)
         paths = {"binary": str(binary), "input": str(input_file)}
         if task.get("answer_hash"):
+            cached = cached and self.cache.has("answer", task["answer_hash"])
             answer = await asyncio.to_thread(self.cache.fetch, self.store, "answer",
                                              task["answer_hash"], MAX_CASE_BYTES)
             paths["answer"] = str(answer)
-        return paths
+        return paths, cached
 
     async def _run_normal(self, task: dict) -> None:
         try:
-            paths = await self._paths(task)
+            paths, cache_hit = await self._paths(task)
             response = await asyncio.to_thread(
                 self.native.call, {"cmd": "run", "task": task, "paths": paths})
             if "type" not in response:
                 raise RuntimeError(response.get("error", "native runner failed"))
+            response["cache_hit"] = cache_hit
             await self.publish(self.policy["transport"]["eval_result_subject"], response)
         except Exception as error:
             await self.publish(self.policy["transport"]["eval_result_subject"],
@@ -81,7 +85,7 @@ class EvalAgent(NodeAgentBase):
                                            detail="special task lacks object hashes"))
             return
         try:
-            paths = await self._paths(task)
+            paths, _cache_hit = await self._paths(task)
             response = await asyncio.to_thread(
                 self.native.call, {"cmd": "run_raw", "task": task, "paths": paths})
             if not response.get("ok"):
@@ -140,9 +144,13 @@ class EvalAgent(NodeAgentBase):
             result = loads(message.data, self.policy)
             if result["type"] != "special_result":
                 raise ValueError("expected special_result")
-            if result["target_eval_node"] != self.node_id or result["session_id"] != self.session:
+            if result["target_eval_node"] != self.node_id:
                 await message.ack()
                 return
+            # Do not require the current agent session: an agent restart changes
+            # self.session, but the per-node durable may replay a special result
+            # produced by the previous session.  judge_id remains the idempotency
+            # key, so accepting the old session is safe.
             short_circuited = self.check_cancelled(result["file_id"], result["judge_id"],
                                                    result["sequence"])
             task_stub = {
@@ -158,7 +166,8 @@ class EvalAgent(NodeAgentBase):
                 out_bytes=None, exit_code=None, signal=None, wall_timeout=False,
                 short_circuited=short_circuited,
                 stderr_tail=result.get("stderr_tail", ""),
-                detail=result.get("detail", ""), source="special")
+                detail=result.get("detail", ""), source="special",
+                cache_hit=bool(result.get("cache_hit", False)))
             await self.publish(self.policy["transport"]["eval_result_subject"], payload)
             await message.ack()
         except Exception as error:
@@ -166,9 +175,11 @@ class EvalAgent(NodeAgentBase):
             with contextlib.suppress(Exception):
                 await message.nak()
 
-    async def _consume_direct(self, subject: str, durable: str, handler) -> None:
+    async def _consume_direct(self, subject: str, durable: str, handler,
+                              ack_wait: int | None = None) -> None:
         """Pull control messages without consuming a runner slot or semaphore."""
-        subscription = await self.broker.pull(subject, durable, ack_wait=300)
+        subscription = await self.broker.pull(
+            subject, durable, ack_wait=ack_wait or self.settings.control_ack_wait)
         while not self.stop.is_set():
             message = await wait_for_message(subscription, 1.0)
             if message is None:
@@ -199,7 +210,8 @@ class EvalAgent(NodeAgentBase):
         subject = transport["eval_task_subject_template"].format(
             target_node_id=self.node_id)
         try:
-            await self._consume(subject, f"eval-{self.node_id}", self._handle)
+            await self._consume(subject, f"eval-{self.node_id}", self._handle,
+                                ack_wait=self.settings.eval_ack_wait)
         finally:
             self.stop.set()
             for task in (*control_tasks, heartbeat):

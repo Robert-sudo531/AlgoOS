@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import time
-from datetime import timedelta
 
 from algoos_algorithms import NodeState, ReadyCase, assign
 from algoos_protocol import normalize, utc_now
@@ -11,16 +10,15 @@ from algoos_protocol import normalize, utc_now
 from .db import Database
 from .outbox import add_event
 
-ALIVE_WINDOW = timedelta(seconds=15)
 DISPATCH_BATCH = 64
 
 
-def _alive_nodes(connection) -> list[NodeState]:
+def _alive_nodes(connection, alive_seconds: float = 15.0) -> list[NodeState]:
     rows = connection.execute(
         "SELECT node_id, slots_total, slots_used, load_score, cached_hashes "
         "FROM eval_nodes WHERE role='eval' AND status='ALIVE' "
-        "AND last_heartbeat > now() - %s ORDER BY node_id",
-        (ALIVE_WINDOW,)).fetchall()
+        "AND last_heartbeat > now() - make_interval(secs => %s) ORDER BY node_id",
+        (alive_seconds,)).fetchall()
     nodes = []
     for node_id, total, used, load, cached in rows:
         hashes = cached if isinstance(cached, list) else []
@@ -37,7 +35,8 @@ def _estimate_ms(case: dict) -> float:
     return max(500.0, float(limits["cpu_ms"]) + 500.0)
 
 
-def dispatch_once(database: Database, policy: dict, *, origin: str = "control") -> int:
+def dispatch_once(database: Database, policy: dict, *, origin: str = "control",
+                  alive_seconds: float = 15.0) -> int:
     """Publish at most ``DISPATCH_BATCH`` eval tasks; return the number sent."""
     dispatched = 0
     with database.transaction() as connection:
@@ -46,7 +45,7 @@ def dispatch_once(database: Database, policy: dict, *, origin: str = "control") 
             "short_circuit_window, submitted_at FROM submissions "
             "WHERE status IN ('EVALUATING','PENDING_SPECIAL') ORDER BY submitted_at LIMIT 64 "
             "FOR UPDATE SKIP LOCKED").fetchall()
-        nodes = _alive_nodes(connection)
+        nodes = _alive_nodes(connection, alive_seconds)
         if not nodes:
             return 0
         for file_id, problem_id, strategy, mode, window, submitted_at in submissions:
@@ -137,7 +136,8 @@ def dispatch_once(database: Database, policy: dict, *, origin: str = "control") 
                 add_event(connection, str(file_id), subject, message, policy)
                 connection.execute(
                     "UPDATE submission_cases SET state='DISPATCHED', target_node_id=%s, "
-                    "dispatch_generation=%s WHERE file_id=%s AND test_id=%s",
+                    "dispatch_generation=%s, dispatched_at=now() "
+                    "WHERE file_id=%s AND test_id=%s",
                     (assignment.node_id, generation, file_id, case[0]))
                 remaining = [item for item in remaining if item[0] != case[0]]
                 for index, node in enumerate(working_nodes):

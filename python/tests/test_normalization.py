@@ -1,6 +1,6 @@
 """normalize_common must match the C++ comparator semantics."""
 
-from algoos_control.text import normalize_common
+from algoos_control.normalization import normalize_common
 
 
 def test_normalize_matches_contract() -> None:

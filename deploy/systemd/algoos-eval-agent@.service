@@ -1,0 +1,18 @@
+[Unit]
+Description=AlgoOS eval queue agent for %i
+After=algoos-eval-worker@%i.service
+Requires=algoos-eval-worker@%i.service
+
+[Service]
+# Native worker creates a 0600 Unix socket; keep the agent UID aligned.
+Type=simple
+User=root
+Group=root
+WorkingDirectory=/opt/algoos
+EnvironmentFile=-/etc/algoos/algoos.env
+ExecStart=/opt/algoos/.venv/bin/algoos eval-agent --config /etc/algoos/nodes/%i.json
+Restart=on-failure
+RestartSec=2
+
+[Install]
+WantedBy=multi-user.target

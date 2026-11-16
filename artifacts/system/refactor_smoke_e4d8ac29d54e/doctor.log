@@ -1,4 +1,0 @@
-[通过] postgres: connected
-[通过] object-store: http://127.0.0.1:56393
-[通过] nats: tcp reachable
-[通过] redis: tcp reachable

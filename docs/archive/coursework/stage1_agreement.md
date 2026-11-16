@@ -1,8 +1,10 @@
+> **历史文档（2026-11-16 注）**：新的 v1 分布式消息契约以 [protocol/policy_v1.json](../../../protocol/policy_v1.json) 与 [protocol/schemas/](../../../protocol/schemas) 为准；本文保留单机阶段的字段与验收历史。
+
 # AlgoOS 第一二阶段共同约定
 
 状态：系统负责人已于 2026-10-10 阅读并认可，可作为当前实施依据；算法负责人按 A2、应用负责人按 P0/P1 继续复核，S5/A5 的共同验收尚待完成。这里的 JSON 是格式样例，尚非真实运行结果。约定变更由三人同步维护这一份文档；算法集训期间先记录待确认项，不视为三人已确认。
 
-> **reroll（2026-11-03，待三人复核）**：当前实现已改为 `test_pipeline.py` 前台守护进程 + `submissions/` + `result/result.tsv`；旧 A+B/score/exact 段落保留为 Stage1 历史，不再作为新评测链路的实现依据。以本节和 [deployment.md](../ops/deployment.md) 为准。
+> **reroll（2026-11-03，待三人复核）**：当前实现已改为 `test_pipeline.py` 前台守护进程 + `submissions/` + `result/result.tsv`；旧 A+B/score/exact 段落保留为 Stage1 历史，不再作为新评测链路的实现依据。以本节和 [deployment.md](../legacy_single_node/deployment.md) 为准。
 
 ## reroll 当前口径（2026-11-03，待三人复核）
 
@@ -58,7 +60,7 @@ result/result.tsv
 
 ## 范围与文件位置
 
-单机、C++ 提交、Python 模块、FCFS 起步。一份提交编译一次，按配置顺序运行各测试点。角色与文件目录见 [开工导航](../../README.md)。
+单机、C++ 提交、Python 模块、FCFS 起步。一份提交编译一次，按配置顺序运行各测试点。角色与文件目录见 [开工导航](../../../README.md)。
 
 - 真实任务的 `source_path` 相对于项目根目录。
 - `problem_id` 为 `a_plus_b` 时，读取 `problems/a_plus_b/problem.json`；本期先用这一简单映射。
@@ -159,9 +161,9 @@ result/result.tsv
 
 | 消息 | 样例 | 专用字段与含义 |
 | --- | --- | --- |
-| `compile_task` | [编译任务](../../protocol/golden/compile_task.json) | `source_hash` 源码对象、`test_bundle_hash` 题包快照、`compiler_profile` 服务端预设编译方案、`limits` 编译限制 |
-| `eval_task` | [评测任务](../../protocol/golden/eval_task.json) | `bin_hash` 可执行文件对象、题包快照、测试点身份、`target_node_id` 目标节点、运行限制和比较模式 |
-| `eval_result` | [结果事件](../../protocol/golden/eval_result.json) | `stage` 编译/评测阶段、`node_id` 实际节点、`verdict` 判定、`reason` 原因、资源记录和错误摘要 |
+| `compile_task` | [编译任务](../../../protocol/golden/compile_task.json) | `source_hash` 源码对象、`test_bundle_hash` 题包快照、`compiler_profile` 服务端预设编译方案、`limits` 编译限制 |
+| `eval_task` | [评测任务](../../../protocol/golden/eval_task.json) | `bin_hash` 可执行文件对象、题包快照、测试点身份、`target_node_id` 目标节点、运行限制和比较模式 |
+| `eval_result` | [结果事件](../../../protocol/golden/eval_result.json) | `stage` 编译/评测阶段、`node_id` 实际节点、`verdict` 判定、`reason` 原因、资源记录和错误摘要 |
 
 三份文件都是合成样例。重复的 a/b/c 哈希是格式占位值，不代表已上传对象；编译方案名和限制数值也不代表已启用配置。消息中的对象哈希均指内容 SHA-256（`sha256:` 加 64 位小写十六进制）；构建缓存键与可执行文件内容哈希分开处理，细节留待 N2.3。
 
@@ -200,7 +202,7 @@ result/result.tsv
 
 ## N2.3 第一版实施规则（2026-11-10）
 
-本节确定下一阶段的 v1 规则，冲突处优先于上方历史设计；旧内容保留。机读配置见 [policy_v1.json](../../protocol/policy_v1.json)。**规则已确定，N3 尚未接入，不能据此声称资源限制或队列已启用；N1 基线保持原样。**
+本节确定下一阶段的 v1 规则，冲突处优先于上方历史设计；旧内容保留。机读配置见 [policy_v1.json](../../../protocol/policy_v1.json)。**规则已确定，N3 尚未接入，不能据此声称资源限制或队列已启用；N1 基线保持原样。**
 
 ### 编译、执行与比较
 
@@ -232,9 +234,9 @@ NATS 载荷采用一条 UTF-8 JSON，不加应用层 4 字节长度前缀；该�
 
 `node_id` 只用字母、数字、下划线和连字符。Worker 的消费者按自己的 subject 过滤，不抢走其他节点任务后丢弃；NATS 的 subject/过滤能力参见 [官方说明](https://docs.nats.io/concepts/subjects)。
 
-编译成功通知仍用 `type=eval_result, stage=compile`，增加 `status=COMPILED`，`verdict=null, reason=NONE`，携带 bin/题包内容哈希、编译配置和入队序号；[成功通知样例](../../protocol/golden/compile_success_result.json)。控制端收到后按冻结的题包清单产生 `eval_task`，编译 Worker 不自行决定评测节点。
+编译成功通知仍用 `type=eval_result, stage=compile`，增加 `status=COMPILED`，`verdict=null, reason=NONE`，携带 bin/题包内容哈希、编译配置和入队序号；[成功通知样例](../../../protocol/golden/compile_success_result.json)。控制端收到后按冻结的题包清单产生 `eval_task`，编译 Worker 不自行决定评测节点。
 
-编译失败为 `stage=compile, status=FINAL, verdict=CE/SE`，没有测试点身份，也不产生评测任务；[CE 样例](../../protocol/golden/compile_error_result.json)。`COMPILED` 不是提交终态；`stage=eval, status=FINAL` 只表示该测试点本次执行完成。只有聚合器能写整份提交的最终状态。
+编译失败为 `stage=compile, status=FINAL, verdict=CE/SE`，没有测试点身份，也不产生评测任务；[CE 样例](../../../protocol/golden/compile_error_result.json)。`COMPILED` 不是提交终态；`stage=eval, status=FINAL` 只表示该测试点本次执行完成。只有聚合器能写整份提交的最终状态。
 
 所有 `stage=compile` 通知的 `test_id/sequence/judge_id` 都为 `null`；未运行被测程序时 `exit_code/signal` 也为 `null`。成功与 CE 样例是互斥场景，不是一次编译同时发生两种结果。
 
@@ -266,7 +268,7 @@ v1 缺必填字段、错误类型、未知版本/消息种类/模式或不支持
 
 ## N2.4 解析边界补充（2026-11-11）
 
-已新增 [Python](../../protocol/codec_v1.py) / [C++](../../protocol/codec_v1.hpp) 检查与规范化实现，原消息样例保留。唯一自动补充为结果缺省 `status=FINAL`；不改编号、不补造测量值，附加字段一起往返。验证命令见 [部署说明](../ops/deployment.md) 末尾。
+已新增 Python / C++ 检查与规范化实现，原消息样例保留。唯一自动补充为结果缺省 `status=FINAL`；不改编号、不补造测量值，附加字段一起往返。验证命令见 [部署说明](../legacy_single_node/deployment.md) 末尾。
 
 - 消息严格采用 UTF-8 JSON 对象，拒绝重复键、含 NUL 的键、无效 Unicode、NaN/Infinity；整数统一限定有符号 64 位，布尔值不能充当整数。嵌套深度限制为 64 层以内。
 - `emitted_at` 使用真实有效的 UTC 日期，格式 `YYYY-MM-DDTHH:MM:SS[.小数秒]Z`，小数秒最多 6 位。哈希、节点路由名、测试点身份、编译配置、状态与原因按上述 v1 规则检查。

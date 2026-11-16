@@ -1,0 +1,28 @@
+{
+  "metrics": {
+    "count": 6,
+    "avg_wait_ms": 669.2623333333371,
+    "p50_wait_ms": 481.86099999956787,
+    "p95_wait_ms": 1065.660000000149,
+    "p99_wait_ms": 1065.660000000149,
+    "max_wait_ms": 1065.660000000149,
+    "avg_turnaround_ms": 1534.2361666667275,
+    "makespan_ms": 3448.4330000001937,
+    "throughput_per_second": 1.7399207118130648,
+    "cache_hit_rate": 0.0,
+    "fairness_jain": 0.7894793408075025,
+    "starvation_count": 0
+  },
+  "verdict_counts": {
+    "AC": 2,
+    "WA": 1,
+    "CE": 1,
+    "RE": 1,
+    "TLE": 1
+  },
+  "correctness": {
+    "matched": 6,
+    "expected": 6,
+    "rate": 1.0
+  }
+}

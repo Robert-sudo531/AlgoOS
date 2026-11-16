@@ -1,0 +1,80 @@
+{
+  "data_source": "simulation",
+  "profile": "mixed",
+  "seed": 42,
+  "count": 20,
+  "nodes": 2,
+  "slots": 2,
+  "strategies": {
+    "fcfs": {
+      "count": 20,
+      "avg_wait_ms": 2331.976687977178,
+      "p50_wait_ms": 2405.1129776162174,
+      "p95_wait_ms": 4110.5556546152975,
+      "p99_wait_ms": 4196.729886184774,
+      "max_wait_ms": 4196.729886184774,
+      "avg_turnaround_ms": 3462.4259683959076,
+      "makespan_ms": 6805.763734951431,
+      "throughput_per_second": 2.93868561691155,
+      "cache_hit_rate": 0.7,
+      "fairness_jain": 0.8382631884715162,
+      "starvation_count": 0
+    },
+    "sjf": {
+      "count": 20,
+      "avg_wait_ms": 1084.4966953121507,
+      "p50_wait_ms": 596.3049143852154,
+      "p95_wait_ms": 3180.2769747129487,
+      "p99_wait_ms": 4064.3123905329953,
+      "max_wait_ms": 4064.3123905329953,
+      "avg_turnaround_ms": 2209.7030957308802,
+      "makespan_ms": 6805.763734951431,
+      "throughput_per_second": 2.93868561691155,
+      "cache_hit_rate": 0.75,
+      "fairness_jain": 0.5563330876950004,
+      "starvation_count": 0
+    },
+    "aging_sjf": {
+      "count": 20,
+      "avg_wait_ms": 1079.983038837488,
+      "p50_wait_ms": 596.3049143852154,
+      "p95_wait_ms": 3065.346273303694,
+      "p99_wait_ms": 4088.969962449,
+      "max_wait_ms": 4088.969962449,
+      "avg_turnaround_ms": 2199.946559256218,
+      "makespan_ms": 6805.763734951431,
+      "throughput_per_second": 2.93868561691155,
+      "cache_hit_rate": 0.8,
+      "fairness_jain": 0.5564678185460962,
+      "starvation_count": 0
+    },
+    "earliest_finish": {
+      "count": 20,
+      "avg_wait_ms": 1084.4966953121507,
+      "p50_wait_ms": 596.3049143852154,
+      "p95_wait_ms": 3180.2769747129487,
+      "p99_wait_ms": 4064.3123905329953,
+      "max_wait_ms": 4064.3123905329953,
+      "avg_turnaround_ms": 2209.7030957308802,
+      "makespan_ms": 6805.763734951431,
+      "throughput_per_second": 2.93868561691155,
+      "cache_hit_rate": 0.75,
+      "fairness_jain": 0.5563330876950004,
+      "starvation_count": 0
+    },
+    "cache_aware": {
+      "count": 20,
+      "avg_wait_ms": 1084.4966953121507,
+      "p50_wait_ms": 596.3049143852154,
+      "p95_wait_ms": 3180.2769747129487,
+      "p99_wait_ms": 4064.3123905329953,
+      "max_wait_ms": 4064.3123905329953,
+      "avg_turnaround_ms": 2209.7030957308802,
+      "makespan_ms": 6805.763734951431,
+      "throughput_per_second": 2.93868561691155,
+      "cache_hit_rate": 0.75,
+      "fairness_jain": 0.5563330876950004,
+      "starvation_count": 0
+    }
+  }
+}

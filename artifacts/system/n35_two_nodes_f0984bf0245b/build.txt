@@ -1,4 +1,0 @@
-make: Entering directory '/media/robert/WindowsD/active/2026-27_autumn_courses/innovation_training/judge/native'
-g++ -std=c++23 -O2 -pipe -Wall -Wextra -Wpedantic -pthread compile_local.cpp -o "/media/robert/WindowsD/active/2026-27_autumn_courses/innovation_training/work/n35_two_nodes_f0984bf0245b/compile-local"
-g++ -std=c++23 -O2 -pipe -Wall -Wextra -Wpedantic -pthread -I/usr/include/json-c eval_core.cpp eval_task_v1.cpp eval_worker.cpp -o "/media/robert/WindowsD/active/2026-27_autumn_courses/innovation_training/work/n35_two_nodes_f0984bf0245b/eval-worker" -ljson-c
-make: Leaving directory '/media/robert/WindowsD/active/2026-27_autumn_courses/innovation_training/judge/native'

@@ -1,8 +1,11 @@
 # AlgoOS 分布式集群算法评测平台：完整实施总案
 
-> 版本：v1.0（实施设计稿）  
-> 依据：[中期报告](../../midterm_report.md)、[完整 UML 与接口规范](../../next_step.md)及当前单机评测内核。  
+> 版本：v1.0（实施设计稿）
+> 依据：[中期报告](../reports/midterm_report.md)、完整 UML 与接口规范及当前单机评测内核。
 > 定位：本文件是下一阶段的**代码分案、重构边界、部署方案和实验方案**。`next_step.md` 是目标 UML/接口的权威定义；本文件将其拆解为可实现、可验收的工程工作包。
+>
+> 2026-11-16 结构说明：本文目录树中的 `legacy/` 方案在后续清理中改为直接删除旧单机代码；
+> 当前实际结构、命名和证据目录以 [文件结构与命名规范](../development/file_structure.md) 为准。
 
 ---
 
@@ -369,7 +372,7 @@ QUEUED/COMPILING/EVALUATING → CANCELLED → FINAL
 | `submissions` | file_id PK、problem_id、source_hash、bin_hash、status、final verdict/reason、compiler profile、时间戳 |
 | `submission_cases` | file_id + sequence PK、test_id、input/answer hash、limits、judge mode、派发状态；提交时冻结 |
 | `test_results` | `judge_id` UNIQUE、file_id、sequence、attempt、verdict/reason、资源数据、source、short_circuited |
-| `outbox` | DB 事务内创建的待发布消息，发布后记录 ack | 
+| `outbox` | DB 事务内创建的待发布消息，发布后记录 ack |
 | `processed_messages` | consumer_name + msg_id UNIQUE，支持至少一次消息去重 |
 | `eval_nodes` | node_id、能力、版本、last_heartbeat、load_score、缓存摘要 |
 | `experiments` | profile hash、workload hash、seed、git commit、镜像版本、开始/结束时间 |

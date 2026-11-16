@@ -7,7 +7,7 @@ import asyncio
 from algoos_control.config import NodeConfig, Settings
 from algoos_protocol import loads
 
-from .common import NodeAgentBase
+from .agent_base import NodeAgentBase
 from .messages import fallback, special_result
 
 MAX_CASE_BYTES = 2 << 20

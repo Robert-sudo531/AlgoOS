@@ -1,6 +1,8 @@
 # 中期汇报：轻量级分布式集群的实现与优化
 
-## 下一步方案请见 [docs/project/distributed_implementation_plan.md](docs/project/distributed_implementation_plan.md) 与 [docs/project/next_step.md](docs/project/next_step.md)
+> 历史报告（2026-11-03，旧单机原型）。当前实现见 [实现状态](../status/implementation_status.md)。
+>
+> 下一步方案见 [实施总案](../requirements/distributed_implementation_plan.md) 与 [目标 UML/接口](../requirements/next_step.md)。
 
 ## —— 以 Online Judge 平台为例
 
@@ -47,11 +49,11 @@ test_pipeline.py
 
 具体实现：
 
-- [test_pipeline.py](test_pipeline.py)：前台常驻入口，加载 `problems/`，监听 `submissions/`，自动启动/停止 C++ 服务端。
-- [judge/pipeline.py](judge/pipeline.py)：通用流程，包含编译调度、Socket 客户端、结果聚合、`result.tsv` 写入和轮询。
-- [judge/problem.py](judge/problem.py)：`problem.json` 数据模型，派生每个测试点的 `out_bytes`。
-- [judge/native/eval_server.cpp](judge/native/eval_server.cpp)：C++23 评测服务端，单进程 + 有界队列 + worker 线程池；每个测试点独立 `fork/exec`。
-- [docs/design/eval_server.md](docs/design/eval_server.md)：eval_server 工作原理、协议、资源限制、判定优先级和 4 张 Mermaid UML。
+- test_pipeline.py：前台常驻入口，加载 `problems/`，监听 `submissions/`，自动启动/停止 C++ 服务端。
+- judge/pipeline.py：通用流程，包含编译调度、Socket 客户端、结果聚合、`result.tsv` 写入和轮询。
+- judge/problem.py：`problem.json` 数据模型，派生每个测试点的 `out_bytes`。
+- judge/native/eval_server.cpp：C++23 评测服务端，单进程 + 有界队列 + worker 线程池；每个测试点独立 `fork/exec`。
+- [docs/design/eval_server.md](../archive/legacy_single_node/eval_server.md)：eval_server 工作原理、协议、资源限制、判定优先级和 4 张 Mermaid UML。
 
 当前评测口径：
 
@@ -70,7 +72,7 @@ test_pipeline.py
 | `problems/lazy_gold` | 11 | 1000 ms | 256 MiB | common |
 | `problems/sabotage` | 14 | 1000 ms | 256 MiB | common |
 
-实际运行结果见 [result/result.tsv](result/result.tsv)：
+实际运行结果见 result/result.tsv：
 
 - `00000001__lazy_gold.cpp`：AC 11/11；
 - `00000002__sabotage.cpp`：AC 14/14；
@@ -87,11 +89,11 @@ C++ 服务端已验证：
 
 已完成：
 
-- 根 [README.md](README.md) 作为总索引；
-- [docs/ops/deployment.md](docs/ops/deployment.md)：构建、启动、提交、结果解释和故障排查；
-- [docs/specs/stage1_agreement.md](docs/specs/stage1_agreement.md)：字段、路径、结果约定；
-- [docs/records/progress.md](docs/records/progress.md)：开发过程记录；
-- [docs/archive/2026-11-03_cleanup.md](docs/archive/2026-11-03_cleanup.md)：弃用文件与文档归档记录；
+- 根 [README.md](../../README.md) 作为总索引；
+- [docs/ops/deployment.md](../archive/legacy_single_node/deployment.md)：构建、启动、提交、结果解释和故障排查；
+- [docs/specs/stage1_agreement.md](../archive/coursework/stage1_agreement.md)：字段、路径、结果约定；
+- [docs/records/progress.md](../records/progress.md)：开发过程记录；
+- [docs/archive/2026-11-03_cleanup.md](../archive/2026-11-03_cleanup.md)：弃用文件与文档归档记录；
 - 题目、提交、结果目录分离：`problems/`、`submissions/`、`result/`、`artifacts/`。
 
 ### 2.4 当前边界
@@ -364,10 +366,10 @@ priority = (fairness_key, expected_service_ms)  # 带 aging 的公平调度
 
 相关材料：
 
-- [README.md](README.md)
-- [eval_server 工作原理与 UML](docs/design/eval_server.md)
-- [部署与使用](docs/ops/deployment.md)
-- [共同约定](docs/specs/stage1_agreement.md)
-- [开发记录](docs/records/progress.md)
-- [运行结果](result/result.tsv)
-- [测试与服务端证据](artifacts/system/20261103_reroll_tests_ai/)
+- [README.md](../../README.md)
+- [eval_server 工作原理与 UML](../archive/legacy_single_node/eval_server.md)
+- [部署与使用](../archive/legacy_single_node/deployment.md)
+- [共同约定](../archive/coursework/stage1_agreement.md)
+- [开发记录](../records/progress.md)
+- 运行结果
+- 测试与服务端证据

@@ -1,0 +1,10 @@
+{
+  "name": "simulation_matrix",
+  "kind": "simulation",
+  "profiles": ["mixed", "short", "heavy_tail", "estimate_error", "burst"],
+  "strategies": ["fcfs", "sjf", "aging_sjf", "earliest_finish", "cache_aware"],
+  "count": 200,
+  "nodes": 2,
+  "slots": 2,
+  "seed": 42
+}
