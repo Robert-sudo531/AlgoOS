@@ -1,0 +1,25 @@
+{
+  "ver": 1,
+  "msg_id": "sub-0003:05:1:fallback",
+  "type": "fallback",
+  "file_id": "sub-0003",
+  "problem_id": "a_plus_b",
+  "correlation_id": "sub-0003",
+  "emitted_at": "2026-11-16T08:00:00Z",
+  "attempt": 1,
+  "test_id": "05",
+  "judge_id": "sub-0003:05:1",
+  "sequence": 5,
+  "reply_to": {
+    "eval_node_id": "eval-01",
+    "session_id": "eval-01-abcd1234",
+    "reply_topic": "algoos.special.result.eval-01",
+    "deadline_ms": 1800000000000
+  },
+  "verdict": "SE",
+  "reason": "SYSTEM_ERROR",
+  "source": "special",
+  "fallback_reason": "target_eval_node_unreachable",
+  "detail": "",
+  "stderr_tail": ""
+}

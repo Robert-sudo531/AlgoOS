@@ -1,0 +1,81 @@
+{
+	"bmi-installation" : null,
+	"compiler-frontend-variant" : "GNU",
+	"compiler-id" : "GNU",
+	"compiler-simulate-id" : "",
+	"config" : "RelWithDebInfo",
+	"cxx-modules" : {},
+	"database-info" : null,
+	"dir-cur-bld" : "/home/AlgoOS/build/cpp",
+	"dir-cur-src" : "/home/AlgoOS/cpp",
+	"dir-top-bld" : "/home/AlgoOS/build/cpp",
+	"dir-top-src" : "/home/AlgoOS/cpp",
+	"exports" : [],
+	"forward-modules-from-target-dirs" : [],
+	"include-dirs" : 
+	[
+		"/home/AlgoOS/cpp/include",
+		"/usr/include/json-c"
+	],
+	"language" : "CXX",
+	"linked-target-dirs" : [],
+	"module-dir" : "/home/AlgoOS/build/cpp/CMakeFiles/algoos_core.dir",
+	"sources" : 
+	{
+		"CMakeFiles/algoos_core.dir/src/protocol/digest.cpp.o" : 
+		{
+			"language" : "CXX",
+			"source" : "/home/AlgoOS/cpp/src/protocol/digest.cpp"
+		},
+		"CMakeFiles/algoos_core.dir/src/protocol/json.cpp.o" : 
+		{
+			"language" : "CXX",
+			"source" : "/home/AlgoOS/cpp/src/protocol/json.cpp"
+		},
+		"CMakeFiles/algoos_core.dir/src/protocol/messages.cpp.o" : 
+		{
+			"language" : "CXX",
+			"source" : "/home/AlgoOS/cpp/src/protocol/messages.cpp"
+		},
+		"CMakeFiles/algoos_core.dir/src/runner/comparator.cpp.o" : 
+		{
+			"language" : "CXX",
+			"source" : "/home/AlgoOS/cpp/src/runner/comparator.cpp"
+		},
+		"CMakeFiles/algoos_core.dir/src/sandbox/classify.cpp.o" : 
+		{
+			"language" : "CXX",
+			"source" : "/home/AlgoOS/cpp/src/sandbox/classify.cpp"
+		},
+		"CMakeFiles/algoos_core.dir/src/sandbox/sandbox.cpp.o" : 
+		{
+			"language" : "CXX",
+			"source" : "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp"
+		},
+		"CMakeFiles/algoos_core.dir/src/worker/cancel_registry.cpp.o" : 
+		{
+			"language" : "CXX",
+			"source" : "/home/AlgoOS/cpp/src/worker/cancel_registry.cpp"
+		},
+		"CMakeFiles/algoos_core.dir/src/worker/compile_service.cpp.o" : 
+		{
+			"language" : "CXX",
+			"source" : "/home/AlgoOS/cpp/src/worker/compile_service.cpp"
+		},
+		"CMakeFiles/algoos_core.dir/src/worker/eval_service.cpp.o" : 
+		{
+			"language" : "CXX",
+			"source" : "/home/AlgoOS/cpp/src/worker/eval_service.cpp"
+		},
+		"CMakeFiles/algoos_core.dir/src/worker/server.cpp.o" : 
+		{
+			"language" : "CXX",
+			"source" : "/home/AlgoOS/cpp/src/worker/server.cpp"
+		},
+		"CMakeFiles/algoos_core.dir/src/worker/special_service.cpp.o" : 
+		{
+			"language" : "CXX",
+			"source" : "/home/AlgoOS/cpp/src/worker/special_service.cpp"
+		}
+	}
+}

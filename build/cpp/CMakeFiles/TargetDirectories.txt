@@ -1,0 +1,8 @@
+/home/AlgoOS/build/cpp/CMakeFiles/algoos_core.dir
+/home/AlgoOS/build/cpp/CMakeFiles/algoos_eval.dir
+/home/AlgoOS/build/cpp/CMakeFiles/algoos_compile.dir
+/home/AlgoOS/build/cpp/CMakeFiles/algoos_special.dir
+/home/AlgoOS/build/cpp/CMakeFiles/algoos_unit_tests.dir
+/home/AlgoOS/build/cpp/CMakeFiles/test.dir
+/home/AlgoOS/build/cpp/CMakeFiles/edit_cache.dir
+/home/AlgoOS/build/cpp/CMakeFiles/rebuild_cache.dir

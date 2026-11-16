@@ -1,0 +1,92 @@
+[
+{
+  "directory": "/home/AlgoOS/build/cpp",
+  "command": "/usr/sbin/c++ -I/home/AlgoOS/cpp/include -I/usr/include/json-c -O2 -g -DNDEBUG -std=c++23 -Wall -Wextra -Wpedantic -Wconversion -Wshadow -pipe -O2 -march=native -fmodules-ts -fmodule-mapper=CMakeFiles/algoos_core.dir/src/protocol/json.cpp.o.modmap -MD -fdeps-format=p1689r5 -x c++ -o CMakeFiles/algoos_core.dir/src/protocol/json.cpp.o -c /home/AlgoOS/cpp/src/protocol/json.cpp",
+  "file": "/home/AlgoOS/cpp/src/protocol/json.cpp",
+  "output": "/home/AlgoOS/build/cpp/CMakeFiles/algoos_core.dir/src/protocol/json.cpp.o"
+},
+{
+  "directory": "/home/AlgoOS/build/cpp",
+  "command": "/usr/sbin/c++ -I/home/AlgoOS/cpp/include -I/usr/include/json-c -O2 -g -DNDEBUG -std=c++23 -Wall -Wextra -Wpedantic -Wconversion -Wshadow -pipe -O2 -march=native -fmodules-ts -fmodule-mapper=CMakeFiles/algoos_core.dir/src/protocol/messages.cpp.o.modmap -MD -fdeps-format=p1689r5 -x c++ -o CMakeFiles/algoos_core.dir/src/protocol/messages.cpp.o -c /home/AlgoOS/cpp/src/protocol/messages.cpp",
+  "file": "/home/AlgoOS/cpp/src/protocol/messages.cpp",
+  "output": "/home/AlgoOS/build/cpp/CMakeFiles/algoos_core.dir/src/protocol/messages.cpp.o"
+},
+{
+  "directory": "/home/AlgoOS/build/cpp",
+  "command": "/usr/sbin/c++ -I/home/AlgoOS/cpp/include -I/usr/include/json-c -O2 -g -DNDEBUG -std=c++23 -Wall -Wextra -Wpedantic -Wconversion -Wshadow -pipe -O2 -march=native -fmodules-ts -fmodule-mapper=CMakeFiles/algoos_core.dir/src/protocol/digest.cpp.o.modmap -MD -fdeps-format=p1689r5 -x c++ -o CMakeFiles/algoos_core.dir/src/protocol/digest.cpp.o -c /home/AlgoOS/cpp/src/protocol/digest.cpp",
+  "file": "/home/AlgoOS/cpp/src/protocol/digest.cpp",
+  "output": "/home/AlgoOS/build/cpp/CMakeFiles/algoos_core.dir/src/protocol/digest.cpp.o"
+},
+{
+  "directory": "/home/AlgoOS/build/cpp",
+  "command": "/usr/sbin/c++ -I/home/AlgoOS/cpp/include -I/usr/include/json-c -O2 -g -DNDEBUG -std=c++23 -Wall -Wextra -Wpedantic -Wconversion -Wshadow -pipe -O2 -march=native -fmodules-ts -fmodule-mapper=CMakeFiles/algoos_core.dir/src/sandbox/sandbox.cpp.o.modmap -MD -fdeps-format=p1689r5 -x c++ -o CMakeFiles/algoos_core.dir/src/sandbox/sandbox.cpp.o -c /home/AlgoOS/cpp/src/sandbox/sandbox.cpp",
+  "file": "/home/AlgoOS/cpp/src/sandbox/sandbox.cpp",
+  "output": "/home/AlgoOS/build/cpp/CMakeFiles/algoos_core.dir/src/sandbox/sandbox.cpp.o"
+},
+{
+  "directory": "/home/AlgoOS/build/cpp",
+  "command": "/usr/sbin/c++ -I/home/AlgoOS/cpp/include -I/usr/include/json-c -O2 -g -DNDEBUG -std=c++23 -Wall -Wextra -Wpedantic -Wconversion -Wshadow -pipe -O2 -march=native -fmodules-ts -fmodule-mapper=CMakeFiles/algoos_core.dir/src/sandbox/classify.cpp.o.modmap -MD -fdeps-format=p1689r5 -x c++ -o CMakeFiles/algoos_core.dir/src/sandbox/classify.cpp.o -c /home/AlgoOS/cpp/src/sandbox/classify.cpp",
+  "file": "/home/AlgoOS/cpp/src/sandbox/classify.cpp",
+  "output": "/home/AlgoOS/build/cpp/CMakeFiles/algoos_core.dir/src/sandbox/classify.cpp.o"
+},
+{
+  "directory": "/home/AlgoOS/build/cpp",
+  "command": "/usr/sbin/c++ -I/home/AlgoOS/cpp/include -I/usr/include/json-c -O2 -g -DNDEBUG -std=c++23 -Wall -Wextra -Wpedantic -Wconversion -Wshadow -pipe -O2 -march=native -fmodules-ts -fmodule-mapper=CMakeFiles/algoos_core.dir/src/runner/comparator.cpp.o.modmap -MD -fdeps-format=p1689r5 -x c++ -o CMakeFiles/algoos_core.dir/src/runner/comparator.cpp.o -c /home/AlgoOS/cpp/src/runner/comparator.cpp",
+  "file": "/home/AlgoOS/cpp/src/runner/comparator.cpp",
+  "output": "/home/AlgoOS/build/cpp/CMakeFiles/algoos_core.dir/src/runner/comparator.cpp.o"
+},
+{
+  "directory": "/home/AlgoOS/build/cpp",
+  "command": "/usr/sbin/c++ -I/home/AlgoOS/cpp/include -I/usr/include/json-c -O2 -g -DNDEBUG -std=c++23 -Wall -Wextra -Wpedantic -Wconversion -Wshadow -pipe -O2 -march=native -fmodules-ts -fmodule-mapper=CMakeFiles/algoos_core.dir/src/worker/server.cpp.o.modmap -MD -fdeps-format=p1689r5 -x c++ -o CMakeFiles/algoos_core.dir/src/worker/server.cpp.o -c /home/AlgoOS/cpp/src/worker/server.cpp",
+  "file": "/home/AlgoOS/cpp/src/worker/server.cpp",
+  "output": "/home/AlgoOS/build/cpp/CMakeFiles/algoos_core.dir/src/worker/server.cpp.o"
+},
+{
+  "directory": "/home/AlgoOS/build/cpp",
+  "command": "/usr/sbin/c++ -I/home/AlgoOS/cpp/include -I/usr/include/json-c -O2 -g -DNDEBUG -std=c++23 -Wall -Wextra -Wpedantic -Wconversion -Wshadow -pipe -O2 -march=native -fmodules-ts -fmodule-mapper=CMakeFiles/algoos_core.dir/src/worker/cancel_registry.cpp.o.modmap -MD -fdeps-format=p1689r5 -x c++ -o CMakeFiles/algoos_core.dir/src/worker/cancel_registry.cpp.o -c /home/AlgoOS/cpp/src/worker/cancel_registry.cpp",
+  "file": "/home/AlgoOS/cpp/src/worker/cancel_registry.cpp",
+  "output": "/home/AlgoOS/build/cpp/CMakeFiles/algoos_core.dir/src/worker/cancel_registry.cpp.o"
+},
+{
+  "directory": "/home/AlgoOS/build/cpp",
+  "command": "/usr/sbin/c++ -I/home/AlgoOS/cpp/include -I/usr/include/json-c -O2 -g -DNDEBUG -std=c++23 -Wall -Wextra -Wpedantic -Wconversion -Wshadow -pipe -O2 -march=native -fmodules-ts -fmodule-mapper=CMakeFiles/algoos_core.dir/src/worker/compile_service.cpp.o.modmap -MD -fdeps-format=p1689r5 -x c++ -o CMakeFiles/algoos_core.dir/src/worker/compile_service.cpp.o -c /home/AlgoOS/cpp/src/worker/compile_service.cpp",
+  "file": "/home/AlgoOS/cpp/src/worker/compile_service.cpp",
+  "output": "/home/AlgoOS/build/cpp/CMakeFiles/algoos_core.dir/src/worker/compile_service.cpp.o"
+},
+{
+  "directory": "/home/AlgoOS/build/cpp",
+  "command": "/usr/sbin/c++ -I/home/AlgoOS/cpp/include -I/usr/include/json-c -O2 -g -DNDEBUG -std=c++23 -Wall -Wextra -Wpedantic -Wconversion -Wshadow -pipe -O2 -march=native -fmodules-ts -fmodule-mapper=CMakeFiles/algoos_core.dir/src/worker/eval_service.cpp.o.modmap -MD -fdeps-format=p1689r5 -x c++ -o CMakeFiles/algoos_core.dir/src/worker/eval_service.cpp.o -c /home/AlgoOS/cpp/src/worker/eval_service.cpp",
+  "file": "/home/AlgoOS/cpp/src/worker/eval_service.cpp",
+  "output": "/home/AlgoOS/build/cpp/CMakeFiles/algoos_core.dir/src/worker/eval_service.cpp.o"
+},
+{
+  "directory": "/home/AlgoOS/build/cpp",
+  "command": "/usr/sbin/c++ -I/home/AlgoOS/cpp/include -I/usr/include/json-c -O2 -g -DNDEBUG -std=c++23 -Wall -Wextra -Wpedantic -Wconversion -Wshadow -pipe -O2 -march=native -fmodules-ts -fmodule-mapper=CMakeFiles/algoos_core.dir/src/worker/special_service.cpp.o.modmap -MD -fdeps-format=p1689r5 -x c++ -o CMakeFiles/algoos_core.dir/src/worker/special_service.cpp.o -c /home/AlgoOS/cpp/src/worker/special_service.cpp",
+  "file": "/home/AlgoOS/cpp/src/worker/special_service.cpp",
+  "output": "/home/AlgoOS/build/cpp/CMakeFiles/algoos_core.dir/src/worker/special_service.cpp.o"
+},
+{
+  "directory": "/home/AlgoOS/build/cpp",
+  "command": "/usr/sbin/c++ -I/home/AlgoOS/cpp/include -I/usr/include/json-c -O2 -g -DNDEBUG -std=c++23 -Wall -Wextra -Wpedantic -Wconversion -Wshadow -pipe -O2 -march=native -fmodules-ts -fmodule-mapper=CMakeFiles/algoos_eval.dir/apps/algoos-eval.cpp.o.modmap -MD -fdeps-format=p1689r5 -x c++ -o CMakeFiles/algoos_eval.dir/apps/algoos-eval.cpp.o -c /home/AlgoOS/cpp/apps/algoos-eval.cpp",
+  "file": "/home/AlgoOS/cpp/apps/algoos-eval.cpp",
+  "output": "/home/AlgoOS/build/cpp/CMakeFiles/algoos_eval.dir/apps/algoos-eval.cpp.o"
+},
+{
+  "directory": "/home/AlgoOS/build/cpp",
+  "command": "/usr/sbin/c++ -I/home/AlgoOS/cpp/include -I/usr/include/json-c -O2 -g -DNDEBUG -std=c++23 -Wall -Wextra -Wpedantic -Wconversion -Wshadow -pipe -O2 -march=native -fmodules-ts -fmodule-mapper=CMakeFiles/algoos_compile.dir/apps/algoos-compile.cpp.o.modmap -MD -fdeps-format=p1689r5 -x c++ -o CMakeFiles/algoos_compile.dir/apps/algoos-compile.cpp.o -c /home/AlgoOS/cpp/apps/algoos-compile.cpp",
+  "file": "/home/AlgoOS/cpp/apps/algoos-compile.cpp",
+  "output": "/home/AlgoOS/build/cpp/CMakeFiles/algoos_compile.dir/apps/algoos-compile.cpp.o"
+},
+{
+  "directory": "/home/AlgoOS/build/cpp",
+  "command": "/usr/sbin/c++ -I/home/AlgoOS/cpp/include -I/usr/include/json-c -O2 -g -DNDEBUG -std=c++23 -Wall -Wextra -Wpedantic -Wconversion -Wshadow -pipe -O2 -march=native -fmodules-ts -fmodule-mapper=CMakeFiles/algoos_special.dir/apps/algoos-special.cpp.o.modmap -MD -fdeps-format=p1689r5 -x c++ -o CMakeFiles/algoos_special.dir/apps/algoos-special.cpp.o -c /home/AlgoOS/cpp/apps/algoos-special.cpp",
+  "file": "/home/AlgoOS/cpp/apps/algoos-special.cpp",
+  "output": "/home/AlgoOS/build/cpp/CMakeFiles/algoos_special.dir/apps/algoos-special.cpp.o"
+},
+{
+  "directory": "/home/AlgoOS/build/cpp",
+  "command": "/usr/sbin/c++ -I/home/AlgoOS/cpp/include -I/usr/include/json-c -O2 -g -DNDEBUG -std=c++23 -Wall -Wextra -Wpedantic -Wconversion -Wshadow -pipe -O2 -march=native -fmodules-ts -fmodule-mapper=CMakeFiles/algoos_unit_tests.dir/tests/unit_tests.cpp.o.modmap -MD -fdeps-format=p1689r5 -x c++ -o CMakeFiles/algoos_unit_tests.dir/tests/unit_tests.cpp.o -c /home/AlgoOS/cpp/tests/unit_tests.cpp",
+  "file": "/home/AlgoOS/cpp/tests/unit_tests.cpp",
+  "output": "/home/AlgoOS/build/cpp/CMakeFiles/algoos_unit_tests.dir/tests/unit_tests.cpp.o"
+}
+]

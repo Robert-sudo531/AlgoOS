@@ -50,3 +50,5 @@ Desktop.ini
 ~$*
 
 # artifacts/ intentionally stays trackable for course evidence
+
+deploy/compose/.env

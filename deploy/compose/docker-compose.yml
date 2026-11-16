@@ -1,0 +1,56 @@
+name: algoos
+
+services:
+  postgres:
+    image: ${POSTGRES_IMAGE:-postgres:17-alpine}
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-algoos}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-algoos}
+      POSTGRES_DB: ${POSTGRES_DB:-algoos}
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+  redis:
+    image: ${REDIS_IMAGE:-redis:7.4-alpine}
+    command: ["redis-server", "--save", "", "--appendonly", "no"]
+    ports:
+      - "127.0.0.1:6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+  minio:
+    image: ${MINIO_IMAGE:-minio/minio:RELEASE.2025-10-15T17-29-55Z}
+    command: ["server", "/data", "--console-address", ":9001"]
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-algoos}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-algoos-secret}
+      MINIO_BROWSER: "off"
+      MINIO_UPDATE: "off"
+    ports:
+      - "127.0.0.1:9000:9000"
+      - "127.0.0.1:9001:9001"
+    volumes:
+      - miniodata:/data
+
+  nats:
+    image: ${NATS_IMAGE:-nats:2.11-alpine}
+    command: ["-js", "-sd", "/data", "-m", "4096"]
+    ports:
+      - "127.0.0.1:4222:4222"
+    volumes:
+      - natsdata:/data
+
+volumes:
+  pgdata:
+  miniodata:
+  natsdata:

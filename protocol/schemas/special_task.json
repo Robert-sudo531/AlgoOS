@@ -1,0 +1,223 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://algoos.local/schemas/special_task.json",
+  "$defs": {
+    "Limits": {
+      "additionalProperties": true,
+      "properties": {
+        "cpu_ms": {
+          "exclusiveMinimum": 0,
+          "maximum": 3600000,
+          "title": "Cpu Ms",
+          "type": "integer"
+        },
+        "wall_ms": {
+          "exclusiveMinimum": 0,
+          "maximum": 3600000,
+          "title": "Wall Ms",
+          "type": "integer"
+        },
+        "mem_bytes": {
+          "exclusiveMinimum": 0,
+          "maximum": 8589934592,
+          "title": "Mem Bytes",
+          "type": "integer"
+        },
+        "out_bytes": {
+          "maximum": 268435456,
+          "minimum": 0,
+          "title": "Out Bytes",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "cpu_ms",
+        "wall_ms",
+        "mem_bytes",
+        "out_bytes"
+      ],
+      "title": "Limits",
+      "type": "object"
+    },
+    "ReplyTo": {
+      "additionalProperties": true,
+      "properties": {
+        "eval_node_id": {
+          "pattern": "^[A-Za-z0-9_-]{1,64}$",
+          "title": "Eval Node Id",
+          "type": "string"
+        },
+        "session_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Session Id",
+          "type": "string"
+        },
+        "reply_topic": {
+          "maxLength": 256,
+          "minLength": 1,
+          "title": "Reply Topic",
+          "type": "string"
+        },
+        "deadline_ms": {
+          "description": "absolute Unix epoch milliseconds",
+          "exclusiveMinimum": 0,
+          "title": "Deadline Ms",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "eval_node_id",
+        "session_id",
+        "reply_topic",
+        "deadline_ms"
+      ],
+      "title": "ReplyTo",
+      "type": "object"
+    }
+  },
+  "additionalProperties": true,
+  "properties": {
+    "ver": {
+      "default": 1,
+      "title": "Ver",
+      "type": "integer"
+    },
+    "msg_id": {
+      "maxLength": 256,
+      "minLength": 1,
+      "title": "Msg Id",
+      "type": "string"
+    },
+    "type": {
+      "const": "special_task",
+      "title": "Type",
+      "type": "string"
+    },
+    "file_id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "title": "File Id",
+      "type": "string"
+    },
+    "problem_id": {
+      "maxLength": 64,
+      "minLength": 1,
+      "title": "Problem Id",
+      "type": "string"
+    },
+    "correlation_id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "title": "Correlation Id",
+      "type": "string"
+    },
+    "emitted_at": {
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{1,6})?Z$",
+      "title": "Emitted At",
+      "type": "string"
+    },
+    "attempt": {
+      "default": 1,
+      "maximum": 1000000,
+      "minimum": 1,
+      "title": "Attempt",
+      "type": "integer"
+    },
+    "test_id": {
+      "maxLength": 64,
+      "minLength": 1,
+      "title": "Test Id",
+      "type": "string"
+    },
+    "judge_id": {
+      "maxLength": 256,
+      "minLength": 1,
+      "title": "Judge Id",
+      "type": "string"
+    },
+    "sequence": {
+      "minimum": 1,
+      "title": "Sequence",
+      "type": "integer"
+    },
+    "out_hash": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "title": "Out Hash",
+      "type": "string"
+    },
+    "ans_hash": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "title": "Ans Hash",
+      "type": "string"
+    },
+    "checker_hash": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "title": "Checker Hash",
+      "type": "string"
+    },
+    "input_hash": {
+      "anyOf": [
+        {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Input Hash"
+    },
+    "test_bundle_hash": {
+      "anyOf": [
+        {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Test Bundle Hash"
+    },
+    "limits": {
+      "$ref": "#/$defs/Limits"
+    },
+    "reply_to": {
+      "$ref": "#/$defs/ReplyTo"
+    },
+    "fallback_topic": {
+      "maxLength": 256,
+      "minLength": 1,
+      "title": "Fallback Topic",
+      "type": "string"
+    },
+    "enqueue_seq": {
+      "minimum": 1,
+      "title": "Enqueue Seq",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "msg_id",
+    "type",
+    "file_id",
+    "problem_id",
+    "correlation_id",
+    "emitted_at",
+    "test_id",
+    "judge_id",
+    "sequence",
+    "out_hash",
+    "ans_hash",
+    "checker_hash",
+    "limits",
+    "reply_to",
+    "fallback_topic",
+    "enqueue_seq"
+  ],
+  "title": "SpecialTask",
+  "type": "object"
+}

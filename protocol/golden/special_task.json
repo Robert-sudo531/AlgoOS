@@ -1,0 +1,32 @@
+{
+  "ver": 1,
+  "msg_id": "sub-0003:05:1:special:1",
+  "type": "special_task",
+  "file_id": "sub-0003",
+  "problem_id": "a_plus_b",
+  "correlation_id": "sub-0003",
+  "emitted_at": "2026-11-16T08:00:00Z",
+  "attempt": 1,
+  "test_id": "05",
+  "judge_id": "sub-0003:05:1",
+  "sequence": 5,
+  "out_hash": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+  "ans_hash": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+  "checker_hash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "input_hash": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "test_bundle_hash": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+  "limits": {
+    "cpu_ms": 2000,
+    "wall_ms": 3000,
+    "mem_bytes": 268435456,
+    "out_bytes": 4096
+  },
+  "reply_to": {
+    "eval_node_id": "eval-01",
+    "session_id": "eval-01-abcd1234",
+    "reply_topic": "algoos.special.result.eval-01",
+    "deadline_ms": 1800000000000
+  },
+  "fallback_topic": "algoos.fallback",
+  "enqueue_seq": 3
+}

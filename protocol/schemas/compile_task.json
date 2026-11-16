@@ -1,0 +1,131 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://algoos.local/schemas/compile_task.json",
+  "$defs": {
+    "Limits": {
+      "additionalProperties": true,
+      "properties": {
+        "cpu_ms": {
+          "exclusiveMinimum": 0,
+          "maximum": 3600000,
+          "title": "Cpu Ms",
+          "type": "integer"
+        },
+        "wall_ms": {
+          "exclusiveMinimum": 0,
+          "maximum": 3600000,
+          "title": "Wall Ms",
+          "type": "integer"
+        },
+        "mem_bytes": {
+          "exclusiveMinimum": 0,
+          "maximum": 8589934592,
+          "title": "Mem Bytes",
+          "type": "integer"
+        },
+        "out_bytes": {
+          "maximum": 268435456,
+          "minimum": 0,
+          "title": "Out Bytes",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "cpu_ms",
+        "wall_ms",
+        "mem_bytes",
+        "out_bytes"
+      ],
+      "title": "Limits",
+      "type": "object"
+    }
+  },
+  "additionalProperties": true,
+  "properties": {
+    "ver": {
+      "default": 1,
+      "title": "Ver",
+      "type": "integer"
+    },
+    "msg_id": {
+      "maxLength": 256,
+      "minLength": 1,
+      "title": "Msg Id",
+      "type": "string"
+    },
+    "type": {
+      "const": "compile_task",
+      "title": "Type",
+      "type": "string"
+    },
+    "file_id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "title": "File Id",
+      "type": "string"
+    },
+    "problem_id": {
+      "maxLength": 64,
+      "minLength": 1,
+      "title": "Problem Id",
+      "type": "string"
+    },
+    "correlation_id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "title": "Correlation Id",
+      "type": "string"
+    },
+    "emitted_at": {
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{1,6})?Z$",
+      "title": "Emitted At",
+      "type": "string"
+    },
+    "attempt": {
+      "default": 1,
+      "maximum": 1000000,
+      "minimum": 1,
+      "title": "Attempt",
+      "type": "integer"
+    },
+    "source_hash": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "title": "Source Hash",
+      "type": "string"
+    },
+    "test_bundle_hash": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "title": "Test Bundle Hash",
+      "type": "string"
+    },
+    "compiler_profile": {
+      "maxLength": 64,
+      "minLength": 1,
+      "title": "Compiler Profile",
+      "type": "string"
+    },
+    "limits": {
+      "$ref": "#/$defs/Limits"
+    },
+    "enqueue_seq": {
+      "minimum": 1,
+      "title": "Enqueue Seq",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "msg_id",
+    "type",
+    "file_id",
+    "problem_id",
+    "correlation_id",
+    "emitted_at",
+    "source_hash",
+    "test_bundle_hash",
+    "compiler_profile",
+    "limits",
+    "enqueue_seq"
+  ],
+  "title": "CompileTask",
+  "type": "object"
+}

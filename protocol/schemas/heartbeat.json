@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://algoos.local/schemas/heartbeat.json",
+  "$defs": {
+    "NodeRole": {
+      "enum": [
+        "control",
+        "compile",
+        "eval",
+        "special"
+      ],
+      "title": "NodeRole",
+      "type": "string"
+    }
+  },
+  "additionalProperties": true,
+  "properties": {
+    "node_id": {
+      "pattern": "^[A-Za-z0-9_-]{1,64}$",
+      "title": "Node Id",
+      "type": "string"
+    },
+    "role": {
+      "$ref": "#/$defs/NodeRole"
+    },
+    "version": {
+      "title": "Version",
+      "type": "string"
+    },
+    "slots_total": {
+      "maximum": 1024,
+      "minimum": 1,
+      "title": "Slots Total",
+      "type": "integer"
+    },
+    "slots_used": {
+      "maximum": 1024,
+      "minimum": 0,
+      "title": "Slots Used",
+      "type": "integer"
+    },
+    "load_score": {
+      "minimum": 0,
+      "title": "Load Score",
+      "type": "number"
+    },
+    "cached_hashes": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 4096,
+      "title": "Cached Hashes",
+      "type": "array"
+    },
+    "sent_at_ms": {
+      "exclusiveMinimum": 0,
+      "title": "Sent At Ms",
+      "type": "integer"
+    },
+    "endpoint": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Endpoint"
+    }
+  },
+  "required": [
+    "node_id",
+    "role",
+    "version",
+    "slots_total",
+    "slots_used",
+    "load_score",
+    "sent_at_ms"
+  ],
+  "title": "Heartbeat",
+  "type": "object"
+}

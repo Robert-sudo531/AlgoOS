@@ -1,0 +1,15 @@
+{
+  "node_id": "eval-01",
+  "role": "eval",
+  "version": "1.0.0",
+  "slots_total": 4,
+  "slots_used": 1,
+  "load_score": 900,
+  "cached_hashes": [
+    "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+  ],
+  "sent_at_ms": 1800000000000,
+  "endpoint": "/run/algoos/eval.sock"
+}

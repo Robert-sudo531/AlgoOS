@@ -1,0 +1,218 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://algoos.local/schemas/eval_task.json",
+  "$defs": {
+    "CompareMode": {
+      "enum": [
+        "common",
+        "special"
+      ],
+      "title": "CompareMode",
+      "type": "string"
+    },
+    "EvaluationMode": {
+      "enum": [
+        "all_cases",
+        "ordered_short_circuit"
+      ],
+      "title": "EvaluationMode",
+      "type": "string"
+    },
+    "JudgeMode": {
+      "enum": [
+        "normal",
+        "special"
+      ],
+      "title": "JudgeMode",
+      "type": "string"
+    },
+    "Limits": {
+      "additionalProperties": true,
+      "properties": {
+        "cpu_ms": {
+          "exclusiveMinimum": 0,
+          "maximum": 3600000,
+          "title": "Cpu Ms",
+          "type": "integer"
+        },
+        "wall_ms": {
+          "exclusiveMinimum": 0,
+          "maximum": 3600000,
+          "title": "Wall Ms",
+          "type": "integer"
+        },
+        "mem_bytes": {
+          "exclusiveMinimum": 0,
+          "maximum": 8589934592,
+          "title": "Mem Bytes",
+          "type": "integer"
+        },
+        "out_bytes": {
+          "maximum": 268435456,
+          "minimum": 0,
+          "title": "Out Bytes",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "cpu_ms",
+        "wall_ms",
+        "mem_bytes",
+        "out_bytes"
+      ],
+      "title": "Limits",
+      "type": "object"
+    }
+  },
+  "additionalProperties": true,
+  "properties": {
+    "ver": {
+      "default": 1,
+      "title": "Ver",
+      "type": "integer"
+    },
+    "msg_id": {
+      "maxLength": 256,
+      "minLength": 1,
+      "title": "Msg Id",
+      "type": "string"
+    },
+    "type": {
+      "const": "eval_task",
+      "title": "Type",
+      "type": "string"
+    },
+    "file_id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "title": "File Id",
+      "type": "string"
+    },
+    "problem_id": {
+      "maxLength": 64,
+      "minLength": 1,
+      "title": "Problem Id",
+      "type": "string"
+    },
+    "correlation_id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "title": "Correlation Id",
+      "type": "string"
+    },
+    "emitted_at": {
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{1,6})?Z$",
+      "title": "Emitted At",
+      "type": "string"
+    },
+    "attempt": {
+      "default": 1,
+      "maximum": 1000000,
+      "minimum": 1,
+      "title": "Attempt",
+      "type": "integer"
+    },
+    "test_id": {
+      "maxLength": 64,
+      "minLength": 1,
+      "title": "Test Id",
+      "type": "string"
+    },
+    "judge_id": {
+      "maxLength": 256,
+      "minLength": 1,
+      "title": "Judge Id",
+      "type": "string"
+    },
+    "sequence": {
+      "minimum": 1,
+      "title": "Sequence",
+      "type": "integer"
+    },
+    "enqueue_seq": {
+      "minimum": 1,
+      "title": "Enqueue Seq",
+      "type": "integer"
+    },
+    "bin_hash": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "title": "Bin Hash",
+      "type": "string"
+    },
+    "test_bundle_hash": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "title": "Test Bundle Hash",
+      "type": "string"
+    },
+    "answer_hash": {
+      "anyOf": [
+        {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Answer Hash"
+    },
+    "checker_hash": {
+      "anyOf": [
+        {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Checker Hash"
+    },
+    "judge_mode": {
+      "$ref": "#/$defs/JudgeMode",
+      "default": "normal"
+    },
+    "compare_mode": {
+      "$ref": "#/$defs/CompareMode",
+      "default": "common"
+    },
+    "evaluation_mode": {
+      "$ref": "#/$defs/EvaluationMode",
+      "default": "all_cases"
+    },
+    "target_node_id": {
+      "pattern": "^[A-Za-z0-9_-]{1,64}$",
+      "title": "Target Node Id",
+      "type": "string"
+    },
+    "dispatch_generation": {
+      "default": 1,
+      "minimum": 1,
+      "title": "Dispatch Generation",
+      "type": "integer"
+    },
+    "limits": {
+      "$ref": "#/$defs/Limits"
+    }
+  },
+  "required": [
+    "msg_id",
+    "type",
+    "file_id",
+    "problem_id",
+    "correlation_id",
+    "emitted_at",
+    "test_id",
+    "judge_id",
+    "sequence",
+    "enqueue_seq",
+    "bin_hash",
+    "test_bundle_hash",
+    "target_node_id",
+    "limits"
+  ],
+  "title": "EvalTask",
+  "type": "object"
+}

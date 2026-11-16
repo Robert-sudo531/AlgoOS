@@ -1,0 +1,308 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://algoos.local/schemas/compile_result.json",
+  "$defs": {
+    "Reason": {
+      "enum": [
+        "NONE",
+        "ANSWER_MISMATCH",
+        "OUTPUT_LIMIT",
+        "OLE_TRUNCATED",
+        "WALL_TIMEOUT",
+        "CPU_TIMEOUT",
+        "OOM_KILL",
+        "MEM_PEAK_OVER",
+        "CRASH_SIGNAL",
+        "NONZERO_EXIT",
+        "SHORT_CIRCUITED",
+        "USER_CANCELLED",
+        "COMPILE_ERROR",
+        "COMPILE_TIMEOUT",
+        "COMPILE_LIMIT",
+        "SYSTEM_ERROR",
+        "SPECIAL_WA",
+        "NO_NODE"
+      ],
+      "title": "Reason",
+      "type": "string"
+    },
+    "Verdict": {
+      "enum": [
+        "AC",
+        "WA",
+        "TLE",
+        "MLE",
+        "RE",
+        "OLE",
+        "CE",
+        "SE",
+        "CANCELLED"
+      ],
+      "title": "Verdict",
+      "type": "string"
+    }
+  },
+  "additionalProperties": true,
+  "properties": {
+    "ver": {
+      "default": 1,
+      "title": "Ver",
+      "type": "integer"
+    },
+    "msg_id": {
+      "maxLength": 256,
+      "minLength": 1,
+      "title": "Msg Id",
+      "type": "string"
+    },
+    "type": {
+      "const": "eval_result",
+      "title": "Type",
+      "type": "string"
+    },
+    "file_id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "title": "File Id",
+      "type": "string"
+    },
+    "problem_id": {
+      "maxLength": 64,
+      "minLength": 1,
+      "title": "Problem Id",
+      "type": "string"
+    },
+    "correlation_id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "title": "Correlation Id",
+      "type": "string"
+    },
+    "emitted_at": {
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{1,6})?Z$",
+      "title": "Emitted At",
+      "type": "string"
+    },
+    "attempt": {
+      "default": 1,
+      "maximum": 1000000,
+      "minimum": 1,
+      "title": "Attempt",
+      "type": "integer"
+    },
+    "stage": {
+      "const": "compile",
+      "default": "compile",
+      "title": "Stage",
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "COMPILED",
+        "FINAL"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "node_id": {
+      "pattern": "^[A-Za-z0-9_-]{1,64}$",
+      "title": "Node Id",
+      "type": "string"
+    },
+    "source": {
+      "const": "compiler",
+      "default": "compiler",
+      "title": "Source",
+      "type": "string"
+    },
+    "test_bundle_hash": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "title": "Test Bundle Hash",
+      "type": "string"
+    },
+    "compiler_profile": {
+      "maxLength": 64,
+      "minLength": 1,
+      "title": "Compiler Profile",
+      "type": "string"
+    },
+    "enqueue_seq": {
+      "minimum": 1,
+      "title": "Enqueue Seq",
+      "type": "integer"
+    },
+    "bin_hash": {
+      "anyOf": [
+        {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Bin Hash"
+    },
+    "build_key": {
+      "anyOf": [
+        {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Build Key"
+    },
+    "compiler_version": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Compiler Version"
+    },
+    "verdict": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Verdict"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "reason": {
+      "$ref": "#/$defs/Reason",
+      "default": "NONE"
+    },
+    "test_id": {
+      "default": null,
+      "title": "Test Id",
+      "type": "null"
+    },
+    "sequence": {
+      "default": null,
+      "title": "Sequence",
+      "type": "null"
+    },
+    "judge_id": {
+      "default": null,
+      "title": "Judge Id",
+      "type": "null"
+    },
+    "exit_code": {
+      "default": null,
+      "title": "Exit Code",
+      "type": "null"
+    },
+    "signal": {
+      "default": null,
+      "title": "Signal",
+      "type": "null"
+    },
+    "cpu_ms": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Cpu Ms"
+    },
+    "wall_ms": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Wall Ms"
+    },
+    "mem_bytes": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Mem Bytes"
+    },
+    "memory_source": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Memory Source"
+    },
+    "out_bytes": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Out Bytes"
+    },
+    "wall_timeout": {
+      "default": false,
+      "title": "Wall Timeout",
+      "type": "boolean"
+    },
+    "short_circuited": {
+      "default": false,
+      "title": "Short Circuited",
+      "type": "boolean"
+    },
+    "stderr_tail": {
+      "default": "",
+      "title": "Stderr Tail",
+      "type": "string"
+    },
+    "detail": {
+      "default": "",
+      "title": "Detail",
+      "type": "string"
+    }
+  },
+  "required": [
+    "msg_id",
+    "type",
+    "file_id",
+    "problem_id",
+    "correlation_id",
+    "emitted_at",
+    "status",
+    "node_id",
+    "test_bundle_hash",
+    "compiler_profile",
+    "enqueue_seq"
+  ],
+  "title": "CompileResult",
+  "type": "object"
+}

@@ -1,0 +1,1 @@
+{"ver": 1, "type": "unknown", "msg_id": "sub-0004:cancel:1", "file_id": "sub-0004", "correlation_id": "sub-0004", "problem_id": "a_plus_b", "attempt": 1, "emitted_at": "2026-11-16T08:00:00Z", "scope": "submission", "reason": "SHORT_CIRCUITED", "sequence_boundary": 2, "judge_id": null, "cancel_generation": 1, "origin": "eval-01", "ts": "2026-11-16T08:00:00Z"}

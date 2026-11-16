@@ -1,0 +1,153 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://algoos.local/schemas/cancel.json",
+  "$defs": {
+    "Reason": {
+      "enum": [
+        "NONE",
+        "ANSWER_MISMATCH",
+        "OUTPUT_LIMIT",
+        "OLE_TRUNCATED",
+        "WALL_TIMEOUT",
+        "CPU_TIMEOUT",
+        "OOM_KILL",
+        "MEM_PEAK_OVER",
+        "CRASH_SIGNAL",
+        "NONZERO_EXIT",
+        "SHORT_CIRCUITED",
+        "USER_CANCELLED",
+        "COMPILE_ERROR",
+        "COMPILE_TIMEOUT",
+        "COMPILE_LIMIT",
+        "SYSTEM_ERROR",
+        "SPECIAL_WA",
+        "NO_NODE"
+      ],
+      "title": "Reason",
+      "type": "string"
+    }
+  },
+  "additionalProperties": true,
+  "properties": {
+    "ver": {
+      "default": 1,
+      "title": "Ver",
+      "type": "integer"
+    },
+    "msg_id": {
+      "maxLength": 256,
+      "minLength": 1,
+      "title": "Msg Id",
+      "type": "string"
+    },
+    "type": {
+      "const": "cancel",
+      "title": "Type",
+      "type": "string"
+    },
+    "file_id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "title": "File Id",
+      "type": "string"
+    },
+    "problem_id": {
+      "anyOf": [
+        {
+          "maxLength": 64,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Problem Id"
+    },
+    "correlation_id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "title": "Correlation Id",
+      "type": "string"
+    },
+    "emitted_at": {
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{1,6})?Z$",
+      "title": "Emitted At",
+      "type": "string"
+    },
+    "attempt": {
+      "default": 1,
+      "maximum": 1000000,
+      "minimum": 1,
+      "title": "Attempt",
+      "type": "integer"
+    },
+    "judge_id": {
+      "anyOf": [
+        {
+          "maxLength": 256,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Judge Id"
+    },
+    "scope": {
+      "enum": [
+        "submission",
+        "case"
+      ],
+      "title": "Scope",
+      "type": "string"
+    },
+    "reason": {
+      "$ref": "#/$defs/Reason"
+    },
+    "origin": {
+      "maxLength": 64,
+      "minLength": 1,
+      "title": "Origin",
+      "type": "string"
+    },
+    "sequence_boundary": {
+      "anyOf": [
+        {
+          "minimum": 1,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Sequence Boundary"
+    },
+    "cancel_generation": {
+      "minimum": 1,
+      "title": "Cancel Generation",
+      "type": "integer"
+    },
+    "ts": {
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{1,6})?Z$",
+      "title": "Ts",
+      "type": "string"
+    }
+  },
+  "required": [
+    "msg_id",
+    "type",
+    "file_id",
+    "correlation_id",
+    "emitted_at",
+    "scope",
+    "reason",
+    "origin",
+    "cancel_generation",
+    "ts"
+  ],
+  "title": "Cancel",
+  "type": "object"
+}

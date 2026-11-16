@@ -1,0 +1,47 @@
+Start testing: Nov 16 10:28 CST
+----------------------------------------------------------
+1/1 Testing: algoos_unit
+1/1 Test: algoos_unit
+Command: "/home/AlgoOS/build/cpp/algoos_unit_tests"
+Directory: /home/AlgoOS/build/cpp
+"algoos_unit" start time: Nov 16 10:28 CST
+Output:
+----------------------------------------------------------
+ok: sha256 abc
+ok: sha256 empty
+ok: hash wire format
+ok: json int
+ok: json utf-8
+ok: duplicate keys rejected
+ok: overflowing integer rejected
+FAIL: NaN rejected
+ok: normalize crlf + trailing blanks
+ok: preserve leading space
+ok: read bounded exact
+ok: read bounded truncated
+ok: healthy needs compare
+ok: OOM takes priority
+ok: wall timeout
+ok: crash signal
+ok: non-zero exit
+ok: memory peak
+ok: cpu time over
+ok: output size over
+ok: verdict name
+FAIL: sandbox setup succeeds
+FAIL: sandbox child exits 0
+FAIL: sandbox output captured
+ok: cgroup memory peak recorded
+ok: sandbox reports full isolation
+FAIL: crash signal observed
+FAIL: wall watchdog fires
+FAIL: watchdog classifies TLE
+<end of output>
+Test time =   0.04 sec
+----------------------------------------------------------
+Test Failed.
+"algoos_unit" end time: Nov 16 10:28 CST
+"algoos_unit" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Nov 16 10:28 CST

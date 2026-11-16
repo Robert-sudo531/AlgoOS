@@ -1,0 +1,63 @@
+:root {
+  --bg: #f6f7f9;
+  --panel: #ffffff;
+  --ink: #1f2430;
+  --muted: #6b7280;
+  --line: #e5e7eb;
+  --accent: #0f766e;
+  --bad: #b91c1c;
+  --warn: #b45309;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 14px/1.5 system-ui, -apple-system, "Segoe UI", "Noto Sans SC", sans-serif;
+}
+header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 18px 24px;
+  background: #0f172a;
+  color: #f8fafc;
+}
+header h1 { margin: 0; font-size: 20px; }
+header h1 span { font-weight: 400; color: #94a3b8; font-size: 14px; margin-left: 8px; }
+.badge { font-size: 12px; padding: 3px 10px; border-radius: 999px; background: #1e293b; }
+main { max-width: 1120px; margin: 0 auto; padding: 20px 16px 64px; }
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 16px 18px;
+  margin-bottom: 18px;
+}
+.panel h2 { margin: 0 0 12px; font-size: 16px; }
+.row { display: flex; flex-wrap: wrap; gap: 12px; align-items: end; margin-bottom: 10px; }
+label { display: flex; flex-direction: column; gap: 4px; font-size: 13px; color: var(--muted); }
+select, input, textarea {
+  font: inherit; color: var(--ink);
+  border: 1px solid var(--line); border-radius: 8px;
+  padding: 7px 9px; background: #fff;
+}
+textarea { width: 100%; min-height: 140px; font-family: ui-monospace, monospace; }
+button {
+  font: inherit; border: 0; border-radius: 8px; padding: 8px 14px;
+  background: var(--accent); color: white; cursor: pointer;
+}
+button:disabled { opacity: .55; cursor: progress; }
+table.list { width: 100%; border-collapse: collapse; font-size: 13px; }
+table.list th { text-align: left; color: var(--muted); font-weight: 500; padding: 6px 8px;
+  border-bottom: 1px solid var(--line); }
+table.list td { padding: 6px 8px; border-bottom: 1px solid #f1f2f4; vertical-align: top; }
+tbody#submissions tr { cursor: pointer; }
+tbody#submissions tr:hover { background: #f0fdfa; }
+.summary { font-size: 14px; margin-bottom: 10px; }
+.muted { color: var(--muted); font-size: 12px; }
+pre { background: #0b1220; color: #e2e8f0; padding: 12px; border-radius: 8px;
+  overflow: auto; max-height: 280px; }
+.verdict-AC { color: var(--accent); font-weight: 600; }
+.verdict-WA, .verdict-RE, .verdict-OLE, .verdict-CE, .verdict-SE { color: var(--bad); font-weight: 600; }
+.verdict-TLE, .verdict-MLE { color: var(--warn); font-weight: 600; }

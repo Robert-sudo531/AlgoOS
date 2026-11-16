@@ -1,0 +1,17 @@
+{
+  "ver": 1,
+  "msg_id": "sub-0004:cancel:1",
+  "type": "cancel",
+  "file_id": "sub-0004",
+  "problem_id": "a_plus_b",
+  "correlation_id": "sub-0004",
+  "emitted_at": "2026-11-16T08:00:00Z",
+  "attempt": 1,
+  "judge_id": null,
+  "scope": "submission",
+  "reason": "SHORT_CIRCUITED",
+  "origin": "eval-01",
+  "sequence_boundary": 2,
+  "cancel_generation": 1,
+  "ts": "2026-11-16T08:00:00Z"
+}

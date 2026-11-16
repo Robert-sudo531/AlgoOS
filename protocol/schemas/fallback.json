@@ -1,0 +1,186 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://algoos.local/schemas/fallback.json",
+  "$defs": {
+    "Reason": {
+      "enum": [
+        "NONE",
+        "ANSWER_MISMATCH",
+        "OUTPUT_LIMIT",
+        "OLE_TRUNCATED",
+        "WALL_TIMEOUT",
+        "CPU_TIMEOUT",
+        "OOM_KILL",
+        "MEM_PEAK_OVER",
+        "CRASH_SIGNAL",
+        "NONZERO_EXIT",
+        "SHORT_CIRCUITED",
+        "USER_CANCELLED",
+        "COMPILE_ERROR",
+        "COMPILE_TIMEOUT",
+        "COMPILE_LIMIT",
+        "SYSTEM_ERROR",
+        "SPECIAL_WA",
+        "NO_NODE"
+      ],
+      "title": "Reason",
+      "type": "string"
+    },
+    "ReplyTo": {
+      "additionalProperties": true,
+      "properties": {
+        "eval_node_id": {
+          "pattern": "^[A-Za-z0-9_-]{1,64}$",
+          "title": "Eval Node Id",
+          "type": "string"
+        },
+        "session_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Session Id",
+          "type": "string"
+        },
+        "reply_topic": {
+          "maxLength": 256,
+          "minLength": 1,
+          "title": "Reply Topic",
+          "type": "string"
+        },
+        "deadline_ms": {
+          "description": "absolute Unix epoch milliseconds",
+          "exclusiveMinimum": 0,
+          "title": "Deadline Ms",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "eval_node_id",
+        "session_id",
+        "reply_topic",
+        "deadline_ms"
+      ],
+      "title": "ReplyTo",
+      "type": "object"
+    }
+  },
+  "additionalProperties": true,
+  "properties": {
+    "ver": {
+      "default": 1,
+      "title": "Ver",
+      "type": "integer"
+    },
+    "msg_id": {
+      "maxLength": 256,
+      "minLength": 1,
+      "title": "Msg Id",
+      "type": "string"
+    },
+    "type": {
+      "const": "fallback",
+      "title": "Type",
+      "type": "string"
+    },
+    "file_id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "title": "File Id",
+      "type": "string"
+    },
+    "problem_id": {
+      "maxLength": 64,
+      "minLength": 1,
+      "title": "Problem Id",
+      "type": "string"
+    },
+    "correlation_id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "title": "Correlation Id",
+      "type": "string"
+    },
+    "emitted_at": {
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{1,6})?Z$",
+      "title": "Emitted At",
+      "type": "string"
+    },
+    "attempt": {
+      "default": 1,
+      "maximum": 1000000,
+      "minimum": 1,
+      "title": "Attempt",
+      "type": "integer"
+    },
+    "test_id": {
+      "maxLength": 64,
+      "minLength": 1,
+      "title": "Test Id",
+      "type": "string"
+    },
+    "judge_id": {
+      "maxLength": 256,
+      "minLength": 1,
+      "title": "Judge Id",
+      "type": "string"
+    },
+    "sequence": {
+      "minimum": 1,
+      "title": "Sequence",
+      "type": "integer"
+    },
+    "reply_to": {
+      "$ref": "#/$defs/ReplyTo"
+    },
+    "verdict": {
+      "enum": [
+        "AC",
+        "WA",
+        "SE"
+      ],
+      "title": "Verdict",
+      "type": "string"
+    },
+    "reason": {
+      "$ref": "#/$defs/Reason"
+    },
+    "source": {
+      "const": "special",
+      "default": "special",
+      "title": "Source",
+      "type": "string"
+    },
+    "fallback_reason": {
+      "maxLength": 128,
+      "minLength": 1,
+      "title": "Fallback Reason",
+      "type": "string"
+    },
+    "detail": {
+      "default": "",
+      "title": "Detail",
+      "type": "string"
+    },
+    "stderr_tail": {
+      "default": "",
+      "title": "Stderr Tail",
+      "type": "string"
+    }
+  },
+  "required": [
+    "msg_id",
+    "type",
+    "file_id",
+    "problem_id",
+    "correlation_id",
+    "emitted_at",
+    "test_id",
+    "judge_id",
+    "sequence",
+    "reply_to",
+    "verdict",
+    "reason",
+    "fallback_reason"
+  ],
+  "title": "Fallback",
+  "type": "object"
+}
