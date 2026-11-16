@@ -1,0 +1,39 @@
+name: domjudge
+
+services:
+  mariadb:
+    image: mariadb:11.4
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_USER: domjudge
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: domjudge
+    command: --max-connections=1000 --max-allowed-packet=512M
+    volumes:
+      - mariadb-data:/var/lib/mysql
+    networks:
+      - dj
+
+  domserver:
+    image: domjudge/domserver:9.0.1
+    restart: unless-stopped
+    depends_on:
+      - mariadb
+    environment:
+      CONTAINER_TIMEZONE: Asia/Shanghai
+      MYSQL_HOST: mariadb
+      MYSQL_USER: domjudge
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: domjudge
+    ports:
+      - "12345:80"
+    networks:
+      - dj
+
+networks:
+  dj:
+
+volumes:
+  mariadb-data:
